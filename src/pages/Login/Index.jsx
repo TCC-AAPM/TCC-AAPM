@@ -110,7 +110,14 @@ export default function Login() {
           </div>
 
           <div className={styles.containerOpcoes}>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "6px",
+                fontSize: "14px",
+              }}
+            >
               <input
                 type="checkbox"
                 className={styles.remember}
@@ -120,7 +127,13 @@ export default function Login() {
               <label className="form-check-label">Lembre de mim</label>
             </div>
 
-            <div style={{ display: "flex", alignItems: "center", fontSize: "14px" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                fontSize: "14px",
+              }}
+            >
               <label
                 style={{ cursor: "pointer", color: "white" }}
                 onClick={() => navigate("/senha/esqueci")}

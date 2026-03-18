@@ -1,0 +1,123 @@
+.principalBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 60px);
+  padding: 2rem 0;
+  gap: 2rem;
+}
+
+.entreAqui {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.containerDateView {
+  width: 90%;
+  max-width: 600px;
+  background-color: var(--light-blue);
+  border-radius: 16px;
+  padding: 1rem 1.4rem;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}
+
+:global(.dark-mode) .containerDateView {
+  background-color: var(--dark-blue);
+}
+
+.labelDate {
+  opacity: 0.8;
+}
+
+.currentDate {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.codigoInput {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 90%;
+  max-width: 600px;
+}
+
+.inputBox {
+  display: flex;
+  gap: 30px;
+  justify-content: center;
+}
+
+.inputBox :global(.form-control) {
+  width: 70px;
+  height: 80px;
+  text-align: center;
+  font-size: 28px;
+  font-weight: 600;
+  border-radius: 12px;
+  background-color: var(--light-blue);
+  color: white;
+  border: none;
+  padding: 0;
+}
+
+:global(.dark-mode) .inputBox :global(.form-control) {
+  background-color: var(--dark-blue);
+}
+
+.btnPrimary {
+  height: 60px;
+  border-radius: 18px;
+  font-size: 20px;
+  width: 100%;
+}
+
+.btnPrimary:disabled {
+  background-color: var(--dark-blue);
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.voltar {
+  position: fixed;
+  bottom: 10%;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.voltar:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+@media (max-width: 768px) {
+  .inputBox {
+    gap: 15px;
+  }
+
+  .inputBox :global(.form-control) {
+    width: 45px;
+    height: 60px;
+    font-size: 22px;
+  }
+
+  .btnPrimary {
+    height: 50px;
+    font-size: 18px;
+  }
+}

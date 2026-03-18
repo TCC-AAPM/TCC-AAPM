@@ -4,6 +4,7 @@ import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
 import AcessoNegado from "../pages/AcessoNegado/AcessoNegado.jsx";
 import EsqueciSenha from "../pages/Senha/EsqueciSenha/EsqueciSenha.jsx";
 import RedefinirSenha from "../pages/Senha/RedefinirSenha/RedefinirSenha.jsx";
+import CodigoSenha from "../pages/Senha/CodigoSenha/CodigoSenha.jsx";
 
 export default function AppRoutes() {
   return (
@@ -13,6 +14,7 @@ export default function AppRoutes() {
       <Route path="/acesso-negado" element={<AcessoNegado />} />
       <Route path="/senha/esqueci" element={<EsqueciSenha />} />
       <Route path="/senha/redefinir" element={<RedefinirSenha />} />
+      <Route path="/senha/codigo" element={<CodigoSenha />} />
     </Routes>
   );
 }
