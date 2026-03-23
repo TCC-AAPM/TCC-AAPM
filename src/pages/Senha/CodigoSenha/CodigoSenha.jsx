@@ -33,7 +33,7 @@ export default function CodigoSenha() {
       });
     }, 1000); // executa a cada 1 segundo
 
-    return () => clearInterval(intervalo); 
+    return () => clearInterval(intervalo);
   }, []); // [] = executa só uma vez quando a página carrega
 
   function formatarTempo() {

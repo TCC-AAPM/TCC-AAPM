@@ -10,7 +10,7 @@ import styles from "./RedefinirSenha.module.css";
 export default function RedefinirSenha() {
   const navigate = useNavigate();
 
-  // useSearchParams = substitui o URLSearchParams de antgamente
+  // useSearchParams = substitui o URLSearchParams de antes
   const [searchParams] = useSearchParams();
   const email = searchParams.get("email");
 

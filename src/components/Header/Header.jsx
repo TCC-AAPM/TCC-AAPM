@@ -4,7 +4,7 @@ import logo from "../../assets/images/AAPM-Logo.png";
 
 export default function Header() {
   const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("tema") === "dark"
+    localStorage.getItem("tema") === "dark",
   );
 
   useEffect(() => {
@@ -18,14 +18,10 @@ export default function Header() {
   }, [darkMode]);
 
   return (
+    
     <div className={styles.navBar}>
       <div className={styles.logoAapm}>
-        <img
-          src={logo}
-          alt="Logo da AAPM"
-          height="50"
-          width="50"
-        />
+        <img src={logo} alt="Logo da AAPM" height="50" width="50" />
       </div>
 
       <button
