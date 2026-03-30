@@ -1,5 +1,6 @@
 ﻿using API_backEnd.DTOs;
 using API_backEnd.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,6 +16,7 @@ namespace API_backEnd.Controllers
             db = context;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult CadastroCompleto(CriarReservaDTO dto)
         {
@@ -64,7 +66,7 @@ namespace API_backEnd.Controllers
                 {
                     IdAluno = aluno.Id,
                     Metodo = dto.MetodoPagamento,
-                    Motivo = "A"
+                    Motivo = "A" //armario
                 };
 
                 db.TabelaPagamentos.Add(pagamento);

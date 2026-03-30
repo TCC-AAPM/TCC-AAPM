@@ -2,7 +2,6 @@
 {
     public class CriarReservaDTO
     {
-        public int IdAluno { get; set; }
         public int IdArmario { get; set; }
         public string CPF { get; set; }
         public string Nome { get; set; }
@@ -12,7 +11,6 @@
         public int IdCurso { get; set; }
         public int IdTurma { get; set; }
         public string Periodo { get; set; }
-        public string Pagamento { get; set; }
         public string MetodoPagamento { get; set; }
 
     }
