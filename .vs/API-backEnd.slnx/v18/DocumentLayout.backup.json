@@ -1,0 +1,152 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\API-backEnd\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|c:\\api-backend\\api-backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|solutionrelative:api-backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|c:\\api-backend\\api-backend\\api-backend.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|",
+      "RelativeMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|solutionrelative:api-backend\\api-backend.csproj||{04B8AB82-A572-4FEF-95CE-5222444B6B64}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|c:\\api-backend\\api-backend\\api-backend.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
+      "RelativeMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|solutionrelative:api-backend\\api-backend.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|c:\\api-backend\\api-backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|solutionrelative:api-backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|c:\\api-backend\\api-backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|solutionrelative:api-backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|c:\\api-backend\\api-backend\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|solutionrelative:api-backend\\dtos\\logindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|c:\\api-backend\\api-backend\\api-backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|solutionrelative:api-backend\\api-backend.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|c:\\api-backend\\api-backend\\models\\aapmcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{10230825-7A99-239C-66AE-4D404223B025}|API-backEnd\\API-backEnd.csproj|solutionrelative:api-backend\\models\\aapmcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "API-backEnd",
+              "DocumentMoniker": "C:\\API-backEnd\\API-backEnd\\API-backEnd.csproj",
+              "RelativeDocumentMoniker": "API-backEnd\\API-backEnd.csproj",
+              "ToolTip": "C:\\API-backEnd\\API-backEnd\\API-backEnd.csproj",
+              "RelativeToolTip": "API-backEnd\\API-backEnd.csproj",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-30T16:37:10.817Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "API-backEnd.http",
+              "DocumentMoniker": "C:\\API-backEnd\\API-backEnd\\API-backEnd.http",
+              "RelativeDocumentMoniker": "API-backEnd\\API-backEnd.http",
+              "ToolTip": "C:\\API-backEnd\\API-backEnd\\API-backEnd.http",
+              "RelativeToolTip": "API-backEnd\\API-backEnd.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2026-03-30T16:37:07.038Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\API-backEnd\\API-backEnd\\appsettings.json",
+              "RelativeDocumentMoniker": "API-backEnd\\appsettings.json",
+              "ToolTip": "C:\\API-backEnd\\API-backEnd\\appsettings.json",
+              "RelativeToolTip": "API-backEnd\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAyAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-03-30T16:37:04.686Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\API-backEnd\\API-backEnd\\Program.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Program.cs",
+              "ToolTip": "C:\\API-backEnd\\API-backEnd\\Program.cs",
+              "RelativeToolTip": "API-backEnd\\Program.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAsAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T16:37:02.916Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\API-backEnd\\API-backEnd\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\LoginController.cs",
+              "ToolTip": "C:\\API-backEnd\\API-backEnd\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "API-backEnd\\Controllers\\LoginController.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAhwDYAAAAUAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T16:26:28.055Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "LoginDTO.cs",
+              "DocumentMoniker": "C:\\API-backEnd\\API-backEnd\\DTOs\\LoginDTO.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\DTOs\\LoginDTO.cs",
+              "ToolTip": "C:\\API-backEnd\\API-backEnd\\DTOs\\LoginDTO.cs",
+              "RelativeToolTip": "API-backEnd\\DTOs\\LoginDTO.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T16:23:34.396Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "API-backEnd.csproj",
+              "DocumentMoniker": "C:\\API-backEnd\\API-backEnd\\API-backEnd.csproj",
+              "RelativeDocumentMoniker": "API-backEnd\\API-backEnd.csproj",
+              "ToolTip": "C:\\API-backEnd\\API-backEnd\\API-backEnd.csproj",
+              "RelativeToolTip": "API-backEnd\\API-backEnd.csproj",
+              "ViewState": "AgIAABkAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-03-30T16:20:48.905Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AapmContext.cs",
+              "DocumentMoniker": "C:\\API-backEnd\\API-backEnd\\Models\\AapmContext.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Models\\AapmContext.cs",
+              "ToolTip": "C:\\API-backEnd\\API-backEnd\\Models\\AapmContext.cs",
+              "RelativeToolTip": "API-backEnd\\Models\\AapmContext.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T16:20:36.616Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
