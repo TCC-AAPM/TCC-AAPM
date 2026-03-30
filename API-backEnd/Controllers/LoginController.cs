@@ -1,6 +1,7 @@
 ﻿using API_backEnd.DTOs;
 using API_backEnd.Models;
 using BCrypt.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -41,7 +42,7 @@ namespace API_backEnd.Controllers
                 {
                     var claims = new List<Claim> {
                         new Claim("Id", admin.IdUsuario.ToString()),
-                        new Claim("Tipo", "admin")
+                        new Claim(ClaimTypes.Role, "admin")
                     };
                     var key = new SymmetricSecurityKey(
                             Encoding.UTF8.GetBytes(_config["Jwt:Key"])
@@ -72,7 +73,7 @@ namespace API_backEnd.Controllers
                     {
                         var claims = new List<Claim> {
                         new Claim("Id", aluno.IdUsuario.ToString()),
-                        new Claim("Tipo", "aluno")
+                        new Claim(ClaimTypes.Role, "aluno")
                     };
                         var key = new SymmetricSecurityKey(
                                 Encoding.UTF8.GetBytes(_config["Jwt:Key"])
@@ -90,6 +91,13 @@ namespace API_backEnd.Controllers
                 }
             }
             return Unauthorized();
+        }
+
+        [Authorize]
+        [HttpGet("Teste")]
+        public IActionResult Teste()
+        {
+            return Ok("Acesso Liberado");
         }
     }
 }

@@ -1,19 +1,46 @@
+using API_backEnd.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi;
 using System.Text;
-using API_backEnd.Models;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // 🔹 Controllers
 builder.Services.AddControllers();
 
-// 🔹 Swagger
+// 🔹 Swagger + JWT
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
 
-// 🔹 DbContext (ajusta sua connection string)
+builder.Services.AddSwaggerGen(options =>
+{
+    options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+    {
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header
+    });
+
+    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+    {
+        {
+            new OpenApiSecurityScheme
+            {
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            },
+            new string[] {}
+        }
+    });
+});
+// 🔹 DbContext
 builder.Services.AddDbContext<AapmContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -49,7 +76,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 // 🔹 Pipeline
-app.UseAuthentication(); // ⚠️ TEM QUE vir antes do Authorization
+app.UseAuthentication(); // ⚠️ sempre antes
 app.UseAuthorization();
 
 app.MapControllers();
