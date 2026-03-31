@@ -3,8 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { alertErro } from "../../components/Alerts/Alerts.jsx";
 import styles from "./Login.module.css";
 
-const API_LOGIN = "http://localhost:3000/login";
-
 export default function Login() {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
@@ -12,69 +10,61 @@ export default function Login() {
   const [lembrar, setLembrar] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+const API_LOGIN = "/api/Login";
 
-    if (!email || !senha) {
-      alertErro("Preencha todos os campos");
-      return;
-    }
+async function handleSubmit(e) {
+  e.preventDefault();
 
-    // remover quando tiver API, só pra testar aq
-    if (email === "admin@teste.com" && senha === "123") {
-      navigate("/admin/dashboard");
-      return;
-    }
-    if (email === "aluno@teste.com" && senha === "123") {
-      navigate("/usuario/tela-principal");
-      return;
-    }
-    alertErro("Email ou senha inválidos");
+  if (!email || !senha) {
+    alertErro("Preencha todos os campos");
     return;
-
-    // try {
-    //   const response = await fetch(API_LOGIN, {
-    //     method: "POST",
-    //     headers: { "Content-Type": "application/json" },
-    //     body: JSON.stringify({ email, senha, lembrar }),
-    //   });
-
-    //   const dado = await response.json();
-
-    //   if (!response.ok) {
-    //     alertErro(dado.erro || "Erro ao fazer login");
-    //     return;
-    //   }
-
-    //   localStorage.removeItem("token");
-    //   sessionStorage.removeItem("token");
-
-    //   if (lembrar) {
-    //     localStorage.setItem("token", dado.token);
-    //   } else {
-    //     sessionStorage.setItem("token", dado.token);
-    //   }
-
-    //   const perfil = dado.usuario.perfil;
-    //   if (perfil === "aluno") {
-    //     navigate("/usuario/tela-principal");
-    //   } else {
-    //     navigate("/admin/dashboard");
-    //   }
-    // } catch (error) {
-    //   console.log("Erro:", error);
-    //   alertErro("Erro de conexão com o servidor.");
-    // }
   }
+
+  try {
+    const response = await fetch(API_LOGIN, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email, senha }), // campos batem com LoginDTO
+    });
+
+    if (!response.ok) {
+      alertErro("Email ou senha inválidos");
+      return;
+    }
+
+    const dado = await response.json();
+    const token = dado.token;
+
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+
+    if (lembrar) {
+      localStorage.setItem("token", token);
+    } else {
+      sessionStorage.setItem("token", token);
+    }
+
+    // Decodifica o JWT pra pegar a role sem biblioteca
+    const payload = JSON.parse(atob(token.split(".")[1]));
+    const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+
+    if (role === "aluno") {
+      navigate("/usuario/tela-principal");
+    } else {
+      navigate("/admin/dashboard");
+    }
+
+  } catch (error) {
+    console.log("Erro:", error);
+    alertErro("Erro de conexão com o servidor.");
+  }
+}
 
   return (
     <>
       <div className={styles.principalBox}>
         <div className={styles.entreAqui}>
-          <span
-            className="material-symbols-outlined"
-            style={{ fontSize: "60px" }}
-          >
+          <span className="material-symbols-outlined" style={{ fontSize: "60px" }}>
             person
           </span>
           <h2>Entre aqui</h2>
@@ -110,14 +100,7 @@ export default function Login() {
           </div>
 
           <div className={styles.containerOpcoes}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "6px",
-                fontSize: "14px",
-              }}
-            >
+            <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px" }}>
               <input
                 type="checkbox"
                 className={styles.remember}
@@ -127,13 +110,7 @@ export default function Login() {
               <label className="form-check-label">Lembre de mim</label>
             </div>
 
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                fontSize: "14px",
-              }}
-            >
+            <div style={{ display: "flex", alignItems: "center", fontSize: "14px" }}>
               <label
                 style={{ cursor: "pointer", color: "white" }}
                 onClick={() => navigate("/senha/esqueci")}
@@ -143,10 +120,7 @@ export default function Login() {
             </div>
           </div>
 
-          <button
-            type="submit"
-            className={`btn btn-primary ${styles.btnPrimary}`}
-          >
+          <button type="submit" className={`btn btn-primary ${styles.btnPrimary}`}>
             Entrar
           </button>
         </form>
