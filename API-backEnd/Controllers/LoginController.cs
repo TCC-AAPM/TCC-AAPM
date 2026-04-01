@@ -41,7 +41,7 @@ namespace API_backEnd.Controllers
                 if (BCrypt.Net.BCrypt.Verify(login.Senha, usuario.Senha))
                 {
                     var claims = new List<Claim> {
-                        new Claim("Id", admin.IdUsuario.ToString()),
+                        new Claim(ClaimTypes.NameIdentifier, admin.IdUsuario.ToString()),
                         new Claim(ClaimTypes.Role, "admin")
                     };
                     var key = new SymmetricSecurityKey(
@@ -72,7 +72,7 @@ namespace API_backEnd.Controllers
                     if(BCrypt.Net.BCrypt.Verify(login.Senha, usuario.Senha))
                     {
                         var claims = new List<Claim> {
-                        new Claim("Id", aluno.IdUsuario.ToString()),
+                        new Claim(ClaimTypes.NameIdentifier, aluno.IdUsuario.ToString()),
                         new Claim(ClaimTypes.Role, "aluno")
                     };
                         var key = new SymmetricSecurityKey(
@@ -93,11 +93,5 @@ namespace API_backEnd.Controllers
             return Unauthorized();
         }
 
-        [Authorize]
-        [HttpGet("Teste")]
-        public IActionResult Teste()
-        {
-            return Ok("Acesso Liberado");
-        }
     }
 }

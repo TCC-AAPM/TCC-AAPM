@@ -5,6 +5,18 @@
     "version": "1.0"
   },
   "paths": {
+    "/api/Alunos/me": {
+      "get": {
+        "tags": [
+          "Alunos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Armarios": {
       "get": {
         "tags": [
@@ -83,18 +95,6 @@
         }
       }
     },
-    "/api/Login/Teste": {
-      "get": {
-        "tags": [
-          "Login"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/Reservas": {
       "post": {
         "tags": [
@@ -165,10 +165,6 @@
             "format": "int32"
           },
           "periodo": {
-            "type": "string",
-            "nullable": true
-          },
-          "pagamento": {
             "type": "string",
             "nullable": true
           },
