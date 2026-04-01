@@ -24,7 +24,7 @@ async function handleSubmit(e) {
     const response = await fetch(API_LOGIN, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, senha }), // campos batem com LoginDTO
+      body: JSON.stringify({ email, senha }), 
     });
 
     if (!response.ok) {
@@ -43,8 +43,7 @@ async function handleSubmit(e) {
     } else {
       sessionStorage.setItem("token", token);
     }
-
-    // Decodifica o JWT pra pegar a role sem biblioteca
+    
     const payload = JSON.parse(atob(token.split(".")[1]));
     const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
 

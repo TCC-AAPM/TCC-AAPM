@@ -1,21 +1,20 @@
-// pega o token do localStorage ou sessionStorage
-export function getToken() {
-  return localStorage.getItem("token") || sessionStorage.getItem("token");
-}
-
-// decodifica o token e retorna os dados do usuário
 export function getUsuarioLogado() {
-  const token = getToken();
+  const token = localStorage.getItem("token") ;
   if (!token) return null;
+
   try {
     const payload = JSON.parse(atob(token.split(".")[1]));
-    // verifica se o token expirou
-    if (payload.exp * 1000 < Date.now()) {
+
+    if (payload.exp && Date.now() / 1000 > payload.exp) {
       localStorage.removeItem("token");
       sessionStorage.removeItem("token");
       return null;
     }
-    return payload;
+
+    const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+    const id = payload["Id"];
+
+    return { perfil: role, id };
   } catch {
     return null;
   }
