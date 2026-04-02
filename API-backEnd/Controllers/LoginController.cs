@@ -32,7 +32,7 @@ namespace API_backEnd.Controllers
 
             if (admin != null)
             {
-                var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == admin.IdUsuario);
+                var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == admin.IdUsuario && a.IsAtivo);
                 if (usuario == null)
                 {
                     return Unauthorized();
@@ -63,7 +63,7 @@ namespace API_backEnd.Controllers
                 var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == login.Email);
                 if (aluno != null)
                 {
-                    var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == aluno.IdUsuario);
+                    var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == aluno.IdUsuario && a.IsAtivo);
                     if(usuario == null)
                     {
                         return Unauthorized(); 

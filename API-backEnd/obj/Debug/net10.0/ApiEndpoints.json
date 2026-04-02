@@ -1,12 +1,38 @@
 [
   {
     "ContainingType": "API_backEnd.Controllers.AlunosController",
+    "Method": "DeletarConta",
+    "RelativePath": "api/Alunos/deletar-conta",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.AlunosController",
     "Method": "GetUser",
     "RelativePath": "api/Alunos/me",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.AlunosController",
+    "Method": "TrocarSenha",
+    "RelativePath": "api/Alunos/trocar-senha",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.TrocarSenhaDTO",
+        "IsRequired": true
+      }
+    ],
     "ReturnTypes": []
   },
   {
