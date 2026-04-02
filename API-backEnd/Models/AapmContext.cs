@@ -394,6 +394,8 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.Senha)
                 .HasMaxLength(255)
                 .HasColumnName("senha");
+            entity.Property(e => e.IsAtivo)
+                .HasColumnName("is_ativo");
         });
 
         modelBuilder.Entity<TabelaVagasEstacionamento>(entity =>
