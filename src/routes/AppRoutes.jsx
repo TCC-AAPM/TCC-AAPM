@@ -28,6 +28,14 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/aluno/tela-principal"
+        element={
+          <PrivateRoute perfisPermitidos={["aluno"]}>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
     </Routes>
   );
 }

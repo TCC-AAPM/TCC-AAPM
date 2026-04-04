@@ -84,9 +84,6 @@ export default function TelaPrincipal() {
         </div>
       </div>
 
-      <footer className={styles.footer}>
-        Desenvolvido por <strong>Isabella Lopreti</strong> & <strong>Gabriel Duarte</strong> • © 2026
-      </footer>
     </div>
   );
 }
