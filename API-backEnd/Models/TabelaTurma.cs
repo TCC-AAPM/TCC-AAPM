@@ -17,6 +17,8 @@ public partial class TabelaTurma
 
     public short? AnoInicio { get; set; }
 
+    public ulong IsAtivo { get; set; }
+
     public virtual TabelaCurso Curso { get; set; } = null!;
 
     public virtual ICollection<TabelaAluno> TabelaAlunos { get; set; } = new List<TabelaAluno>();

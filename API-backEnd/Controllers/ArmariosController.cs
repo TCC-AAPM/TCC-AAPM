@@ -35,7 +35,7 @@ namespace API_backEnd.Controllers
         public IActionResult GetById(int id)
         {
             var armarioId = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == id);
-            if(armarioId == null)
+            if (armarioId == null)
             {
                 return NotFound();
             }

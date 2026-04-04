@@ -147,7 +147,7 @@ namespace API_backEnd.Controllers
                 return NotFound("Aluno não encontrado");
             }
 
-            aluno.IsAtivo = false;
+            aluno.IsAtivo = 0;
 
             db.SaveChanges();
 

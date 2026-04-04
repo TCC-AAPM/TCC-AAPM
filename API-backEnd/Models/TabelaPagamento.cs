@@ -7,15 +7,15 @@ public partial class TabelaPagamento
 {
     public int Id { get; set; }
 
-    public string Metodo { get; set; } = null!;
-
-    public float Valor { get; set; }
-
     public int IdAluno { get; set; }
 
-    public string Motivo { get; set; } = null!;
+    public int? IdProduto { get; set; }
+
+    public string Metodo { get; set; } = null!;
 
     public DateTime DataPagamento { get; set; }
 
     public virtual TabelaAluno IdAlunoNavigation { get; set; } = null!;
+
+    public virtual TabelaProduto? IdProdutoNavigation { get; set; }
 }

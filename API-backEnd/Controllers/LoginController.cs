@@ -19,20 +19,20 @@ namespace API_backEnd.Controllers
     {
         private readonly AapmContext db;
         private readonly IConfiguration _config;
-        
+
         public LoginController(AapmContext context, IConfiguration config)
         {
             db = context;
             _config = config;
         }
-        [HttpPost] 
+        [HttpPost]
         public IActionResult Login(LoginDTO login)
         {
             var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == login.Email);
 
             if (admin != null)
             {
-                var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == admin.IdUsuario && a.IsAtivo);
+                var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == admin.IdUsuario && a.IsAtivo == 1);
                 if (usuario == null)
                 {
                     return Unauthorized();
@@ -63,13 +63,13 @@ namespace API_backEnd.Controllers
                 var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == login.Email);
                 if (aluno != null)
                 {
-                    var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == aluno.IdUsuario && a.IsAtivo);
-                    if(usuario == null)
+                    var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == aluno.IdUsuario && a.IsAtivo == 1);
+                    if (usuario == null)
                     {
-                        return Unauthorized(); 
+                        return Unauthorized();
                     }
 
-                    if(BCrypt.Net.BCrypt.Verify(login.Senha, usuario.Senha))
+                    if (BCrypt.Net.BCrypt.Verify(login.Senha, usuario.Senha))
                     {
                         var claims = new List<Claim> {
                         new Claim(ClaimTypes.NameIdentifier, aluno.IdUsuario.ToString()),

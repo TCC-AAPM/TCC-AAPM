@@ -30,6 +30,8 @@ public partial class AapmContext : DbContext
 
     public virtual DbSet<TabelaPagamento> TabelaPagamentos { get; set; }
 
+    public virtual DbSet<TabelaProduto> TabelaProdutos { get; set; }
+
     public virtual DbSet<TabelaReservaArmario> TabelaReservaArmarios { get; set; }
 
     public virtual DbSet<TabelaReservaEstacionamento> TabelaReservaEstacionamentos { get; set; }
@@ -44,7 +46,7 @@ public partial class AapmContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;port=3306;database=aapm;user=root;password=senai", Microsoft.EntityFrameworkCore.ServerVersion.Parse("12.2.2-mariadb"));
+        => optionsBuilder.UseMySql("server=localhost;port=3306;database=aapm;user=root;password=senai", Microsoft.EntityFrameworkCore.ServerVersion.Parse("12.0.2-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -91,6 +93,10 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.IdUsuario)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_usuario");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
             entity.Property(e => e.Nome)
                 .HasMaxLength(100)
                 .HasColumnName("nome");
@@ -139,6 +145,10 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.IdUsuario)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_usuario");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
             entity.Property(e => e.Matricula)
                 .HasMaxLength(50)
                 .IsFixedLength()
@@ -182,6 +192,10 @@ public partial class AapmContext : DbContext
                 .HasDefaultValueSql("'D'")
                 .HasColumnType("enum('D','O','M','A')")
                 .HasColumnName("estado");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
             entity.Property(e => e.Observacao)
                 .HasMaxLength(255)
                 .HasColumnName("observacao");
@@ -196,6 +210,10 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
             entity.Property(e => e.Nome)
                 .HasMaxLength(100)
                 .HasColumnName("nome");
@@ -223,6 +241,10 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.IdAluno)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_aluno");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
             entity.Property(e => e.Marca)
                 .HasMaxLength(50)
                 .HasDefaultValueSql("'0'")
@@ -251,6 +273,8 @@ public partial class AapmContext : DbContext
 
             entity.HasIndex(e => e.IdAluno, "FK_tabela_pagamento_tabela_alunos");
 
+            entity.HasIndex(e => e.IdProduto, "FK_tabela_pagamento_tabela_produto");
+
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
@@ -261,20 +285,43 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.IdAluno)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_aluno");
+            entity.Property(e => e.IdProduto)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_produto");
             entity.Property(e => e.Metodo)
                 .HasDefaultValueSql("'A'")
                 .HasColumnType("enum('C','D','P','A')")
                 .HasColumnName("metodo");
-            entity.Property(e => e.Motivo)
-                .HasDefaultValueSql("'A'")
-                .HasColumnType("enum('A','E','O')")
-                .HasColumnName("motivo");
-            entity.Property(e => e.Valor).HasColumnName("valor");
 
             entity.HasOne(d => d.IdAlunoNavigation).WithMany(p => p.TabelaPagamentos)
                 .HasForeignKey(d => d.IdAluno)
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_tabela_pagamento_tabela_alunos");
+
+            entity.HasOne(d => d.IdProdutoNavigation).WithMany(p => p.TabelaPagamentos)
+                .HasForeignKey(d => d.IdProduto)
+                .HasConstraintName("FK_tabela_pagamento_tabela_produto");
+        });
+
+        modelBuilder.Entity<TabelaProduto>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("tabela_produto");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
+            entity.Property(e => e.Preco)
+                .HasPrecision(10, 2)
+                .HasColumnName("preco");
+            entity.Property(e => e.Produto)
+                .HasColumnType("enum('A','E','O')")
+                .HasColumnName("produto");
         });
 
         modelBuilder.Entity<TabelaReservaArmario>(entity =>
@@ -335,6 +382,10 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.IdVaga)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_vaga");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
 
             entity.HasOne(d => d.IdAlunoNavigation).WithMany(p => p.TabelaReservaEstacionamentos)
                 .HasForeignKey(d => d.IdAluno)
@@ -362,6 +413,10 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.CursoId)
                 .HasColumnType("int(11)")
                 .HasColumnName("curso_id");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
             entity.Property(e => e.Periodo)
                 .HasColumnType("enum('M','V','N','I')")
                 .HasColumnName("periodo");
@@ -387,6 +442,10 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
             entity.Property(e => e.Perfil)
                 .HasDefaultValueSql("'aluno'")
                 .HasColumnType("enum('aluno','admin')")
@@ -394,8 +453,6 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.Senha)
                 .HasMaxLength(255)
                 .HasColumnName("senha");
-            entity.Property(e => e.IsAtivo)
-                .HasColumnName("is_ativo");
         });
 
         modelBuilder.Entity<TabelaVagasEstacionamento>(entity =>

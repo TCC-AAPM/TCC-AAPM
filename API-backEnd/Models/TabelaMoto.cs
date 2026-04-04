@@ -19,5 +19,7 @@ public partial class TabelaMoto
 
     public string Cor { get; set; } = null!;
 
+    public ulong IsAtivo { get; set; }
+
     public virtual TabelaAluno IdAlunoNavigation { get; set; } = null!;
 }

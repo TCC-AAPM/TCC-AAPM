@@ -66,7 +66,7 @@ namespace API_backEnd.Controllers
                 {
                     IdAluno = aluno.Id,
                     Metodo = dto.MetodoPagamento,
-                    Motivo = "A" //armario
+                    //Motivo = "A" //armario
                 };
 
                 db.TabelaPagamentos.Add(pagamento);
@@ -86,7 +86,7 @@ namespace API_backEnd.Controllers
                     alunoId = aluno.Id
                 });
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 transaction.Rollback();
                 return BadRequest(ex.Message);

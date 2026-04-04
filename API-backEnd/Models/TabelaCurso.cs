@@ -9,6 +9,8 @@ public partial class TabelaCurso
 
     public string Nome { get; set; } = null!;
 
+    public ulong IsAtivo { get; set; }
+
     public virtual ICollection<TabelaAluno> TabelaAlunos { get; set; } = new List<TabelaAluno>();
 
     public virtual ICollection<TabelaTurma> TabelaTurmas { get; set; } = new List<TabelaTurma>();

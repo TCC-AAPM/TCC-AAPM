@@ -19,5 +19,7 @@ public partial class TabelaAdmin
 
     public DateTime CriadoEm { get; set; }
 
+    public ulong IsAtivo { get; set; }
+
     public virtual TabelaUsuario? IdUsuarioNavigation { get; set; }
 }
