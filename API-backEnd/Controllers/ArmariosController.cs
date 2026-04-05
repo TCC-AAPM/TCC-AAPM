@@ -1,8 +1,11 @@
 ﻿using API_backEnd.DTOs;
+using API_backEnd.Enums;
 using API_backEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_backEnd.Controllers
 {
@@ -34,6 +37,10 @@ namespace API_backEnd.Controllers
         [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var armarioId = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == id);
             if (armarioId == null)
             {
@@ -60,7 +67,7 @@ namespace API_backEnd.Controllers
             join c in db.TabelaCursos on a.CursoId equals c.Id
             join t in db.TabelaTurmas on a.TurmaId equals t.Id
             join p in db.TabelaPagamentos on a.Id equals p.IdAluno
-            where r.IsAtivo == 1
+            where r.IsAtivo == true
             select new AlunoReservaDTO
             {
                 NomeAluno = a.Nome,
@@ -80,6 +87,171 @@ namespace API_backEnd.Controllers
                 return NoContent(); // 204
             }
             return Ok(dados);
+        }
+
+        // buscar armario pelo estado
+        //[Authorize(Roles = "admin")]
+        [HttpGet("buscar-por-estado")]
+        public IActionResult GetArmarioEstado(EstadoArmario estado)
+        {
+            var armarios = db.TabelaArmarios.Where(a => a.Estado == estado.ToString()).ToList() ;
+
+            return Ok(armarios);
+        }
+
+        // criar um novo armario
+        [Authorize(Roles = "admin")]
+        [HttpPost("criar-armario")]
+        public IActionResult CriarArmario(CriarArmarioDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (dto.NumeroArmario <= 0)
+            {
+                return BadRequest("Número do armário deve ser maior que zero.");
+            }
+
+            var armarioExiste = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == dto.NumeroArmario);
+            if (armarioExiste != null && armarioExiste.IsAtivo) 
+            {
+                return BadRequest("Armario ja existe");
+            }
+
+            if (armarioExiste != null && !armarioExiste.IsAtivo)
+            {
+                armarioExiste.IsAtivo = true;
+                armarioExiste.Estado = dto.Estado.ToString();
+                armarioExiste.Observacao = string.IsNullOrWhiteSpace(dto.Observacao)
+                    ? null
+                    : dto.Observacao;
+            }
+            else
+            {
+                var armario = new TabelaArmario
+                {
+                    NumeroArmario = dto.NumeroArmario,
+                    Estado = dto.Estado.ToString(),
+                    Observacao = string.IsNullOrWhiteSpace(dto.Observacao) ? null : dto.Observacao
+                };
+
+
+                db.TabelaArmarios.Add(armario);
+            }
+            db.SaveChanges();
+
+            return Ok("Armário criado com sucesso.");
+
+        }
+
+        // transferir o aluno de armario
+        [Authorize(Roles = "admin")]
+        [HttpPost("transferir")]
+        public IActionResult TransferirAlunoArmario(TransferirArmarioDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            if (dto.NumeroArmarioAtual == dto.NumeroArmarioNovo)
+            {
+                return BadRequest("Escolha um armario diferente do atual");
+            }
+
+            var armarioReservaAtual = db.TabelaReservaArmarios.FirstOrDefault(a => a.IdArmario == dto.NumeroArmarioAtual && a.IsAtivo);
+
+            if (armarioReservaAtual == null)
+            {
+                return NotFound("Reserva nao encontrada");
+            }
+
+            var armarioAtual = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == armarioReservaAtual.IdArmario);
+
+            if (armarioAtual == null)
+            {
+                return NotFound("Armario não encontrado");
+            }
+
+            var armarioNovo = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == dto.NumeroArmarioNovo);
+
+            if (armarioNovo == null)
+            {
+                return NotFound("Armario nao existe");
+            }
+
+            if (armarioNovo.Estado == EstadoArmario.O.ToString() || armarioNovo.Estado == EstadoArmario.M.ToString())
+            {
+                return BadRequest("armario em manutencao ou ocupado");
+            }
+
+            //mudar para o armario novo e o estado
+            armarioReservaAtual.IdArmario = armarioNovo.NumeroArmario;
+            armarioNovo.Estado = EstadoArmario.O.ToString();
+
+            //mudar o estado do armario antigo e colocar a obs
+            armarioAtual.Estado = EstadoArmario.M.ToString();
+            armarioAtual.Observacao = string.IsNullOrWhiteSpace(dto.Observacao) ? null : dto.Observacao;
+
+
+
+            db.SaveChanges();
+
+            return Ok();
+        }
+        
+        // deletar um armario
+        [Authorize(Roles = "admin")]
+        [HttpDelete("{numeroArmario}")]
+        public IActionResult DeletarArmario(int numeroArmario)
+        {
+            var armario = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == numeroArmario);
+            
+            if(armario == null || armario.IsAtivo == false)
+            {
+                return NotFound("Armário não encontrado ou já desativado.");
+            }
+
+            armario.IsAtivo = false;
+
+            db.SaveChanges();
+            return Ok();
+        }
+
+        // mudar o estado do armario
+        [Authorize(Roles = "admin")]
+        [HttpPut("estado/{numeroArmario}")]
+        public IActionResult MudarEstadoArmario(int numeroArmario, MudarEstadoArmarioDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var armarioExiste = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == numeroArmario);
+            
+            if(armarioExiste == null)
+            {
+                return NotFound("Armário não encontrado");
+            }
+
+            if(armarioExiste.Estado == dto.Estado.ToString())
+            {
+                return BadRequest("Tem que mudar para um estado diferente");
+            }
+
+            if(armarioExiste.Estado == EstadoArmario.O.ToString())
+            {
+                return BadRequest("O armário esta ocupado");
+            }
+
+
+
+            armarioExiste.Estado = dto.Estado.ToString();
+            armarioExiste.Observacao = string.IsNullOrWhiteSpace(dto.Observacao) ? null : dto.Observacao;
+
+            db.SaveChanges();
+
+            return Ok("Estado do armário atualizado com sucesso.");
         }
 
 

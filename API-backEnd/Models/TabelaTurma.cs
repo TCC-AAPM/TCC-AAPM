@@ -1,4 +1,5 @@
-﻿using System;
+﻿using API_backEnd.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace API_backEnd.Models;
@@ -13,11 +14,11 @@ public partial class TabelaTurma
 
     public string? Periodo { get; set; }
 
-    public string? SemestreInicio { get; set; }
+    public Semestre SemestreInicio { get; set; }
 
     public short? AnoInicio { get; set; }
 
-    public ulong IsAtivo { get; set; }
+    public bool IsAtivo { get; set; }
 
     public virtual TabelaCurso Curso { get; set; } = null!;
 

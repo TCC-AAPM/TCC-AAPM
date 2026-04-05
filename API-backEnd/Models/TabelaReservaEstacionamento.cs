@@ -11,7 +11,7 @@ public partial class TabelaReservaEstacionamento
 
     public int? IdVaga { get; set; }
 
-    public ulong IsAtivo { get; set; }
+    public bool IsAtivo { get; set; }
 
     public virtual TabelaAluno? IdAlunoNavigation { get; set; }
 

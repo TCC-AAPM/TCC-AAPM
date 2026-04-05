@@ -11,7 +11,7 @@ public partial class TabelaProduto
 
     public decimal? Preco { get; set; }
 
-    public ulong IsAtivo { get; set; }
+    public bool IsAtivo { get; set; }
 
     public virtual ICollection<TabelaPagamento> TabelaPagamentos { get; set; } = new List<TabelaPagamento>();
 }

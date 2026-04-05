@@ -11,7 +11,7 @@ public partial class TabelaReservaArmario
 
     public int IdArmario { get; set; }
 
-    public ulong IsAtivo { get; set; }
+    public bool IsAtivo { get; set; }
 
     public DateTime CriadaEm { get; set; }
 

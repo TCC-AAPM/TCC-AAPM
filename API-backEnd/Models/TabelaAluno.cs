@@ -25,7 +25,7 @@ public partial class TabelaAluno
 
     public DateTime CriadoEm { get; set; }
 
-    public ulong IsAtivo { get; set; }
+    public bool IsAtivo { get; set; }
 
     public virtual TabelaCurso Curso { get; set; } = null!;
 

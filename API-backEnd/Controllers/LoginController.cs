@@ -28,11 +28,15 @@ namespace API_backEnd.Controllers
         [HttpPost]
         public IActionResult Login(LoginDTO login)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
             var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == login.Email);
 
             if (admin != null)
             {
-                var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == admin.IdUsuario && a.IsAtivo == 1);
+                var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == admin.IdUsuario && a.IsAtivo);
                 if (usuario == null)
                 {
                     return Unauthorized();
@@ -63,7 +67,7 @@ namespace API_backEnd.Controllers
                 var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == login.Email);
                 if (aluno != null)
                 {
-                    var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == aluno.IdUsuario && a.IsAtivo == 1);
+                    var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == aluno.IdUsuario && a.IsAtivo);
                     if (usuario == null)
                     {
                         return Unauthorized();

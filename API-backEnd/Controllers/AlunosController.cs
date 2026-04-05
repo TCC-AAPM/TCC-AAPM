@@ -79,9 +79,9 @@ namespace API_backEnd.Controllers
         [HttpPut("trocar-senha")]
         public IActionResult TrocarSenha(TrocarSenhaDTO dto)
         {
-            if (string.IsNullOrWhiteSpace(dto.SenhaAtual) || string.IsNullOrWhiteSpace(dto.SenhaNova) || string.IsNullOrWhiteSpace(dto.ConfirmarSenha))
+            if (!ModelState.IsValid)
             {
-                return BadRequest("Preencha todos os campos");
+                return BadRequest(ModelState);
             }
 
             if (dto.SenhaNova != dto.ConfirmarSenha)
@@ -130,28 +130,118 @@ namespace API_backEnd.Controllers
             return Ok("Senha atualizada com sucesso");
         }
 
-        [Authorize(Roles ="aluno")]
-        [HttpDelete("deletar-conta")]
-        public IActionResult DeletarConta()
+        [Authorize(Roles = "aluno")]
+        [HttpPost("deletar-conta")]
+        public IActionResult DeletarConta(ConfirmarSenhaDTO dto)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-            
-            if (!int.TryParse(userId, out int id))
-            {
-                return Unauthorized("ID inválido");
+            if (!ModelState.IsValid) {
+                return BadRequest(ModelState);
             }
 
-            var aluno = db.TabelaUsuarios.SingleOrDefault(a => a.Id == id);
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            if (aluno == null) {
+            if (!int.TryParse(userId, out int id))
+            {
+                return BadRequest("ID inválido");
+            }
+
+            var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == id);
+
+            if (usuario == null) {
+                return NotFound("Usuário não encontrado");
+            }
+
+            if (!BCrypt.Net.BCrypt.Verify(dto.Senha, usuario.Senha))
+            {
+                return Unauthorized("Senha incorreta");
+            }
+
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id);
+
+            if (aluno == null)
+            {
                 return NotFound("Aluno não encontrado");
             }
 
-            aluno.IsAtivo = 0;
+            using var transaction = db.Database.BeginTransaction();
+            try
+            {
+                var reserva = db.TabelaReservaArmarios.FirstOrDefault(r => r.IdAluno == aluno.Id && r.IsAtivo);
+                if (reserva != null)
+                {
+                    var armario = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == reserva.IdArmario);
+                    
+                    if (armario != null)
+                    {
+                        armario.Observacao = $"O aluno {aluno.Nome} excluiu a conta";
+                        armario.Estado = "P";
+                    }
 
-            db.SaveChanges();
+                    reserva.IsAtivo = false;
+                }
 
-            return Ok("Conta deletada");
+                
+                
+                aluno.IsAtivo = false;
+                usuario.IsAtivo = false;
+
+                db.SaveChanges();
+
+                transaction.Commit();
+
+                return Ok("Conta deletada");
+            }
+            catch
+            {
+                transaction.Rollback();
+                return StatusCode(500, "Erro ao deletar conta");
+            }
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost("buscar-por-cpf")]
+        public IActionResult BuscarPorCPF(BuscarAlunoPorCpfDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Cpf == dto.CPF);
+
+            if (aluno == null)
+            {
+                return NotFound("Aluno não encontrado");
+            }
+            var dados = new DadosRecadastroDTO
+            {
+                Nome = aluno.Nome,
+                Telefone = aluno.Telefone,
+                Email = aluno.Email,
+                Matricula = aluno.Matricula,
+                IdCurso = aluno.CursoId,
+                IdTurma = aluno.TurmaId
+            };
+
+            return Ok(dados);
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("historico-reserva")]
+        public IActionResult HistoricoReserva()
+        {
+            var dados =
+            (
+                from r in db.TabelaReservaArmarios
+                join a in db.TabelaAlunos on r.IdAluno equals a.Id
+                select new DadosHistoricoDTO
+                {
+                    Nome = a.Nome,
+                    CPF = a.Cpf,
+                    NumeroArmario = r.IdArmario,
+                    IsAtivo = r.IsAtivo
+                }
+            );
+            return Ok(dados);
         }
     }
 }

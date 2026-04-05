@@ -9,7 +9,7 @@ public partial class TabelaCurso
 
     public string Nome { get; set; } = null!;
 
-    public ulong IsAtivo { get; set; }
+    public bool IsAtivo { get; set; }
 
     public virtual ICollection<TabelaAluno> TabelaAlunos { get; set; } = new List<TabelaAluno>();
 

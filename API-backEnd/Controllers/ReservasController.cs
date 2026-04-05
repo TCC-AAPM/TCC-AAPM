@@ -1,8 +1,11 @@
 ﻿using API_backEnd.DTOs;
+using API_backEnd.Enums;
 using API_backEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.RegularExpressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_backEnd.Controllers
 {
@@ -20,7 +23,11 @@ namespace API_backEnd.Controllers
         [HttpPost]
         public IActionResult CadastroCompleto(CriarReservaDTO dto)
         {
-            var ocupado = db.TabelaReservaArmarios.Any(r => r.IdArmario == dto.IdArmario && r.IsAtivo == 1);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var ocupado = db.TabelaReservaArmarios.Any(r => r.IdArmario == dto.IdArmario && r.IsAtivo == true);
 
             if (ocupado)
             {
@@ -52,7 +59,7 @@ namespace API_backEnd.Controllers
                     Cpf = dto.CPF,
                     Nome = dto.Nome,
                     Matricula = dto.Matricula,
-                    Telefone = dto.Telefone,
+                    Telefone = Regex.Replace(dto.Telefone, @"\D", ""),
                     Email = dto.Email,
                     CursoId = dto.IdCurso,
                     TurmaId = dto.IdTurma,
@@ -61,12 +68,12 @@ namespace API_backEnd.Controllers
 
                 db.TabelaAlunos.Add(aluno);
                 db.SaveChanges();
-
                 var pagamento = new TabelaPagamento
                 {
                     IdAluno = aluno.Id,
+                    IdProduto = (int)TipoProduto.Armario,
                     Metodo = dto.MetodoPagamento,
-                    //Motivo = "A" //armario
+                    
                 };
 
                 db.TabelaPagamentos.Add(pagamento);
@@ -75,7 +82,7 @@ namespace API_backEnd.Controllers
                 {
                     IdAluno = aluno.Id,
                     IdArmario = dto.IdArmario,
-                    IsAtivo = 1
+                    IsAtivo = true
                 };
                 db.TabelaReservaArmarios.Add(reserva);
                 db.SaveChanges();
@@ -92,5 +99,75 @@ namespace API_backEnd.Controllers
                 return BadRequest(ex.Message);
             }
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpPost("recadastrar")]
+        public IActionResult RecadastroReserva(RecadastrarReservaDTO dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            using var transaction = db.Database.BeginTransaction();
+            try
+            {               
+                var aluno = db.TabelaAlunos.SingleOrDefault(a => a.Cpf == dto.CPF);
+
+                if (aluno == null)
+                {
+                    return NotFound("Aluno não encontrado");
+                }
+                var reservaAtiva = db.TabelaReservaArmarios.FirstOrDefault(r => r.IdAluno == aluno.Id && r.IsAtivo);
+                if (reservaAtiva != null)
+                {
+                    return BadRequest("Reserva já existe");
+                }
+
+
+                aluno.Nome = dto.Nome;
+                aluno.Telefone = Regex.Replace(dto.Telefone, @"\D", "");
+                aluno.Email = dto.Email;
+                aluno.Matricula = dto.Matricula;
+                aluno.CursoId = dto.IdCurso;
+                aluno.TurmaId = dto.IdTurma;
+
+                var ocupado = db.TabelaReservaArmarios.Any(r => r.IdArmario == dto.IdArmario && r.IsAtivo);
+
+                if (ocupado)
+                {
+                    return BadRequest("Armário já está ocupado");
+                }
+
+                var reserva = new TabelaReservaArmario
+                {
+                    IdAluno = aluno.Id,
+                    IdArmario = dto.IdArmario,
+                    IsAtivo = true
+                };
+
+                db.TabelaReservaArmarios.Add(reserva);
+
+                var pagamento = new TabelaPagamento
+                {
+                    IdAluno = aluno.Id,
+                    IdProduto = (int)TipoProduto.Armario,
+                    Metodo = dto.MetodoPagamento,
+                };
+
+                db.TabelaPagamentos.Add(pagamento);
+
+
+                db.SaveChanges();
+                transaction.Commit();
+                return Ok("Recadastro feito");
+            }
+            catch (Exception ex) 
+            {
+                transaction.Rollback();
+                return BadRequest(ex.Message);
+            }
+        }
+
+        
     }
 }

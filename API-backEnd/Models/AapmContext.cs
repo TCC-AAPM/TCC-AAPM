@@ -421,7 +421,7 @@ public partial class AapmContext : DbContext
                 .HasColumnType("enum('M','V','N','I')")
                 .HasColumnName("periodo");
             entity.Property(e => e.SemestreInicio)
-                .HasColumnType("enum('1','2')")
+                .HasColumnType("tinyint")
                 .HasColumnName("semestre_inicio");
             entity.Property(e => e.Turma)
                 .HasMaxLength(100)
