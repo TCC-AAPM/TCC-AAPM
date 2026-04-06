@@ -2,7 +2,7 @@
 
 namespace API_backEnd.DTOs
 {
-    public class LoginDTO
+    public class LoginRequest
     {
         [Required]
         [EmailAddress(ErrorMessage = "Email inválido")]

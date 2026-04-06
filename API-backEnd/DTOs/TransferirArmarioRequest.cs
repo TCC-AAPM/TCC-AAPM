@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API_backEnd.DTOs
 {
-    public class TransferirArmarioDTO
+    public class TransferirArmarioRequest
     {
         [Required]
         public int NumeroArmarioAtual { get; set; }

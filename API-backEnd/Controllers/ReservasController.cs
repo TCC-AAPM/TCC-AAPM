@@ -102,7 +102,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost("recadastrar")]
-        public IActionResult RecadastroReserva(RecadastrarReservaDTO dto)
+        public IActionResult RecadastroReserva(RecadastrarReservaRequest dto)
         {
             if (!ModelState.IsValid)
             {

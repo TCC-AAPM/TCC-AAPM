@@ -1,6 +1,6 @@
 ﻿namespace API_backEnd.DTOs
 {
-    public class DadosHistoricoDTO
+    public class HistoricoResponse
     {
         public string Nome { get; set; }
         public string CPF { get; set; }

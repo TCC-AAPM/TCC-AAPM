@@ -77,7 +77,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles ="aluno")]
         [HttpPut("trocar-senha")]
-        public IActionResult TrocarSenha(TrocarSenhaDTO dto)
+        public IActionResult TrocarSenha(TrocarSenhaRequest dto)
         {
             if (!ModelState.IsValid)
             {
@@ -212,7 +212,7 @@ namespace API_backEnd.Controllers
             {
                 return NotFound("Aluno não encontrado");
             }
-            var dados = new DadosRecadastroDTO
+            var dados = new RecadastroResponse
             {
                 Nome = aluno.Nome,
                 Telefone = aluno.Telefone,
@@ -233,7 +233,7 @@ namespace API_backEnd.Controllers
             (
                 from r in db.TabelaReservaArmarios
                 join a in db.TabelaAlunos on r.IdAluno equals a.Id
-                select new DadosHistoricoDTO
+                select new HistoricoResponse
                 {
                     Nome = a.Nome,
                     CPF = a.Cpf,

@@ -2,7 +2,7 @@
 
 namespace API_backEnd.DTOs
 {
-    public class TurmaResponseDTO
+    public class TurmaResponse
     {
         public int IdTurma { get; set; }
         public string? NomeTurma { get; set; }

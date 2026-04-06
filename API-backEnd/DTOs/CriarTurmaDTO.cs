@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API_backEnd.DTOs
 {
-    public class TurmaCreateDTO
+    public class CriarTurmaDTO
     {
         [Required(ErrorMessage = "Digite o nome da turma")]
         public string NomeTurma { get; set; }

@@ -68,7 +68,7 @@ namespace API_backEnd.Controllers
             join t in db.TabelaTurmas on a.TurmaId equals t.Id
             join p in db.TabelaPagamentos on a.Id equals p.IdAluno
             where r.IsAtivo == true
-            select new AlunoReservaDTO
+            select new AlunoComReserva
             {
                 NomeAluno = a.Nome,
                 NumeroArmario = ar.NumeroArmario,
@@ -148,7 +148,7 @@ namespace API_backEnd.Controllers
         // transferir o aluno de armario
         [Authorize(Roles = "admin")]
         [HttpPost("transferir")]
-        public IActionResult TransferirAlunoArmario(TransferirArmarioDTO dto)
+        public IActionResult TransferirAlunoArmario(TransferirArmarioRequest dto)
         {
             if (!ModelState.IsValid)
             {
@@ -221,7 +221,7 @@ namespace API_backEnd.Controllers
         // mudar o estado do armario
         [Authorize(Roles = "admin")]
         [HttpPut("estado/{numeroArmario}")]
-        public IActionResult MudarEstadoArmario(int numeroArmario, MudarEstadoArmarioDTO dto)
+        public IActionResult MudarEstadoArmario(int numeroArmario, MudarEstadoArmarioRequest dto)
         {
             if (!ModelState.IsValid)
             {

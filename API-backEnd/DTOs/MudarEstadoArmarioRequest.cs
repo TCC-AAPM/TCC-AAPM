@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace API_backEnd.DTOs
 {
-    public class MudarEstadoArmarioDTO
+    public class MudarEstadoArmarioRequest
     {
         [Required]
         public EstadoArmario Estado { get; set; }

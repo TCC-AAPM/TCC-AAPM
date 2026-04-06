@@ -100,7 +100,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPut("trocar-senha")]
-        public IActionResult TrocarSenha(TrocarSenhaDTO dto)
+        public IActionResult TrocarSenha(TrocarSenhaRequest dto)
         {
             if (!ModelState.IsValid)
             {

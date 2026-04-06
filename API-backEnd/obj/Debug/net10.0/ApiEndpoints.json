@@ -382,5 +382,21 @@
       }
     ],
     "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.TurmasController",
+    "Method": "EditarTurma",
+    "RelativePath": "api/Turmas/{IdTurma}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "IdTurma",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
   }
 ]

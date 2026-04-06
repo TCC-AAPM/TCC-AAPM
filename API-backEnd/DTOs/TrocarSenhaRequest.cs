@@ -2,7 +2,7 @@
 
 namespace API_backEnd.DTOs
 {
-    public class TrocarSenhaDTO
+    public class TrocarSenhaRequest
     {
         [Required]
         public string SenhaAtual { get; set; }

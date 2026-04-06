@@ -2,7 +2,7 @@
 
 namespace API_backEnd.DTOs
 {
-    public class RecadastrarReservaDTO
+    public class RecadastrarReservaRequest
     {
         [Required(ErrorMessage = "CPF é obrigatório")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "CPF deve ter 11 dígitos")]

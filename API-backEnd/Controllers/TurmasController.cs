@@ -24,7 +24,7 @@ namespace API_backEnd.Controllers
             var turmas = db.TabelaTurmas
                 .Where(c => c.IsAtivo)
                 .AsEnumerable()
-                .Select(c => new TurmaResponseDTO
+                .Select(c => new TurmaResponse
                 {
                     IdTurma = c.Id,
                     NomeTurma = c.Turma,
@@ -38,7 +38,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult CriarTurma(TurmaCreateDTO dto)
+        public IActionResult CriarTurma(CriarTurmaDTO dto)
         {
             if (!ModelState.IsValid)
             {
@@ -68,7 +68,7 @@ namespace API_backEnd.Controllers
         }
 
         // deletar turma
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpDelete("{IdTurma}")]
         public IActionResult DeletarTurma(int IdTurma)
         {
@@ -85,7 +85,22 @@ namespace API_backEnd.Controllers
             return Ok("Turma deletada com sucesso");
         }
 
-        
+
         // editar turma ?
+        [Authorize(Roles = "admin")]
+        [HttpPut("{IdTurma}")]
+        public IActionResult EditarTurma(int IdTurma)
+        {
+            var curso = db.TabelaTurmas.SingleOrDefault(t => t.Id == IdTurma);
+
+            if(curso == null)
+            {
+                return NotFound("Turma não encontrado");
+            }
+
+            
+
+            return Ok("Turma editada com sucesso");
+        }
     }
 }

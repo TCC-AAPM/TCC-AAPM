@@ -1,6 +1,6 @@
 ﻿namespace API_backEnd.DTOs
 {
-    public class DadosRecadastroDTO
+    public class RecadastroResponse
     {
         public string Nome { get; set; }
         public string Telefone { get; set; }

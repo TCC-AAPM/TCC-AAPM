@@ -1,6 +1,6 @@
 ﻿namespace API_backEnd.DTOs
 {
-    public class AlunoReservaDTO
+    public class AlunoComReserva
     {
         public string NomeAluno { get; set; }
         public int NumeroArmario { get; set; }

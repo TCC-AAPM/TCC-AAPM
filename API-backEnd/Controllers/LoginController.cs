@@ -26,7 +26,7 @@ namespace API_backEnd.Controllers
             _config = config;
         }
         [HttpPost]
-        public IActionResult Login(LoginDTO login)
+        public IActionResult Login(LoginRequest login)
         {
             if (!ModelState.IsValid)
             {
