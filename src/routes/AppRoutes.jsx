@@ -7,7 +7,7 @@ import AcessoNegado from "../pages/AcessoNegado/AcessoNegado.jsx";
 import EsqueciSenha from "../pages/Senha/EsqueciSenha/EsqueciSenha.jsx";
 import CodigoSenha from "../pages/Senha/CodigoSenha/CodigoSenha.jsx";
 import RedefinirSenha from "../pages/Senha/RedefinirSenha/RedefinirSenha.jsx";
-
+import TelaPrincipal from "../pages/Usuário/TelaPrincipal/TelaPrincipal.jsx";
 // adm
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
 
@@ -21,6 +21,7 @@ export default function AppRoutes() {
       <Route path="/senha/esqueci" element={<EsqueciSenha />} />
       <Route path="/senha/codigo" element={<CodigoSenha />} />
       <Route path="/senha/redefinir" element={<RedefinirSenha />} />
+      <Route path="/usuario/tela-principal" element={<TelaPrincipal />} />
 
       <Route
         path="/admin/dashboard"

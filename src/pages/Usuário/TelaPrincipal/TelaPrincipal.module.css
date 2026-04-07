@@ -1,17 +1,27 @@
-/* TelaPrincipal.module.css */
-
-.page {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.principalBox {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
 }
 
-/* ── Top Bar ── */
+.containerGeral {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 60px);
+  padding: 20px;
+  padding-top: 80px; 
+}
+
 .topBar {
-  position: relative;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   padding: 0.5rem 1rem;
   z-index: 20;
 }
@@ -27,6 +37,9 @@
   border: none;
   cursor: pointer;
   color: var(--white);
+  position: absolute;
+  right: 70px;
+  top: 12px;
 }
 
 .btnMenu .material-symbols-outlined,
@@ -34,25 +47,26 @@
   font-size: 3rem;
 }
 
-/* ── Menu Flutuante ── */
 .menuFlutuante {
   position: fixed;
   top: 0;
-  left: -250px;
+  left: 0; /* 👈 muda aqui */
+
   width: 250px;
   height: 100vh;
+
   background-color: var(--light-blue);
+
   padding-top: 100px;
-  transition: left 0.3s ease;
-  z-index: 15;
+
+  z-index: 30;
+
   box-shadow: 4px 0 8px rgba(151, 175, 255, 0.2);
+
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
-
-/* No JSX você já renderiza condicionalmente — se quiser animação,
-   pode trocar por sempre renderizar e usar classe aberto/fechado */
 
 .menuFlutuante a {
   font-size: 18px;
@@ -72,7 +86,6 @@
   color: #f87171 !important;
 }
 
-/* ── Content ── */
 .content {
   flex: 1;
   display: flex;
@@ -90,7 +103,6 @@
   margin: 0;
 }
 
-/* ── Card ── */
 .card {
   background-color: var(--light-blue);
   color: var(--white);
@@ -139,12 +151,10 @@
   font-weight: 600;
 }
 
-/* ── Dark mode ── */
 :global(.dark-mode) .card {
   background-color: var(--dark-blue);
 }
 
-/* ── Responsive ── */
 @media (min-width: 720px) {
   .card {
     width: 35rem;

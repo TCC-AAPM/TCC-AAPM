@@ -6,7 +6,11 @@ import styles from "./TelaPrincipal.module.css";
 export default function TelaPrincipal() {
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
-  const [dados, setDados] = useState({ nome: "", numArmario: "-", dataFim: "-" });
+  const [dados, setDados] = useState({
+    nome: "",
+    numArmario: "-",
+    dataFim: "-",
+  });
   const menuRef = useRef();
 
   useEffect(() => {
@@ -25,7 +29,8 @@ export default function TelaPrincipal() {
     if (!usuario) return;
 
     // Busca dados do aluno pela API
-    const token = localStorage.getItem("token") || sessionStorage.getItem("token");
+    const token =
+      localStorage.getItem("token") || sessionStorage.getItem("token");
     fetch(`/api/Aluno/${usuario.id}`, {
       headers: { Authorization: `Bearer ${token}` },
     })
@@ -34,7 +39,9 @@ export default function TelaPrincipal() {
         setDados({
           nome: data.nome,
           numArmario: data.numArmario ?? "-",
-          dataFim: data.dataFim ? new Date(data.dataFim).toLocaleDateString("pt-BR") : "-",
+          dataFim: data.dataFim
+            ? new Date(data.dataFim).toLocaleDateString("pt-BR")
+            : "-",
         });
       })
       .catch(() => {});
@@ -47,24 +54,30 @@ export default function TelaPrincipal() {
   }
 
   return (
-    <div className={styles.page}>
+    <div className={styles.containerGeral}>
       <div className={styles.topBar}>
-        <button className={styles.btnMenu} onClick={() => setMenuAberto(!menuAberto)}>
+        <button
+          className={styles.btnMenu}
+          onClick={() => setMenuAberto(!menuAberto)}
+        >
           <span className="material-symbols-outlined">menu</span>
         </button>
-        <span className={styles.logo}>AAPM</span>
-        <div style={{ width: 32 }} />
-
         {menuAberto && (
           <div className={styles.menuFlutuante} ref={menuRef}>
-            <a onClick={() => navigate("/usuario/ver-informacoes")}>Veja seus dados</a>
-            <a onClick={() => navigate("/usuario/modificar-senha")}>Modificar sua senha</a>
-            <a onClick={sair} className={styles.sair}>Sair</a>
+            <a onClick={() => navigate("/usuario/ver-informacoes")}>
+              Veja seus dados
+            </a>
+            <a onClick={() => navigate("/usuario/modificar-senha")}>
+              Modificar sua senha
+            </a>
+            <a onClick={sair} className={styles.sair}>
+              Sair
+            </a>
           </div>
         )}
       </div>
 
-      <div className={styles.content}>
+      <div className={styles.principalBox}>
         <p className={styles.saudacao}>Olá, {dados.nome || "Usuário"}!</p>
 
         <div className={styles.card}>
@@ -83,7 +96,6 @@ export default function TelaPrincipal() {
           </div>
         </div>
       </div>
-
     </div>
   );
 }

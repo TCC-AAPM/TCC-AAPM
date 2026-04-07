@@ -90,9 +90,8 @@ function Card({ s }) {
 }
 
 export default function App() {
-
   const navigate = useNavigate();
-  
+
   return (
     <>
       <div className={styles.blob1} />
