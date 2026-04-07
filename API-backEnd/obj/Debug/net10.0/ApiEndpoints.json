@@ -9,7 +9,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.CriarAdminDTO",
+        "Type": "API_backEnd.DTOs.Admin.CriarAdminRequest",
         "IsRequired": true
       }
     ],
@@ -30,7 +30,7 @@
       },
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.ConfirmarSenhaDTO",
+        "Type": "API_backEnd.DTOs.Auth.ConfirmarSenhaRequest",
         "IsRequired": true
       }
     ],
@@ -56,7 +56,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.TrocarSenhaDTO",
+        "Type": "API_backEnd.DTOs.Auth.TrocarSenhaRequest",
         "IsRequired": true
       }
     ],
@@ -72,7 +72,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.BuscarAlunoPorCpfDTO",
+        "Type": "API_backEnd.DTOs.Aluno.BuscarAlunoPorCpfRequest",
         "IsRequired": true
       }
     ],
@@ -88,7 +88,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.ConfirmarSenhaDTO",
+        "Type": "API_backEnd.DTOs.Auth.ConfirmarSenhaRequest",
         "IsRequired": true
       }
     ],
@@ -124,7 +124,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.TrocarSenhaDTO",
+        "Type": "API_backEnd.DTOs.Auth.TrocarSenhaRequest",
         "IsRequired": true
       }
     ],
@@ -208,7 +208,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.CriarArmarioDTO",
+        "Type": "API_backEnd.DTOs.Armario.CriarArmarioRequest",
         "IsRequired": true
       }
     ],
@@ -229,7 +229,7 @@
       },
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.MudarEstadoArmarioDTO",
+        "Type": "API_backEnd.DTOs.Armario.AtualizarEstadoArmarioRequest",
         "IsRequired": true
       }
     ],
@@ -245,7 +245,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.TransferirArmarioDTO",
+        "Type": "API_backEnd.DTOs.Armario.TransferirAlunoArmarioRequest",
         "IsRequired": true
       }
     ],
@@ -264,14 +264,35 @@
   {
     "ContainingType": "API_backEnd.Controllers.CursosController",
     "Method": "DeletarCurso",
-    "RelativePath": "api/Cursos/{IdCurso}",
+    "RelativePath": "api/Cursos/{idCurso}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "IdCurso",
+        "Name": "idCurso",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.CursosController",
+    "Method": "EditarCurso",
+    "RelativePath": "api/Cursos/{idCurso}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idCurso",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Curso.CursoRequest",
         "IsRequired": true
       }
     ],
@@ -287,7 +308,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.CursoCreateDTO",
+        "Type": "API_backEnd.DTOs.Curso.CursoRequest",
         "IsRequired": true
       }
     ],
@@ -303,7 +324,7 @@
     "Parameters": [
       {
         "Name": "login",
-        "Type": "API_backEnd.DTOs.LoginDTO",
+        "Type": "API_backEnd.DTOs.Auth.LoginRequest",
         "IsRequired": true
       }
     ],
@@ -319,7 +340,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.CriarReservaDTO",
+        "Type": "API_backEnd.DTOs.Reserva.CriarReservaRequest",
         "IsRequired": true
       }
     ],
@@ -335,7 +356,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.RecadastrarReservaDTO",
+        "Type": "API_backEnd.DTOs.Reserva.RecadastrarReservaRequest",
         "IsRequired": true
       }
     ],
@@ -361,7 +382,28 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.TurmaCreateDTO",
+        "Type": "API_backEnd.DTOs.Turma.CriarTurmaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.TurmasController",
+    "Method": "EditarTurma",
+    "RelativePath": "api/Turmas/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Turma.EditarTurmaRequest",
         "IsRequired": true
       }
     ],
@@ -385,14 +427,14 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.TurmasController",
-    "Method": "EditarTurma",
-    "RelativePath": "api/Turmas/{IdTurma}",
-    "HttpMethod": "PUT",
+    "Method": "GetTurmaPorCurso",
+    "RelativePath": "api/Turmas/por-curso/{idCurso}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "IdTurma",
+        "Name": "idCurso",
         "Type": "System.Int32",
         "IsRequired": true
       }

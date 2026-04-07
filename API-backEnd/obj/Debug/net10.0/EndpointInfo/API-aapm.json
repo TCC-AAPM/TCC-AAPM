@@ -26,17 +26,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarAdminDTO"
+                "$ref": "#/components/schemas/CriarAdminRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarAdminDTO"
+                "$ref": "#/components/schemas/CriarAdminRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarAdminDTO"
+                "$ref": "#/components/schemas/CriarAdminRequest"
               }
             }
           }
@@ -57,17 +57,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TrocarSenhaDTO"
+                "$ref": "#/components/schemas/TrocarSenhaRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TrocarSenhaDTO"
+                "$ref": "#/components/schemas/TrocarSenhaRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TrocarSenhaDTO"
+                "$ref": "#/components/schemas/TrocarSenhaRequest"
               }
             }
           }
@@ -99,17 +99,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmarSenhaDTO"
+                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmarSenhaDTO"
+                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmarSenhaDTO"
+                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
               }
             }
           }
@@ -142,17 +142,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TrocarSenhaDTO"
+                "$ref": "#/components/schemas/TrocarSenhaRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TrocarSenhaDTO"
+                "$ref": "#/components/schemas/TrocarSenhaRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TrocarSenhaDTO"
+                "$ref": "#/components/schemas/TrocarSenhaRequest"
               }
             }
           }
@@ -173,17 +173,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmarSenhaDTO"
+                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmarSenhaDTO"
+                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ConfirmarSenhaDTO"
+                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
               }
             }
           }
@@ -204,17 +204,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/BuscarAlunoPorCpfDTO"
+                "$ref": "#/components/schemas/BuscarAlunoPorCpfRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/BuscarAlunoPorCpfDTO"
+                "$ref": "#/components/schemas/BuscarAlunoPorCpfRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/BuscarAlunoPorCpfDTO"
+                "$ref": "#/components/schemas/BuscarAlunoPorCpfRequest"
               }
             }
           }
@@ -315,17 +315,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarArmarioDTO"
+                "$ref": "#/components/schemas/CriarArmarioRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarArmarioDTO"
+                "$ref": "#/components/schemas/CriarArmarioRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarArmarioDTO"
+                "$ref": "#/components/schemas/CriarArmarioRequest"
               }
             }
           }
@@ -346,17 +346,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TransferirArmarioDTO"
+                "$ref": "#/components/schemas/TransferirAlunoArmarioRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TransferirArmarioDTO"
+                "$ref": "#/components/schemas/TransferirAlunoArmarioRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TransferirArmarioDTO"
+                "$ref": "#/components/schemas/TransferirAlunoArmarioRequest"
               }
             }
           }
@@ -411,17 +411,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/MudarEstadoArmarioDTO"
+                "$ref": "#/components/schemas/AtualizarEstadoArmarioRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/MudarEstadoArmarioDTO"
+                "$ref": "#/components/schemas/AtualizarEstadoArmarioRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/MudarEstadoArmarioDTO"
+                "$ref": "#/components/schemas/AtualizarEstadoArmarioRequest"
               }
             }
           }
@@ -454,17 +454,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CursoCreateDTO"
+                "$ref": "#/components/schemas/CursoRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CursoCreateDTO"
+                "$ref": "#/components/schemas/CursoRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CursoCreateDTO"
+                "$ref": "#/components/schemas/CursoRequest"
               }
             }
           }
@@ -476,14 +476,14 @@
         }
       }
     },
-    "/api/Cursos/{IdCurso}": {
+    "/api/Cursos/{idCurso}": {
       "delete": {
         "tags": [
           "Cursos"
         ],
         "parameters": [
           {
-            "name": "IdCurso",
+            "name": "idCurso",
             "in": "path",
             "required": true,
             "schema": {
@@ -492,6 +492,46 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Cursos"
+        ],
+        "parameters": [
+          {
+            "name": "idCurso",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success"
@@ -508,17 +548,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/LoginDTO"
+                "$ref": "#/components/schemas/LoginRequest"
               }
             }
           }
@@ -539,17 +579,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarReservaDTO"
+                "$ref": "#/components/schemas/CriarReservaRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarReservaDTO"
+                "$ref": "#/components/schemas/CriarReservaRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarReservaDTO"
+                "$ref": "#/components/schemas/CriarReservaRequest"
               }
             }
           }
@@ -570,17 +610,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/RecadastrarReservaDTO"
+                "$ref": "#/components/schemas/RecadastrarReservaRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/RecadastrarReservaDTO"
+                "$ref": "#/components/schemas/RecadastrarReservaRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/RecadastrarReservaDTO"
+                "$ref": "#/components/schemas/RecadastrarReservaRequest"
               }
             }
           }
@@ -611,21 +651,44 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/TurmaCreateDTO"
+                "$ref": "#/components/schemas/CriarTurmaRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/TurmaCreateDTO"
+                "$ref": "#/components/schemas/CriarTurmaRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/TurmaCreateDTO"
+                "$ref": "#/components/schemas/CriarTurmaRequest"
               }
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Turmas/por-curso/{idCurso}": {
+      "get": {
+        "tags": [
+          "Turmas"
+        ],
+        "parameters": [
+          {
+            "name": "idCurso",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -654,14 +717,16 @@
             "description": "Success"
           }
         }
-      },
+      }
+    },
+    "/api/Turmas/{id}": {
       "put": {
         "tags": [
           "Turmas"
         ],
         "parameters": [
           {
-            "name": "IdTurma",
+            "name": "id",
             "in": "path",
             "required": true,
             "schema": {
@@ -670,6 +735,25 @@
             }
           }
         ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditarTurmaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditarTurmaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditarTurmaRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success"
@@ -680,7 +764,23 @@
   },
   "components": {
     "schemas": {
-      "BuscarAlunoPorCpfDTO": {
+      "AtualizarEstadoArmarioRequest": {
+        "required": [
+          "estado"
+        ],
+        "type": "object",
+        "properties": {
+          "estado": {
+            "$ref": "#/components/schemas/EstadoArmario"
+          },
+          "observacao": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "BuscarAlunoPorCpfRequest": {
         "required": [
           "cpf"
         ],
@@ -694,7 +794,7 @@
         },
         "additionalProperties": false
       },
-      "ConfirmarSenhaDTO": {
+      "ConfirmarSenhaRequest": {
         "required": [
           "senha"
         ],
@@ -707,7 +807,7 @@
         },
         "additionalProperties": false
       },
-      "CriarAdminDTO": {
+      "CriarAdminRequest": {
         "required": [
           "cpf",
           "email",
@@ -738,7 +838,7 @@
         },
         "additionalProperties": false
       },
-      "CriarArmarioDTO": {
+      "CriarArmarioRequest": {
         "required": [
           "estado",
           "numeroArmario"
@@ -759,7 +859,7 @@
         },
         "additionalProperties": false
       },
-      "CriarReservaDTO": {
+      "CriarReservaRequest": {
         "required": [
           "cpf",
           "email",
@@ -813,7 +913,33 @@
         },
         "additionalProperties": false
       },
-      "CursoCreateDTO": {
+      "CriarTurmaRequest": {
+        "required": [
+          "idCurso",
+          "nomeTurma",
+          "periodo",
+          "semestreInicio"
+        ],
+        "type": "object",
+        "properties": {
+          "nomeTurma": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "idCurso": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "periodo": {
+            "$ref": "#/components/schemas/PeriodoTurma"
+          },
+          "semestreInicio": {
+            "$ref": "#/components/schemas/Semestre"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CursoRequest": {
         "required": [
           "nome"
         ],
@@ -822,6 +948,32 @@
           "nome": {
             "minLength": 1,
             "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "EditarTurmaRequest": {
+        "required": [
+          "idCurso",
+          "nomeTurma",
+          "periodo",
+          "semestreInicio"
+        ],
+        "type": "object",
+        "properties": {
+          "nomeTurma": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "idCurso": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "periodo": {
+            "$ref": "#/components/schemas/PeriodoTurma"
+          },
+          "semestreInicio": {
+            "$ref": "#/components/schemas/Semestre"
           }
         },
         "additionalProperties": false
@@ -836,7 +988,7 @@
         ],
         "type": "string"
       },
-      "LoginDTO": {
+      "LoginRequest": {
         "required": [
           "email",
           "senha"
@@ -855,22 +1007,6 @@
         },
         "additionalProperties": false
       },
-      "MudarEstadoArmarioDTO": {
-        "required": [
-          "estado"
-        ],
-        "type": "object",
-        "properties": {
-          "estado": {
-            "$ref": "#/components/schemas/EstadoArmario"
-          },
-          "observacao": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "PeriodoTurma": {
         "enum": [
           "M",
@@ -880,7 +1016,7 @@
         ],
         "type": "string"
       },
-      "RecadastrarReservaDTO": {
+      "RecadastrarReservaRequest": {
         "required": [
           "cpf",
           "email",
@@ -938,12 +1074,12 @@
       },
       "Semestre": {
         "enum": [
-          "Primeiro",
-          "Segundo"
+          "P",
+          "S"
         ],
         "type": "string"
       },
-      "TransferirArmarioDTO": {
+      "TransferirAlunoArmarioRequest": {
         "required": [
           "numeroArmarioAtual",
           "numeroArmarioNovo",
@@ -966,7 +1102,7 @@
         },
         "additionalProperties": false
       },
-      "TrocarSenhaDTO": {
+      "TrocarSenhaRequest": {
         "required": [
           "confirmarSenha",
           "senhaAtual",
@@ -985,32 +1121,6 @@
           "confirmarSenha": {
             "minLength": 1,
             "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TurmaCreateDTO": {
-        "required": [
-          "idCurso",
-          "nomeTurma",
-          "periodo",
-          "semestreInicio"
-        ],
-        "type": "object",
-        "properties": {
-          "nomeTurma": {
-            "minLength": 1,
-            "type": "string"
-          },
-          "idCurso": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "periodo": {
-            "$ref": "#/components/schemas/PeriodoTurma"
-          },
-          "semestreInicio": {
-            "$ref": "#/components/schemas/Semestre"
           }
         },
         "additionalProperties": false

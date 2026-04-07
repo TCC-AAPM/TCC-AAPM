@@ -1,4 +1,5 @@
 ﻿using API_backEnd.DTOs;
+using API_backEnd.DTOs.Curso;
 using API_backEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -20,7 +21,7 @@ namespace API_backEnd.Controllers
         public IActionResult GetCurso()
         {
             var cursos = db.TabelaCursos.Where(c => c.IsAtivo)
-                .Select(c => new CursoResponseDTO
+                .Select(c => new CursoResponse
                 {
                     Id = c.Id,
                     Nome = c.Nome
@@ -31,7 +32,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost("criar-curso")]
-        public IActionResult CriarCurso(CursoCreateDTO dto)
+        public IActionResult CriarCurso(CursoRequest dto)
         {
             if (!ModelState.IsValid)
             {
@@ -54,10 +55,10 @@ namespace API_backEnd.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpDelete("{IdCurso}")]
-        public IActionResult DeletarCurso(int IdCurso) 
+        [HttpDelete("{idCurso}")]
+        public IActionResult DeletarCurso(int idCurso) 
         {
-            var curso = db.TabelaCursos.FirstOrDefault(c => c.Id == IdCurso);
+            var curso = db.TabelaCursos.FirstOrDefault(c => c.Id == idCurso);
 
             if (curso == null)
             {
@@ -69,6 +70,24 @@ namespace API_backEnd.Controllers
             return Ok("Curso deletado com sucesso");
         }
 
-        // editar Curso ?
+        //[Authorize(Roles = "admin")]
+        [HttpPut("{idCurso}")]
+        public IActionResult EditarCurso(int idCurso, CursoRequest dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var curso = db.TabelaCursos.FirstOrDefault(c => c.Id == idCurso);
+            
+            if(curso == null)
+            {
+                return NotFound("Curso não encontrado");
+            }
+            
+            curso.Nome = dto.Nome.Trim();
+            db.SaveChanges();
+            return Ok("Curso editado com sucesso");
+        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API_backEnd.DTOs
+namespace API_backEnd.DTOs.Curso
 {
-    public class CursoCreateDTO
+    public class CursoRequest
     {
         [Required(ErrorMessage = "Digite o nome do curso")]
         public string Nome { get; set; }

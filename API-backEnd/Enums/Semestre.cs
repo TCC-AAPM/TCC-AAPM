@@ -2,7 +2,7 @@
 {
     public enum Semestre
     {
-        Primeiro = 1,
-        Segundo = 2
+        P, //primeiro
+        S //segundo
     }
 }

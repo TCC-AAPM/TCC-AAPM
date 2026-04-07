@@ -1,4 +1,7 @@
 ﻿using API_backEnd.DTOs;
+using API_backEnd.DTOs.Aluno;
+using API_backEnd.DTOs.Auth;
+using API_backEnd.DTOs.Reserva;
 using API_backEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -52,7 +55,7 @@ namespace API_backEnd.Controllers
                 join p in db.TabelaPagamentos on a.Id equals p.IdAluno into pagamentos
                 from p in pagamentos.DefaultIfEmpty()
                 where a.IdUsuario == id
-                select new DadosAlunoDTO
+                select new AlunoLogadoResponse
                 {
                     NumeroArmario = tr.IdArmario,
                     Nome = a.Nome,
@@ -132,7 +135,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "aluno")]
         [HttpPost("deletar-conta")]
-        public IActionResult DeletarConta(ConfirmarSenhaDTO dto)
+        public IActionResult DeletarConta(ConfirmarSenhaRequest dto)
         {
             if (!ModelState.IsValid) {
                 return BadRequest(ModelState);
@@ -200,7 +203,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost("buscar-por-cpf")]
-        public IActionResult BuscarPorCPF(BuscarAlunoPorCpfDTO dto)
+        public IActionResult BuscarPorCPF(BuscarAlunoPorCpfRequest dto)
         {
             if (!ModelState.IsValid)
             {
@@ -233,7 +236,7 @@ namespace API_backEnd.Controllers
             (
                 from r in db.TabelaReservaArmarios
                 join a in db.TabelaAlunos on r.IdAluno equals a.Id
-                select new HistoricoResponse
+                select new HistoricoReservaResponse
                 {
                     Nome = a.Nome,
                     CPF = a.Cpf,

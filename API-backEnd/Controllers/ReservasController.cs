@@ -1,11 +1,11 @@
-﻿using API_backEnd.DTOs;
-using API_backEnd.Enums;
+﻿using API_backEnd.Enums;
 using API_backEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.RegularExpressions;
 using Microsoft.EntityFrameworkCore;
+using API_backEnd.DTOs.Reserva;
 
 namespace API_backEnd.Controllers
 {
@@ -21,7 +21,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult CadastroCompleto(CriarReservaDTO dto)
+        public IActionResult CadastroCompleto(CriarReservaRequest dto)
         {
             if (!ModelState.IsValid)
             {

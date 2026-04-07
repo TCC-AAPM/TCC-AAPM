@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API_backEnd.DTOs
+namespace API_backEnd.DTOs.Reserva
 {
     public class RecadastrarReservaRequest
     {

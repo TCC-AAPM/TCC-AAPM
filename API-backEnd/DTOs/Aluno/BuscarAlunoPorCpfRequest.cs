@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API_backEnd.DTOs
+namespace API_backEnd.DTOs.Aluno
 {
-    public class BuscarAlunoPorCpfDTO
+    public class BuscarAlunoPorCpfRequest
     {
         [Required(ErrorMessage = "CPF é obrigatório")]
         [StringLength(11, MinimumLength = 11, ErrorMessage = "CPF deve ter 11 dígitos")]

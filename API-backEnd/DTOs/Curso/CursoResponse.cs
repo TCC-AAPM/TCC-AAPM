@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API_backEnd.DTOs
+namespace API_backEnd.DTOs.Curso
 {
-    public class CursoResponseDTO
+    public class CursoResponse
     {
         public int Id { get; set; }
         public string Nome { get; set; }

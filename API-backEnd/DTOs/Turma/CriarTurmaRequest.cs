@@ -1,9 +1,9 @@
 ﻿using API_backEnd.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace API_backEnd.DTOs
+namespace API_backEnd.DTOs.Turma
 {
-    public class CriarTurmaDTO
+    public class CriarTurmaRequest
     {
         [Required(ErrorMessage = "Digite o nome da turma")]
         public string NomeTurma { get; set; }

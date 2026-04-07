@@ -1,6 +1,6 @@
-﻿namespace API_backEnd.DTOs
+﻿namespace API_backEnd.DTOs.Reserva
 {
-    public class HistoricoResponse
+    public class HistoricoReservaResponse
     {
         public string Nome { get; set; }
         public string CPF { get; set; }

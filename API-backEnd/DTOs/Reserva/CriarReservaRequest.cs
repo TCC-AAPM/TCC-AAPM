@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API_backEnd.DTOs
+namespace API_backEnd.DTOs.Reserva
 {
-    public class CriarReservaDTO
+    public class CriarReservaRequest
     {
         [Required]
         public int IdArmario { get; set; }

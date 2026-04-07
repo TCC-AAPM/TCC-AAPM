@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace API_backEnd.DTOs
+namespace API_backEnd.DTOs.Admin
 {
-    public class CriarAdminDTO
+    public class CriarAdminRequest
     {
         [Required(ErrorMessage = "Nome é obrigatório")]
         public string Nome { get; set; }

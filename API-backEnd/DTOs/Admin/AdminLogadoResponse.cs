@@ -1,6 +1,6 @@
-﻿namespace API_backEnd.DTOs
+﻿namespace API_backEnd.DTOs.Admin
 {
-    public class DadosAdminDTO
+    public class AdminLogadoResponse
     {
         public string Nome { get; set; }
         public string Email { get; set; }

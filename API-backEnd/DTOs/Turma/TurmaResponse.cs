@@ -1,6 +1,6 @@
 ﻿using API_backEnd.Enums;
 
-namespace API_backEnd.DTOs
+namespace API_backEnd.DTOs.Turma
 {
     public class TurmaResponse
     {

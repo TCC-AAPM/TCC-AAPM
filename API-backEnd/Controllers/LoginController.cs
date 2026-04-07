@@ -1,4 +1,4 @@
-﻿using API_backEnd.DTOs;
+﻿using API_backEnd.DTOs.Auth;
 using API_backEnd.Models;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Authorization;

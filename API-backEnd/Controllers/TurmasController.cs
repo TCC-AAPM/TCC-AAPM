@@ -1,4 +1,6 @@
 ﻿using API_backEnd.DTOs;
+using API_backEnd.DTOs.Curso;
+using API_backEnd.DTOs.Turma;
 using API_backEnd.Enums;
 using API_backEnd.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -37,8 +39,23 @@ namespace API_backEnd.Controllers
         }
 
         [Authorize(Roles = "admin")]
+        [HttpGet("por-curso/{idCurso}")]
+        public IActionResult GetTurmaPorCurso(int idCurso)
+        {
+            var turmas = db.TabelaTurmas
+                .Where(t => t.CursoId == idCurso && t.IsAtivo)
+                .Select(t => new TurmaPorCursoResponse
+                {
+                    NomeCurso = t.Curso.Nome,
+                    NomeTurma = t.Turma
+                }).ToList();
+
+            return Ok(turmas);
+        }
+
+        [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult CriarTurma(CriarTurmaDTO dto)
+        public IActionResult CriarTurma(CriarTurmaRequest dto)
         {
             if (!ModelState.IsValid)
             {
@@ -88,17 +105,31 @@ namespace API_backEnd.Controllers
 
         // editar turma ?
         [Authorize(Roles = "admin")]
-        [HttpPut("{IdTurma}")]
-        public IActionResult EditarTurma(int IdTurma)
+        [HttpPut("{id}")]
+        public IActionResult EditarTurma(int id, EditarTurmaRequest dto)
         {
-            var curso = db.TabelaTurmas.SingleOrDefault(t => t.Id == IdTurma);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var turma = db.TabelaTurmas.SingleOrDefault(t => t.Id == id);
 
-            if(curso == null)
+            if(turma == null)
             {
                 return NotFound("Turma não encontrado");
             }
+            var cursoExiste = db.TabelaCursos.Any(c => c.Id == dto.IdCurso);
 
-            
+            if (!cursoExiste)
+            {
+                return BadRequest("Curso inválido");
+            }
+
+            turma.Turma = dto.NomeTurma;
+            turma.CursoId = dto.IdCurso;
+            turma.Periodo = dto.Periodo.ToString();
+            turma.SemestreInicio = dto.SemestreInicio;
+            db.SaveChanges();
 
             return Ok("Turma editada com sucesso");
         }

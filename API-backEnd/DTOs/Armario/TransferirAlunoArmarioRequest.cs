@@ -1,9 +1,9 @@
 ﻿using API_backEnd.Enums;
 using System.ComponentModel.DataAnnotations;
 
-namespace API_backEnd.DTOs
+namespace API_backEnd.DTOs.Armario
 {
-    public class TransferirArmarioRequest
+    public class TransferirAlunoArmarioRequest
     {
         [Required]
         public int NumeroArmarioAtual { get; set; }

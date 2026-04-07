@@ -1,4 +1,6 @@
 ﻿using API_backEnd.DTOs;
+using API_backEnd.DTOs.Admin;
+using API_backEnd.DTOs.Auth;
 using API_backEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -37,7 +39,7 @@ namespace API_backEnd.Controllers
                 NotFound("Admin não encontrado");
             }
 
-            var dadosAdmin = new DadosAdminDTO
+            var dadosAdmin = new AdminLogadoResponse
             {
                 Nome = admin.Nome,
                 Email = admin.Email,
@@ -50,7 +52,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult CriarAdmin(CriarAdminDTO dto)
+        public IActionResult CriarAdmin(CriarAdminRequest dto)
         {
             if (!ModelState.IsValid)
             {
@@ -151,7 +153,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost("{id}/excluir")]
-        public IActionResult DeletarAdmin(int id, ConfirmarSenhaDTO dto)
+        public IActionResult DeletarAdmin(int id, ConfirmarSenhaRequest dto)
         {
             if (!ModelState.IsValid)
             {
