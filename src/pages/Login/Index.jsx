@@ -99,16 +99,6 @@ async function handleSubmit(e) {
           </div>
 
           <div className={styles.containerOpcoes}>
-            <div style={{ display: "flex", alignItems: "center", gap: "6px", fontSize: "14px" }}>
-              <input
-                type="checkbox"
-                className={styles.remember}
-                checked={lembrar}
-                onChange={(e) => setLembrar(e.target.checked)}
-              />
-              <label className="form-check-label">Lembre de mim</label>
-            </div>
-
             <div style={{ display: "flex", alignItems: "center", fontSize: "14px" }}>
               <label
                 style={{ cursor: "pointer", color: "white" }}

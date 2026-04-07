@@ -10,7 +10,7 @@
     --bg-primary: #ffffff;
     --bg-secondary: #f8fafc;
     --bg-card: #ffffff;
-    --text-primary: #ffffff;
+    --text-primary: #000000cb;
     --text-secondary: #64748b;
     --border-color: #e2e8f0;
 
@@ -41,6 +41,10 @@ body.dark-mode {
     box-sizing: border-box;
 }
 
+html {
+    overflow-x: hidden;
+}
+
 /* ========== BASE ========== */
 
 body {
@@ -55,6 +59,7 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
+    overflow-x: hidden;
 }
 
 body.dark-mode {

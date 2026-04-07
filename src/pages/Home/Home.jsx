@@ -1,4 +1,5 @@
 import styles from "./Home.module.css";
+import { useNavigate } from "react-router-dom";
 
 function Icon({ name, className }) {
   return (
@@ -38,7 +39,7 @@ const services = [
       "Vaga garantida",
       "Monitoramento por câmeras",
       "Turnos manhã, tarde e noite",
-      "Pagamento por Pix"
+      "Pagamento por Pix",
     ],
   },
 ];
@@ -85,13 +86,10 @@ function Card({ s }) {
   );
 }
 
-const footerLinks = {
-  Serviços: ["Armário", "Estacionamento"],
-  AAPM: ["Sobre nós", "Contato", "Regulamento"],
-  Suporte: ["Dúvidas frequentes", "Abrir chamado"],
-};
-
 export default function App() {
+
+  const navigate = useNavigate();
+  
   return (
     <>
       <div className={styles.blob1} />
@@ -111,7 +109,12 @@ export default function App() {
           </div>
         </div>
         <div className={styles.navActions}>
-          <button className={styles.btnGhost}>Entrar</button>
+          <button
+            className={styles.btnGhost}
+            onClick={() => navigate("/login")}
+          >
+            Entrar
+          </button>
           <button className={styles.btnSolid}>Cadastrar</button>
         </div>
       </nav>
