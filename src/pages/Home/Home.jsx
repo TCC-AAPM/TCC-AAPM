@@ -117,7 +117,6 @@ export default function App() {
           >
             Entrar
           </button>
-          <button className={styles.btnSolid}>Cadastrar</button>
         </div>
       </nav>
 

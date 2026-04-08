@@ -15,11 +15,6 @@ export default function Login() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if(email == "aluno" && senha == "123") {
-      navigate("/usuario/tela-principal");
-      return;
-    }
-
     if (!email || !senha) {
       alertErro("Preencha todos os campos");
       return;
@@ -43,11 +38,7 @@ export default function Login() {
       localStorage.removeItem("token");
       sessionStorage.removeItem("token");
 
-      if (lembrar) {
-        localStorage.setItem("token", token);
-      } else {
-        sessionStorage.setItem("token", token);
-      }
+      localStorage.setItem("token", token);
 
       const payload = JSON.parse(atob(token.split(".")[1]));
       const role =
@@ -132,7 +123,10 @@ export default function Login() {
             </button>
             <div className={styles.registerBox}>
               <span>Ainda não possui cadastro?</span>
-              <button className={styles.buttonSecondary} onClick={() => navigate("/")}>
+              <button
+                className={styles.buttonSecondary}
+                onClick={() => navigate("/")}
+              >
                 Escolher serviço
               </button>
             </div>
