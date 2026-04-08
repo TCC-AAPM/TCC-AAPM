@@ -1,0 +1,96 @@
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import styles from "./VerInformacoes.module.css";
+import Menu from "../../../components/MenuUsuario/Menu.jsx";
+import { API_ROUTES } from "../../../utils/auth.js";
+
+const maskCPF = (v) =>
+  v
+    ?.replace(/\D/g, "")
+    .slice(0, 11)
+    .replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4") ?? "";
+
+const maskPhone = (v) =>
+  v
+    ?.replace(/\D/g, "")
+    .slice(0, 11)
+    .replace(/(\d{2})(\d)(\d{4})(\d{4})/, "($1) $2 $3-$4") ?? "";
+
+const METODOS = { A: "Dinheiro", P: "Pix", D: "Débito", C: "Crédito" };
+
+export default function VerInformacoes() {
+  const navigate = useNavigate();
+  const [aluno, setAluno] = useState(null);
+  const [menuAberto, setMenuAberto] = useState(false);
+
+  useEffect(() => {
+    const usuario = getUsuarioLogado();
+    if (!usuario) return;
+
+    const token = localStorage.getItem("token");
+    fetch(API_ROUTES.alunos.VerInformacoes, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((r) => {
+        if (r.status === 401) {
+          navigate("/");
+          return null;
+        }
+        return r.json();
+      })
+      .then((d) => d && setAluno(d));
+  }, [navigate]);
+
+  const sair = () =>
+    Swal.fire({
+      title: "Deseja realmente sair?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sim, sair",
+      cancelButtonText: "Cancelar",
+    }).then((r) => {
+      if (r.isConfirmed) {
+        sessionStorage.clear();
+        localStorage.clear();
+        navigate("/");
+      }
+    });
+
+  const campos = aluno
+    ? [
+        ["Nome de Usuário", aluno.nome],
+        ["CPF", maskCPF(aluno.CPF)],
+        ["Matrícula", aluno.matricula],
+        ["Telefone", maskPhone(aluno.telefone)],
+        ["Email", aluno.email],
+        ["Curso", aluno.nome_curso],
+        ["Turma", aluno.nome_turma],
+        ["Pagamento", METODOS[aluno.metodo]],
+      ]
+    : [];
+
+  return (
+    <div className={styles.containerGeral}>
+      <div className={styles.topBar}>
+        <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
+      </div>
+      <div className={styles.entreAqui}>
+        <span className="material-symbols-outlined">info</span>
+        <h3>Veja seus dados</h3>
+      </div>
+
+      <div className={styles.card}>
+        {campos.map(([label, valor]) => (
+          <div key={label} className={styles.infoSection}>
+            <span className={styles.infoLabel}>{label}</span>
+            <span className={styles.infoValue}>{valor ?? "-"}</span>
+          </div>
+        ))}
+      </div>
+
+      <button className={styles.voltar} onClick={() => navigate(-1)}>
+        ← Voltar
+      </button>
+    </div>
+  );
+}
