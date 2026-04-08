@@ -1,4 +1,5 @@
-﻿using System;
+﻿using API_backEnd.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace API_backEnd.Models;
@@ -7,9 +8,9 @@ public partial class TabelaProduto
 {
     public int Id { get; set; }
 
-    public string? Produto { get; set; }
+    public CategoriaProduto Produto { get; set; }
 
-    public decimal? Preco { get; set; }
+    public decimal Preco { get; set; }
 
     public bool IsAtivo { get; set; }
 

@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\gabriel\\Desktop\\API-aapm\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\turmascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\turmascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\produtoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\produtoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\alunoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\alunoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\dtos\\produto\\produtorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\produto\\produtorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,32 +18,32 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "TurmasController.cs",
-              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\TurmasController.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\TurmasController.cs",
-              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\TurmasController.cs*",
-              "RelativeToolTip": "API-backEnd\\Controllers\\TurmasController.cs*",
-              "ViewState": "AgIAABMAAAAAAAAAAAAgwC0AAAA9AAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "ProdutoRequest.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\DTOs\\Produto\\ProdutoRequest.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Produto\\ProdutoRequest.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\DTOs\\Produto\\ProdutoRequest.cs*",
+              "RelativeToolTip": "API-backEnd\\DTOs\\Produto\\ProdutoRequest.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAoAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T13:34:39.517Z",
+              "WhenOpened": "2026-04-08T12:01:29.549Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "AlunosController.cs",
-              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\AlunosController.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\AlunosController.cs",
-              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\AlunosController.cs",
-              "RelativeToolTip": "API-backEnd\\Controllers\\AlunosController.cs",
-              "ViewState": "AgIAAE8AAAAAAAAAAAAowM0AAABHAAAAAAAAAA==",
+              "DocumentIndex": 0,
+              "Title": "ProdutosController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\ProdutosController.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\ProdutosController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\ProdutosController.cs*",
+              "RelativeToolTip": "API-backEnd\\Controllers\\ProdutosController.cs*",
+              "ViewState": "AgIAAA0AAAAAAAAAAAArwCYAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-07T13:34:14.818Z",
+              "WhenOpened": "2026-04-08T11:47:26.977Z",
               "EditorCaption": ""
             }
           ]

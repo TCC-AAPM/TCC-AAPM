@@ -331,6 +331,37 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API_backEnd.Controllers.ProdutosController",
+    "Method": "GetProdutos",
+    "RelativePath": "api/Produtos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.ProdutosController",
+    "Method": "AlterarPrecoProduto",
+    "RelativePath": "api/Produtos/{idProduto}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "idProduto",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Produto.ProdutoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API_backEnd.Controllers.ReservasController",
     "Method": "CadastroCompleto",
     "RelativePath": "api/Reservas",
