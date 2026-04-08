@@ -4,9 +4,9 @@
   margin: 0 auto;
 }
 
-.containerGeral {
-  flex: 1;
+.principalBox {
   display: flex;
+  flex: 1;
   justify-content: center;
   align-items: center;
   min-height: calc(100vh - 60px);

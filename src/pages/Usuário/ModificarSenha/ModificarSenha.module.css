@@ -1,0 +1,186 @@
+:root {
+  --dark-blue: #0a2f6b;
+  --light-blue: #1f6fe5;
+  --white: #ffffff;
+  --input-bg: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.15);
+}
+
+.principalBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.entreAqui {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white;
+  margin-bottom: 1.5rem;
+}
+
+.entreAqui :global(.material-symbols-outlined) {
+  font-size: 60px;
+}
+
+.form {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.inputBox {
+  position: relative;
+  width: 100%;
+}
+
+.inputBox input {
+  width: 100%;
+  height: 56px;
+  padding: 0 40px 0 14px;
+  font-size: 14px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: white;
+  outline: none;
+
+}
+
+.inputBox label {
+  position: absolute;
+  left: 14px;
+  top: 16px;
+  color: #dcdcdc;
+  font-size: 16px;
+  pointer-events: none;
+  transition: 0.25s ease;
+}
+
+.inputBox input:focus + label,
+.inputBox input:valid + label {
+  top: -20px;
+  left: 10px;
+  font-size: 14px;
+  padding: 0 6px;
+  border-radius: 6px;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  background-image: url("/src/assets/images/olho.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.iconHide {
+  background-image: url("/src/assets/images/olho-fechado.png");
+}
+
+.btnPrimary {
+  background-color: var(--light-blue);
+  border: none;
+  color: white;
+  height: 46px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  width: 100%;
+  transition: 0.2s;
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+}
+
+
+.btnMenu {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--white);
+  position: absolute;
+  right: 70px;
+  top: 12px;
+}
+
+.btnMenu .material-symbols-outlined,
+.btnMenu span {
+  font-size: 3rem;
+}
+
+.menuFlutuante {
+  position: fixed;
+  top: -100vh;
+  right: 0;
+  left: 0;
+  background-color: var(--dark-blue);
+  padding-top: 70px;
+  transition: top 0.3s ease;
+  z-index: 15;
+}
+
+.menuFlutuante.abrir {
+  top: 0;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.menuFlutuante h1 {
+  font-size: 18px;
+  padding: 10px;
+  color: var(--white);
+}
+
+@media (min-width: 768px) {
+  .menuFlutuante {
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100vh;
+    transition: left 0.3s ease;
+  }
+
+  .menuFlutuante.abrir {
+    left: 0;
+  }
+
+  .menuFlutuante h1:hover {
+    background-color: #3b82f6;
+    cursor: pointer;
+  }
+}
+
+.voltar {
+    position: fixed;
+    bottom: 10%;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    transition: all var(--transition);
+}
+
+.voltar:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
