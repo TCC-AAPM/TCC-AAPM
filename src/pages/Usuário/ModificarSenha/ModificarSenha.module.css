@@ -6,6 +6,11 @@
   --border: rgba(255, 255, 255, 0.15);
 }
 
+.containerGeral {
+  display: flex;
+  flex-direction: column;
+}
+
 .principalBox {
   flex: 1;
   display: flex;

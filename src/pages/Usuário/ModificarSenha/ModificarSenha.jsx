@@ -1,14 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import styles from "./ModificarSenha.module.css";
-import {
-  alertErro,
-  alertSucesso,
-  alertConfirmar,
-} from "../../../components/Alerts/Alerts.jsx";
+import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 import { useNavigate } from "react-router-dom";
 import Menu from "../../../components/MenuUsuario/Menu.jsx";
-
-const TOKEN = localStorage.getItem("token") || sessionStorage.getItem("token");
 
 function verificarSenha(senha) {
   const erros = [];
@@ -49,18 +43,6 @@ export default function ModificarSenha() {
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
 
-  useEffect(() => {
-    const handler = (e) => {
-      const menu = document.getElementById("menuFlutuante");
-      const btn = document.getElementById("btnMenu");
-      if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
-        setMenuAberto(false);
-      }
-    };
-    document.addEventListener("click", handler);
-    return () => document.removeEventListener("click", handler);
-  }, []);
-
   async function atualizarSenha(e) {
     e.preventDefault();
 
@@ -75,22 +57,32 @@ export default function ModificarSenha() {
       return;
     }
 
-    const response = await fetch("http://localhost:3000/alunos/senha", {
+    const token =
+      localStorage.getItem("token");
+
+    const response = await fetch("/api/Alunos/trocar-senha", {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${TOKEN}`,
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ senha: senhaAtual, novaSenha }),
+      body: JSON.stringify({
+        senhaAtual,
+        senhaNova: novaSenha,
+        confirmarSenha,
+      }),
     });
+    const text = await response.text();
 
-    const data = await response.json();
     if (!response.ok) {
-      alertErro(data.erro);
+      alertErro(text);
       return;
     }
-    alertSucesso(data.mensagem);
+    alertSucesso(text);
+    navigate("/usuario/tela-principal");
+
   }
+
   function sair() {
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
@@ -99,38 +91,40 @@ export default function ModificarSenha() {
 
   return (
     <>
-      <div className={styles.principalBox}>
-        <div className={styles.topBar}>
-          <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
-        </div>
-        <div className={styles.entreAqui}>
-          <h1 className="material-symbols-outlined">lock_reset</h1>
-          <h3>Modifique sua senha</h3>
-        </div>
+      <div className={styles.containerGeral}>
+        <div className={styles.principalBox}>
+          <div className={styles.topBar}>
+            <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
+          </div>
+          <div className={styles.entreAqui}>
+            <h1 className="material-symbols-outlined">lock_reset</h1>
+            <h3>Modifique sua senha</h3>
+          </div>
 
-        <form onSubmit={atualizarSenha} className={styles.form}>
-          <PasswordInput
-            id="password1"
-            label="Senha Atual"
-            value={senhaAtual}
-            onChange={setSenhaAtual}
-          />
-          <PasswordInput
-            id="password2"
-            label="Nova Senha"
-            value={novaSenha}
-            onChange={setNovaSenha}
-          />
-          <PasswordInput
-            id="password3"
-            label="Confirmar Nova Senha"
-            value={confirmarSenha}
-            onChange={setConfirmarSenha}
-          />
-          <button type="submit" className={styles.btnPrimary}>
-            Modificar
-          </button>
-        </form>
+          <form onSubmit={atualizarSenha} className={styles.form}>
+            <PasswordInput
+              id="password1"
+              label="Senha Atual"
+              value={senhaAtual}
+              onChange={setSenhaAtual}
+            />
+            <PasswordInput
+              id="password2"
+              label="Nova Senha"
+              value={novaSenha}
+              onChange={setNovaSenha}
+            />
+            <PasswordInput
+              id="password3"
+              label="Confirmar Nova Senha"
+              value={confirmarSenha}
+              onChange={setConfirmarSenha}
+            />
+            <button type="submit" className={styles.btnPrimary}>
+              Modificar
+            </button>
+          </form>
+        </div>
       </div>
 
       <a onClick={() => navigate(-1)} className={styles.voltar}>

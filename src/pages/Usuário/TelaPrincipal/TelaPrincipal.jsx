@@ -19,8 +19,8 @@ export default function TelaPrincipal() {
 
     // Busca dados do aluno pela API
     const token =
-      localStorage.getItem("token") || sessionStorage.getItem("token");
-    fetch(`/api/Aluno/${usuario.id}`, {
+      localStorage.getItem("token");
+    fetch(`/api/Aluno/me`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.json())
