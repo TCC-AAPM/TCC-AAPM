@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { getUsuarioLogado } from "../../../utils/auth";
 import styles from "./TelaPrincipal.module.css";
+import Menu from "../../../components/MenuUsuario/Menu.jsx";
 
 export default function TelaPrincipal() {
   const navigate = useNavigate();
@@ -11,18 +12,6 @@ export default function TelaPrincipal() {
     numArmario: "-",
     dataFim: "-",
   });
-  const menuRef = useRef();
-
-  useEffect(() => {
-    // Fecha menu ao clicar fora
-    function handleClick(e) {
-      if (menuRef.current && !menuRef.current.contains(e.target)) {
-        setMenuAberto(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
-  }, []);
 
   useEffect(() => {
     const usuario = getUsuarioLogado();
@@ -52,29 +41,10 @@ export default function TelaPrincipal() {
     sessionStorage.removeItem("token");
     navigate("/");
   }
-
   return (
     <div className={styles.containerGeral}>
       <div className={styles.topBar}>
-        <button
-          className={styles.btnMenu}
-          onClick={() => setMenuAberto(!menuAberto)}
-        >
-          <span className="material-symbols-outlined">menu</span>
-        </button>
-        {menuAberto && (
-          <div className={styles.menuFlutuante} ref={menuRef}>
-            <a onClick={() => navigate("/usuario/ver-informacoes")}>
-              Veja seus dados
-            </a>
-            <a onClick={() => navigate("/usuario/modificar-senha")}>
-              Modificar sua senha
-            </a>
-            <a onClick={sair} className={styles.sair}>
-              Sair
-            </a>
-          </div>
-        )}
+        <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
       </div>
 
       <div className={styles.principalBox}>

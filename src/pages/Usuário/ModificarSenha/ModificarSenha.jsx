@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import styles from "./ModificarSenha.module.css";
-import { alertErro, alertSucesso, alertConfirmar } from "../../../components/Alerts/Alerts.jsx";
+import {
+  alertErro,
+  alertSucesso,
+  alertConfirmar,
+} from "../../../components/Alerts/Alerts.jsx";
 import { useNavigate } from "react-router-dom";
+import Menu from "../../../components/MenuUsuario/Menu.jsx";
 
 const TOKEN = localStorage.getItem("token") || sessionStorage.getItem("token");
 
@@ -86,50 +91,21 @@ export default function ModificarSenha() {
     }
     alertSucesso(data.mensagem);
   }
-
-  async function handleSair() {
-    const confirmado = await alertConfirmar("Deseja realmente sair?");
-    if (confirmado) {
-      sessionStorage.clear();
-      localStorage.clear();
-      navigate("/login");
-    }
+  function sair() {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    navigate("/");
   }
 
   return (
     <>
       <div className={styles.principalBox}>
-        <button
-          id="btnMenu"
-          className={styles.btnMenu}
-          onClick={(e) => {
-            e.stopPropagation();
-            setMenuAberto((v) => !v);
-          }}
-        >
-          <span className="material-symbols-outlined">menu</span>
-        </button>
-
+        <div className={styles.topBar}>
+          <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
+        </div>
         <div className={styles.entreAqui}>
           <h1 className="material-symbols-outlined">lock_reset</h1>
           <h3>Modifique sua senha</h3>
-        </div>
-
-        <div
-          id="menuFlutuante"
-          className={`${styles.menuFlutuante} ${menuAberto ? styles.abrir : ""}`}
-        >
-          <div className={`container-lg ${styles.menu}`}>
-            <a href="../ver-informacoes/ver-informacoes.html">
-              <h1>Veja seus dados</h1>
-            </a>
-            <a href="#">
-              <h1>Modificar sua senha</h1>
-            </a>
-            <a href="#">
-              <h1 onClick={handleSair}>Sair</h1>
-            </a>
-          </div>
         </div>
 
         <form onSubmit={atualizarSenha} className={styles.form}>
@@ -157,7 +133,7 @@ export default function ModificarSenha() {
         </form>
       </div>
 
-      <a href="javascript:history.back()" className={styles.voltar}>
+      <a onClick={() => navigate(-1)} className={styles.voltar}>
         ← Voltar
       </a>
     </>

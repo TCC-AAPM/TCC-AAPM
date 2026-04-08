@@ -23,7 +23,6 @@ export default function AppRoutes() {
       <Route path="/senha/codigo" element={<CodigoSenha />} />
       <Route path="/senha/redefinir" element={<RedefinirSenha />} />
 
-      //arrumar isso depois
       <Route path="/usuario/tela-principal" element={<TelaPrincipal />} />
       <Route path="/usuario/modificar-senha" element={<ModificarSenha />} />
 
