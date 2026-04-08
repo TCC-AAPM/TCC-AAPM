@@ -8,4 +8,7 @@ export const API_ROUTES = {
   },
   admin: {
   },
+  produtos: {
+    listar: `${BASE_URL}/Produtos`
+  }
 };
