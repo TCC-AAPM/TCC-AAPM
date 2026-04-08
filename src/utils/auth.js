@@ -1,3 +1,5 @@
+export { API_ROUTES } from "../routes/config/api.js";
+
 export function getUsuarioLogado() {
   const token = localStorage.getItem("token") ;
   if (!token) return null;
@@ -12,7 +14,7 @@ export function getUsuarioLogado() {
     }
 
     const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-    const id = payload["Id"];
+    const id = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
 
     return { perfil: role, id };
   } catch {

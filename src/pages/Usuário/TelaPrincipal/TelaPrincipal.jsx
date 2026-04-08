@@ -1,8 +1,8 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { getUsuarioLogado } from "../../../utils/auth";
 import styles from "./TelaPrincipal.module.css";
 import Menu from "../../../components/MenuUsuario/Menu.jsx";
+import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
 
 export default function TelaPrincipal() {
   const navigate = useNavigate();
@@ -17,23 +17,23 @@ export default function TelaPrincipal() {
     const usuario = getUsuarioLogado();
     if (!usuario) return;
 
-    // Busca dados do aluno pela API
-    const token =
-      localStorage.getItem("token");
-    fetch(`/api/Aluno/me`, {
+    const token = localStorage.getItem("token");
+    fetch(API_ROUTES.alunos.telaPrincipal, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.json())
       .then((data) => {
+        console.log("keys:", Object.keys(data)); // ← aqui
         setDados({
           nome: data.nome,
-          numArmario: data.numArmario ?? "-",
-          dataFim: data.dataFim
-            ? new Date(data.dataFim).toLocaleDateString("pt-BR")
+          numArmario: data.numeroArmario ?? "-",
+          dataFim: data.dataExpiracao
+            ? new Date(data.dataExpiracao).toLocaleDateString("pt-BR")
             : "-",
         });
       })
-      .catch(() => {});
+
+      .catch((err) => console.error("erro:", err));
   }, []);
 
   function sair() {
@@ -41,6 +41,7 @@ export default function TelaPrincipal() {
     sessionStorage.removeItem("token");
     navigate("/");
   }
+
   return (
     <div className={styles.containerGeral}>
       <div className={styles.topBar}>
