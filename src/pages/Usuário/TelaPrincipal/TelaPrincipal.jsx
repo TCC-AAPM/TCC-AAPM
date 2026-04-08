@@ -23,7 +23,6 @@ export default function TelaPrincipal() {
     })
       .then((r) => r.json())
       .then((data) => {
-        console.log("keys:", Object.keys(data)); // ← aqui
         setDados({
           nome: data.nome,
           numArmario: data.numeroArmario ?? "-",
