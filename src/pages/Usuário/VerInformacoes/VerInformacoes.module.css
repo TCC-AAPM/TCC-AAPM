@@ -1,10 +1,20 @@
+.containerGeral {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;      
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;                  
+  min-height: calc(100vh - 60px);
+  padding: 20px;
+  padding-top: 80px;
+}
+
 .principalBox {
-  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: relative;
 }
 
 .entreAqui {
@@ -136,4 +146,21 @@
   .principalBox {
     padding-top: 4rem;
   }
+}
+
+.voltar {
+    position: fixed;
+    bottom: 10%;
+    left: 20px;
+    background: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 15px;
+    transition: all var(--transition);
+}
+
+.voltar:hover {
+    background: rgba(255, 255, 255, 0.25);
 }

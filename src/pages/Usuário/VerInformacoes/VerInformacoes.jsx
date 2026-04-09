@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./VerInformacoes.module.css";
 import Menu from "../../../components/MenuUsuario/Menu.jsx";
-import { API_ROUTES } from "../../../utils/auth.js";
+import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
 
 const maskCPF = (v) =>
   v
@@ -28,7 +28,7 @@ export default function VerInformacoes() {
     if (!usuario) return;
 
     const token = localStorage.getItem("token");
-    fetch(API_ROUTES.alunos.VerInformacoes, {
+    fetch(API_ROUTES.alunos.telaPrincipal, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => {
@@ -56,41 +56,46 @@ export default function VerInformacoes() {
       }
     });
 
+    console.log(aluno)
   const campos = aluno
     ? [
         ["Nome de Usuário", aluno.nome],
-        ["CPF", maskCPF(aluno.CPF)],
+        ["CPF", maskCPF(aluno.cpf)],
         ["Matrícula", aluno.matricula],
         ["Telefone", maskPhone(aluno.telefone)],
         ["Email", aluno.email],
-        ["Curso", aluno.nome_curso],
-        ["Turma", aluno.nome_turma],
-        ["Pagamento", METODOS[aluno.metodo]],
+        ["Curso", aluno.curso],
+        ["Turma", aluno.turma],
+        ["Pagamento", METODOS[aluno.pagamento]],
       ]
     : [];
 
   return (
-    <div className={styles.containerGeral}>
-      <div className={styles.topBar}>
-        <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
-      </div>
-      <div className={styles.entreAqui}>
-        <span className="material-symbols-outlined">info</span>
-        <h3>Veja seus dados</h3>
-      </div>
-
-      <div className={styles.card}>
-        {campos.map(([label, valor]) => (
-          <div key={label} className={styles.infoSection}>
-            <span className={styles.infoLabel}>{label}</span>
-            <span className={styles.infoValue}>{valor ?? "-"}</span>
+    <>
+      <div className={styles.containerGeral}>
+        <div className={styles.princiaplBox}>
+          <div className={styles.topBar}>
+            <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
           </div>
-        ))}
+          <div className={styles.entreAqui}>
+            <span className="material-symbols-outlined">info</span>
+            <h3>Veja seus dados</h3>
+          </div>
+
+          <div className={styles.card}>
+            {campos.map(([label, valor]) => (
+              <div key={label} className={styles.infoSection}>
+                <span className={styles.infoLabel}>{label}</span>
+                <span className={styles.infoValue}>{valor ?? "-"}</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
-      <button className={styles.voltar} onClick={() => navigate(-1)}>
+      <a className={styles.voltar} onClick={() => navigate(-1)}>
         ← Voltar
-      </button>
-    </div>
+      </a>
+    </>
   );
 }

@@ -9,6 +9,7 @@ import CodigoSenha from "../pages/Senha/CodigoSenha/CodigoSenha.jsx";
 import RedefinirSenha from "../pages/Senha/RedefinirSenha/RedefinirSenha.jsx";
 import TelaPrincipal from "../pages/Usuário/TelaPrincipal/TelaPrincipal.jsx";
 import ModificarSenha from "../pages/Usuário/ModificarSenha/ModificarSenha.jsx";
+import VerInformacoes from "../pages/Usuário/VerInformacoes/VerInformacoes.jsx";
 
 // adm
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
@@ -47,6 +48,14 @@ export default function AppRoutes() {
         element={
           <PrivateRoute perfisPermitidos={["aluno"]}>
             <ModificarSenha />
+          </PrivateRoute>
+        }
+      />
+       <Route
+        path="/usuario/ver-informacoes"
+        element={
+          <PrivateRoute perfisPermitidos={["aluno"]}>
+            <VerInformacoes />
           </PrivateRoute>
         }
       />
