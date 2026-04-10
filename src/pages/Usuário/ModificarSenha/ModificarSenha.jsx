@@ -57,8 +57,7 @@ export default function ModificarSenha() {
       return;
     }
 
-    const token =
-      localStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
     const response = await fetch("/api/Alunos/trocar-senha", {
       method: "PUT",
@@ -80,7 +79,6 @@ export default function ModificarSenha() {
     }
     alertSucesso(text);
     navigate("/usuario/tela-principal");
-
   }
 
   function sair() {

@@ -56,7 +56,7 @@ export default function VerInformacoes() {
       }
     });
 
-    console.log(aluno)
+  console.log(aluno);
   const campos = aluno
     ? [
         ["Nome de Usuário", aluno.nome],

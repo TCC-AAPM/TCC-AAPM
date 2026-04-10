@@ -5,8 +5,6 @@ import Menu from "../../../components/MenuUsuario/Menu.jsx";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
 
 export default function TelaPrincipal() {
-  const [temArmario, setTemArmario] = useState(false);
-
   const navigate = useNavigate();
   const [menuAberto, setMenuAberto] = useState(false);
   const [dados, setDados] = useState({
@@ -25,7 +23,6 @@ export default function TelaPrincipal() {
     })
       .then((r) => r.json())
       .then((data) => {
-        setTemArmario(!!data.numeroArmario);
         setDados({
           nome: data.nome,
           numArmario: data.numeroArmario ?? "-",
@@ -52,30 +49,22 @@ export default function TelaPrincipal() {
 
       <div className={styles.principalBox}>
         <p className={styles.saudacao}>Olá, {dados.nome || "Usuário"}!</p>
-        {temArmario ? (
-          <div className={styles.card}>
-            <div className={styles.cardIcon}>
-              <span className="material-symbols-outlined">inventory_2</span>
+
+        <div className={styles.card}>
+          <div className={styles.cardIcon}>
+            <span className="material-symbols-outlined">inventory_2</span>
+          </div>
+          <div className={styles.infos}>
+            <div className={styles.infoItem}>
+              <div className={styles.label}>Número do armário</div>
+              <div className={styles.valor}>{dados.numArmario}</div>
             </div>
-            <div className={styles.infos}>
-              <div className={styles.infoItem}>
-                <div className={styles.label}>Número do armário</div>
-                <div className={styles.valor}>{dados.numArmario}</div>
-              </div>
-              <div className={styles.infoItem}>
-                <div className={styles.label}>Data de encerramento</div>
-                <div className={styles.valor}>{dados.dataFim}</div>
-              </div>
+            <div className={styles.infoItem}>
+              <div className={styles.label}>Data de encerramento</div>
+              <div className={styles.valor}>{dados.dataFim}</div>
             </div>
           </div>
-        ) : (
-          <div className={styles.card}>
-            <p>Você não possui armário alugado.</p>
-            <button onClick={() => navigate("/usuario/alugar")}>
-              Alugar agora
-            </button>
-          </div>
-        )}
+        </div>
       </div>
     </div>
   );

@@ -10,6 +10,7 @@ import RedefinirSenha from "../pages/Senha/RedefinirSenha/RedefinirSenha.jsx";
 import TelaPrincipal from "../pages/Usuário/TelaPrincipal/TelaPrincipal.jsx";
 import ModificarSenha from "../pages/Usuário/ModificarSenha/ModificarSenha.jsx";
 import VerInformacoes from "../pages/Usuário/VerInformacoes/VerInformacoes.jsx";
+import DeletarConta from "../pages/Usuário/DeletarConta/DeletarConta.jsx";
 
 // adm
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
@@ -56,6 +57,14 @@ export default function AppRoutes() {
         element={
           <PrivateRoute perfisPermitidos={["aluno"]}>
             <VerInformacoes />
+          </PrivateRoute>
+        }
+      />
+       <Route
+        path="/usuario/deletar-conta"
+        element={
+          <PrivateRoute perfisPermitidos={["aluno"]}>
+            <DeletarConta />
           </PrivateRoute>
         }
       />

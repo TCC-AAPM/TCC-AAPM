@@ -1,0 +1,210 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+/* === modo escuro (padrão) === */
+.modal {
+  background: rgba(10, 20, 60, 0.75);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 1.75rem;
+  max-width: 540px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.titulo {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 4px;
+  color: #ffffff;
+}
+
+.subtitulo {
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.55);
+  margin: 0 0 1.25rem;
+}
+
+.aviso {
+  background: rgba(226, 75, 74, 0.15);
+  border-left: 3px solid #e24b4a;
+  border-radius: 0;
+  padding: 0.75rem 1rem;
+  font-size: 14px;
+  color: #ffe6e6;
+  margin-bottom: 1.25rem;
+}
+
+.lista {
+  padding-left: 1.25rem;
+  margin: 0 0 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.lista li {
+  font-size: 14px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.lista li strong {
+  color: #ffffff;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.8);
+  cursor: pointer;
+  margin-bottom: 1.25rem;
+  line-height: 1.5;
+}
+
+.checkboxRow input {
+  margin-top: 3px;
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.botoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btnCancelar {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.75);
+  transition: background 0.2s;
+}
+
+.btnCancelar:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.btnExcluir {
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  background: #e24b4a;
+  color: #fff;
+  font-weight: 500;
+  transition: background 0.2s;
+}
+
+.btnExcluir:hover:not(:disabled) {
+  background: #c43c3b;
+}
+
+.btnExcluir:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.inputSenha {
+  width: 100%;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 81, 255, 0.15);
+  background: rgba(255, 255, 255, 0.07);
+  color: #ffffff;
+  font-size: 14px;
+  margin-bottom: 0.75rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s;
+}
+
+.inputSenha::placeholder {
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.inputSenha:focus {
+  outline: none;
+  border: 1px solid rgba(0, 81, 255, 0.856);
+}
+
+.erro {
+  font-size: 13px;
+  color: #f87171;
+  margin: 0 0 0.75rem;
+}
+
+.modal[data-theme="light"] {
+  background: #3b83f6cc;
+  backdrop-filter: none;
+  border: 1px solid #2785ff8a;
+}
+
+.modal[data-theme="light"] .titulo {
+  color: #ffffff;
+}
+
+.modal[data-theme="light"] .subtitulo {
+  color: #e4e4e4;
+}
+
+.modal[data-theme="light"] .aviso {
+  background: #fff0f0;
+  color: #a32d2d;
+}
+
+.modal[data-theme="light"] .lista li {
+  color: #ffffffcb;
+}
+
+.modal[data-theme="light"] .lista li strong {
+  color: #ffffff;
+}
+
+.modal[data-theme="light"] .checkboxRow {
+  color: #ffffffcb;
+}
+
+.modal[data-theme="light"] .btnCancelar {
+  background-color: #3a64ce50;
+  border-color: #ffffff6c;
+  color: #ffffff;
+}
+
+.modal[data-theme="light"] .btnCancelar:hover {
+  border-color: white;
+}
+
+.modal[data-theme="light"] .inputSenha {
+  background: #ffffff;
+  border-color: #e2e8f0;
+  color: #0a1e52;
+}
+
+.modal[data-theme="light"] .inputSenha::placeholder {
+  color: #64748b;
+}
+
+.modal[data-theme="light"] .inputSenha:focus {
+  border-color: #3b82f6;
+}
+
+.modal[data-theme="light"] .erro {
+  color: #a32d2d;
+}

@@ -6,15 +6,18 @@ import AppRoutes from "./routes/AppRoutes";
 function Layout() {
   const location = useLocation();
   const isHome = location.pathname === "/";
+  const rotasSemFooter = ["/usuario/deletar-conta"]; // adicione as rotas que quiser
+  const semFooter = rotasSemFooter.includes(location.pathname);
 
   return (
     <>
       {!isHome && <Header />}
       <AppRoutes />
-      <Footer />
+      {!semFooter && <Footer />}
     </>
   );
 }
+
 
 export default function App() {
   return (
