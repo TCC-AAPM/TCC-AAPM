@@ -51,7 +51,6 @@ export async function alertSucessoModal(titulo, mensagem) {
     icon: "success",
     customClass: {
       popup: "swal-popup",
-      confirmButton: "swal-btn-confirmar",
     },
   });
 }
@@ -61,10 +60,8 @@ export async function alertErroModal(titulo, mensagem) {
     title: titulo,
     text: mensagem,
     icon: "error",
-    confirmButtonText: "Ok",
     customClass: {
       popup: "swal-popup",
-      confirmButton: "swal-btn-confirmar",
     },
   });
 }

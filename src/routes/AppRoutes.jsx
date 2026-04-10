@@ -11,6 +11,7 @@ import TelaPrincipal from "../pages/Usuário/TelaPrincipal/TelaPrincipal.jsx";
 import ModificarSenha from "../pages/Usuário/ModificarSenha/ModificarSenha.jsx";
 import VerInformacoes from "../pages/Usuário/VerInformacoes/VerInformacoes.jsx";
 import DeletarConta from "../pages/Usuário/DeletarConta/DeletarConta.jsx";
+import Armarios from "../pages/Admin/Armarios/Armarios.jsx";
 
 // adm
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
@@ -32,6 +33,15 @@ export default function AppRoutes() {
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
             <Dashboard />
+          </PrivateRoute>
+        }
+      />
+
+       <Route
+        path="/admin/armarios"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <Armarios />
           </PrivateRoute>
         }
       />
