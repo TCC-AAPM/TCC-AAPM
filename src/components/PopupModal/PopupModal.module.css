@@ -1,0 +1,157 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+
+  z-index: 9999;
+}
+
+.pop {
+  width: 95%;
+  max-width: 420px;
+
+  padding: 1.6rem;
+  border-radius: 18px;
+
+  background: #0a1e52;
+  color: white;
+
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+  animation: aparecer 0.25s ease;
+}
+
+.section-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 1.2rem;
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pop-title {
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.pop-info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.pop-info-group p {
+  display: grid;
+  grid-template-columns: auto 1fr auto; /* label | valor | botão */
+  align-items: center;
+  font-size: 13px;
+  gap: 8px;
+}
+
+/* label (CPF, Curso...) */
+.pop-info-group span:first-child {
+  font-weight: 600;
+}
+
+/* valor */
+.pop-info-group span:nth-child(2) {
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-copy {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: white;
+  opacity: 0.5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease;
+}
+
+.btn-copy:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.curso,
+.turma,
+.periodo,
+.pagamento {
+  max-width: 100%;
+}
+
+.pop-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.pop-buttons button {
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 12px;
+  border: none;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  background: #1b2559;
+  color: white;
+
+  transition: all 0.2s ease;
+}
+
+.pop-buttons button:hover {
+  transform: scale(1.03);
+  background: #202d6b;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .pop {
+    padding: 1.4rem;
+  }
+
+  .pop-title {
+    font-size: 18px;
+  }
+
+  .pop-info-group p {
+    grid-template-columns: 80px 1fr auto;
+  }
+}

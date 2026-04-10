@@ -1,6 +1,9 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 import { CardArmario } from "../../../components/CardArmario/CardArmario.jsx";
+import { PopupModal } from "../../../components/PopupModal/PopupModal.jsx";
+
 import { API_ROUTES } from "../../../utils/auth.js";
 import styles from "./Armarios.module.css";
 
@@ -26,7 +29,7 @@ export default function Armarios() {
         ),
       ]);
       console.log("armarios:", arm);
-  console.log("usuarios:", usr);
+      console.log("usuarios:", usr);
       setArmarios(arm);
       setUsuarios(usr);
     }
@@ -39,10 +42,8 @@ export default function Armarios() {
     M: "manutencao",
     D: "disponivel",
     P: "pendente",
-    A: "atrasado",
   };
 
-  
   const lista = armarios.filter((arm) => {
     const user = usuarios.find((u) => u.numeroArmario === arm.numeroArmario);
     const termo = pesquisa.toLowerCase();
@@ -63,13 +64,15 @@ export default function Armarios() {
       localStorage.setItem("armarioSelecionado", arm.numeroArmario);
       navigate("/admin/armarios/cadastrar-usuario");
     } else if (arm.estado === "O") {
-      const usuario = usuarios.find((u) => u.id_armario === arm.numeroArmario);
+      const usuario = usuarios.find(
+        (u) => u.numeroArmario === arm.numeroArmario,
+      );
       setPopup({ tipo: "ocupado", armario: arm, usuario });
     }
   }
 
   function handleContextMenu(arm) {
-    const usuario = usuarios.find((u) => u.id_armario === arm.numeroArmario);
+    const usuario = usuarios.find((u) => u.numeroArmario === arm.numeroArmario);
     setPopup({ tipo: "manutencao-ctx", armario: arm, usuario });
   }
 
@@ -78,7 +81,6 @@ export default function Armarios() {
     ["filtroManutencao", "manutencao", "MANUTENÇÃO"],
     ["filtroDisponivel", "disponivel", "DISPONÍVEL"],
     ["filtroPendente", "pendente", "PENDENTE"],
-    ["filtroAtrasado", "atrasado", "ATRASADO"],
   ];
 
   return (
@@ -114,7 +116,7 @@ export default function Armarios() {
               key={arm.numeroArmario}
               armario={arm}
               usuario={usuarios.find(
-                (u) =>u.numeroArmario === arm.numeroArmario,
+                (u) => u.numeroArmario === arm.numeroArmario,
               )}
               onClick={() => handleClick(arm)}
               onContextMenu={() => handleContextMenu(arm)}

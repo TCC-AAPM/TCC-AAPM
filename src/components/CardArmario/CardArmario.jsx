@@ -40,13 +40,6 @@ export function CardArmario({ armario, usuario, onClick, onContextMenu }) {
             <strong>Estado:</strong> Pendente
           </p>
         )}
-        {armario.estado === "A" && (
-          <p className={styles.info}>
-            <strong>Usuário:</strong> {usuario?.nomeAluno || "Desconecido"}
-            <br />
-            <strong>Estado:</strong> Pagamento atrasado
-          </p>
-        )}
       </div>
     </div>
   );
