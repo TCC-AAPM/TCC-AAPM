@@ -49,7 +49,6 @@ export async function alertSucessoModal(titulo, mensagem) {
     title: titulo,
     text: mensagem,
     icon: "success",
-    confirmButtonText: "Ok",
     customClass: {
       popup: "swal-popup",
       confirmButton: "swal-btn-confirmar",

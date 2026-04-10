@@ -30,7 +30,7 @@ export default function DeletarConta() {
     setCarregando(true);
     try {
       const token = localStorage.getItem("token");
-      console.log("token:", token); // está null?
+      console.log("token:", token);
       const res = await fetch(API_ROUTES.alunos.deletarConta, {
         method: "POST",
         headers: {
