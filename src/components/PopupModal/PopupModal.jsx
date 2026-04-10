@@ -24,7 +24,6 @@ export function PopupModal({ popup, onClose }) {
   return (
     <div className={styles.overlay} onClick={onClose}>
       <div className={styles.pop} onClick={(e) => e.stopPropagation()}>
-        
         {/* TÍTULO */}
         <div className={styles["section-divider"]}>
           <h2 className={styles["pop-title"]}>{usuario.nomeAluno}</h2>
@@ -32,7 +31,6 @@ export function PopupModal({ popup, onClose }) {
 
         {/* INFOS */}
         <div className={styles["pop-info-group"]}>
-
           <p className={styles["info-copy"]}>
             <span>CPF:</span>
             <span>{usuario.cpf}</span>
@@ -82,30 +80,21 @@ export function PopupModal({ popup, onClose }) {
 
           <p>
             <span>Período:</span>{" "}
-            <span
-              className={styles.periodo}
-              title={periodo[usuario.periodo]}
-            >
+            <span className={styles.periodo} title={periodo[usuario.periodo]}>
               {periodo[usuario.periodo] || usuario.periodo}
             </span>
           </p>
 
           <p>
             <span>Pagamento:</span>{" "}
-            <span
-              className={styles.pagamento}
-              title={metodo[usuario.metodo]}
-            >
+            <span className={styles.pagamento} title={metodo[usuario.metodo]}>
               {metodo[usuario.metodo] || usuario.metodo}
             </span>
           </p>
         </div>
 
-        {/* BOTÕES */}
         <div className={styles["pop-buttons"]}>
-          <button onClick={() => alert("Editar depois")}>
-            Editar
-          </button>
+          <button onClick={() => alert("Editar depois")}>Editar</button>
 
           <button
             onClick={() => alert("Excluir depois")}
@@ -114,8 +103,6 @@ export function PopupModal({ popup, onClose }) {
             Excluir
           </button>
         </div>
-
-
       </div>
     </div>
   );
