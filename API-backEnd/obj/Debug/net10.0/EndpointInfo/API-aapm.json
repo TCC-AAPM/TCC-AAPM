@@ -539,6 +539,99 @@
         }
       }
     },
+    "/api/EsqueciSenha": {
+      "post": {
+        "tags": [
+          "EsqueciSenha"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmarEmailRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmarEmailRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmarEmailRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/EsqueciSenha/verificar-codigo": {
+      "post": {
+        "tags": [
+          "EsqueciSenha"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificarCodigoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificarCodigoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/VerificarCodigoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/EsqueciSenha/resetar-senha": {
+      "post": {
+        "tags": [
+          "EsqueciSenha"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetarSenhaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetarSenhaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetarSenhaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Login": {
       "post": {
         "tags": [
@@ -848,6 +941,20 @@
         },
         "additionalProperties": false
       },
+      "ConfirmarEmailRequest": {
+        "required": [
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          }
+        },
+        "additionalProperties": false
+      },
       "ConfirmarSenhaRequest": {
         "required": [
           "senha"
@@ -1136,6 +1243,35 @@
         },
         "additionalProperties": false
       },
+      "ResetarSenhaRequest": {
+        "required": [
+          "codigo",
+          "confirmarSenha",
+          "email",
+          "senhaNova"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "codigo": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "senhaNova": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "confirmarSenha": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
       "Semestre": {
         "enum": [
           "P",
@@ -1183,6 +1319,25 @@
             "type": "string"
           },
           "confirmarSenha": {
+            "minLength": 1,
+            "type": "string"
+          }
+        },
+        "additionalProperties": false
+      },
+      "VerificarCodigoRequest": {
+        "required": [
+          "codigo",
+          "email"
+        ],
+        "type": "object",
+        "properties": {
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "codigo": {
             "minLength": 1,
             "type": "string"
           }

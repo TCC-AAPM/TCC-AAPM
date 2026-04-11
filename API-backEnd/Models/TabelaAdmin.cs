@@ -15,7 +15,7 @@ public partial class TabelaAdmin
 
     public string? Cpf { get; set; }
 
-    public int? IdUsuario { get; set; }
+    public int IdUsuario { get; set; }
 
     public DateTime CriadoEm { get; set; }
 

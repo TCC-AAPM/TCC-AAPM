@@ -21,7 +21,7 @@ public partial class TabelaAluno
 
     public int TurmaId { get; set; }
 
-    public int? IdUsuario { get; set; }
+    public int IdUsuario { get; set; }
 
     public DateTime CriadoEm { get; set; }
 

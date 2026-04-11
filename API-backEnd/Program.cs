@@ -1,13 +1,21 @@
+using API_backEnd.Controllers;
 using API_backEnd.Models;
+using API_backEnd.Services;
+using API_backEnd.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi;
-using System.Text;
 using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.Configure<EmailSettings>(
+    builder.Configuration.GetSection("EmailSettings")
+);
+
+builder.Services.AddScoped<EmailService>();
 // 🔹 Controllers
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
@@ -30,7 +38,6 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header
     });
 
-    
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {

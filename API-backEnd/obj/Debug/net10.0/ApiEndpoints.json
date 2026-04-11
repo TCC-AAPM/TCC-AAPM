@@ -315,6 +315,54 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API_backEnd.Controllers.EsqueciSenhaController",
+    "Method": "VerificarEmail",
+    "RelativePath": "api/EsqueciSenha",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Auth.ConfirmarEmailRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.EsqueciSenhaController",
+    "Method": "ResetarSenha",
+    "RelativePath": "api/EsqueciSenha/resetar-senha",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Auth.ResetarSenhaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.EsqueciSenhaController",
+    "Method": "VerificarCodigo",
+    "RelativePath": "api/EsqueciSenha/verificar-codigo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Auth.VerificarCodigoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API_backEnd.Controllers.LoginController",
     "Method": "Login",
     "RelativePath": "api/Login",

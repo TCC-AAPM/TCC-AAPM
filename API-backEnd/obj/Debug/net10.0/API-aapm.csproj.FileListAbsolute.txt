@@ -266,6 +266,15 @@ C:\Users\gabriel\Desktop\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.pdb
 C:\Users\gabriel\Desktop\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.genruntimeconfig.cache
 C:\Users\gabriel\Desktop\API-aapm\API-backEnd\obj\Debug\net10.0\ref\API-aapm.dll
 C:\Users\gabriel\Desktop\API-aapm\API-backEnd\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.csproj.AssemblyReference.cache
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\rpswa.dswa.cache.json
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.AssemblyInfoInputs.cache
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.AssemblyInfo.cs
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.csproj.CoreCompileInputs.cache
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.sourcelink.json
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0\appsettings.Development.json
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0\appsettings.json
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0\API-aapm.staticwebassets.endpoints.json
@@ -375,15 +384,6 @@ C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0\tr\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0\zh-Hans\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0\zh-Hant\Microsoft.CodeAnalysis.Workspaces.MSBuild.BuildHost.resources.dll
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.csproj.AssemblyReference.cache
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\rpswa.dswa.cache.json
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.GeneratedMSBuildEditorConfig.editorconfig
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.AssemblyInfoInputs.cache
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.AssemblyInfo.cs
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.csproj.CoreCompileInputs.cache
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.MvcApplicationPartsAssemblyInfo.cs
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.MvcApplicationPartsAssemblyInfo.cache
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.sourcelink.json
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\rjimswa.dswa.cache.json
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\rjsmrazor.dswa.cache.json
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\rjsmcshtml.dswa.cache.json
@@ -393,10 +393,10 @@ C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\staticwebassets.development.json
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\staticwebassets.build.endpoints.json
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\swae.build.ex.cache
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.csproj.Up2Date
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.dll
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\refint\API-aapm.dll
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.pdb
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.genruntimeconfig.cache
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\ref\API-aapm.dll
-C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
