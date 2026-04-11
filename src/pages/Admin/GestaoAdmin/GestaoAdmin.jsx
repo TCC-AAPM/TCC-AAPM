@@ -1,41 +1,54 @@
-import styles from './GestaoAdmin.module.css';
+import styles from "./GestaoAdmin.module.css";
 
 const cards = [
   {
-    href: '../criar-armario/criar-armario.html',
-    icon: 'add_box',
-    title: 'Criar Armário',
-    desc: 'Cadastre um novo armário no sistema',
+    icon: "add_box",
+    title: "Gerenciar Armários",
+    desc: "Gerencie os armários do sistema",
+  },
+
+  {
+    icon: "add_box",
+    title: "Gerenciar Cursos",
+    desc: "Gerencie os cursos do sistema",
+  },
+
+  {
+    icon: "add_box",
+    title: "Gerenciar Turmas",
+    desc: "Gerencie os armários do sistema",
+  },
+  
+  {
+    icon: "add_box",
+    title: "Gerenciar Termos de Uso",
+    desc: "Gerencie os termos de uso do sistema",
+  },
+
+  {
+    icon: "history",
+    title: "Histórico de Alunos",
+    desc: "Visualize os dados de todos os alunos já cadastrados",
   },
   {
-    href: '../historico-alunos/historico-alunos.html',
-    icon: 'history',
-    title: 'Histórico de Alunos',
-    desc: 'Visualize os dados de todos os alunos já cadastrados',
+    icon: "calendar_month",
+    title: "Modificar Data Final do Semestre",
+    desc: "Configure a duração do semestre",
   },
   {
-    href: '../modificar-data/modificar-data.html',
-    icon: 'calendar_month',
-    title: 'Modificar Data Final do Semestre',
-    desc: 'Configure a duração do semestre',
+    icon: "payments",
+    title: "Financeiro",
+    desc: "Controle de pagamentos",
   },
   {
-    id: 'financeiro',
-    icon: 'payments',
-    title: 'Financeiro',
-    desc: 'Controle de pagamentos',
+    icon: "notifications",
+    title: "Enviar Notificações",
+    desc: "Envie avisos para e-mail dos alunos",
   },
   {
-    id: 'enviarNotificacoes',
-    icon: 'notifications',
-    title: 'Enviar Notificações',
-    desc: 'Envie avisos para e-mail dos alunos',
-  },
-  {
-    href: '../configuracoes/configuracoes.html',
-    icon: 'settings',
-    title: 'Configurações da Conta',
-    desc: 'Configure as preferências da sua conta',
+    icon: "settings",
+    title: "Configurações da Conta",
+    desc: "Configure as preferências da sua conta",
   },
 ];
 
@@ -45,7 +58,10 @@ export default function PainelAdmin() {
       <div className={styles.principalBox}>
         <div className={styles.divHeader}>
           <h1>Painel Administrativo</h1>
-          <p>Acesse, configure e controle todos os recursos do sistema de forma rápida</p>
+          <p>
+            Acesse, configure e controle todos os recursos do sistema de forma
+            rápida
+          </p>
         </div>
         <div className={styles.cards}>
           {cards.map((card) => {
@@ -71,7 +87,6 @@ export default function PainelAdmin() {
       <a href="#" onClick={() => history.back()} className="voltar">
         ← Voltar
       </a>
-     
     </>
   );
 }
