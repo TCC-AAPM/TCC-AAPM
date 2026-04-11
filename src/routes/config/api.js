@@ -14,7 +14,13 @@ export const API_ROUTES = {
     comReserva: `${BASE_URL}/Armarios/com-reserva`,
   },
 
+  reservas : {
+    reservas: `${BASE_URL}/Reservas`,
+    recadastrarReserva: `${BASE_URL}/Reservas/recadastrar`, //nao usando
+  },
+
   produtos: {
     listar: `${BASE_URL}/Produtos`,
+    idProdutos: `${BASE_URL}/Produtos/{idProduto}`, //nao usando
   },
 };

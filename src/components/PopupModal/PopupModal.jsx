@@ -15,6 +15,9 @@ export function PopupModal({ popup, onClose }) {
     3: "Pix",
   };
 
+  const mascaraCPF = (cpf) =>
+    cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+  const mascaraTelefone = (tel) => tel.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
   if (!usuario) return null;
 
   function copiar(texto) {
@@ -33,7 +36,7 @@ export function PopupModal({ popup, onClose }) {
         <div className={styles["pop-info-group"]}>
           <p className={styles["info-copy"]}>
             <span>CPF:</span>
-            <span>{usuario.cpf}</span>
+            <span>{mascaraCPF(usuario.cpf)}</span>
             <button
               className={styles["btn-copy"]}
               onClick={() => copiar(usuario.cpf)}
@@ -44,7 +47,7 @@ export function PopupModal({ popup, onClose }) {
 
           <p className={styles["info-copy"]}>
             <span>Telefone:</span>
-            <span>{usuario.telefone}</span>
+            <span>{mascaraTelefone(usuario.telefone)}</span>
             <button
               className={styles["btn-copy"]}
               onClick={() => copiar(usuario.telefone)}
