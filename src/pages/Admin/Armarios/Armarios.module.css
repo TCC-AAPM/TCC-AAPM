@@ -25,6 +25,21 @@
   margin-bottom: 20px;
 }
 
+.btnMenu {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--white);
+  position: absolute;
+  right: 70px;
+  top: 12px;
+}
+
+.btnMenu .material-symbols-outlined,
+.btnMenu span {
+  font-size: 3rem;
+}
+
 .formControl {
   width: 90%;
   max-width: 700px;

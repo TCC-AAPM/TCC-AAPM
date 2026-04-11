@@ -9,6 +9,7 @@ import styles from "./Armarios.module.css";
 
 export default function Armarios() {
   const navigate = useNavigate();
+
   const [armarios, setArmarios] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
   const [popup, setPopup] = useState(null);
@@ -24,12 +25,8 @@ export default function Armarios() {
     async function carregar() {
       const [arm, usr] = await Promise.all([
         fetch(API_ROUTES.armarios.listar, { headers }).then((r) => r.json()),
-        fetch(API_ROUTES.armarios.comReserva, { headers }).then((r) =>
-          r.json(),
-        ),
+        fetch(API_ROUTES.armarios.comReserva, { headers }).then((r) => r.json()),
       ]);
-      console.log("armarios:", arm);
-      console.log("usuarios:", usr);
       setArmarios(arm);
       setUsuarios(usr);
     }
@@ -64,9 +61,7 @@ export default function Armarios() {
       localStorage.setItem("armarioSelecionado", arm.numeroArmario);
       navigate("/admin/armarios/cadastrar-usuario");
     } else if (arm.estado === "O") {
-      const usuario = usuarios.find(
-        (u) => u.numeroArmario === arm.numeroArmario,
-      );
+      const usuario = usuarios.find((u) => u.numeroArmario === arm.numeroArmario);
       setPopup({ tipo: "ocupado", armario: arm, usuario });
     }
   }
@@ -84,55 +79,60 @@ export default function Armarios() {
   ];
 
   return (
-    <div className={styles.principalBox}>
-      <div className="container-lg mb-3">
-        <div className={styles.inputPesquisa}>
-          <input
-            type="text"
-            className={styles.formControl}
-            placeholder="🔎  Digite o número, nome ou email..."
-            value={pesquisa}
-            onChange={(e) => setPesquisa(e.target.value)}
-          />
-        </div>
+    <>
+      <button
+        className={styles.btnMenu}
+        onClick={() => navigate("/admin/gestao-admin")}
+      >
+        <span className="material-symbols-outlined">menu</span>
+      </button>
 
-        <div className={styles.filtros}>
-          {filtros.map(([cssKey, estado, label]) => (
-            <button
-              key={estado}
-              className={`${styles.filtroBtn} ${styles[cssKey]} ${filtro === estado ? styles.ativo : ""}`}
-              onClick={() =>
-                setFiltro((prev) => (prev === estado ? null : estado))
-              }
-            >
-              {label}
-            </button>
-          ))}
-        </div>
-
-        <div className={styles.cardsArea}>
-          {lista.map((arm) => (
-            <CardArmario
-              key={arm.numeroArmario}
-              armario={arm}
-              usuario={usuarios.find(
-                (u) => u.numeroArmario === arm.numeroArmario,
-              )}
-              onClick={() => handleClick(arm)}
-              onContextMenu={() => handleContextMenu(arm)}
+      <div className={styles.principalBox}>
+        <div className="container-lg mb-3">
+          <div className={styles.inputPesquisa}>
+            <input
+              type="text"
+              className={styles.formControl}
+              placeholder="🔎  Digite o número, nome ou email..."
+              value={pesquisa}
+              onChange={(e) => setPesquisa(e.target.value)}
             />
-          ))}
-        </div>
-      </div>
+          </div>
 
-      {popup && (
-        <PopupModal
-          popup={popup}
-          todosArmarios={armarios}
-          onClose={() => setPopup(null)}
-          onReload={() => window.location.reload()}
-        />
-      )}
-    </div>
+          <div className={styles.filtros}>
+            {filtros.map(([cssKey, estado, label]) => (
+              <button
+                key={estado}
+                className={`${styles.filtroBtn} ${styles[cssKey]} ${filtro === estado ? styles.ativo : ""}`}
+                onClick={() => setFiltro((prev) => (prev === estado ? null : estado))}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+
+          <div className={styles.cardsArea}>
+            {lista.map((arm) => (
+              <CardArmario
+                key={arm.numeroArmario}
+                armario={arm}
+                usuario={usuarios.find((u) => u.numeroArmario === arm.numeroArmario)}
+                onClick={() => handleClick(arm)}
+                onContextMenu={() => handleContextMenu(arm)}
+              />
+            ))}
+          </div>
+        </div>
+
+        {popup && (
+          <PopupModal
+            popup={popup}
+            todosArmarios={armarios}
+            onClose={() => setPopup(null)}
+            onReload={() => window.location.reload()}
+          />
+        )}
+      </div>
+    </>
   );
 }

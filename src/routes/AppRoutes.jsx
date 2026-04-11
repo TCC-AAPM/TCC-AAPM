@@ -4,18 +4,21 @@ import PrivateRoute from "./PrivateRoute";
 import Home from "../pages/Home/Home.jsx";
 import Login from "../pages/Login/Index.jsx";
 import AcessoNegado from "../pages/AcessoNegado/AcessoNegado.jsx";
+
 import EsqueciSenha from "../pages/Senha/EsqueciSenha/EsqueciSenha.jsx";
 import CodigoSenha from "../pages/Senha/CodigoSenha/CodigoSenha.jsx";
 import RedefinirSenha from "../pages/Senha/RedefinirSenha/RedefinirSenha.jsx";
+
 import TelaPrincipal from "../pages/Usuário/TelaPrincipal/TelaPrincipal.jsx";
 import ModificarSenha from "../pages/Usuário/ModificarSenha/ModificarSenha.jsx";
 import VerInformacoes from "../pages/Usuário/VerInformacoes/VerInformacoes.jsx";
 import DeletarConta from "../pages/Usuário/DeletarConta/DeletarConta.jsx";
+
 import Armarios from "../pages/Admin/Armarios/Armarios.jsx";
+import PainelAdmin from "../pages/Admin/GestaoAdmin/GestaoAdmin.jsx";
 
 // adm
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
-
 
 export default function AppRoutes() {
   return (
@@ -27,7 +30,6 @@ export default function AppRoutes() {
       <Route path="/senha/codigo" element={<CodigoSenha />} />
       <Route path="/senha/redefinir" element={<RedefinirSenha />} />
 
-
       <Route
         path="/admin/dashboard"
         element={
@@ -37,11 +39,20 @@ export default function AppRoutes() {
         }
       />
 
-       <Route
+      <Route
         path="/admin/armarios"
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
             <Armarios />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/admin/gestao-admin"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <PainelAdmin />
           </PrivateRoute>
         }
       />
@@ -54,6 +65,7 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
+
       <Route
         path="/usuario/modificar-senha"
         element={
@@ -62,7 +74,8 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
-       <Route
+
+      <Route
         path="/usuario/ver-informacoes"
         element={
           <PrivateRoute perfisPermitidos={["aluno"]}>
@@ -70,7 +83,8 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
-       <Route
+
+      <Route
         path="/usuario/deletar-conta"
         element={
           <PrivateRoute perfisPermitidos={["aluno"]}>
@@ -78,7 +92,6 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
-
     </Routes>
   );
 }
