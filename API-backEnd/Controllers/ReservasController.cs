@@ -21,25 +21,26 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult CadastroCompleto(CriarReservaRequest dto)
+        public IActionResult CadastroCompleto(CriarCadastroArmarioRequest dto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-            var ocupado = db.TabelaReservaArmarios.Any(r => r.IdArmario == dto.IdArmario && r.IsAtivo == true);
+            var ocupado = db.TabelaReservaArmarios.Any(r => r.IdArmario == dto.IdArmario && r.IsAtivo);
 
             if (ocupado)
             {
                 return BadRequest("Armário  já está ocupado");
             }
 
-            var alunoExiste = db.TabelaAlunos.Any(a => a.Cpf == dto.CPF);
+            var alunoExiste = db.TabelaAlunos.Any(a => a.Cpf == dto.CPF && a.IsAtivo);
 
             if (alunoExiste)
             {
                 return BadRequest("Aluno já cadastrado");
             }
+
             using var transaction = db.Database.BeginTransaction();
 
             try
@@ -73,7 +74,7 @@ namespace API_backEnd.Controllers
                     IdAluno = aluno.Id,
                     IdProduto = (int)TipoProduto.Armario,
                     Metodo = dto.MetodoPagamento,
-                    
+
                 };
 
                 db.TabelaPagamentos.Add(pagamento);
@@ -110,7 +111,7 @@ namespace API_backEnd.Controllers
             }
             using var transaction = db.Database.BeginTransaction();
             try
-            {               
+            {
                 var aluno = db.TabelaAlunos.SingleOrDefault(a => a.Cpf == dto.CPF);
 
                 if (aluno == null)
@@ -161,13 +162,14 @@ namespace API_backEnd.Controllers
                 transaction.Commit();
                 return Ok("Recadastro feito");
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 transaction.Rollback();
                 return BadRequest(ex.Message);
             }
         }
 
-        
+        // d
+
     }
 }

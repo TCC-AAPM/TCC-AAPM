@@ -9,5 +9,7 @@ public partial class TabelaVagasEstacionamento
 
     public string Estado { get; set; } = null!;
 
+    public bool IsAtivo { get; set; }
+
     public virtual ICollection<TabelaReservaEstacionamento> TabelaReservaEstacionamentos { get; set; } = new List<TabelaReservaEstacionamento>();
 }

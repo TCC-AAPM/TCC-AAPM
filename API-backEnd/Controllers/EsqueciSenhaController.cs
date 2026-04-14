@@ -29,13 +29,13 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == dto.Email);
-            var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == dto.Email);
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == dto.Email && a.IsAtivo);
+            var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == dto.Email && a.IsAtivo);
 
             if (aluno != null || admin != null)
             {
                 var codigo = new Random().Next(100000, 999999).ToString();
-                
+
                 var dados = new TabelaVerificacao
                 {
                     Email = dto.Email,
@@ -47,7 +47,7 @@ namespace API_backEnd.Controllers
                 email.EnviarCodigoRecuperacao(dto.Email, codigo);
                 db.SaveChanges();
             }
-                return Ok("Se o email existir, enviaremos instruções...");
+            return Ok("Se o email existir, enviaremos instruções...");
 
 
         }
@@ -60,7 +60,7 @@ namespace API_backEnd.Controllers
                 return BadRequest(ModelState);
             }
             var codigo = db.TabelaVerificacaos.FirstOrDefault(v => v.Email == dto.Email && v.Codigo == dto.Codigo && v.Expiracao > DateTime.UtcNow && v.Usado == false);
-            if(codigo == null)
+            if (codigo == null)
             {
                 return BadRequest("Código invalido");
             }
@@ -86,7 +86,7 @@ namespace API_backEnd.Controllers
             }
 
             var codigo = db.TabelaVerificacaos.FirstOrDefault(v => v.Codigo == dto.Codigo && v.Email == dto.Email && v.Usado == false && v.Expiracao > DateTime.UtcNow);
-            if(codigo == null)
+            if (codigo == null)
             {
                 return NotFound("Código inválido ou expirado");
             }
@@ -96,7 +96,8 @@ namespace API_backEnd.Controllers
             if (aluno != null)
             {
                 idUsuario = aluno.IdUsuario;
-            }else if(admin != null)
+            }
+            else if (admin != null)
             {
                 idUsuario = admin.IdUsuario;
             }
@@ -104,8 +105,8 @@ namespace API_backEnd.Controllers
             {
                 return NotFound();
             }
-            var usuario = db.TabelaUsuarios.FirstOrDefault(u => u.Id ==  idUsuario);
-            if(usuario == null)
+            var usuario = db.TabelaUsuarios.FirstOrDefault(u => u.Id == idUsuario);
+            if (usuario == null)
             {
                 return NotFound("Usuario não encontrado");
             }

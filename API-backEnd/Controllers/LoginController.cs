@@ -32,7 +32,7 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == login.Email);
+            var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == login.Email && a.IsAtivo);
 
             if (admin != null)
             {
@@ -64,7 +64,7 @@ namespace API_backEnd.Controllers
             }
             else
             {
-                var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == login.Email);
+                var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == login.Email && a.IsAtivo);
                 if (aluno != null)
                 {
                     var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == aluno.IdUsuario && a.IsAtivo);

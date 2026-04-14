@@ -419,7 +419,7 @@
     "Parameters": [
       {
         "Name": "dto",
-        "Type": "API_backEnd.DTOs.Reserva.CriarReservaRequest",
+        "Type": "API_backEnd.DTOs.Reserva.CriarCadastroArmarioRequest",
         "IsRequired": true
       }
     ],

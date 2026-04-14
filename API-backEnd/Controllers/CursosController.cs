@@ -41,7 +41,7 @@ namespace API_backEnd.Controllers
             var nome = dto.Nome.Trim().ToUpper();
             var existe = db.TabelaCursos.Any(c => c.Nome.ToLower() == nome);
 
-            if(existe)
+            if (existe)
             {
                 return BadRequest("Curso ja existe");
             }
@@ -56,7 +56,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "admin")]
         [HttpDelete("{idCurso}")]
-        public IActionResult DeletarCurso(int idCurso) 
+        public IActionResult DeletarCurso(int idCurso)
         {
             var curso = db.TabelaCursos.FirstOrDefault(c => c.Id == idCurso);
 
@@ -64,13 +64,13 @@ namespace API_backEnd.Controllers
             {
                 NotFound("Curso não encontrado");
             }
-            
+
             curso.IsAtivo = false;
             db.SaveChanges();
             return Ok("Curso deletado com sucesso");
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPut("{idCurso}")]
         public IActionResult EditarCurso(int idCurso, CursoRequest dto)
         {
@@ -79,12 +79,12 @@ namespace API_backEnd.Controllers
                 return BadRequest(ModelState);
             }
             var curso = db.TabelaCursos.FirstOrDefault(c => c.Id == idCurso);
-            
-            if(curso == null)
+
+            if (curso == null)
             {
                 return NotFound("Curso não encontrado");
             }
-            
+
             curso.Nome = dto.Nome.Trim();
             db.SaveChanges();
             return Ok("Curso editado com sucesso");

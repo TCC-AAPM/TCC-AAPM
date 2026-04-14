@@ -726,17 +726,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarReservaRequest"
+                "$ref": "#/components/schemas/CriarCadastroArmarioRequest"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarReservaRequest"
+                "$ref": "#/components/schemas/CriarCadastroArmarioRequest"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CriarReservaRequest"
+                "$ref": "#/components/schemas/CriarCadastroArmarioRequest"
               }
             }
           }
@@ -1020,7 +1020,7 @@
         },
         "additionalProperties": false
       },
-      "CriarReservaRequest": {
+      "CriarCadastroArmarioRequest": {
         "required": [
           "cpf",
           "email",
@@ -1144,7 +1144,7 @@
           "D",
           "O",
           "M",
-          "A",
+          "R",
           "P"
         ],
         "type": "string"

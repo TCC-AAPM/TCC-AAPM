@@ -2,6 +2,7 @@
 {
     public enum CategoriaProduto
     {
+        // tabela produto
         A,
         E
     }

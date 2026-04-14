@@ -2,6 +2,7 @@
 {
     public enum TipoProduto
     {
+        // tabela pagamento ??
         Armario = 1,
         Estacionamento = 2
     }

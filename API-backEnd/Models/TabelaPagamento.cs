@@ -9,7 +9,7 @@ public partial class TabelaPagamento
 
     public int IdAluno { get; set; }
 
-    public int? IdProduto { get; set; }
+    public int IdProduto { get; set; }
 
     public string Metodo { get; set; } = null!;
 
@@ -17,5 +17,5 @@ public partial class TabelaPagamento
 
     public virtual TabelaAluno IdAlunoNavigation { get; set; } = null!;
 
-    public virtual TabelaProduto? IdProdutoNavigation { get; set; }
+    public virtual TabelaProduto IdProdutoNavigation { get; set; } = null!;
 }

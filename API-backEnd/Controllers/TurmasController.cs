@@ -91,7 +91,7 @@ namespace API_backEnd.Controllers
         {
             var turma = db.TabelaTurmas.SingleOrDefault(t => t.Id == IdTurma);
 
-            if(turma == null)
+            if (turma == null)
             {
                 return NotFound("Turma não encontrada");
             }
@@ -114,7 +114,7 @@ namespace API_backEnd.Controllers
             }
             var turma = db.TabelaTurmas.SingleOrDefault(t => t.Id == id);
 
-            if(turma == null)
+            if (turma == null)
             {
                 return NotFound("Turma não encontrado");
             }

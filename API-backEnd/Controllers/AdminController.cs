@@ -32,7 +32,7 @@ namespace API_backEnd.Controllers
                 return BadRequest("ID inválido");
             }
 
-            var admin = db.TabelaAdmins.FirstOrDefault(a => a.IdUsuario == id);
+            var admin = db.TabelaAdmins.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
 
             if (admin == null)
             {
@@ -58,12 +58,14 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var adminExiste = db.TabelaAdmins.Any(a => a.Cpf == dto.CPF);
+
+            var adminExiste = db.TabelaAdmins.Any(a => a.Cpf == dto.CPF && a.IsAtivo);
 
             if (adminExiste)
             {
                 return BadRequest("CPF ja cadastrado como admin");
             }
+
             using var transaction = db.Database.BeginTransaction();
 
             try
@@ -96,7 +98,7 @@ namespace API_backEnd.Controllers
             {
                 transaction.Rollback();
                 return BadRequest(ex.Message);
-            } 
+            }
 
         }
 
@@ -167,24 +169,25 @@ namespace API_backEnd.Controllers
                 return BadRequest("ID inválido");
             }
 
-           
+
 
             var usuarioLogado = db.TabelaUsuarios.FirstOrDefault(u => u.Id == idUsuario);
 
-            if (usuarioLogado == null){
+            if (usuarioLogado == null)
+            {
                 return Unauthorized("Usuário logado não encontrado");
             }
-            
-            if(!BCrypt.Net.BCrypt.Verify(dto.Senha, usuarioLogado.Senha))
+
+            if (!BCrypt.Net.BCrypt.Verify(dto.Senha, usuarioLogado.Senha))
             {
                 return Unauthorized("Senha incorreta");
             }
 
-            
+
             var admin = db.TabelaAdmins.FirstOrDefault(a => a.Id == id && a.IsAtivo);
             var usuarioAdmin = db.TabelaUsuarios.FirstOrDefault(u => u.Id == admin.IdUsuario);
 
-            if (admin == null && usuarioAdmin == null) 
+            if (admin == null && usuarioAdmin == null)
             {
                 return NotFound("Admin não encontrado");
             }

@@ -2,6 +2,7 @@
 using API_backEnd.DTOs.Aluno;
 using API_backEnd.DTOs.Auth;
 using API_backEnd.DTOs.Reserva;
+using API_backEnd.Enums;
 using API_backEnd.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +25,7 @@ namespace API_backEnd.Controllers
 
         [Authorize(Roles = "aluno")]
         [HttpGet("me")]
-        public  IActionResult GetUser()
+        public IActionResult GetUser()
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
@@ -40,11 +41,13 @@ namespace API_backEnd.Controllers
 
 
             var config = db.ConfigReservas.FirstOrDefault();
+
             if (config == null)
             {
                 return NotFound("Configuração não encontrada");
             }
             var data = config.DataExpiracaoGlobal;
+
             var dadosAluno =
             (
                 from a in db.TabelaAlunos
@@ -67,7 +70,7 @@ namespace API_backEnd.Controllers
                     Curso = c.Nome,
                     Pagamento = p.Metodo ?? "Pagamento não identificado",
                     DataExpiracao = data
-                    
+
                 }
             ).FirstOrDefault();
             if (dadosAluno == null)
@@ -78,7 +81,7 @@ namespace API_backEnd.Controllers
             return Ok(dadosAluno);
         }
 
-        [Authorize(Roles ="aluno")]
+        [Authorize(Roles = "aluno")]
         [HttpPut("trocar-senha")]
         public IActionResult TrocarSenha(TrocarSenhaRequest dto)
         {
@@ -109,23 +112,24 @@ namespace API_backEnd.Controllers
                 return BadRequest("ID inválido");
             }
 
-            var aluno = db.TabelaUsuarios.SingleOrDefault(a => a.Id == id);
+            var aluno = db.TabelaUsuarios.SingleOrDefault(a => a.Id == id && a.IsAtivo);
 
             if (aluno == null)
             {
                 return NotFound("Aluno nao encontrado");
             }
 
-            if(!BCrypt.Net.BCrypt.Verify(dto.SenhaAtual, aluno.Senha)){
+            if (!BCrypt.Net.BCrypt.Verify(dto.SenhaAtual, aluno.Senha))
+            {
                 return BadRequest("senha atual incorreta");
             }
 
-            if(BCrypt.Net.BCrypt.Verify(dto.SenhaNova, aluno.Senha))
+            if (BCrypt.Net.BCrypt.Verify(dto.SenhaNova, aluno.Senha))
             {
                 return BadRequest("A senha nova tem que ser diferente da antiga");
             }
 
-            
+
 
             aluno.Senha = BCrypt.Net.BCrypt.HashPassword(dto.SenhaNova);
             db.SaveChanges();
@@ -137,7 +141,8 @@ namespace API_backEnd.Controllers
         [HttpPost("deletar-conta")]
         public IActionResult DeletarConta(ConfirmarSenhaRequest dto)
         {
-            if (!ModelState.IsValid) {
+            if (!ModelState.IsValid)
+            {
                 return BadRequest(ModelState);
             }
 
@@ -148,9 +153,10 @@ namespace API_backEnd.Controllers
                 return BadRequest("ID inválido");
             }
 
-            var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == id);
+            var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == id && a.IsAtivo);
 
-            if (usuario == null) {
+            if (usuario == null)
+            {
                 return NotFound("Usuário não encontrado");
             }
 
@@ -159,7 +165,7 @@ namespace API_backEnd.Controllers
                 return Unauthorized("Senha incorreta");
             }
 
-            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id);
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
 
             if (aluno == null)
             {
@@ -173,18 +179,18 @@ namespace API_backEnd.Controllers
                 if (reserva != null)
                 {
                     var armario = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == reserva.IdArmario);
-                    
+
                     if (armario != null)
                     {
                         armario.Observacao = $"O aluno {aluno.Nome} excluiu a conta";
-                        armario.Estado = "P";
+                        armario.Estado = EstadoArmario.P.ToString();
                     }
 
                     reserva.IsAtivo = false;
                 }
 
-                
-                
+
+
                 aluno.IsAtivo = false;
                 usuario.IsAtivo = false;
 
@@ -209,7 +215,7 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Cpf == dto.CPF);
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Cpf == dto.CPF && a.IsAtivo);
 
             if (aluno == null)
             {
@@ -236,6 +242,7 @@ namespace API_backEnd.Controllers
             (
                 from r in db.TabelaReservaArmarios
                 join a in db.TabelaAlunos on r.IdAluno equals a.Id
+                where a.IsAtivo == true
                 select new HistoricoReservaResponse
                 {
                     Nome = a.Nome,
@@ -243,8 +250,10 @@ namespace API_backEnd.Controllers
                     NumeroArmario = r.IdArmario,
                     IsAtivo = r.IsAtivo
                 }
-            );
+            ).ToList();
             return Ok(dados);
         }
+
+        
     }
 }

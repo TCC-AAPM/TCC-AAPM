@@ -42,7 +42,7 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var armarioId = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == id);
+            var armarioId = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == id && a.IsAtivo);
             if (armarioId == null)
             {
                 return NotFound();
@@ -68,7 +68,7 @@ namespace API_backEnd.Controllers
             join c in db.TabelaCursos on a.CursoId equals c.Id
             join t in db.TabelaTurmas on a.TurmaId equals t.Id
             join p in db.TabelaPagamentos on a.Id equals p.IdAluno
-            where r.IsAtivo == true
+            where r.IsAtivo && a.IsAtivo
             select new AlunoComReservaResponse
             {
                 NomeAluno = a.Nome,
@@ -91,11 +91,11 @@ namespace API_backEnd.Controllers
         }
 
         // buscar armario pelo estado
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet("buscar-por-estado")]
         public IActionResult GetArmarioEstado(EstadoArmario estado)
         {
-            var armarios = db.TabelaArmarios.Where(a => a.Estado == estado.ToString()).ToList() ;
+            var armarios = db.TabelaArmarios.Where(a => a.Estado == estado.ToString() && a.IsAtivo).ToList();
 
             return Ok(armarios);
         }
@@ -109,13 +109,15 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             if (dto.NumeroArmario <= 0)
             {
                 return BadRequest("Número do armário deve ser maior que zero.");
             }
 
             var armarioExiste = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == dto.NumeroArmario);
-            if (armarioExiste != null && armarioExiste.IsAtivo) 
+
+            if (armarioExiste != null && armarioExiste.IsAtivo)
             {
                 return BadRequest("Armario ja existe");
             }
@@ -155,6 +157,7 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
+
             if (dto.NumeroArmarioAtual == dto.NumeroArmarioNovo)
             {
                 return BadRequest("Escolha um armario diferente do atual");
@@ -200,15 +203,15 @@ namespace API_backEnd.Controllers
 
             return Ok();
         }
-        
+
         // deletar um armario
         [Authorize(Roles = "admin")]
         [HttpDelete("{numeroArmario}")]
         public IActionResult DeletarArmario(int numeroArmario)
         {
             var armario = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == numeroArmario);
-            
-            if(armario == null || armario.IsAtivo == false)
+
+            if (armario == null || armario.IsAtivo == false)
             {
                 return NotFound("Armário não encontrado ou já desativado.");
             }
@@ -229,22 +232,21 @@ namespace API_backEnd.Controllers
                 return BadRequest(ModelState);
             }
             var armarioExiste = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == numeroArmario);
-            
-            if(armarioExiste == null)
+
+            if (armarioExiste == null)
             {
                 return NotFound("Armário não encontrado");
             }
 
-            if(armarioExiste.Estado == dto.Estado.ToString())
+            if (armarioExiste.Estado == dto.Estado.ToString())
             {
                 return BadRequest("Tem que mudar para um estado diferente");
             }
 
-            if(armarioExiste.Estado == EstadoArmario.O.ToString())
+            if (armarioExiste.Estado == EstadoArmario.O.ToString())
             {
                 return BadRequest("O armário esta ocupado");
             }
-
 
 
             armarioExiste.Estado = dto.Estado.ToString();
@@ -254,7 +256,6 @@ namespace API_backEnd.Controllers
 
             return Ok("Estado do armário atualizado com sucesso.");
         }
-
 
     }
 }

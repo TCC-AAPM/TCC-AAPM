@@ -2,6 +2,7 @@
 {
     public enum Semestre
     {
+        // tabela turma
         P, //primeiro
         S //segundo
     }

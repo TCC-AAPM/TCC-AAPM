@@ -2,10 +2,11 @@
 {
     public enum EstadoArmario
     {
+        // tabela armario
         D, // DISPONIVEL
         O, //OCUPADO
         M, //MANUTENCAO
-        A, //ATRASADO
+        R, //RESERVADO
         P //PENDENTE
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using API_backEnd.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace API_backEnd.Models;
@@ -7,7 +8,7 @@ public partial class TabelaArmario
 {
     public int NumeroArmario { get; set; }
 
-    public string Estado { get; set; } = null!;
+    public string Estado { get; set; }
 
     public string? Observacao { get; set; }
 

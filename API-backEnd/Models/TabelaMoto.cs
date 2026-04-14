@@ -22,5 +22,4 @@ public partial class TabelaMoto
     public bool IsAtivo { get; set; }
 
     public virtual TabelaAluno IdAlunoNavigation { get; set; } = null!;
-
 }

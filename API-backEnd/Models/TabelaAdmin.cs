@@ -13,7 +13,7 @@ public partial class TabelaAdmin
 
     public string Telefone { get; set; } = null!;
 
-    public string? Cpf { get; set; }
+    public string Cpf { get; set; }
 
     public int IdUsuario { get; set; }
 
