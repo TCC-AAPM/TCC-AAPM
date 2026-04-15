@@ -779,6 +779,47 @@
         }
       }
     },
+    "/api/Termo": {
+      "post": {
+        "tags": [
+          "Termo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarTermoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarTermoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarTermoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Termo"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Turmas": {
       "get": {
         "tags": [
@@ -1074,6 +1115,23 @@
         },
         "additionalProperties": false
       },
+      "CriarTermoRequest": {
+        "required": [
+          "referencia",
+          "termos"
+        ],
+        "type": "object",
+        "properties": {
+          "termos": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "referencia": {
+            "$ref": "#/components/schemas/ReferenciaTermos"
+          }
+        },
+        "additionalProperties": false
+      },
       "CriarTurmaRequest": {
         "required": [
           "idCurso",
@@ -1242,6 +1300,14 @@
           }
         },
         "additionalProperties": false
+      },
+      "ReferenciaTermos": {
+        "enum": [
+          "A",
+          "E",
+          "S"
+        ],
+        "type": "string"
       },
       "ResetarSenhaRequest": {
         "required": [

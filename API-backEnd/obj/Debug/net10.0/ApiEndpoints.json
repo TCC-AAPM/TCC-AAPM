@@ -442,6 +442,32 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API_backEnd.Controllers.TermoController",
+    "Method": "CriarTermo",
+    "RelativePath": "api/Termo",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Termo.CriarTermoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.TermoController",
+    "Method": "GetTermosAtivo",
+    "RelativePath": "api/Termo",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API_backEnd.Controllers.TurmasController",
     "Method": "GetTurma",
     "RelativePath": "api/Turmas",
