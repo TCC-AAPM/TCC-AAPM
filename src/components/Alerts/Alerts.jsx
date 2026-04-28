@@ -49,12 +49,16 @@ export async function alertSucessoModal(titulo, mensagem) {
     title: titulo,
     text: mensagem,
     icon: "success",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: true,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
     customClass: {
       popup: "swal-popup",
     },
   });
 }
-
 export async function alertErroModal(titulo, mensagem) {
   await Swal.fire({
     title: titulo,

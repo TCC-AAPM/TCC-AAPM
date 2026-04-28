@@ -41,12 +41,12 @@ export default function DeletarConta() {
       });
 
       if (res.ok || res.status === 500) {
-        alertSucessoModal("Conta excluída com sucesso.");
-        setTimeout(() => {
-          localStorage.removeItem("token");
-          sessionStorage.removeItem("token");
-          navigate("/");
-        }, 2000);
+        await alertSucessoModal("Conta excluída com sucesso.");
+
+        localStorage.removeItem("token");
+        sessionStorage.removeItem("token");
+        navigate("/");
+        
       } else if (res.status === 401) {
         alertErro("Senha incorreta. Tente novamente.");
       } else {
