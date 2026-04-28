@@ -445,10 +445,10 @@ public partial class AapmContext : DbContext
                 .HasColumnName("id");
             entity.Property(e => e.DataAceito)
                 .HasDefaultValueSql("current_timestamp()")
-                .HasColumnType("int(11)")
+                .HasColumnType("datetime")
                 .HasColumnName("data_aceito");
             entity.Property(e => e.DataAlteracao)
-                .HasColumnType("int(11)")
+                .HasColumnType("datetime")
                 .HasColumnName("data_alteracao");
             entity.Property(e => e.IdTermos)
                 .HasColumnType("int(11)")

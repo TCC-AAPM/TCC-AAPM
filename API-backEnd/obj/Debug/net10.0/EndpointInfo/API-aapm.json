@@ -820,6 +820,30 @@
         }
       }
     },
+    "/api/Termo/verificar-termos-aceito": {
+      "get": {
+        "tags": [
+          "Termo"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Termo/aceitar-termos": {
+      "post": {
+        "tags": [
+          "Termo"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Turmas": {
       "get": {
         "tags": [

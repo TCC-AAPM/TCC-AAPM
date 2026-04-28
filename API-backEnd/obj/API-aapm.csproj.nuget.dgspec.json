@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\API-aapm.csproj": {}
+    "C:\\Users\\biel1\\OneDrive\\Área de Trabalho\\API-aapm\\API-backEnd\\API-aapm.csproj": {}
   },
   "projects": {
-    "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\API-aapm.csproj": {
+    "C:\\Users\\biel1\\OneDrive\\Área de Trabalho\\API-aapm\\API-backEnd\\API-aapm.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\API-aapm.csproj",
+        "projectUniqueName": "C:\\Users\\biel1\\OneDrive\\Área de Trabalho\\API-aapm\\API-backEnd\\API-aapm.csproj",
         "projectName": "API-aapm",
-        "projectPath": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\API-aapm.csproj",
-        "packagesPath": "C:\\Users\\gabriel\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\obj\\",
+        "projectPath": "C:\\Users\\biel1\\OneDrive\\Área de Trabalho\\API-aapm\\API-backEnd\\API-aapm.csproj",
+        "packagesPath": "C:\\Users\\biel1\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\biel1\\OneDrive\\Área de Trabalho\\API-aapm\\API-backEnd\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+          "D:\\visual studio shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\gabriel\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\biel1\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -30,6 +30,7 @@
         },
         "frameworks": {
           "net10.0": {
+            "framework": "net10.0",
             "targetAlias": "net10.0",
             "projectReferences": {}
           }
@@ -48,6 +49,7 @@
       },
       "frameworks": {
         "net10.0": {
+          "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
             "BCrypt.Net-Next": {
@@ -102,7 +104,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.201/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.202/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",

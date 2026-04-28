@@ -33,16 +33,7 @@ namespace API_backEnd.Controllers
                 return BadRequest(ModelState);
             }
             var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == login.Email && a.IsAtivo);
-            var termosSite = db.TabelaTermos.FirstOrDefault(t => t.Referencia == "S" && t.IsAtivo); //Termos site
-            if (termosSite == null)
-            {
-                return BadRequest("Termo do site não encontrado");
-            }
-            var termosAceito = db.TabelaTermosAceitos.Any(t => t.IdTermos == termosSite.Id && t.IdUsuario == admin.IdUsuario && t.IsAtivo);
-            if (!termosAceito)
-            {
-                return BadRequest("Termos não aceito");
-            }
+            
             if (admin != null)
             {
                 var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == admin.IdUsuario && a.IsAtivo);

@@ -468,6 +468,26 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API_backEnd.Controllers.TermoController",
+    "Method": "AceitarTermos",
+    "RelativePath": "api/Termo/aceitar-termos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.TermoController",
+    "Method": "VerificarTermosAceito",
+    "RelativePath": "api/Termo/verificar-termos-aceito",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API_backEnd.Controllers.TurmasController",
     "Method": "GetTurma",
     "RelativePath": "api/Turmas",

@@ -11,9 +11,9 @@ public partial class TabelaTermosAceito
 
     public int IdUsuario { get; set; }
 
-    public int DataAceito { get; set; }
+    public DateTime DataAceito { get; set; }
 
-    public int? DataAlteracao { get; set; }
+    public DateTime? DataAlteracao { get; set; }
 
     public bool IsAtivo { get; set; }
 
