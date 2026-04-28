@@ -1,11 +1,21 @@
 import { useEffect, useRef } from "react";
 import styles from "./Menu.module.css";
 import { useNavigate } from "react-router-dom";
+import { alertConfirmar } from "../Alerts/Alerts.jsx";
 
-export default function Menu({ aberto, setAberto, onSair }) {
+export default function Menu({ aberto, setAberto }) {
   const navigate = useNavigate();
   const menuRef = useRef();
   const btnRef = useRef();
+
+  async function sair() {
+    const confirmar = await alertConfirmar("Deseja realmente sair da conta?");
+    if (!confirmar) return;
+
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    navigate("/", { replace: true });
+  }
 
   useEffect(() => {
     const handler = (e) => {
@@ -43,21 +53,21 @@ export default function Menu({ aberto, setAberto, onSair }) {
         className={`${styles.menuFlutuante} ${aberto ? styles.abrir : ""}`}
       >
         <div className={styles.menu}>
-          <a onClick={() => navigate("/usuario/ver-informacoes")}>
+          <button onClick={() => navigate("/usuario/ver-informacoes")}>
             <h1>Veja seus dados</h1>
-          </a>
+          </button>
 
-          <a onClick={() => navigate("/usuario/modificar-senha")}>
+          <button onClick={() => navigate("/usuario/modificar-senha")}>
             <h1>Modificar sua senha</h1>
-          </a>
+          </button>
 
-          <a onClick={() => navigate("/usuario/deletar-conta")}>
+          <button onClick={() => navigate("/usuario/deletar-conta")}>
             <h1>Deletar sua conta</h1>
-          </a>
+          </button>
 
-          <a onClick={onSair}>
+          <button onClick={sair}>
             <h1>Sair</h1>
-          </a>
+          </button>
         </div>
       </div>
     </>

@@ -41,21 +41,6 @@ export default function VerInformacoes() {
       .then((d) => d && setAluno(d));
   }, [navigate]);
 
-  const sair = () =>
-    Swal.fire({
-      title: "Deseja realmente sair?",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Sim, sair",
-      cancelButtonText: "Cancelar",
-    }).then((r) => {
-      if (r.isConfirmed) {
-        sessionStorage.clear();
-        localStorage.clear();
-        navigate("/");
-      }
-    });
-
   console.log(aluno);
   const campos = aluno
     ? [
@@ -75,7 +60,7 @@ export default function VerInformacoes() {
       <div className={styles.containerGeral}>
         <div className={styles.princiaplBox}>
           <div className={styles.topBar}>
-            <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
+            <Menu aberto={menuAberto} setAberto={setMenuAberto} />
           </div>
           <div className={styles.entreAqui}>
             <span className="material-symbols-outlined">info</span>

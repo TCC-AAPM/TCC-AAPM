@@ -81,18 +81,12 @@ export default function ModificarSenha() {
     navigate("/usuario/tela-principal");
   }
 
-  function sair() {
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token");
-    navigate("/");
-  }
-
   return (
     <>
       <div className={styles.containerGeral}>
         <div className={styles.principalBox}>
           <div className={styles.topBar}>
-            <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
+            <Menu aberto={menuAberto} setAberto={setMenuAberto} />
           </div>
           <div className={styles.entreAqui}>
             <h1 className="material-symbols-outlined">lock_reset</h1>

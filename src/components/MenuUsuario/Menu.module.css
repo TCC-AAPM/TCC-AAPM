@@ -28,17 +28,28 @@
 .menuFlutuante.abrir {
   top: 0;
 }
-
 .menu {
   display: flex;
   flex-direction: column;
   gap: 20px;
 }
 
-.menuFlutuante h1 {
+.menu button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+}
+
+.menu button h1 {
   font-size: 18px;
   padding: 10px;
   color: var(--white);
+  margin: 0;
+  font-weight: normal;
 }
 
 @media (min-width: 768px) {

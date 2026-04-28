@@ -28,17 +28,19 @@ export function alertInfo(mensagem) {
 
 // ========== MODAIS ==========
 
+//esse aqui só estou usando pra deletar a conta
 export async function alertConfirmar(mensagem) {
   const result = await Swal.fire({
     title: mensagem,
     icon: "warning",
     showCancelButton: true,
+    reverseButtons: true,
     confirmButtonText: "Sim",
     cancelButtonText: "Cancelar",
     customClass: {
       popup: "swal-popup",
-      confirmButton: "swal-btn-confirmar",
-      cancelButton: "swal-btn-cancelar",
+      confirmButton: "swal-btn-cancelar",
+      cancelButton: "swal-btn-confirmar",
     },
   });
   return result.isConfirmed;

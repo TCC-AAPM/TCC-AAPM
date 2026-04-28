@@ -35,16 +35,10 @@ export default function TelaPrincipal() {
       .catch((err) => console.error("erro:", err));
   }, []);
 
-  function sair() {
-    localStorage.removeItem("token");
-    sessionStorage.removeItem("token");
-    navigate("/");
-  }
-
   return (
     <div className={styles.containerGeral}>
       <div className={styles.topBar}>
-        <Menu aberto={menuAberto} setAberto={setMenuAberto} onSair={sair} />
+        <Menu aberto={menuAberto} setAberto={setMenuAberto}/>
       </div>
 
       <div className={styles.principalBox}>
