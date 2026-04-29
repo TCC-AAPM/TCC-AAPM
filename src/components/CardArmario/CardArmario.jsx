@@ -26,7 +26,7 @@ export function CardArmario({ armario, usuario, onClick, onContextMenu }) {
         </p>
         {armario.estado === "O" && usuario && (
           <p className={styles.info}>
-            <strong>Usuário:</strong> {usuario.nomeAluno}
+            <strong>Aluno:</strong> {usuario.nomeAluno}
           </p>
         )}
         {(armario.estado === "M" || armario.estado === "D") && (

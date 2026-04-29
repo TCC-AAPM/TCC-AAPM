@@ -3,21 +3,19 @@ import styles from "./PopupModal.module.css";
 export function PopupModal({ popup, onClose }) {
   const { usuario, armario } = popup;
 
-  const periodo = {
-    M: "Manhã",
-    T: "Tarde",
-    N: "Noite",
-  };
+  console.log(usuario);
 
   const metodo = {
-    1: "Cartão",
-    2: "Dinheiro",
-    3: "Pix",
+    A: "Dinheiro",
+    P: "Pix",
+    D: "Débito",
+    C: "Crédito",
   };
 
   const mascaraCPF = (cpf) =>
     cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
-  const mascaraTelefone = (tel) => tel.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+  const mascaraTelefone = (tel) =>
+    tel.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
   if (!usuario) return null;
 
   function copiar(texto) {
@@ -82,26 +80,22 @@ export function PopupModal({ popup, onClose }) {
           </p>
 
           <p>
-            <span>Período:</span>{" "}
-            <span className={styles.periodo} title={periodo[usuario.periodo]}>
-              {periodo[usuario.periodo] || usuario.periodo}
-            </span>
-          </p>
-
-          <p>
             <span>Pagamento:</span>{" "}
-            <span className={styles.pagamento} title={metodo[usuario.metodo]}>
-              {metodo[usuario.metodo] || usuario.metodo}
-            </span>
+            <span>{metodo[usuario.pagamento] || usuario.pagamento}</span>
           </p>
         </div>
 
         <div className={styles["pop-buttons"]}>
-          <button onClick={() => alert("Editar depois")}>Editar</button>
+          <button
+            className={styles["btn-editar"]}
+            onClick={() => alert("Editar depois")}
+          >
+            Editar
+          </button>
 
           <button
+            className={styles["btn-excluir"]}
             onClick={() => alert("Excluir depois")}
-            style={{ background: "#a4161b" }}
           >
             Excluir
           </button>

@@ -42,23 +42,23 @@
 }
 
 .pop-title {
-  font-size: 20px;
-  font-weight: 600;
-  text-align: center;
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
 }
 
 .pop-info-group {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .pop-info-group p {
-  display: grid;
-  grid-template-columns: auto 1fr auto; /* label | valor | botão */
-  align-items: center;
-  font-size: 13px;
-  gap: 8px;
+    display: grid; 
+    align-items: center;
+    grid-template-columns: auto 1fr auto;
+    gap: 6px;
+    font-weight: 400;
 }
 
 /* label (CPF, Curso...) */
@@ -120,17 +120,59 @@
 
   cursor: pointer;
 
-  background: #1b2559;
+  background: #1E3A8A;
   color: white;
 
   transition: all 0.2s ease;
 }
 
-.pop-buttons button:hover {
-  transform: scale(1.03);
-  background: #202d6b;
+.btn-editar {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: var(--dark-blue);
+    color: var(--white);
+    border: none;
 }
 
+.btn-editar:hover {
+    transform: scale(1.05);
+}
+
+.btn-editar,
+.btn-excluir {
+    background-color: var(--dark-blue);
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+    border: none;
+}
+
+.dark-mode .btn-excluir,
+.dark-mode .btn-editar {
+    background-color: var(--light-blue);
+}
+
+.btn-excluir:hover {
+    transform: scale(1.05);
+    background-color: #a4161b;
+}
+
+.btn-editar:hover {
+    transform: scale(1.05);
+    background-color: var(--blue);
+}
 @keyframes aparecer {
   from {
     opacity: 0;
