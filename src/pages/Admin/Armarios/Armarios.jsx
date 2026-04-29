@@ -25,7 +25,9 @@ export default function Armarios() {
     async function carregar() {
       const [arm, usr] = await Promise.all([
         fetch(API_ROUTES.armarios.listar, { headers }).then((r) => r.json()),
-        fetch(API_ROUTES.armarios.comReserva, { headers }).then((r) => r.json()),
+        fetch(API_ROUTES.armarios.comReserva, { headers }).then((r) =>
+          r.json(),
+        ),
       ]);
       setArmarios(arm);
       setUsuarios(usr);
@@ -61,7 +63,9 @@ export default function Armarios() {
       localStorage.setItem("armarioSelecionado", arm.numeroArmario);
       navigate("/admin/armarios/cadastrar-usuario");
     } else if (arm.estado === "O") {
-      const usuario = usuarios.find((u) => u.numeroArmario === arm.numeroArmario);
+      const usuario = usuarios.find(
+        (u) => u.numeroArmario === arm.numeroArmario,
+      );
       setPopup({ tipo: "ocupado", armario: arm, usuario });
     }
   }
@@ -104,7 +108,9 @@ export default function Armarios() {
               <button
                 key={estado}
                 className={`${styles.filtroBtn} ${styles[cssKey]} ${filtro === estado ? styles.ativo : ""}`}
-                onClick={() => setFiltro((prev) => (prev === estado ? null : estado))}
+                onClick={() =>
+                  setFiltro((prev) => (prev === estado ? null : estado))
+                }
               >
                 {label}
               </button>
@@ -116,7 +122,9 @@ export default function Armarios() {
               <CardArmario
                 key={arm.numeroArmario}
                 armario={arm}
-                usuario={usuarios.find((u) => u.numeroArmario === arm.numeroArmario)}
+                usuario={usuarios.find(
+                  (u) => u.numeroArmario === arm.numeroArmario,
+                )}
                 onClick={() => handleClick(arm)}
                 onContextMenu={() => handleContextMenu(arm)}
               />
