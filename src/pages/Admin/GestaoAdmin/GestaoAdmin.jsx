@@ -2,53 +2,49 @@ import styles from "./GestaoAdmin.module.css";
 
 const cards = [
   {
-    icon: "add_box",
+    icon: "inventory_2",
     title: "Gerenciar Armários",
-    desc: "Gerencie os armários do sistema",
+    desc: "Cadastre, edite e defina a disponibilidade dos armários do sistema.",
   },
-
   {
-    icon: "add_box",
+    icon: "school",
     title: "Gerenciar Cursos",
-    desc: "Gerencie os cursos do sistema",
+    desc: "Crie cursos e mantenha as informações atualizadas.",
   },
-
   {
-    icon: "add_box",
+    icon: "groups",
     title: "Gerenciar Turmas",
-    desc: "Gerencie os armários do sistema",
+    desc: "Crie, edite e administre as turmas vinculadas aos cursos.",
   },
-  
   {
-    icon: "add_box",
+    icon: "description",
     title: "Gerenciar Termos de Uso",
-    desc: "Gerencie os termos de uso do sistema",
+    desc: "Atualize e controle os termos de uso disponibilizados aos usuários.",
   },
-
   {
     icon: "history",
     title: "Histórico de Alunos",
-    desc: "Visualize os dados de todos os alunos já cadastrados",
+    desc: "Consulte o registro completo dos alunos já cadastrados no sistema.",
   },
   {
     icon: "calendar_month",
     title: "Modificar Data Final do Semestre",
-    desc: "Configure a duração do semestre",
+    desc: "Defina o período de encerramento do semestre letivo.",
   },
   {
     icon: "payments",
     title: "Financeiro",
-    desc: "Controle de pagamentos",
+    desc: "Acompanhe pagamentos, pendências e movimentações financeiras.",
   },
   {
     icon: "notifications",
-    title: "Enviar Notificações",
-    desc: "Envie avisos para e-mail dos alunos",
+    title: "Gerenciar E-mails",
+    desc: "Envie comunicados e notificações para os alunos por e-mail.",
   },
   {
     icon: "settings",
     title: "Configurações da Conta",
-    desc: "Configure as preferências da sua conta",
+    desc: "Personalize preferências e opções da conta administrativa.",
   },
 ];
 
