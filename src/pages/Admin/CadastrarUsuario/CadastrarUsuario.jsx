@@ -3,14 +3,6 @@ import styles from "./CadastrarUsuario.module.css";
 // import { validarCPF } from "../../../utils/validarCPF";
 import { API_ROUTES } from "../../../utils/auth.js";
 
-const Toast = window.Swal?.mixin({
-  toast: true,
-  position: "top-end",
-  showConfirmButton: false,
-  timer: 2000,
-  timerProgressBar: true,
-});
-
 function mascaraCPF(valor) {
   valor = valor.replace(/\D/g, "").slice(0, 11);
 
@@ -58,7 +50,7 @@ export default function CadastrarUsuario() {
   useEffect(() => {
     async function carregarCursos() {
       try {
-        const res = await fetch(API_ROUTES.admin.cursos);
+        const res = await fetch(API_ROUTES.cursos);
         if (!res.ok) throw new Error();
 
         const dados = await res.json();

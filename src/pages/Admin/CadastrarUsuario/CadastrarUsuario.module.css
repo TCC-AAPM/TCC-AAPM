@@ -1,14 +1,11 @@
-body {
-  min-height: 100vh;
-}
-
 .principalBox {
   flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  padding: auto 0;
+  justify-content: center;  
+  min-height: calc(100vh - 60px);
+  padding: 20px;
 }
 
 .form {
@@ -77,17 +74,6 @@ body {
   background: rgba(30, 58, 138, 0.8);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
-}
-
-.selectBox .formSelect {
-  cursor: pointer;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-  background-size: 20px;
-  padding-right: 45px;
-  color: rgba(255, 255, 255, 0.7);
 }
 
 .selectBox .formSelect:valid {

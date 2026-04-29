@@ -7,11 +7,16 @@ export const API_ROUTES = {
     deletarConta: `${BASE_URL}/Alunos/deletar-conta`,
   },
 
-  admin: {},
+  admin: {
+  },
 
   armarios: {
     listar: `${BASE_URL}/Armarios`,
     comReserva: `${BASE_URL}/Armarios/com-reserva`,
+  },
+
+  cursos: {
+    carregarCursos: `${BASE_URL}/Cursos`,
   },
 
   reservas : {
