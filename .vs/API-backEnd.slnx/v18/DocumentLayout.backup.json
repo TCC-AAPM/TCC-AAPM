@@ -1,18 +1,14 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\",
+  "WorkspaceRootPath": "C:\\Users\\gabriel\\Desktop\\API-aapm\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\termocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\termocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\termocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\admincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\models\\tabelatermosaceito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\models\\tabelatermosaceito.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\dtos\\termo\\pendenciatermosresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\termo\\pendenciatermosresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,43 +18,30 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TabelaTermosAceito.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Models\\TabelaTermosAceito.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Models\\TabelaTermosAceito.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Models\\TabelaTermosAceito.cs",
-              "RelativeToolTip": "API-backEnd\\Models\\TabelaTermosAceito.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAATAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T16:37:40.103Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "AdminController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\AdminController.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\AdminController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\AdminController.cs",
-              "RelativeToolTip": "API-backEnd\\Controllers\\AdminController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAAABsAAAAMAAAAAAAAAA==",
+              "Title": "PendenciaTermosResponse.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\DTOs\\Termo\\PendenciaTermosResponse.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Termo\\PendenciaTermosResponse.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\DTOs\\Termo\\PendenciaTermosResponse.cs",
+              "RelativeToolTip": "API-backEnd\\DTOs\\Termo\\PendenciaTermosResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-04-28T16:03:12.475Z",
+              "WhenOpened": "2026-04-29T12:01:03.964Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "TermoController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\TermoController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
-              "RelativeToolTip": "API-backEnd\\Controllers\\TermoController.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAADwv2wAAAARAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs*",
+              "RelativeToolTip": "API-backEnd\\Controllers\\TermoController.cs*",
+              "ViewState": "AgIAAHYAAAAAAAAAAADgv3cAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-15T11:42:04.083Z",
               "EditorCaption": ""

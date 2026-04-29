@@ -82,64 +82,77 @@ namespace API_backEnd.Controllers
         }
 
 
-        [Authorize]
-        [HttpPost("aceitar-termos")]
-        public IActionResult AceitarTermos() 
+        //[Authorize]
+        //[HttpPost("aceitar-termos")]
+        //public IActionResult AceitarTermos() 
+        //{
+        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        //    if (!int.TryParse(userId, out int id))
+        //        return BadRequest("ID inválido");
+
+        //    // salvar aceite aqui
+        //    var status = ObterStatusTermos(id);
+
+        //    if (!status.TermosArmario)
+        //    {
+        //        var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
+
+        //        if(aluno == null)
+        //        {
+        //            return BadRequest("Aluno não encontrado");
+        //        }
+
+        //        var reservaAtiva = db.TabelaReservaArmarios.Any(r => r.IdAluno == aluno.Id && r.IsAtivo);
+
+        //        if (reservaAtiva) 
+        //        {
+        //            // aceitar os termos do armario aqui
+        //        }
+        //    }
+        //    if (!status.TermosSite)
+        //    {
+
+        //    }
+        //    return Ok();
+        //}
+
+        private PendenciaTermosResponse ObterStatusTermos(int id)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var termosArmario = false;
+            var termosEstacionamento = false;
 
-            if (!int.TryParse(userId, out int id))
-                return BadRequest("ID inválido");
-
-            // salvar aceite aqui
-            var status = ObterStatusTermos(id);
-
-            if (!status.TermosArmario)
-            {
-                var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
-
-                if(aluno == null)
-                {
-                    return BadRequest("Aluno não encontrado");
-                }
-
-                var reservaAtiva = db.TabelaReservaArmarios.Any(r => r.IdAluno == aluno.Id && r.IsAtivo);
-
-                if (reservaAtiva) 
-                {
-                    // aceitar os termos do armario aqui
-                }
-            }
-            if (!status.TermosSite)
-            {
-
-            }
-            return Ok();
-        }
-
-        private StatusTermosResponse ObterStatusTermos(int id)
-        {
             var termosAceitoIds = db.TabelaTermosAceitos
                 .Where(t => t.IdUsuario == id && t.IsAtivo)
                 .Select(t => t.IdTermos)
                 .ToList();
 
-            return new StatusTermosResponse
+            var termosSite = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.S.ToString() && t.IsAtivo);
+
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
+            if (aluno != null)
             {
-                TermosSite = db.TabelaTermos.Any(t =>
-                    termosAceitoIds.Contains(t.Id) &&
-                    t.Referencia == ReferenciaTermos.S.ToString() &&
-                    t.IsAtivo),
+                var reservaArmarioAtiva = db.TabelaReservaArmarios.Any(r => r.IdAluno == aluno.Id && r.IsAtivo);
 
-                TermosArmario = db.TabelaTermos.Any(t =>
-                    termosAceitoIds.Contains(t.Id) &&
-                    t.Referencia == ReferenciaTermos.A.ToString() &&
-                    t.IsAtivo),
+                if (reservaArmarioAtiva)
+                {
+                    termosArmario = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.A.ToString() && t.IsAtivo);
+                }
 
-                TermosEstacionamento = db.TabelaTermos.Any(t =>
-                    termosAceitoIds.Contains(t.Id) &&
-                    t.Referencia == ReferenciaTermos.E.ToString() &&
-                    t.IsAtivo)
+                var reservaEstacionamentoAtiva = db.TabelaReservaEstacionamentos.Any(r => r.IdAluno == aluno.Id && r.IsAtivo);
+
+                if (reservaEstacionamentoAtiva)
+                {
+                    termosEstacionamento = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.E.ToString() && t.IsAtivo);
+                }
+            }
+            // true = precisa aceitar
+            // false = já está com o mais atualizado
+            return new PendenciaTermosResponse
+            {
+                TermosPendenteSite = termosSite,
+                TermosPendenteArmario = termosArmario,
+                TermosPendenteEstacionamento = termosEstacionamento
             };
         }
     }   

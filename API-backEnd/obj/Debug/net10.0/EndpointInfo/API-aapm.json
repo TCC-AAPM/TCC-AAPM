@@ -832,18 +832,6 @@
         }
       }
     },
-    "/api/Termo/aceitar-termos": {
-      "post": {
-        "tags": [
-          "Termo"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/Turmas": {
       "get": {
         "tags": [
