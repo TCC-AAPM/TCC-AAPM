@@ -1,0 +1,183 @@
+body {
+  min-height: 100vh;
+}
+
+.principalBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: auto 0;
+}
+
+.form {
+  background: linear-gradient(135deg, #1e3b8a44, #2564eb3a);
+  border-radius: 12px;
+  padding: 0.6rem 1rem;
+  width: 80%;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.8rem 1.2rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.sectionDivider {
+  grid-column: 1 / 5;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: #3f51b5;
+  border-bottom: 1px solid #e5e7eb;
+  padding-bottom: 0.3rem;
+  margin-top: 0.3rem;
+}
+
+.sectionDivider .icon {
+  font-size: 20px;
+}
+
+.inputBox,
+.selectBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.inputBox label,
+.selectBox label {
+  font-size: 13px;
+  font-weight: 500;
+  color: white;
+  padding-left: 0.7rem;
+  margin-bottom: 0.2rem;
+}
+
+.inputBox .formControl,
+.selectBox .formSelect {
+  width: 100%;
+  padding: 10px 14px;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  font-size: 15px;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: 52px;
+  background: rgba(30, 58, 138, 0.6);
+}
+
+.inputBox .formControl::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.inputBox .formControl:focus,
+.selectBox .formSelect:focus {
+  outline: none;
+  background: rgba(30, 58, 138, 0.8);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
+}
+
+.selectBox .formSelect {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 20px;
+  padding-right: 45px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.selectBox .formSelect:valid {
+  color: white;
+}
+
+.selectBox .formSelect option {
+  background: #1e3a8a;
+  color: white;
+  padding: 10px;
+}
+
+.selectBox .formSelect option:disabled {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Grid spans */
+.colSpan1 { grid-column: span 1; }
+.colSpan2 { grid-column: span 2; }
+.colSpan3 { grid-column: span 3; }
+.colSpan4 { grid-column: span 4; }
+
+.botaoCadastrar {
+  grid-column: 1 / 5;
+  display: flex;
+  justify-content: center;
+  margin-top: 0.5rem;
+}
+
+.btnPrimary {
+  background-color: var(--dark-blue, #1e3a8a);
+  height: 48px;
+  border-radius: 14px;
+  font-size: 18px;
+  width: 100%;
+  max-width: 350px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btnPrimary:hover {
+  opacity: 0.85;
+}
+
+.voltar {
+  position: fixed;
+  bottom: 10%;
+  left: 1.5rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.footer {
+  text-align: center;
+  padding: 1rem;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .principalBox {
+    padding-top: 6rem;
+  }
+
+  .form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 90%;
+  }
+
+  .inputBox,
+  .selectBox {
+    width: 100%;
+  }
+
+  .inputBox .formControl,
+  .selectBox .formSelect {
+    width: 100%;
+  }
+
+  .btnPrimary {
+    height: 60px;
+    font-size: 20px;
+    max-width: 100%;
+  }
+
+  .botaoCadastrar {
+    margin-top: 0.5rem;
+  }
+}

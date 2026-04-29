@@ -61,7 +61,7 @@ export default function Armarios() {
   function handleClick(arm) {
     if (arm.estado === "D") {
       localStorage.setItem("armarioSelecionado", arm.numeroArmario);
-      navigate("/admin/armarios/cadastrar-usuario");
+      navigate("/admin/cadastrar-aluno");
     } else if (arm.estado === "O") {
       const usuario = usuarios.find(
         (u) => u.numeroArmario === arm.numeroArmario,

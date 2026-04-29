@@ -19,6 +19,7 @@ import PainelAdmin from "../pages/Admin/GestaoAdmin/GestaoAdmin.jsx";
 
 // adm
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
+import CadastrarUsuario from "../pages/Admin/CadastrarUsuario/CadastrarUsuario.jsx";
 
 export default function AppRoutes() {
   return (
@@ -53,6 +54,15 @@ export default function AppRoutes() {
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
             <PainelAdmin />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/admin/cadastrar-aluno"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <CadastrarUsuario />
           </PrivateRoute>
         }
       />
