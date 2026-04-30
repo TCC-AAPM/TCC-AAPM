@@ -832,6 +832,37 @@
         }
       }
     },
+    "/api/Termo/aceitar-novos-termos": {
+      "post": {
+        "tags": [
+          "Termo"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AceitarTermoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AceitarTermoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AceitarTermoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Turmas": {
       "get": {
         "tags": [
@@ -964,6 +995,19 @@
   },
   "components": {
     "schemas": {
+      "AceitarTermoRequest": {
+        "required": [
+          "idTermo"
+        ],
+        "type": "object",
+        "properties": {
+          "idTermo": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "AtualizarEstadoArmarioRequest": {
         "required": [
           "estado"

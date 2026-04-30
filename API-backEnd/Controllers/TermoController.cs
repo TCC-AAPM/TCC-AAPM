@@ -35,14 +35,14 @@ namespace API_backEnd.Controllers
             if (termoExistente != null) 
             {
                 termoExistente.IsAtivo = false;
-                termoExistente.DataAlteracao = DateTime.Now;
+                termoExistente.DataAlteracao = DateTime.UtcNow;
             }
             
             var termos = new TabelaTermo
             {
                 Termos = dto.Termos,
                 Referencia = dto.Referencia.ToString(),
-                DataCriacao = DateTime.Now,
+                DataCriacao = DateTime.UtcNow,
                 IsAtivo = true
             };
 
@@ -58,7 +58,7 @@ namespace API_backEnd.Controllers
             var termos = db.TabelaTermos
                 .AsNoTracking()
                 .ToList()
-                .Where(t => t.IsAtivo).Select(l => new TermoResponse
+                .Where(t => t.IsAtivo).Select(l => new TermosResponse
                 {
                     Termos = l.Termos,
                     Referencia = Enum.TryParse<ReferenciaTermos>(l.Referencia, out var refEnum)
@@ -67,7 +67,6 @@ namespace API_backEnd.Controllers
                 }).ToList();
             return Ok(termos);
         }
-
 
         [Authorize]
         [HttpGet("verificar-termos-aceito")]
@@ -81,41 +80,50 @@ namespace API_backEnd.Controllers
             return Ok(ObterStatusTermos(id));
         }
 
+        [Authorize]
+        [HttpPost("aceitar-novos-termos")]
+        public IActionResult AceitarTermos(AceitarTermoRequest dto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //[Authorize]
-        //[HttpPost("aceitar-termos")]
-        //public IActionResult AceitarTermos() 
-        //{
-        //    var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!int.TryParse(userId, out int id))
+            {
+                return BadRequest("ID inválido");
+            }
 
-        //    if (!int.TryParse(userId, out int id))
-        //        return BadRequest("ID inválido");
+            var termoAtualExiste = db.TabelaTermos.FirstOrDefault(t => t.Id == dto.IdTermo && t.IsAtivo);
+            if (termoAtualExiste == null)
+            {
+                return BadRequest("Termo não encontrado");
+            }
+            
+            var jaAceito = db.TabelaTermosAceitos.Any(t => t.IdUsuario == id && t.IdTermos == dto.IdTermo && t.IsAtivo);
+            if (jaAceito)
+            {
+                return BadRequest("Você já aceitou esse termo");
+            }
 
-        //    // salvar aceite aqui
-        //    var status = ObterStatusTermos(id);
+            var termoAntigoAceito = db.TabelaTermosAceitos.FirstOrDefault(t => t.IdUsuario == id && t.IsAtivo && t.IdTermosNavigation.Referencia == termoAtualExiste.Referencia);
+            if (termoAntigoAceito != null)
+            {
+                termoAntigoAceito.DataAlteracao = DateTime.UtcNow;
+                termoAntigoAceito.IsAtivo = false;
+            }
+            var termoAceito = new TabelaTermosAceito
+            {
+                IdTermos = dto.IdTermo,
+                IdUsuario = id,
+                DataAceito = DateTime.UtcNow
+            };
 
-        //    if (!status.TermosArmario)
-        //    {
-        //        var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
-
-        //        if(aluno == null)
-        //        {
-        //            return BadRequest("Aluno não encontrado");
-        //        }
-
-        //        var reservaAtiva = db.TabelaReservaArmarios.Any(r => r.IdAluno == aluno.Id && r.IsAtivo);
-
-        //        if (reservaAtiva) 
-        //        {
-        //            // aceitar os termos do armario aqui
-        //        }
-        //    }
-        //    if (!status.TermosSite)
-        //    {
-
-        //    }
-        //    return Ok();
-        //}
+            db.TabelaTermosAceitos.Add(termoAceito);
+            db.SaveChanges();
+            return Ok("Termo aceito");
+        }
 
         private PendenciaTermosResponse ObterStatusTermos(int id)
         {

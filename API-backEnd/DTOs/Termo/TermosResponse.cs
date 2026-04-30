@@ -2,7 +2,7 @@
 
 namespace API_backEnd.DTOs.Termo
 {
-    public class TermoResponse
+    public class TermosResponse
     {
         public string Termos { get; set; }
         public ReferenciaTermos Referencia { get; set; }

@@ -469,6 +469,22 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.TermoController",
+    "Method": "AceitarTermos",
+    "RelativePath": "api/Termo/aceitar-novos-termos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Termo.AceitarTermoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.TermoController",
     "Method": "VerificarTermosAceito",
     "RelativePath": "api/Termo/verificar-termos-aceito",
     "HttpMethod": "GET",
