@@ -97,6 +97,9 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.IdUsuario)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_usuario");
+            entity.Property(e => e.DataNasc)
+                .HasColumnName("data_nasc")
+                .HasColumnType("date");
             entity.Property(e => e.IsAtivo)
                 .HasDefaultValueSql("b'1'")
                 .HasColumnType("bit(1)")
@@ -104,6 +107,9 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.Nome)
                 .HasMaxLength(100)
                 .HasColumnName("nome");
+            entity.Property(e => e.NomeSocial)
+                .HasMaxLength(100)
+                .HasColumnName("nome_social");
             entity.Property(e => e.Telefone)
                 .HasMaxLength(20)
                 .IsFixedLength()
@@ -157,9 +163,15 @@ public partial class AapmContext : DbContext
                 .HasMaxLength(50)
                 .IsFixedLength()
                 .HasColumnName("matricula");
+            entity.Property(e => e.DataNasc)
+                .HasColumnName("data_nasc")
+                .HasColumnType("date");               
             entity.Property(e => e.Nome)
                 .HasMaxLength(100)
                 .HasColumnName("nome");
+            entity.Property(e => e.NomeSocial)
+                .HasMaxLength(100)
+                .HasColumnName("nome_social");
             entity.Property(e => e.Telefone)
                 .HasMaxLength(20)
                 .HasColumnName("telefone");
@@ -425,9 +437,9 @@ public partial class AapmContext : DbContext
                 .HasDefaultValueSql("'A'")
                 .HasColumnType("enum('A','E','S')")
                 .HasColumnName("referencia");
-            entity.Property(e => e.Termos)
-                .HasColumnType("text")
-                .HasColumnName("termos");
+            entity.Property(e => e.CaminhoPdf)
+                .HasColumnType("varchar(255)")
+                .HasColumnName("caminho_pdf");
         });
 
         modelBuilder.Entity<TabelaTermosAceito>(entity =>

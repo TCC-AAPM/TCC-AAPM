@@ -9,11 +9,15 @@ public partial class TabelaAdmin
 
     public string Nome { get; set; } = null!;
 
+    public string? NomeSocial { get; set; }
+
     public string Email { get; set; } = null!;
 
     public string Telefone { get; set; } = null!;
 
     public string Cpf { get; set; }
+
+    public DateOnly DataNasc { get; set; }
 
     public int IdUsuario { get; set; }
 

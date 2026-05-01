@@ -7,7 +7,7 @@ public partial class TabelaTermo
 {
     public int Id { get; set; }
 
-    public string Termos { get; set; } = null!;
+    public string CaminhoPdf { get; set; } = null!;
 
     public string Referencia { get; set; } = null!;
 

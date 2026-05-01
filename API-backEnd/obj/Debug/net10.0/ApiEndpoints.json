@@ -450,21 +450,16 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "API_backEnd.DTOs.Termo.CriarTermoRequest",
-        "IsRequired": true
+        "Name": "Pdf",
+        "Type": "Microsoft.AspNetCore.Http.IFormFile",
+        "IsRequired": false
+      },
+      {
+        "Name": "Referencia",
+        "Type": "API_backEnd.Enums.ReferenciaTermos",
+        "IsRequired": false
       }
     ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API_backEnd.Controllers.TermoController",
-    "Method": "GetTermosAtivo",
-    "RelativePath": "api/Termo",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -479,6 +474,22 @@
         "Name": "dto",
         "Type": "API_backEnd.DTOs.Termo.AceitarTermoRequest",
         "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.TermoController",
+    "Method": "ObterPdf",
+    "RelativePath": "api/Termo/termo-pdf",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "referencia",
+        "Type": "System.String",
+        "IsRequired": false
       }
     ],
     "ReturnTypes": []

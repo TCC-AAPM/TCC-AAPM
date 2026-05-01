@@ -6,7 +6,7 @@ namespace API_backEnd.DTOs.Termo
     public class CriarTermoRequest
     {
         [Required]
-        public string Termos {  get; set; }
+        public IFormFile Pdf {  get; set; }
         [Required]
         public ReferenciaTermos Referencia { get; set; }
 

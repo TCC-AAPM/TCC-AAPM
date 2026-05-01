@@ -89,6 +89,9 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 
+// arquivo
+app.UseStaticFiles();
+
 // 🔹 Pipeline
 app.UseAuthentication(); // ⚠️ sempre antes
 app.UseAuthorization();

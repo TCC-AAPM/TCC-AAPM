@@ -14,6 +14,8 @@ namespace API_backEnd.DTOs.Reserva
         [Required]
         public string Nome { get; set; }
 
+        public string? NomeSocial { get; set; }
+
         [Required]
         [RegularExpression(@"^\d{10,11}$", ErrorMessage = "Telefone deve ter 10 ou 11 dígitos")]
         public string Telefone { get; set; }
@@ -25,6 +27,9 @@ namespace API_backEnd.DTOs.Reserva
         public string? Matricula { get; set; }
 
         [Required]
+        public DateOnly DataNasc { get; set; }
+        
+        [Required]
         public int IdCurso { get; set; }
 
         public int IdTurma { get; set; }
@@ -32,5 +37,16 @@ namespace API_backEnd.DTOs.Reserva
         [Required]
         public string MetodoPagamento { get; set; }
 
+        [Required]
+        public int IdTermoSite { get; set;  }
+
+        [Required]
+        public bool AceitouTermoSite { get; set; }
+
+        [Required]
+        public int IdTermoArmario { get; set; }
+
+        [Required]
+        public bool AceitouTermoArmario { get; set; }
     }
 }

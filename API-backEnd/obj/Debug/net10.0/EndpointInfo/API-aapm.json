@@ -786,19 +786,30 @@
         ],
         "requestBody": {
           "content": {
-            "application/json": {
+            "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/CriarTermoRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarTermoRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarTermoRequest"
+                "required": [
+                  "Pdf",
+                  "Referencia"
+                ],
+                "type": "object",
+                "properties": {
+                  "Pdf": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "Referencia": {
+                    "$ref": "#/components/schemas/ReferenciaTermos"
+                  }
+                }
+              },
+              "encoding": {
+                "Pdf": {
+                  "style": "form"
+                },
+                "Referencia": {
+                  "style": "form"
+                }
               }
             }
           }
@@ -808,10 +819,21 @@
             "description": "Success"
           }
         }
-      },
+      }
+    },
+    "/api/Termo/termo-pdf": {
       "get": {
         "tags": [
           "Termo"
+        ],
+        "parameters": [
+          {
+            "name": "referencia",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -1120,9 +1142,11 @@
       "CriarCadastroArmarioRequest": {
         "required": [
           "cpf",
+          "dataNasc",
           "email",
           "idArmario",
           "idCurso",
+          "idTermo",
           "metodoPagamento",
           "nome",
           "telefone"
@@ -1142,6 +1166,10 @@
             "minLength": 1,
             "type": "string"
           },
+          "nomeSocial": {
+            "type": "string",
+            "nullable": true
+          },
           "telefone": {
             "minLength": 1,
             "pattern": "^\\d{10,11}$",
@@ -1156,6 +1184,10 @@
             "type": "string",
             "nullable": true
           },
+          "dataNasc": {
+            "type": "string",
+            "format": "date"
+          },
           "idCurso": {
             "type": "integer",
             "format": "int32"
@@ -1167,23 +1199,10 @@
           "metodoPagamento": {
             "minLength": 1,
             "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CriarTermoRequest": {
-        "required": [
-          "referencia",
-          "termos"
-        ],
-        "type": "object",
-        "properties": {
-          "termos": {
-            "minLength": 1,
-            "type": "string"
           },
-          "referencia": {
-            "$ref": "#/components/schemas/ReferenciaTermos"
+          "idTermo": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false

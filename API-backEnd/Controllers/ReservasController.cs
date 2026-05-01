@@ -27,6 +27,48 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
+            DateOnly hoje = DateOnly.FromDateTime(DateTime.Today);
+            int idade = hoje.Year - dto.DataNasc.Year;
+
+            if (hoje < dto.DataNasc.AddYears(idade))
+            {
+                idade--;
+            }
+
+            if (idade < 14)
+            {
+                return BadRequest("Idade mínima de 14 anos.");
+            }
+
+            var termoSiteAtivo = db.TabelaTermos.FirstOrDefault(t => t.Referencia == ReferenciaTermos.S.ToString() && t.IsAtivo);
+
+            if (termoSiteAtivo == null)
+            {
+                return BadRequest("Termo do site não encontrado");
+            }
+            if(termoSiteAtivo.Id != dto.IdTermoSite)
+            {
+                return BadRequest("Termo inválido");
+            }
+            if (dto.AceitouTermoSite == false)
+            {
+                return BadRequest("Precisa aceitar os termos do site");
+            }
+
+            var termoArmarioAtivo = db.TabelaTermos.FirstOrDefault(t => t.Referencia == ReferenciaTermos.A.ToString() && t.IsAtivo);
+            if (termoArmarioAtivo == null)
+            {
+                return BadRequest("Termo do armário não encontrado");
+            }
+            if (termoArmarioAtivo.Id != dto.IdTermoArmario)
+            {
+                return BadRequest("Termo inválido");
+            }
+            if (dto.AceitouTermoArmario == false)
+            {
+                return BadRequest("Precisa aceitar os termos da reserva de armario");
+            }
+
             var ocupado = db.TabelaReservaArmarios.Any(r => r.IdArmario == dto.IdArmario && r.IsAtivo);
 
             if (ocupado)
@@ -54,11 +96,28 @@ namespace API_backEnd.Controllers
                 db.SaveChanges();
 
                 int idUsuario = usuario.Id;
+                var termosSite = new TabelaTermosAceito
+                {
+                    IdTermos = termoSiteAtivo.Id,
+                    IdUsuario = idUsuario,
+                    DataAceito = DateTime.UtcNow,
+                };
 
+                var termosArmario = new TabelaTermosAceito
+                {
+                    IdTermos = termoArmarioAtivo.Id,
+                    IdUsuario = idUsuario,
+                    DataAceito = DateTime.UtcNow,
+                };
+
+                db.TabelaTermosAceitos.Add(termosSite);
+                db.TabelaTermosAceitos.Add(termosArmario);
                 var aluno = new TabelaAluno
                 {
                     Cpf = dto.CPF,
                     Nome = dto.Nome,
+                    NomeSocial = dto.NomeSocial,
+                    DataNasc = dto.DataNasc,
                     Matricula = dto.Matricula,
                     Telefone = Regex.Replace(dto.Telefone, @"\D", ""),
                     Email = dto.Email,

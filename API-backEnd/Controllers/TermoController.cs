@@ -22,9 +22,9 @@ namespace API_backEnd.Controllers
             db = context;
         }
 
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPost]
-        public IActionResult CriarTermo(CriarTermoRequest dto)
+        public async Task<IActionResult> CriarTermo([FromForm] CriarTermoRequest dto)
         {
             if (!ModelState.IsValid)
             {
@@ -37,10 +37,19 @@ namespace API_backEnd.Controllers
                 termoExistente.IsAtivo = false;
                 termoExistente.DataAlteracao = DateTime.UtcNow;
             }
-            
+
+            if (dto.Pdf == null || dto.Pdf.Length == 0) 
+            {
+                return BadRequest("Arquivo inválido");
+            }
+            if (dto.Pdf.ContentType != "application/pdf")
+            {
+                return BadRequest("Somente PDF permitido");
+            }
+            var caminhoPdf = await SalvarPdf(dto.Pdf);
             var termos = new TabelaTermo
             {
-                Termos = dto.Termos,
+                CaminhoPdf = caminhoPdf,
                 Referencia = dto.Referencia.ToString(),
                 DataCriacao = DateTime.UtcNow,
                 IsAtivo = true
@@ -52,21 +61,27 @@ namespace API_backEnd.Controllers
             return Ok("Termo criado com sucesso");
         }
 
-        [HttpGet]
-        public IActionResult GetTermosAtivo()
+        [HttpGet("termo-pdf")]
+        public IActionResult ObterPdf(string referencia)
         {
-            var termos = db.TabelaTermos
-                .AsNoTracking()
-                .ToList()
-                .Where(t => t.IsAtivo).Select(l => new TermosResponse
-                {
-                    Termos = l.Termos,
-                    Referencia = Enum.TryParse<ReferenciaTermos>(l.Referencia, out var refEnum)
-                    ? refEnum
-                    : default
-                }).ToList();
-            return Ok(termos);
+            var termo = db.TabelaTermos
+                .FirstOrDefault(t => t.Referencia == referencia && t.IsAtivo);
+
+            if (termo == null)
+                return NotFound("Termo não encontrado");
+
+            var caminhoFisico = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                termo.CaminhoPdf.TrimStart('/')
+            );
+
+            if (!System.IO.File.Exists(caminhoFisico))
+                return NotFound("Arquivo não encontrado");
+
+            return PhysicalFile(caminhoFisico, "application/pdf");
         }
+
 
         [Authorize]
         [HttpGet("verificar-termos-aceito")]
@@ -163,5 +178,27 @@ namespace API_backEnd.Controllers
                 TermosPendenteEstacionamento = termosEstacionamento
             };
         }
+
+        private async Task<string> SalvarPdf(IFormFile arquivo)
+        {
+            // pasta destino
+            var pasta = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "uploads", "termos");
+
+            // cria a pasta se não existir
+            if (!Directory.Exists(pasta))
+                Directory.CreateDirectory(pasta);
+
+            var nomeArquivo = $"{Guid.NewGuid()}{Path.GetExtension(arquivo.FileName)}";
+
+            var caminhoCompleto = Path.Combine(pasta, nomeArquivo);
+
+            using (var stream = new FileStream(caminhoCompleto, FileMode.Create))
+            {
+                await arquivo.CopyToAsync(stream);
+            }
+
+            // retornar caminho relativo (pra salvar no banco)
+            return $"/uploads/termos/{nomeArquivo}";
+        } 
     }   
 }
