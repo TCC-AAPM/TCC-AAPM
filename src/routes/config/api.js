@@ -27,5 +27,5 @@ export const API_ROUTES = {
   produtos: {
     listar: `${BASE_URL}/Produtos`,
     idProdutos: `${BASE_URL}/Produtos/{idProduto}`, //nao usando
-  },
+  }
 };

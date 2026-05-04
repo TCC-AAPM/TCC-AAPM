@@ -3,6 +3,7 @@ import PrivateRoute from "./PrivateRoute";
 
 import Home from "../pages/Home/Home.jsx";
 import Login from "../pages/Login/Index.jsx";
+import Cadastro from "../pages/Home/Cadastro.jsx";
 import AcessoNegado from "../pages/AcessoNegado/AcessoNegado.jsx";
 
 import EsqueciSenha from "../pages/Senha/EsqueciSenha/EsqueciSenha.jsx";
@@ -26,6 +27,7 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/cadastro" element={<Cadastro />} />
       <Route path="/acesso-negado" element={<AcessoNegado />} />
       <Route path="/senha/esqueci" element={<EsqueciSenha />} />
       <Route path="/senha/codigo" element={<CodigoSenha />} />

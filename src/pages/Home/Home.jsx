@@ -8,6 +8,7 @@ function Icon({ name }) {
 }
 
 function Card({ s }) {
+  const navigate = useNavigate();
   return (
     <div className={styles.card}>
       <div className={styles.cardGlow} />
@@ -27,13 +28,16 @@ function Card({ s }) {
         {s.features.map((f) => (
           <div className={styles.feat} key={f}>
             <div className={styles.featCheck}>
-              <svg viewBox="0 0 10 10"><polyline points="1.5,5 4,7.5 8.5,2" /></svg>
+              <svg viewBox="0 0 10 10">
+                <polyline points="1.5,5 4,7.5 8.5,2" />
+              </svg>
             </div>
             {f}
           </div>
         ))}
       </div>
-      <button className={styles.btnContratar}>
+      
+      <button className={styles.btnContratar} onClick={() => navigate("/cadastro")}>
         <div className={styles.btnBg} />
         <span className={styles.btnLabel}>Contratar Serviço</span>
         <span className={styles.btnArrow}>
@@ -70,7 +74,9 @@ export default function Home() {
       name: "Armário",
       produtoKey: "Armário",
       title: "Seja um associado da AAPM",
-      price: precos["A"] ? `R$ ${precos["A"].toLocaleString("pt-BR", { minimumFractionDigits: 2 })}` : "---",
+      price: precos["A"]
+        ? `R$ ${precos["A"].toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
+        : "---",
       period: "/ semestre",
       desc: "Guarde seus pertences com total segurança durante o período escolar e além disso:",
       features: [
@@ -90,7 +96,9 @@ export default function Home() {
       name: "Estacionamento",
       produtoKey: "Estacionamento",
       title: "Vaga de Estacionamento",
-      price: precos["E"] ? `R$ ${precos["E"].toLocaleString("pt-BR", { minimumFractionDigits: 2 })}` : "---",
+      price: precos["E"]
+        ? `R$ ${precos["E"].toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
+        : "---",
       period: "/ mês",
       desc: "Disponível nos três turnos, segurança reforçada no período noturno.",
       features: [
@@ -109,13 +117,23 @@ export default function Home() {
       <nav className={styles.nav}>
         <div className={styles.navLogo}>
           <div className={styles.navLogoBox}>
-            <img src="./src/assets/images/AAPM-Logo.png" alt="AAPM"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }} />
+            <img
+              src="./src/assets/images/AAPM-Logo.png"
+              alt="AAPM"
+              style={{ width: "100%", height: "100%", objectFit: "contain" }}
+            />
           </div>
-          <div className={styles.navBrand}>AAPM<small>SENAI Osasco</small></div>
+          <div className={styles.navBrand}>
+            AAPM<small>SENAI Osasco</small>
+          </div>
         </div>
         <div className={styles.navActions}>
-          <button className={styles.btnGhost} onClick={() => navigate("/login")}>Entrar</button>
+          <button
+            className={styles.btnGhost}
+            onClick={() => navigate("/login")}
+          >
+            Entrar
+          </button>
         </div>
       </nav>
       <div className={styles.hero}>
@@ -123,13 +141,22 @@ export default function Home() {
           <span className={styles.pillDot} />
           Serviços por assinatura
         </div>
-        <h1>Serviços <em>AAPM</em><br />Senai Osasco</h1>
-        <p>Assine nossos serviços de armário e estacionamento com praticidade total. Sem burocracia, sem complicação.</p>
+        <h1>
+          Serviços <em>AAPM</em>
+          <br />
+          Senai Osasco
+        </h1>
+        <p>
+          Assine nossos serviços de armário e estacionamento com praticidade
+          total. Sem burocracia, sem complicação.
+        </p>
       </div>
       <div className={styles.section}>
         <div className={styles.sectionEyebrow}>Escolha seu plano</div>
         <div className={styles.cards}>
-          {services.map((s) => <Card key={s.name} s={s} />)}
+          {services.map((s) => (
+            <Card key={s.name} s={s} />
+          ))}
         </div>
       </div>
     </>
