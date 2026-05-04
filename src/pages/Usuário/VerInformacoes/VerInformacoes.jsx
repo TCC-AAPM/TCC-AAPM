@@ -49,6 +49,7 @@ export default function VerInformacoes() {
         ["Matrícula", aluno.matricula],
         ["Telefone", maskPhone(aluno.telefone)],
         ["Email", aluno.email],
+        ["Data de Nascimento", aluno.dataNascimento],
         ["Curso", aluno.curso],
         ["Turma", aluno.turma],
         ["Pagamento", METODOS[aluno.pagamento]],
