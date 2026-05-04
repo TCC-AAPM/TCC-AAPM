@@ -57,7 +57,7 @@ namespace API_backEnd.Controllers
                 from tr in reservas.DefaultIfEmpty()
                 join p in db.TabelaPagamentos on a.Id equals p.IdAluno into pagamentos
                 from p in pagamentos.DefaultIfEmpty()
-                where a.IdUsuario == id
+                where a.IdUsuario == id && tr.IsAtivo
                 select new AlunoLogadoResponse
                 {
                     NumeroArmario = tr.IdArmario,

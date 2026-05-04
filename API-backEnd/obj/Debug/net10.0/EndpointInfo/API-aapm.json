@@ -1141,12 +1141,15 @@
       },
       "CriarCadastroArmarioRequest": {
         "required": [
+          "aceitouTermoArmario",
+          "aceitouTermoSite",
           "cpf",
           "dataNasc",
           "email",
           "idArmario",
           "idCurso",
-          "idTermo",
+          "idTermoArmario",
+          "idTermoSite",
           "metodoPagamento",
           "nome",
           "telefone"
@@ -1200,9 +1203,19 @@
             "minLength": 1,
             "type": "string"
           },
-          "idTermo": {
+          "idTermoSite": {
             "type": "integer",
             "format": "int32"
+          },
+          "aceitouTermoSite": {
+            "type": "boolean"
+          },
+          "idTermoArmario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aceitouTermoArmario": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
