@@ -1,5 +1,6 @@
 import { useState } from "react";
 import styles from "./Cadastro.module.css";
+import { useNavigate } from "react-router-dom";
 
 function formatarCPF(v) {
   const d = v.replace(/\D/g, "").slice(0, 11);
@@ -27,6 +28,7 @@ const cursos = [
 ];
 
 export default function Cadastro() {
+  const navigate = useNavigate();
   const [form, setForm] = useState({
     nome: "",
     nomeSocial: "",
@@ -47,7 +49,6 @@ export default function Cadastro() {
 
   return (
     <div className={styles.pagina}>
-
       <div className={styles.corpo}>
         {/* Esquerda */}
         <aside className={styles.esquerda}>
@@ -178,7 +179,12 @@ export default function Cadastro() {
 
           <div className={styles["rodape-card"]}>
             <span>Já possui cadastro?</span>
-            <button className={styles["btn-secundario"]}>Entrar</button>
+            <button
+              className={styles["btn-secundario"]}
+              onClick={() => navigate("/login")}
+            >
+              Entrar
+            </button>
           </div>
         </div>
       </div>
