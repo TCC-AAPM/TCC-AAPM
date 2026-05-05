@@ -11,6 +11,8 @@ namespace API_backEnd.DTOs.Reserva
         [Required(ErrorMessage = "Nome é obrigatório")]
         public string Nome { get; set; }
 
+        public string? NomeSocial { get; set; }
+
         [Required(ErrorMessage = "Telefone é obrigatório")]
         [RegularExpression(@"^\d{10,11}$", ErrorMessage = "Telefone deve ter 10 ou 11 dígitos")]
         public string Telefone { get; set; }
@@ -28,5 +30,19 @@ namespace API_backEnd.DTOs.Reserva
         public string MetodoPagamento { get; set; }
         [Required]
         public int IdArmario { get; set; }
+
+        [Required]
+        public DateOnly DataNasc { get; set; }
+        [Required]
+        public int IdTermoSite { get; set; }
+
+        [Required]
+        public bool AceitouTermoSite { get; set; }
+
+        [Required]
+        public int IdTermoArmario { get; set; }
+
+        [Required]
+        public bool AceitouTermoArmario { get; set; }
     }
 }

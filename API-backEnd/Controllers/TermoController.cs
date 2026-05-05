@@ -22,7 +22,7 @@ namespace API_backEnd.Controllers
             db = context;
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPost]
         public async Task<IActionResult> CriarTermo([FromForm] CriarTermoRequest dto)
         {
@@ -31,7 +31,7 @@ namespace API_backEnd.Controllers
                 return BadRequest(ModelState);
             }
 
-            var termoExistente = db.TabelaTermos.FirstOrDefault(t => t.Referencia == dto.Referencia.ToString() && t.IsAtivo);
+            var termoExistente = db.TabelaTermos.FirstOrDefault(t => t.Referencia == dto.Referencia && t.IsAtivo);
             if (termoExistente != null) 
             {
                 termoExistente.IsAtivo = false;
@@ -50,7 +50,7 @@ namespace API_backEnd.Controllers
             var termos = new TabelaTermo
             {
                 CaminhoPdf = caminhoPdf,
-                Referencia = dto.Referencia.ToString(),
+                Referencia = dto.Referencia,
                 DataCriacao = DateTime.UtcNow,
                 IsAtivo = true
             };
@@ -62,7 +62,7 @@ namespace API_backEnd.Controllers
         }
 
         [HttpGet("termo-pdf")]
-        public IActionResult ObterPdf(string referencia)
+        public IActionResult ObterPdf(ReferenciaTermos referencia)
         {
             var termo = db.TabelaTermos
                 .FirstOrDefault(t => t.Referencia == referencia && t.IsAtivo);
@@ -150,7 +150,7 @@ namespace API_backEnd.Controllers
                 .Select(t => t.IdTermos)
                 .ToList();
 
-            var termosSite = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.S.ToString() && t.IsAtivo);
+            var termosSite = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.S && t.IsAtivo);
 
             var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
             if (aluno != null)
@@ -159,14 +159,14 @@ namespace API_backEnd.Controllers
 
                 if (reservaArmarioAtiva)
                 {
-                    termosArmario = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.A.ToString() && t.IsAtivo);
+                    termosArmario = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.A && t.IsAtivo);
                 }
 
                 var reservaEstacionamentoAtiva = db.TabelaReservaEstacionamentos.Any(r => r.IdAluno == aluno.Id && r.IsAtivo);
 
                 if (reservaEstacionamentoAtiva)
                 {
-                    termosEstacionamento = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.E.ToString() && t.IsAtivo);
+                    termosEstacionamento = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.E && t.IsAtivo);
                 }
             }
             // true = precisa aceitar

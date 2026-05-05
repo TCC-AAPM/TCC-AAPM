@@ -50,28 +50,43 @@ namespace API_backEnd.Controllers
 
             var dadosAluno =
             (
-                from a in db.TabelaAlunos
-                join t in db.TabelaTurmas on a.TurmaId equals t.Id
-                join c in db.TabelaCursos on a.CursoId equals c.Id
-                join tr in db.TabelaReservaArmarios on a.Id equals tr.IdAluno into reservas
-                from tr in reservas.DefaultIfEmpty()
-                join p in db.TabelaPagamentos on a.Id equals p.IdAluno into pagamentos
-                from p in pagamentos.DefaultIfEmpty()
-                where a.IdUsuario == id && tr.IsAtivo
-                select new AlunoLogadoResponse
+                db.TabelaAlunos.Where(a => a.IdUsuario == id && a.IsAtivo).Select(a => new AlunoLogadoResponse
                 {
-                    NumeroArmario = tr.IdArmario,
                     Nome = a.Nome,
+                    NomeSocial = a.NomeSocial ?? "",
+                    DataNasc = a.DataNasc,
                     CPF = a.Cpf,
                     Telefone = a.Telefone,
-                    Matricula = a.Matricula,
+                    Matricula = a.Matricula ?? "",
                     Email = a.Email,
-                    Turma = t.Turma,
-                    Curso = c.Nome,
-                    Pagamento = p.Metodo ?? "Pagamento não identificado",
-                    DataExpiracao = data
 
-                }
+                    Turma = db.TabelaTurmas
+                        .Where(t => t.Id == a.TurmaId && t.IsAtivo)
+                        .Select(t => t.Turma)
+                        .FirstOrDefault() ?? "Turma não identificada",
+
+                    Curso = db.TabelaCursos
+                        .Where(c => c.Id == a.CursoId  && c.IsAtivo)
+                        .Select(c => c.Nome)
+                        .FirstOrDefault() ?? "Curso não identificado",
+
+                    NumeroArmario = db.TabelaReservaArmarios
+                        .Where(r => r.IdAluno == a.Id && r.IsAtivo)
+                        .Select(r => r.IdArmario)
+                        .FirstOrDefault(),
+
+                    IdVaga = db.TabelaReservaEstacionamentos
+                        .Where(e => e.IdAluno == a.Id && e.IsAtivo)
+                        .Select(v => v.IdVaga)
+                        .FirstOrDefault(),
+
+                    Pagamento = db.TabelaPagamentos
+                        .Where(p => p.IdAluno == a.Id)
+                        .Select(p => p.Metodo)
+                        .FirstOrDefault() ?? "Pagamento não identificado",
+
+                    DataExpiracao = config.DataExpiracaoGlobal
+                })
             ).FirstOrDefault();
             if (dadosAluno == null)
             {

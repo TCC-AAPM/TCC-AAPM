@@ -11,9 +11,9 @@ public partial class TabelaAluno
 
     public string Nome { get; set; } = null!;
 
-    public string? NomeSocial { get; set;  }
+    public string? NomeSocial { get; set; } = null;
 
-    public string? Matricula { get; set; }
+    public string? Matricula { get; set; } = null;
 
     public string Telefone { get; set; } = null!;
 

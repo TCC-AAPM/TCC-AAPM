@@ -427,6 +427,22 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.ReservasController",
+    "Method": "PreCadastro",
+    "RelativePath": "api/Reservas/pre-cadastro",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Reserva.PreCadastroRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.ReservasController",
     "Method": "RecadastroReserva",
     "RelativePath": "api/Reservas/recadastrar",
     "HttpMethod": "POST",
@@ -488,7 +504,7 @@
     "Parameters": [
       {
         "Name": "referencia",
-        "Type": "System.String",
+        "Type": "API_backEnd.Enums.ReferenciaTermos",
         "IsRequired": false
       }
     ],

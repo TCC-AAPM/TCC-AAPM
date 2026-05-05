@@ -7,9 +7,9 @@ public partial class TabelaReservaEstacionamento
 {
     public int Id { get; set; }
 
-    public int? IdAluno { get; set; }
+    public int IdAluno { get; set; }
 
-    public int? IdVaga { get; set; }
+    public int IdVaga { get; set; }
 
     public bool IsAtivo { get; set; }
 

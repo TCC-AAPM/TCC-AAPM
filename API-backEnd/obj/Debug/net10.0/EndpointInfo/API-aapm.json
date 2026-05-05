@@ -779,6 +779,37 @@
         }
       }
     },
+    "/api/Reservas/pre-cadastro": {
+      "post": {
+        "tags": [
+          "Reservas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreCadastroRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreCadastroRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/PreCadastroRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Termo": {
       "post": {
         "tags": [
@@ -831,7 +862,7 @@
             "name": "referencia",
             "in": "query",
             "schema": {
-              "type": "string"
+              "$ref": "#/components/schemas/ReferenciaTermos"
             }
           }
         ],
@@ -1323,22 +1354,16 @@
         ],
         "type": "string"
       },
-      "ProdutoRequest": {
-        "type": "object",
-        "properties": {
-          "preco": {
-            "type": "number",
-            "format": "double"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RecadastrarReservaRequest": {
+      "PreCadastroRequest": {
         "required": [
+          "aceitouTermoArmario",
+          "aceitouTermoSite",
           "cpf",
+          "dataNasc",
           "email",
-          "idArmario",
           "idCurso",
+          "idTermoArmario",
+          "idTermoSite",
           "metodoPagamento",
           "nome",
           "telefone"
@@ -1353,6 +1378,97 @@
           "nome": {
             "minLength": 1,
             "type": "string"
+          },
+          "nomeSocial": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefone": {
+            "minLength": 1,
+            "pattern": "^\\d{10,11}$",
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "matricula": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataNasc": {
+            "type": "string",
+            "format": "date"
+          },
+          "idCurso": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idTurma": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "metodoPagamento": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "idTermoSite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aceitouTermoSite": {
+            "type": "boolean"
+          },
+          "idTermoArmario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aceitouTermoArmario": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProdutoRequest": {
+        "type": "object",
+        "properties": {
+          "preco": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RecadastrarReservaRequest": {
+        "required": [
+          "aceitouTermoArmario",
+          "aceitouTermoSite",
+          "cpf",
+          "dataNasc",
+          "email",
+          "idArmario",
+          "idCurso",
+          "idTermoArmario",
+          "idTermoSite",
+          "metodoPagamento",
+          "nome",
+          "telefone"
+        ],
+        "type": "object",
+        "properties": {
+          "cpf": {
+            "maxLength": 11,
+            "minLength": 11,
+            "type": "string"
+          },
+          "nome": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "nomeSocial": {
+            "type": "string",
+            "nullable": true
           },
           "telefone": {
             "minLength": 1,
@@ -1385,6 +1501,24 @@
           "idArmario": {
             "type": "integer",
             "format": "int32"
+          },
+          "dataNasc": {
+            "type": "string",
+            "format": "date"
+          },
+          "idTermoSite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aceitouTermoSite": {
+            "type": "boolean"
+          },
+          "idTermoArmario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aceitouTermoArmario": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false

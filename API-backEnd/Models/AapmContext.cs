@@ -468,6 +468,9 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.IdUsuario)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_usuario");
+            entity.Property(e => e.responsavelAceito)
+                .HasColumnType("bit(1)")
+                .HasColumnName("responsavel_aceito");
             entity.Property(e => e.IsAtivo)
                 .HasDefaultValueSql("b'1'")
                 .HasColumnType("bit(1)")

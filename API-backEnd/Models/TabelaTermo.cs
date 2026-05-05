@@ -1,4 +1,5 @@
-﻿using System;
+﻿using API_backEnd.Enums;
+using System;
 using System.Collections.Generic;
 
 namespace API_backEnd.Models;
@@ -9,7 +10,7 @@ public partial class TabelaTermo
 
     public string CaminhoPdf { get; set; } = null!;
 
-    public string Referencia { get; set; } = null!;
+    public ReferenciaTermos Referencia { get; set; }
 
     public DateTime DataCriacao { get; set; }
 
