@@ -1,0 +1,194 @@
+.pagina {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+
+.corpo {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: start;
+  min-height: calc(100vh - 60px);
+  gap: 6rem;
+  padding: 6rem 14rem 4rem;
+  position: relative;
+  z-index: 1;
+}
+
+
+.esquerda h1 {
+  color: #fff;
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 0.8rem;
+}
+
+.esquerda h1 em {
+  font-style: normal;
+  color: var(--blue);
+}
+
+.esquerda p {
+  color: rgba(255, 255, 255, 0.719);
+  font-size: 13.5px;
+  line-height: 1.65;
+  margin-bottom: 2rem;
+}
+
+.passos {
+  display: flex;
+  flex-direction: column;
+}
+
+.passo {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.passo:last-child {
+  border-bottom: none;
+}
+
+.passo-num {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: white;
+}
+
+.passo-num.ativo {
+  background: var(--blue);
+}
+.passo-num.pendente {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.passo-info strong {
+  display: block;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+}
+.passo-info span {
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+.card {
+  background: #1e3fa8;
+  border-radius: 16px;
+  padding: 2.2rem 2.5rem;
+  width: 100%;
+  max-width: 120rem; /* era: 460px */
+}
+
+.separador {
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin: 1.2rem 0 0.75rem;
+}
+
+.separador:first-child {
+  margin-top: 0;
+}
+
+.campo {
+  margin-bottom: 0.7rem;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  background: #2850c8;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #fff;
+  font-family: "Outfit", sans-serif;
+  font-size: 14px;
+  padding: 12px 15px;
+  outline: none;
+  transition: border-color 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.campo input::placeholder {
+  color: rgba(255, 255, 255, 0.3);
+}
+.campo input:focus,
+.campo select:focus {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+.campo select option {
+  background: #1e3fa8;
+}
+
+.linha {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.7rem;
+}
+
+.btn-principal {
+  width: 100%;
+  margin-top: 1.4rem;
+  padding: 13px;
+  background: var(--blue);
+  border: none;
+  border-radius: 9px;
+  color: #fff;
+  font-family: "Outfit", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-principal:hover {
+  opacity: 0.88;
+}
+
+.rodape-card {
+  margin-top: 1.2rem;
+  text-align: center;
+}
+
+.rodape-card span {
+  display: block;
+  color: rgba(255, 255, 255, 0.4);
+  font-size: 13px;
+  margin-bottom: 0.6rem;
+}
+
+.btn-secundario {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  color: #fff;
+  font-family: "Outfit", sans-serif;
+  font-size: 13px;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-secundario:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
