@@ -411,8 +411,8 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.ReservasController",
-    "Method": "CadastroCompleto",
-    "RelativePath": "api/Reservas",
+    "Method": "CadastroReservaArmarioCompleto",
+    "RelativePath": "api/Reservas/cadastro-armario",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -444,7 +444,7 @@
   {
     "ContainingType": "API_backEnd.Controllers.ReservasController",
     "Method": "RecadastroReserva",
-    "RelativePath": "api/Reservas/recadastrar",
+    "RelativePath": "api/Reservas/recadastrar-armario",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

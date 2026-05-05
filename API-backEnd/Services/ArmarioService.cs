@@ -12,11 +12,16 @@ namespace API_backEnd.Services
         {
             this.db = db;
         }
-
-        public bool ArmarioEstaOcupado(int idArmario)
+        static readonly HashSet<string> estadosIndisponiveis = new HashSet<string>
+            {
+                EstadoArmario.O.ToString(),
+                EstadoArmario.M.ToString(),
+                EstadoArmario.P.ToString()
+            };
+        public bool ArmarioIndisponivel(int idArmario)
         {
-            return db.TabelaArmarios.Any(r => r.NumeroArmario == idArmario && r.Estado == EstadoArmario.O.ToString() && r.IsAtivo);
-
+            
+            return db.TabelaArmarios.Any(r => r.NumeroArmario == idArmario && estadosIndisponiveis.Contains(r.Estado) && r.IsAtivo);
         }
     }
 }

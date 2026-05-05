@@ -717,7 +717,7 @@
         }
       }
     },
-    "/api/Reservas": {
+    "/api/Reservas/cadastro-armario": {
       "post": {
         "tags": [
           "Reservas"
@@ -748,7 +748,7 @@
         }
       }
     },
-    "/api/Reservas/recadastrar": {
+    "/api/Reservas/recadastrar-armario": {
       "post": {
         "tags": [
           "Reservas"
@@ -1321,7 +1321,6 @@
           "D",
           "O",
           "M",
-          "R",
           "P"
         ],
         "type": "string"
@@ -1364,7 +1363,6 @@
           "idCurso",
           "idTermoArmario",
           "idTermoSite",
-          "metodoPagamento",
           "nome",
           "telefone"
         ],
@@ -1408,10 +1406,6 @@
           "idTurma": {
             "type": "integer",
             "format": "int32"
-          },
-          "metodoPagamento": {
-            "minLength": 1,
-            "type": "string"
           },
           "idTermoSite": {
             "type": "integer",

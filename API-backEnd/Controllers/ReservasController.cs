@@ -26,13 +26,11 @@ namespace API_backEnd.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPost]
-        public IActionResult CadastroCompleto(CriarCadastroArmarioRequest dto)
+        [HttpPost("cadastro-armario")]
+        public IActionResult CadastroReservaArmarioCompleto(CriarCadastroArmarioRequest dto)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
 
             var resultado = _cadastroService.CadastrarReservaArmario(dto);
 
@@ -44,13 +42,11 @@ namespace API_backEnd.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPost("recadastrar")]
+        [HttpPost("recadastrar-armario")]
         public IActionResult RecadastroReserva(RecadastrarReservaRequest dto)
         {
             if (!ModelState.IsValid)
-            {
                 return BadRequest(ModelState);
-            }
             
             var resultado = _cadastroService.RecadastrarReserva(dto);
 
@@ -60,23 +56,18 @@ namespace API_backEnd.Controllers
             return Ok(resultado.Mensagem);
         }
 
-        // fazer o service de pre cadastro
         [HttpPost("pre-cadastro")]
         public IActionResult PreCadastro(PreCadastroRequest dto)
         {
-            // validar o aceite do termo site com service
-            var termoSiteResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.S, dto.IdTermoSite, dto.AceitouTermoSite);
+            if(!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (termoSiteResultado.Erro)
-                return BadRequest(termoSiteResultado.Mensagem);
+            var resultado = _cadastroService.PreCadastroAluno(dto);
 
-            var termoArmarioResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.A, dto.IdTermoArmario, dto.AceitouTermoArmario);
+            if (resultado.Erro)
+                return BadRequest(resultado.Mensagem);
 
-            if (termoArmarioResultado.Erro)
-                return BadRequest(termoArmarioResultado.Mensagem);
-
-            
-            return Ok();
+            return Ok(resultado.Mensagem);
         }
       
     }

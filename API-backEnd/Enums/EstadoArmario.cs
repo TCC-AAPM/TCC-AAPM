@@ -6,7 +6,6 @@
         D, // DISPONIVEL
         O, //OCUPADO
         M, //MANUTENCAO
-        R, //RESERVADO
         P //PENDENTE
     }
 }

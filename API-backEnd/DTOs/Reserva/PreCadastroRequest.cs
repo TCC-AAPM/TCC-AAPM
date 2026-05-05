@@ -33,9 +33,6 @@ namespace API_backEnd.DTOs.Reserva
         public int IdTurma { get; set; }
 
         [Required]
-        public string MetodoPagamento { get; set; }
-
-        [Required]
         public int IdTermoSite { get; set; }
 
         [Required]

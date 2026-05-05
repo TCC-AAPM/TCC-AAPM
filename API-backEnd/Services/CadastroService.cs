@@ -26,40 +26,17 @@ namespace API_backEnd.Services
 
         public ResultadoCadastro CadastrarReservaArmario(CriarCadastroArmarioRequest dto)
         {
-            // validar idade com service 
-            var validacaoIdadeResultado = _idadeService.ValidarIdade(dto.DataNasc, 14);
-
-            if (validacaoIdadeResultado.Erro)
-                return new ResultadoCadastro
-                {
-                    Erro = true,
-                    Mensagem = validacaoIdadeResultado.Mensagem
-                };
-
-            // validar o aceite do termo site com m
-            var termoSiteResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.S, dto.IdTermoSite, dto.AceitouTermoSite);
-
-            if (termoSiteResultado.Erro)
-                return new ResultadoCadastro {
-                    Erro = true,
-                    Mensagem = termoSiteResultado.Mensagem 
-                };
-
-            var termoArmarioResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.A, dto.IdTermoArmario, dto.AceitouTermoArmario);
-
-            if (termoArmarioResultado.Erro)
-                return new ResultadoCadastro
-                {
-                    Erro = true,
-                    Mensagem = termoArmarioResultado.Mensagem
-                };
+            // validar idade e termos
+            var validarIdadeETermos = ValidarIdadeETermos(dto.DataNasc, dto.IdTermoSite, dto.AceitouTermoSite, dto.IdTermoArmario, dto.AceitouTermoArmario, 14);
+            if (validarIdadeETermos.Erro)
+                return validarIdadeETermos;
 
             // validar se ta ocupado com service 
-            if (_armarioService.ArmarioEstaOcupado(dto.IdArmario))
+            if (_armarioService.ArmarioIndisponivel(dto.IdArmario))
                 return new ResultadoCadastro
                 {
                     Erro = true,
-                    Mensagem = "Armário já está ocupado"
+                    Mensagem = "Armário não está disponível"
                 };
 
             // validar se o aluno existe pelo cpf no service
@@ -78,36 +55,23 @@ namespace API_backEnd.Services
                     Mensagem = "Armário não encontrado"
                 };
 
-            var usuario = new TabelaUsuario
-            {
-                Senha = BCrypt.Net.BCrypt.HashPassword(dto.CPF)
-            };
-
-            db.TabelaUsuarios.Add(usuario);
-            db.SaveChanges();
-
-            int idUsuario = usuario.Id;
-
-            var aceiteTermoSite = _termoService.AceitarTermo(idUsuario, dto.IdTermoSite);
-            if (aceiteTermoSite.Erro)
-                return new ResultadoCadastro
-                {
-                    Erro = true,
-                    Mensagem = aceiteTermoSite.Mensagem,
-                };
-
-
-            var aceiteTermoArmario = _termoService.AceitarTermo(idUsuario, dto.IdTermoArmario);
-            if (aceiteTermoArmario.Erro)
-                return new ResultadoCadastro
-                {
-                    Erro = true,
-                    Mensagem = aceiteTermoArmario.Mensagem,
-                };
+            
             using var transaction = db.Database.BeginTransaction();
 
             try
             {
+                var usuario = new TabelaUsuario
+                {
+                    Senha = BCrypt.Net.BCrypt.HashPassword(dto.CPF)
+                };
+
+                db.TabelaUsuarios.Add(usuario);
+                db.SaveChanges();
+
+                int idUsuario = usuario.Id;
+
+                AceitarTermos(idUsuario, dto.IdTermoSite, dto.IdTermoArmario);
+
                 var aluno = new TabelaAluno
                 {
                     Cpf = dto.CPF,
@@ -153,13 +117,13 @@ namespace API_backEnd.Services
 
                 };
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 transaction.Rollback();
                 return new ResultadoCadastro
                 {
                     Erro = true,
-                    Mensagem = "Erro ao realizar cadastro"
+                    Mensagem = ex.Message
                 };
             }
 
@@ -168,39 +132,7 @@ namespace API_backEnd.Services
 
         public ResultadoCadastro RecadastrarReserva(RecadastrarReservaRequest dto)
         {
-            
-            // validar idade com service 
-            var validacaoIdadeResultado = _idadeService.ValidarIdade(dto.DataNasc, 14);
-
-            if (validacaoIdadeResultado.Erro)
-                return new ResultadoCadastro
-                {
-                    Erro = true,
-                    Mensagem = validacaoIdadeResultado.Mensagem
-                };
-
-            // validar o aceite do termo site com service
-            var termoSiteResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.S, dto.IdTermoSite, dto.AceitouTermoSite);
-
-            if (termoSiteResultado.Erro)
-                return new ResultadoCadastro
-                {
-                    Erro = true,
-                    Mensagem = termoSiteResultado.Mensagem
-                };
-
-            // validar o aceite do termo da reserva armario com service
-            var termoArmarioResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.A, dto.IdTermoArmario, dto.AceitouTermoArmario);
-
-            if (termoArmarioResultado.Erro)
-                return new ResultadoCadastro
-                {
-                    Erro = true,
-                    Mensagem = termoArmarioResultado.Mensagem
-                };
-
             var aluno = db.TabelaAlunos.SingleOrDefault(a => a.Cpf == dto.CPF);
-
             if (aluno == null)
             {
                 return new ResultadoCadastro
@@ -209,6 +141,10 @@ namespace API_backEnd.Services
                     Mensagem = "Aluno não encontrado"
                 };
             }
+
+            var validarIdadeETermos = ValidarIdadeETermos(dto.DataNasc, dto.IdTermoSite, dto.AceitouTermoSite, dto.IdTermoArmario, dto.AceitouTermoArmario, 14);
+            if (validarIdadeETermos.Erro)
+                return validarIdadeETermos;
 
             var reservaAtiva = db.TabelaReservaArmarios.FirstOrDefault(r => r.IdAluno == aluno.Id && r.IsAtivo);
 
@@ -221,11 +157,11 @@ namespace API_backEnd.Services
                 };
             }
 
-            if (_armarioService.ArmarioEstaOcupado(dto.IdArmario))
+            if (_armarioService.ArmarioIndisponivel(dto.IdArmario))
                 return new ResultadoCadastro
                 {
                     Erro = true,
-                    Mensagem = "Armário já está ocupado"
+                    Mensagem = "Armário não está disponível"
                 };
 
             var armario = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == dto.IdArmario);
@@ -234,23 +170,6 @@ namespace API_backEnd.Services
                 {
                     Erro = true,
                     Mensagem = "Armário não encontrado"
-                };
-
-            var aceiteTermoSite = _termoService.AceitarTermo(aluno.IdUsuario, dto.IdTermoSite);
-            if (aceiteTermoSite.Erro)
-                return new ResultadoCadastro
-                {
-                    Erro = true,
-                    Mensagem = aceiteTermoSite.Mensagem,
-                };
-
-
-            var aceiteTermoArmario = _termoService.AceitarTermo(aluno.IdUsuario, dto.IdTermoArmario);
-            if (aceiteTermoArmario.Erro)
-                return new ResultadoCadastro
-                {
-                    Erro = true,
-                    Mensagem = aceiteTermoArmario.Mensagem,
                 };
 
             using var transaction = db.Database.BeginTransaction();
@@ -274,7 +193,7 @@ namespace API_backEnd.Services
                     IsAtivo = true
                 };
 
-                
+                AceitarTermos(aluno.IdUsuario, dto.IdTermoSite, dto.IdTermoArmario);
 
                 armario.Estado = EstadoArmario.O.ToString();
 
@@ -299,15 +218,133 @@ namespace API_backEnd.Services
                 };
 
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 transaction.Rollback();
                 return new ResultadoCadastro
                 {
                     Erro = true,
-                    Mensagem = "Erro ao fazer recadastro"
+                    Mensagem = ex.Message
                 };
             }
+        }
+
+        public ResultadoCadastro PreCadastroAluno(PreCadastroRequest dto)
+        {
+            var validarIdadeETermos = ValidarIdadeETermos(dto.DataNasc, dto.IdTermoSite, dto.AceitouTermoSite, dto.IdTermoArmario, dto.AceitouTermoArmario, 18);
+            if (validarIdadeETermos.Erro)
+                return validarIdadeETermos;
+
+
+            var validarCpf = _alunoService.ExisteAlunoPorCpf(dto.CPF);
+            if (validarCpf)
+                return new ResultadoCadastro
+                {
+                    Erro = true,
+                    Mensagem = "CPF já cadastrado"
+                };
+
+            
+            using var transaction = db.Database.BeginTransaction();
+
+            try
+            {
+                var usuario = new TabelaUsuario
+                {
+                    Senha = BCrypt.Net.BCrypt.HashPassword(dto.CPF)
+                };
+
+                db.TabelaUsuarios.Add(usuario);
+                db.SaveChanges();
+
+                int idUsuario = usuario.Id;
+
+                AceitarTermos(idUsuario, dto.IdTermoSite, dto.IdTermoArmario);
+
+                var aluno = new TabelaAluno
+                {
+                    Cpf = dto.CPF,
+                    Nome = dto.Nome,
+                    NomeSocial = string.IsNullOrWhiteSpace(dto.NomeSocial) ? null : dto.NomeSocial,
+                    Matricula = string.IsNullOrWhiteSpace(dto.Matricula) ? null : dto.Matricula,
+                    Telefone = Regex.Replace(dto.Telefone, @"\D", ""),
+                    Email = dto.Email,
+                    DataNasc = dto.DataNasc,
+                    CursoId = dto.IdCurso,
+                    TurmaId = dto.IdTurma,
+                    IdUsuario = idUsuario
+                };
+
+                db.TabelaAlunos.Add(aluno);
+                db.SaveChanges();
+                transaction.Commit();
+                return new ResultadoCadastro
+                {
+                    Erro = false,
+                    Mensagem = "Pré cadastro realizado com sucesso"
+                };
+            }
+            catch (Exception ex) 
+            {
+                transaction.Rollback();
+                return new ResultadoCadastro
+                {
+                    Erro = true,
+                    Mensagem = ex.Message
+                };
+            }
+        }
+        
+        private ResultadoCadastro ValidarIdadeETermos(DateOnly dataNasc, int idTermoSite, 
+            bool aceitouTermoSite, int idTermoArmario, bool aceitouTermoArmario, int idadeMin)
+        {
+            var validacaoIdadeResultado = _idadeService.ValidarIdade(dataNasc, idadeMin);
+
+            if (validacaoIdadeResultado.Erro)
+                return new ResultadoCadastro
+                {
+                    Erro = true,
+                    Mensagem = validacaoIdadeResultado.Mensagem
+                };
+
+            // validar o aceite do termo site com m
+            var termoSiteResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.S, idTermoSite, aceitouTermoSite);
+
+            if (termoSiteResultado.Erro)
+                return new ResultadoCadastro
+                {
+                    Erro = true,
+                    Mensagem = termoSiteResultado.Mensagem
+                };
+
+            var termoArmarioResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.A, idTermoArmario, aceitouTermoArmario);
+
+            if (termoArmarioResultado.Erro)
+                return new ResultadoCadastro
+                {
+                    Erro = true,
+                    Mensagem = termoArmarioResultado.Mensagem
+                };
+
+            return new ResultadoCadastro 
+            {
+                Erro = false,
+                Mensagem = null
+            };
+        }
+
+        private void AceitarTermos(int idUsuario, int idTermoSite, int idTermoArmario)
+        {
+            var aceiteTermoSite = _termoService.AceitarTermo(idUsuario, idTermoSite);
+            if (aceiteTermoSite.Erro)
+                throw new Exception(aceiteTermoSite.Mensagem);
+
+
+
+            var aceiteTermoArmario = _termoService.AceitarTermo(idUsuario, idTermoArmario);
+            if (aceiteTermoArmario.Erro)
+                throw new Exception(aceiteTermoArmario.Mensagem);
+
         }
     }
 }
