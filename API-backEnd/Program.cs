@@ -66,6 +66,9 @@ builder.Services.AddScoped<IdadeService>();
 builder.Services.AddScoped<AlunoService>();
 builder.Services.AddScoped<ArmarioService>();
 builder.Services.AddScoped<CadastroService>();
+builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddHttpContextAccessor();
+
 // 🔹 JWT Authentication
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 
