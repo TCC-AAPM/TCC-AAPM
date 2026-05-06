@@ -1,6 +1,7 @@
 ﻿using API_backEnd.DTOs;
 using API_backEnd.DTOs.Curso;
 using API_backEnd.Models;
+using API_backEnd.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,23 +12,21 @@ namespace API_backEnd.Controllers
     [ApiController]
     public class CursosController : ControllerBase
     {
-        private readonly AapmContext db;
-        public CursosController(AapmContext context)
+        private readonly CursoService _cursoService;
+        public CursosController(CursoService cursoService)
         {
-            db = context;
+            _cursoService = cursoService;
         }
 
         [HttpGet]
         public IActionResult GetCurso()
         {
-            var cursos = db.TabelaCursos.Where(c => c.IsAtivo)
-                .Select(c => new CursoResponse
-                {
-                    Id = c.Id,
-                    Nome = c.Nome
-                }).ToList();
+            var resultado = _cursoService.BuscarCursoAtivo();
 
-            return Ok(cursos);
+            if (!resultado.Sucesso)
+                return BadRequest(resultado.Mensagem);
+
+            return Ok(resultado.Dados);
         }
 
         [Authorize(Roles = "admin")]
@@ -38,36 +37,25 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var nome = dto.Nome.Trim().ToUpper();
-            var existe = db.TabelaCursos.Any(c => c.Nome.ToLower() == nome);
 
-            if (existe)
-            {
-                return BadRequest("Curso ja existe");
-            }
-            var cursoNew = new TabelaCurso
-            {
-                Nome = dto.Nome.Trim()
-            };
-            db.TabelaCursos.Add(cursoNew);
-            db.SaveChanges();
-            return Ok("Curso criado com sucesso");
+            var resultado = _cursoService.CriarCurso(dto);
+
+            if (!resultado.Sucesso)
+                return BadRequest(resultado.Mensagem);
+
+            return Ok(resultado.Mensagem);
         }
 
         [Authorize(Roles = "admin")]
         [HttpDelete("{idCurso}")]
         public IActionResult DeletarCurso(int idCurso)
         {
-            var curso = db.TabelaCursos.FirstOrDefault(c => c.Id == idCurso);
+            var resultado = _cursoService.DeletarCurso(idCurso);
 
-            if (curso == null)
-            {
-                NotFound("Curso não encontrado");
-            }
+            if (!resultado.Sucesso)
+                return NotFound(resultado.Sucesso);
 
-            curso.IsAtivo = false;
-            db.SaveChanges();
-            return Ok("Curso deletado com sucesso");
+            return Ok(resultado.Mensagem);
         }
 
         [Authorize(Roles = "admin")]
@@ -78,16 +66,13 @@ namespace API_backEnd.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var curso = db.TabelaCursos.FirstOrDefault(c => c.Id == idCurso);
+            
+            var resultado = _cursoService.EditarCurso(idCurso, dto);
 
-            if (curso == null)
-            {
-                return NotFound("Curso não encontrado");
-            }
+            if (!resultado.Sucesso)
+                return NotFound(resultado.Sucesso);
 
-            curso.Nome = dto.Nome.Trim();
-            db.SaveChanges();
-            return Ok("Curso editado com sucesso");
+            return Ok(resultado.Mensagem);
         }
     }
 }

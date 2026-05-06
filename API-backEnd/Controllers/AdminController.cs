@@ -103,57 +103,6 @@ namespace API_backEnd.Controllers
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPut("trocar-senha")]
-        public IActionResult TrocarSenha(TrocarSenhaRequest dto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (dto.SenhaNova != dto.ConfirmarSenha)
-            {
-                return BadRequest("As senhas não coincidem");
-            }
-
-            if (!SenhaRegex.IsMatch(dto.SenhaNova))
-            {
-                return BadRequest("A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula e número");
-            }
-
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (!int.TryParse(userId, out int id))
-            {
-                return BadRequest("ID inválido");
-            }
-
-            var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == id);
-
-            if (usuario == null)
-            {
-                return NotFound("Usuário não encontrado");
-            }
-
-            if (!BCrypt.Net.BCrypt.Verify(dto.SenhaAtual, usuario.Senha))
-            {
-                return Unauthorized("Senha atual incorreta");
-            }
-
-            if (BCrypt.Net.BCrypt.Verify(dto.SenhaNova, usuario.Senha))
-            {
-                return BadRequest("A senha nova tem que ser diferente da antiga");
-            }
-
-
-
-            usuario.Senha = BCrypt.Net.BCrypt.HashPassword(dto.SenhaNova);
-            db.SaveChanges();
-
-            return Ok("Senha atualizada com sucesso");
-        }
-
-        [Authorize(Roles = "admin")]
         [HttpPost("{id}/excluir")]
         public IActionResult DeletarAdmin(int id, ConfirmarSenhaRequest dto)
         {

@@ -65,6 +65,7 @@ builder.Services.AddScoped<AlunoService>();
 builder.Services.AddScoped<ArmarioService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<CadastroService>();
+builder.Services.AddScoped<CursoService>();
 builder.Services.AddScoped<IdadeService>();
 builder.Services.AddScoped<ProdutoService>();
 builder.Services.AddScoped<TermoService>();

@@ -255,7 +255,7 @@ namespace API_backEnd.Services
         {
             var validacaoIdadeResultado = _idadeService.ValidarIdade(dataNasc, idadeMin);
 
-            if (validacaoIdadeResultado.Erro)
+            if (!validacaoIdadeResultado.Sucesso)
                 return ResultadoPadrao<object>.Falha(validacaoIdadeResultado.Mensagem);
                 
 
