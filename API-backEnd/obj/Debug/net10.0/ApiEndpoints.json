@@ -47,22 +47,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "API_backEnd.Controllers.AdminController",
-    "Method": "TrocarSenha",
-    "RelativePath": "api/Admin/trocar-senha",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "API_backEnd.DTOs.Auth.TrocarSenhaRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "API_backEnd.Controllers.AlunosController",
     "Method": "BuscarPorCPF",
     "RelativePath": "api/Alunos/buscar-por-cpf",
@@ -96,38 +80,12 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.AlunosController",
-    "Method": "HistoricoReserva",
-    "RelativePath": "api/Alunos/historico-reserva",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API_backEnd.Controllers.AlunosController",
-    "Method": "GetUser",
+    "Method": "BuscarAlunoLogado",
     "RelativePath": "api/Alunos/me",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API_backEnd.Controllers.AlunosController",
-    "Method": "TrocarSenha",
-    "RelativePath": "api/Alunos/trocar-senha",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "API_backEnd.DTOs.Auth.TrocarSenhaRequest",
-        "IsRequired": true
-      }
-    ],
     "ReturnTypes": []
   },
   {
@@ -246,6 +204,22 @@
       {
         "Name": "dto",
         "Type": "API_backEnd.DTOs.Armario.TransferirAlunoArmarioRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.CadastroController",
+    "Method": "PreCadastro",
+    "RelativePath": "api/Cadastro/pre-cadastro",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Reserva.PreCadastroRequest",
         "IsRequired": true
       }
     ],
@@ -427,18 +401,12 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.ReservasController",
-    "Method": "PreCadastro",
-    "RelativePath": "api/Reservas/pre-cadastro",
-    "HttpMethod": "POST",
+    "Method": "HistoricoReserva",
+    "RelativePath": "api/Reservas/historico-reserva",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "API_backEnd.DTOs.Reserva.PreCadastroRequest",
-        "IsRequired": true
-      }
-    ],
+    "Parameters": [],
     "ReturnTypes": []
   },
   {
@@ -594,6 +562,22 @@
       {
         "Name": "idCurso",
         "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.UsuarioController",
+    "Method": "TrocarSenha",
+    "RelativePath": "api/Usuario/trocar-senha",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Auth.TrocarSenhaRequest",
         "IsRequired": true
       }
     ],

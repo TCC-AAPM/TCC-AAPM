@@ -1,11 +1,9 @@
 ﻿using API_backEnd.Common;
 using API_backEnd.DTOs.Aluno;
 using API_backEnd.DTOs.Auth;
+using API_backEnd.DTOs.Reserva;
 using API_backEnd.Enums;
 using API_backEnd.Models;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
-
 namespace API_backEnd.Services
 {
     public class AlunoService
@@ -118,6 +116,27 @@ namespace API_backEnd.Services
                 transaction.Rollback();
                 return ResultadoPadrao<object>.Falha("Erro ao deletar conta");
             }
+        }
+
+        public ResultadoPadrao<RecadastroResponse> BuscarAlunoPeloCPF(BuscarAlunoPorCpfRequest dto)
+        {           
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Cpf == dto.CPF && a.IsAtivo);
+
+            if (aluno == null)
+            {
+                return ResultadoPadrao<RecadastroResponse>.Falha("Aluno não encontrado");
+            }
+            var dados = new RecadastroResponse
+            {
+                Nome = aluno.Nome,
+                Telefone = aluno.Telefone,
+                Email = aluno.Email,
+                Matricula = aluno.Matricula,
+                IdCurso = aluno.CursoId,
+                IdTurma = aluno.TurmaId
+            };
+
+            return ResultadoPadrao<RecadastroResponse>.Ok(dados);
         }
     }
 }

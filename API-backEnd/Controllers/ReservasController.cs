@@ -15,10 +15,10 @@ namespace API_backEnd.Controllers
     [ApiController]
     public class ReservasController : ControllerBase
     {
-        private readonly CadastroService _cadastroService;
-        public ReservasController(CadastroService cadastroService)
-        {
-            _cadastroService = cadastroService;
+        private readonly ReservaService _reservaService;
+        public ReservasController( ReservaService reservaService)
+        {           
+            _reservaService = reservaService;
         }
 
         [Authorize(Roles = "admin")]
@@ -28,7 +28,7 @@ namespace API_backEnd.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var resultado = _cadastroService.CadastrarReservaArmario(dto);
+            var resultado = _reservaService.CadastrarReservaArmario(dto);
 
             if(!resultado.Sucesso)
                 return BadRequest(resultado.Mensagem);
@@ -44,7 +44,7 @@ namespace API_backEnd.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
             
-            var resultado = _cadastroService.RecadastrarReserva(dto);
+            var resultado = _reservaService.RecadastrarReserva(dto);
 
             if (!resultado.Sucesso)
                 return BadRequest(resultado.Mensagem);
@@ -52,19 +52,18 @@ namespace API_backEnd.Controllers
             return Ok(resultado.Mensagem);
         }
 
-        [HttpPost("pre-cadastro")]
-        public IActionResult PreCadastro(PreCadastroRequest dto)
+        
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("historico-reserva")]
+        public IActionResult HistoricoReserva()
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var resultado = _cadastroService.PreCadastroAluno(dto);
+            var resultado = _reservaService.HistoricoReserva();
 
             if (!resultado.Sucesso)
                 return BadRequest(resultado.Mensagem);
 
-            return Ok(resultado.Mensagem);
+            return Ok(resultado.Dados);
         }
-      
     }
 }
