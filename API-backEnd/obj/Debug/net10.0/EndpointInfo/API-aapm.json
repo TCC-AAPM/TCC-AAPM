@@ -810,7 +810,7 @@
         }
       }
     },
-    "/api/Termo": {
+    "/api/Termo/criar-termo": {
       "post": {
         "tags": [
           "Termo"
@@ -852,7 +852,7 @@
         }
       }
     },
-    "/api/Termo/termo-pdf": {
+    "/api/Termo/obter-pdf": {
       "get": {
         "tags": [
           "Termo"
@@ -1425,6 +1425,9 @@
         "additionalProperties": false
       },
       "ProdutoRequest": {
+        "required": [
+          "preco"
+        ],
         "type": "object",
         "properties": {
           "preco": {

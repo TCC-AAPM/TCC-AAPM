@@ -1,6 +1,7 @@
 ﻿using API_backEnd.DTOs.Produto;
 using API_backEnd.Enums;
 using API_backEnd.Models;
+using API_backEnd.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -12,44 +13,36 @@ namespace API_backEnd.Controllers
     [ApiController]
     public class ProdutosController : ControllerBase
     {
-        private readonly AapmContext db;
-
-        public ProdutosController(AapmContext context)
+        private readonly ProdutoService _produtoService;
+        public ProdutosController(ProdutoService produtoService)
         {
-            db = context;
+            _produtoService = produtoService;
         }
 
         [HttpGet]
         public IActionResult GetProdutos()
         {
-            var produtos = db.TabelaProdutos
-                .Where(p => p.IsAtivo)
-                .Select(p => new ProdutoResponse
-                {
-                    Id = p.Id,
-                    Produto = p.Produto,
-                    Preco = p.Preco
-                })
-                .ToList();
+            var resultado = _produtoService.BuscarProduto();
 
-            return Ok(produtos);
+            if (!resultado.Sucesso)
+                return BadRequest(resultado.Mensagem);
+
+            return Ok(resultado.Dados);
         }
 
         [Authorize(Roles = "admin")]
         [HttpPut("{idProduto}")]
         public IActionResult AlterarPrecoProduto(int idProduto, ProdutoRequest dto)
         {
-            var produto = db.TabelaProdutos.FirstOrDefault(p => p.Id == idProduto);
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            if (produto == null)
-            {
-                return NotFound("Produto não encontrado");
-            }
+            var resultado = _produtoService.AlterarPrecoProduto(idProduto, dto);
 
-            produto.Preco = dto.Preco;
+            if (!resultado.Sucesso)
+                return BadRequest(resultado.Sucesso);
 
-            db.SaveChanges();
-            return Ok("Preço alterado com sucesso");
+            return Ok(resultado.Mensagem);
         }
     }
 }

@@ -15,18 +15,16 @@ namespace API_backEnd.Controllers
     [ApiController]
     public class TermoController : ControllerBase
     {
-        private readonly AapmContext db;
         private readonly TermoService _termoService;
         private readonly UsuarioService _usuarioService;
-        public TermoController(AapmContext context, TermoService termoService, UsuarioService usuarioService)
+        public TermoController( TermoService termoService, UsuarioService usuarioService)
         {
-            db = context;
             _termoService = termoService;
             _usuarioService = usuarioService;
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPost]
+        [HttpPost("criar-termo")]
         public async Task<IActionResult> CriarTermo([FromForm] CriarTermoRequest dto)
         {
             if (!ModelState.IsValid)
@@ -34,31 +32,21 @@ namespace API_backEnd.Controllers
                 
             var resultado = await _termoService.CriarTermo(dto);
 
-            if(resultado.Erro)
+            if(!resultado.Sucesso)
                 return BadRequest(resultado.Mensagem);
             
             return Ok(resultado.Mensagem);
         }
 
-        [HttpGet("termo-pdf")]
+        [HttpGet("obter-pdf")]
         public IActionResult ObterPdf(ReferenciaTermos referencia)
         {
-            var termo = db.TabelaTermos
-                .FirstOrDefault(t => t.Referencia == referencia && t.IsAtivo);
+            var resultado = _termoService.ObterCaminhoPdf(referencia);
 
-            if (termo == null)
-                return NotFound("Termo não encontrado");
+            if (!resultado.Sucesso)
+                return NotFound(resultado.Mensagem);
 
-            var caminhoFisico = Path.Combine(
-                Directory.GetCurrentDirectory(),
-                "wwwroot",
-                termo.CaminhoPdf.TrimStart('/')
-            );
-
-            if (!System.IO.File.Exists(caminhoFisico))
-                return NotFound("Arquivo não encontrado");
-
-            return PhysicalFile(caminhoFisico, "application/pdf");
+            return PhysicalFile(resultado.Dados, "application/pdf");
         }
 
 
@@ -68,7 +56,12 @@ namespace API_backEnd.Controllers
         {
             var id = _usuarioService.ObterIdUsuarioLogado();
 
-            return Ok(_termoService.ObterStatusTermos(id));
+            var resultado = _termoService.ObterStatusTermos(id);
+
+            if (!resultado.Sucesso)
+                return BadRequest(resultado.Mensagem);
+
+            return Ok(resultado.Dados);
         }
 
         [Authorize]
@@ -82,10 +75,10 @@ namespace API_backEnd.Controllers
             var id = _usuarioService.ObterIdUsuarioLogado();
             
             var aceiteTermo = _termoService.AceitarTermo(id, dto.IdTermo);
-            if (aceiteTermo.Erro)
+            if (!aceiteTermo.Sucesso)
                 return BadRequest(aceiteTermo.Mensagem);
-            db.SaveChanges();
-            return Ok();
+
+            return Ok(aceiteTermo.Mensagem);
 
         }
                 

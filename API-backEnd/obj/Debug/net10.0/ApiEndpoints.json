@@ -459,8 +459,24 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.TermoController",
+    "Method": "AceitarTermos",
+    "RelativePath": "api/Termo/aceitar-novos-termos",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Termo.AceitarTermoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.TermoController",
     "Method": "CriarTermo",
-    "RelativePath": "api/Termo",
+    "RelativePath": "api/Termo/criar-termo",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -480,24 +496,8 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.TermoController",
-    "Method": "AceitarTermos",
-    "RelativePath": "api/Termo/aceitar-novos-termos",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "API_backEnd.DTOs.Termo.AceitarTermoRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API_backEnd.Controllers.TermoController",
     "Method": "ObterPdf",
-    "RelativePath": "api/Termo/termo-pdf",
+    "RelativePath": "api/Termo/obter-pdf",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,

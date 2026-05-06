@@ -61,12 +61,15 @@ builder.Services.AddDbContext<AapmContext>(options =>
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     )
 );
-builder.Services.AddScoped<TermoService>();
-builder.Services.AddScoped<IdadeService>();
 builder.Services.AddScoped<AlunoService>();
 builder.Services.AddScoped<ArmarioService>();
+builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<CadastroService>();
-builder.Services.AddScoped<UsuarioService>();
+builder.Services.AddScoped<IdadeService>();
+builder.Services.AddScoped<ProdutoService>();
+builder.Services.AddScoped<TermoService>();
+builder.Services.AddScoped<TurmaService>();
+builder.Services.AddScoped<UsuarioService>(); 
 builder.Services.AddHttpContextAccessor();
 
 // 🔹 JWT Authentication

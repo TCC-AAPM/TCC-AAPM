@@ -15,13 +15,9 @@ namespace API_backEnd.Controllers
     [ApiController]
     public class ReservasController : ControllerBase
     {
-        private readonly AapmContext db;
-        private readonly TermoService _termoService;
         private readonly CadastroService _cadastroService;
-        public ReservasController(AapmContext context, TermoService termoService, CadastroService cadastroService)
+        public ReservasController(CadastroService cadastroService)
         {
-            db = context;
-            _termoService = termoService;
             _cadastroService = cadastroService;
         }
 
@@ -34,7 +30,7 @@ namespace API_backEnd.Controllers
 
             var resultado = _cadastroService.CadastrarReservaArmario(dto);
 
-            if(resultado.Erro)
+            if(!resultado.Sucesso)
                 return BadRequest(resultado.Mensagem);
 
             return Ok(resultado.Mensagem);
@@ -50,7 +46,7 @@ namespace API_backEnd.Controllers
             
             var resultado = _cadastroService.RecadastrarReserva(dto);
 
-            if (resultado.Erro)
+            if (!resultado.Sucesso)
                 return BadRequest(resultado.Mensagem);
 
             return Ok(resultado.Mensagem);
@@ -64,7 +60,7 @@ namespace API_backEnd.Controllers
 
             var resultado = _cadastroService.PreCadastroAluno(dto);
 
-            if (resultado.Erro)
+            if (!resultado.Sucesso)
                 return BadRequest(resultado.Mensagem);
 
             return Ok(resultado.Mensagem);

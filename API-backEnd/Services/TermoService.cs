@@ -16,69 +16,42 @@ namespace API_backEnd.Services
         {
             db = context;
         }
-        public ResultadoValidacaoTermo ValidarAceiteDeTermo(ReferenciaTermos referencia, int idTermoDto, bool aceitouTermo)
+        public ResultadoPadrao<object> ValidarAceiteDeTermo(ReferenciaTermos referencia, int idTermoDto, bool aceitouTermo)
         {
             
             var termoAtivo = db.TabelaTermos.FirstOrDefault(t => t.Referencia == referencia && t.IsAtivo);
             var nome = ObterNomeDoTermo(referencia);
             if (termoAtivo == null)
             {
-                return new ResultadoValidacaoTermo
-                {
-                    Erro = true,
-                    Mensagem = $"Termo do {nome} não encontrado",
-                    Termo = null
-                };
-
+                return ResultadoPadrao<object>.Falha($"Termo do {nome} não encontrado");
             }
             if (termoAtivo.Id != idTermoDto)
             {
-                return new ResultadoValidacaoTermo
-                {
-                    Erro = true,
-                    Mensagem = $"Termo do {nome} inválido",
-                    Termo = null
-                };
+                return ResultadoPadrao<object>.Falha($"Termo do {nome} inválido");
+                
             }
             if (!aceitouTermo)
             {
-                return new ResultadoValidacaoTermo
-                {
-                    Erro = true,
-                    Mensagem = $"Precisa aceitar os termos do {nome}",
-                    Termo = null
-                };
+                return ResultadoPadrao<object>.Falha($"Precisa aceitar os termos do {nome}");
+                
             }
 
-            return new ResultadoValidacaoTermo
-            {
-                Erro = false,
-                Mensagem = null,
-                Termo = termoAtivo
-            };
+            return ResultadoPadrao<object>.Ok(termoAtivo);
+           
         }
 
-        public ResultadoValidacaoTermo AceitarTermo(int idUsuario, int idTermo)
+        public ResultadoPadrao<object> AceitarTermoSemSalvar(int idUsuario, int idTermo)
         {
             var termoAtualExiste = db.TabelaTermos.FirstOrDefault(t => t.Id == idTermo && t.IsAtivo);
             if (termoAtualExiste == null)
             {
-                return new ResultadoValidacaoTermo { 
-                    Erro = true,
-                    Mensagem ="Termo não encontrado",
-                    Termo = null
-                };
+                return ResultadoPadrao<object>.Falha("Termo não encontrado");
             }
 
             var jaAceito = db.TabelaTermosAceitos.Any(t => t.IdUsuario == idUsuario && t.IdTermos == idTermo && t.IsAtivo);
             if (jaAceito)
             {
-                return new ResultadoValidacaoTermo
-                {
-                    Erro = false,
-                    Mensagem = "Termo já aceito",
-                    Termo = null
-                };
+                return ResultadoPadrao<object>.Ok("Termo já aceito");
             }
 
             var termoAntigoAceito = db.TabelaTermosAceitos.FirstOrDefault(t => t.IdUsuario == idUsuario && t.IsAtivo && t.IdTermosNavigation.Referencia == termoAtualExiste.Referencia);
@@ -96,16 +69,21 @@ namespace API_backEnd.Services
             };
 
             db.TabelaTermosAceitos.Add(termoAceito);
-            db.SaveChanges();
-            return new ResultadoValidacaoTermo
-            {
-                Erro = false,
-                Mensagem = "Termo aceito",
-                Termo = null
-            };
+            return ResultadoPadrao<object>.Ok(mensagem: "Termo aceito");
+            
         }
 
-        public PendenciaTermosResponse ObterStatusTermos(int id)
+        public ResultadoPadrao<object> AceitarTermo(int idUsuario, int idTermo)
+        {
+            var resultado = AceitarTermoSemSalvar(idUsuario, idTermo);
+                if(!resultado.Sucesso)
+                    return resultado;
+
+            db.SaveChanges();
+            return resultado;
+        }
+
+        public ResultadoPadrao<PendenciaTermosResponse> ObterStatusTermos(int id)
         {
             var termosArmario = false;
             var termosEstacionamento = false;
@@ -136,15 +114,17 @@ namespace API_backEnd.Services
             }
             // true = precisa aceitar
             // false = já está com o mais atualizado
-            return new PendenciaTermosResponse
-            {
-                TermosPendenteSite = termosSite,
-                TermosPendenteArmario = termosArmario,
-                TermosPendenteEstacionamento = termosEstacionamento
-            };
+            return ResultadoPadrao<PendenciaTermosResponse>.Ok(
+                new PendenciaTermosResponse
+                {
+                    TermosPendenteSite = termosSite,
+                    TermosPendenteArmario = termosArmario,
+                    TermosPendenteEstacionamento = termosEstacionamento
+                }
+            );
         }
        
-        public async  Task<ResultadoValidacaoTermo> CriarTermo(CriarTermoRequest dto)
+        public async Task<ResultadoPadrao<object>> CriarTermo(CriarTermoRequest dto)
         {
             var termoExistente = db.TabelaTermos.FirstOrDefault(t => t.Referencia == dto.Referencia && t.IsAtivo);
             if (termoExistente != null)
@@ -154,20 +134,12 @@ namespace API_backEnd.Services
             }
 
             if (dto.Pdf == null || dto.Pdf.Length == 0)
-                return new ResultadoValidacaoTermo{ 
-                    Erro = true,
-                    Mensagem = "Arquivo inválido",
-                    Termo = null
-                };
+                return ResultadoPadrao<object>.Falha("Arquivo inválido");
+                
 
             if (dto.Pdf.ContentType != "application/pdf")
             {
-                return new ResultadoValidacaoTermo 
-                { 
-                    Erro = true,
-                    Mensagem ="Somente PDF permitido",
-                    Termo = null
-                };
+                return ResultadoPadrao<object>.Falha("Somente PDF permitido");
             }
             var caminhoPdf = await SalvarPdf(dto.Pdf);
             var termos = new TabelaTermo
@@ -180,38 +152,33 @@ namespace API_backEnd.Services
 
             db.TabelaTermos.Add(termos);
             db.SaveChanges();
-
-            return new ResultadoValidacaoTermo
-            {
-                Erro = false,
-                Mensagem = "Termo criado com sucesso",
-                Termo = null
-            };
+            return ResultadoPadrao<object>.Ok(mensagem: "Termo criado com sucesso");
+            
         }
 
-        //public ResultadoValidacaoTermo ObterPdf(ReferenciaTermos referencia)
-        //{
-        //    var termo = db.TabelaTermos
-        //        .FirstOrDefault(t => t.Referencia == referencia && t.IsAtivo);
+        public ResultadoPadrao<string> ObterCaminhoPdf(ReferenciaTermos referencia)
+        {
+            var termo = db.TabelaTermos
+                .FirstOrDefault(t => t.Referencia == referencia && t.IsAtivo);
 
-        //    if (termo == null)
-        //        return new ResultadoValidacaoTermo
-        //        {
-        //            Erro = true,
-        //            Mensagem = "Termo não encontrado" 
-        //        };
+            if (termo == null)
+                return ResultadoPadrao<string>.Falha("Termo não encontrado");
+                
 
-        //    var caminhoFisico = Path.Combine(
-        //        Directory.GetCurrentDirectory(),
-        //        "wwwroot",
-        //        termo.CaminhoPdf.TrimStart('/')
-        //    );
+            var caminhoFisico = Path.Combine(
+                Directory.GetCurrentDirectory(),
+                "wwwroot",
+                termo.CaminhoPdf.TrimStart('/')
+            );
 
-        //    if (!System.IO.File.Exists(caminhoFisico))
-        //        return NotFound("Arquivo não encontrado");
+            if (!System.IO.File.Exists(caminhoFisico))
+                return ResultadoPadrao<string>.Falha("Arquivo não encontrado");
 
-        //    return PhysicalFile(caminhoFisico, "application/pdf");
-        //}
+
+            return ResultadoPadrao<string>.Ok(caminhoFisico);
+            
+        }
+
         private string ObterNomeDoTermo(ReferenciaTermos referencia)
         {
             string nome;

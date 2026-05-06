@@ -1,5 +1,6 @@
 ﻿using API_backEnd.DTOs.Auth;
 using API_backEnd.Models;
+using API_backEnd.Services;
 using BCrypt.Net;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -17,85 +18,24 @@ namespace API_backEnd.Controllers
 
     public class LoginController : ControllerBase
     {
-        private readonly AapmContext db;
-        private readonly IConfiguration _config;
+        private readonly AuthService _authService;
 
-        public LoginController(AapmContext context, IConfiguration config)
+        public LoginController(AuthService authService)
         {
-            db = context;
-            _config = config;
+            _authService = authService;
         }
         [HttpPost]
         public IActionResult Login(LoginRequest login)
         {
-            if (!ModelState.IsValid)
-            {
+           if(!ModelState.IsValid)
                 return BadRequest(ModelState);
-            }
-            var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == login.Email && a.IsAtivo);
-            
-            if (admin != null)
-            {
-                var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == admin.IdUsuario && a.IsAtivo);
-                if (usuario == null)
-                {
-                    return Unauthorized();
-                }
 
-                if (BCrypt.Net.BCrypt.Verify(login.Senha, usuario.Senha))
-                {
-                    var claims = new List<Claim> {
-                        new Claim(ClaimTypes.NameIdentifier, admin.IdUsuario.ToString()),
-                        new Claim(ClaimTypes.Role, "admin")
-                    };
-                    var key = new SymmetricSecurityKey(
-                            Encoding.UTF8.GetBytes(_config["Jwt:Key"])
-                    );
-                    var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                    var token = new JwtSecurityToken(
-                            claims: claims,
-                            expires: DateTime.Now.AddDays(7),
-                            signingCredentials: creds
-                    );
-                    var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+           var resultado = _authService.Login(login);
 
-                    return Ok(new { token = tokenString });
-                }
-            }
-            else
-            {
-                var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == login.Email && a.IsAtivo);
-                if (aluno != null)
-                {
-                    var usuario = db.TabelaUsuarios.FirstOrDefault(a => a.Id == aluno.IdUsuario && a.IsAtivo);
-                    if (usuario == null)
-                    {
-                        return Unauthorized();
-                    }
+            if (!resultado.Sucesso)
+                return Unauthorized(resultado.Mensagem);
 
-                    if (BCrypt.Net.BCrypt.Verify(login.Senha, usuario.Senha))
-                    {
-                        var claims = new List<Claim> {
-                        new Claim(ClaimTypes.NameIdentifier, aluno.IdUsuario.ToString()),
-                        new Claim(ClaimTypes.Role, "aluno")
-                    };
-                        var key = new SymmetricSecurityKey(
-                                Encoding.UTF8.GetBytes(_config["Jwt:Key"])
-                        );
-                        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-                        var token = new JwtSecurityToken(
-                                claims: claims,
-                                expires: DateTime.Now.AddDays(7),
-                                signingCredentials: creds
-                        );
-                        var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-
-                        return Ok(new { token = tokenString });
-                    }
-                }
-            }
-            return Unauthorized();
+            return Ok(new { token = resultado.Dados });
         }
-
     }
 }
