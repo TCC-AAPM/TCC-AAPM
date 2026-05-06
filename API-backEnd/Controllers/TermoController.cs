@@ -13,7 +13,7 @@ namespace API_backEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TermoController : ControllerBase
+    public class TermoController : BaseController
     {
         private readonly TermoService _termoService;
         private readonly UsuarioService _usuarioService;
@@ -27,15 +27,7 @@ namespace API_backEnd.Controllers
         [HttpPost("criar-termo")]
         public async Task<IActionResult> CriarTermo([FromForm] CriarTermoRequest dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-                
-            var resultado = await _termoService.CriarTermo(dto);
-
-            if(!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-            
-            return Ok(resultado.Mensagem);
+            return Resultado(await _termoService.CriarTermo(dto));
         }
 
         [HttpGet("obter-pdf")]
@@ -55,30 +47,15 @@ namespace API_backEnd.Controllers
         public IActionResult VerificarTermosAceito()
         {
             var id = _usuarioService.ObterIdUsuarioLogado();
-
-            var resultado = _termoService.ObterStatusTermos(id);
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Dados);
+            return Resultado(_termoService.ObterStatusTermos(id));
         }
 
         [Authorize]
         [HttpPost("aceitar-novos-termos")]
         public IActionResult AceitarTermos(AceitarTermoRequest dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
             var id = _usuarioService.ObterIdUsuarioLogado();
-            
-            var aceiteTermo = _termoService.AceitarTermo(id, dto.IdTermo);
-            if (!aceiteTermo.Sucesso)
-                return BadRequest(aceiteTermo.Mensagem);
-
-            return Ok(aceiteTermo.Mensagem);
+            return Resultado(_termoService.AceitarTermo(id, dto.IdTermo));
 
         }
                 

@@ -3,6 +3,7 @@
     public class AlunoComReservaResponse
     {
         public string NomeAluno { get; set; }
+        public string? NomeSocial { get; set; }
         public int NumeroArmario { get; set; }
         public string Telefone { get; set; }
         public string CPF { get; set; }

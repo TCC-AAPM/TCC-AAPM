@@ -10,7 +10,7 @@ namespace API_backEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CursosController : ControllerBase
+    public class CursosController : BaseController
     {
         private readonly CursoService _cursoService;
         public CursosController(CursoService cursoService)
@@ -19,60 +19,31 @@ namespace API_backEnd.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetCurso()
+        public IActionResult BuscarCursosAtivos()
         {
-            var resultado = _cursoService.BuscarCursoAtivo();
+            return Resultado(_cursoService.BuscarCursoAtivo());
 
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Dados);
         }
 
         [Authorize(Roles = "admin")]
-        [HttpPost("criar-curso")]
+        [HttpPost]
         public IActionResult CriarCurso(CursoRequest dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var resultado = _cursoService.CriarCurso(dto);
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Mensagem);
+            return Resultado(_cursoService.CriarCurso(dto));
         }
 
         [Authorize(Roles = "admin")]
         [HttpDelete("{idCurso}")]
         public IActionResult DeletarCurso(int idCurso)
         {
-            var resultado = _cursoService.DeletarCurso(idCurso);
-
-            if (!resultado.Sucesso)
-                return NotFound(resultado.Sucesso);
-
-            return Ok(resultado.Mensagem);
+            return Resultado(_cursoService.DeletarCurso(idCurso));
         }
 
         [Authorize(Roles = "admin")]
         [HttpPut("{idCurso}")]
         public IActionResult EditarCurso(int idCurso, CursoRequest dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-            var resultado = _cursoService.EditarCurso(idCurso, dto);
-
-            if (!resultado.Sucesso)
-                return NotFound(resultado.Sucesso);
-
-            return Ok(resultado.Mensagem);
+            return Resultado(_cursoService.EditarCurso(idCurso, dto));
         }
     }
 }

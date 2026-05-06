@@ -9,7 +9,7 @@ namespace API_backEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AlunosController : ControllerBase
+    public class AlunosController : BaseController
     {
         private readonly AlunoService _alunoService;
         public AlunosController(AlunoService alunoService)
@@ -21,47 +21,20 @@ namespace API_backEnd.Controllers
         [HttpGet("me")]
         public IActionResult BuscarAlunoLogado()
         {
-            var resultado = _alunoService.DadosAlunoLogado();
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Dados);
+            return Resultado(_alunoService.DadosAlunoLogado());
         }
        
         [Authorize(Roles = "aluno")]
         [HttpPost("deletar-conta")]
         public IActionResult DeletarConta(ConfirmarSenhaRequest dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            var resultado = _alunoService.DeletarConta(dto);
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Mensagem);
-            
+            return Resultado(_alunoService.DeletarConta(dto));
         }
 
-        
         [HttpPost("buscar-por-cpf")]
         public IActionResult BuscarPorCPF(BuscarAlunoPorCpfRequest dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-            var resultado = _alunoService.BuscarAlunoPeloCPF(dto);
-
-            if(!resultado.Sucesso)
-                return BadRequest(resultado?.Mensagem);
-
-            return Ok(resultado.Dados);
+            return Resultado(_alunoService.BuscarAlunoPeloCPF(dto));
         }
 
     }

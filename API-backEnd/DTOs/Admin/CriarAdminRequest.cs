@@ -7,6 +7,8 @@ namespace API_backEnd.DTOs.Admin
         [Required(ErrorMessage = "Nome é obrigatório")]
         public string Nome { get; set; }
 
+        public string? NomeSocial { get; set; }
+
         [Required(ErrorMessage = "Email é obrigatório")]
         [EmailAddress(ErrorMessage = "Email inválido")]
         public string Email { get; set; }
@@ -19,6 +21,13 @@ namespace API_backEnd.DTOs.Admin
         [StringLength(11, MinimumLength = 11, ErrorMessage = "CPF deve ter 11 dígitos")]
         public string CPF { get; set; }
 
+        [Required]
+        public DateOnly DataNasc { get; set;  }
+
+        [Required]
+        public int idTermoSite { get; set; }
+        [Required]
+        public bool aceitouTermoSite { get; set; }
         
     }
 }

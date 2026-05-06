@@ -13,7 +13,7 @@ namespace API_backEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TurmasController : ControllerBase
+    public class TurmasController : BaseController
     {
         private readonly TurmaService _turmaService;
         public TurmasController( TurmaService turmaService)
@@ -24,41 +24,21 @@ namespace API_backEnd.Controllers
         [HttpGet]
         public IActionResult GetTurma()
         {
-            var resultado = _turmaService.BuscarTurmasAtivas();
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-            
-            return Ok(resultado.Dados);
+            return Resultado(_turmaService.BuscarTurmasAtivas());
         }
 
         [Authorize(Roles = "admin")]
         [HttpGet("por-curso/{idCurso}")]
         public IActionResult GetTurmaPorCurso(int idCurso)
         {
-            var resultado = _turmaService.BuscarTurmaPeloCurso(idCurso);
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Dados);
+            return Resultado(_turmaService.BuscarTurmaPeloCurso(idCurso));
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult CriarTurma(CriarTurmaRequest dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-            var resultado = _turmaService.CriarTurma(dto);
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Mensagem);
+            return Resultado(_turmaService.CriarTurma(dto));
         }
 
         // deletar turma
@@ -66,31 +46,15 @@ namespace API_backEnd.Controllers
         [HttpDelete("{IdTurma}")]
         public IActionResult DeletarTurma(int IdTurma)
         {
-            var resultado = _turmaService.DeletarTurma(IdTurma);
-
-            if (!resultado.Sucesso)
-                return NotFound(resultado.Mensagem);
-
-            return Ok(resultado.Mensagem);
-        }
-
+            return Resultado(_turmaService.DeletarTurma(IdTurma));
+        } 
 
         // editar turma ?
         [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public IActionResult EditarTurma(int id, EditarTurmaRequest dto)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            
-            var resultado = _turmaService.EditarTurma(id, dto);
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Mensagem);
+            return Resultado(_turmaService.EditarTurma(id, dto));
         }
     }
 }

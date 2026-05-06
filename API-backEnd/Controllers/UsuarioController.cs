@@ -8,7 +8,7 @@ namespace API_backEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : ControllerBase
+    public class UsuarioController : BaseController
     {
         private readonly UsuarioService _usuarioService;
 
@@ -21,15 +21,7 @@ namespace API_backEnd.Controllers
         [HttpPost("trocar-senha")]
         public IActionResult TrocarSenha(TrocarSenhaRequest dto)
         {
-            if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var resultado = _usuarioService.TrocarSenha(dto);
-
-            if(!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Mensagem);
+            return Resultado(_usuarioService.TrocarSenha(dto));
         }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using API_backEnd.Common;
+using API_backEnd.DTOs.Aluno;
+using API_backEnd.DTOs.Armario;
 using API_backEnd.DTOs.Reserva;
 using API_backEnd.Enums;
 using API_backEnd.Models;
@@ -13,10 +15,10 @@ namespace API_backEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReservasController : ControllerBase
+    public class ReservasController : BaseController
     {
         private readonly ReservaService _reservaService;
-        public ReservasController( ReservaService reservaService)
+        public ReservasController(ReservaService reservaService)
         {           
             _reservaService = reservaService;
         }
@@ -25,45 +27,38 @@ namespace API_backEnd.Controllers
         [HttpPost("cadastro-armario")]
         public IActionResult CadastroReservaArmarioCompleto(CriarCadastroArmarioRequest dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var resultado = _reservaService.CadastrarReservaArmario(dto);
-
-            if(!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Mensagem);
-            
+            return Resultado(_reservaService.CadastrarReservaArmario(dto));
         }
 
         [Authorize(Roles = "admin")]
         [HttpPost("recadastrar-armario")]
         public IActionResult RecadastroReserva(RecadastrarReservaRequest dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-            
-            var resultado = _reservaService.RecadastrarReserva(dto);
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Mensagem);
+            return Resultado(_reservaService.RecadastrarReserva(dto));
         }
 
         
-
         [Authorize(Roles = "admin")]
         [HttpGet("historico-reserva")]
         public IActionResult HistoricoReserva()
         {
-            var resultado = _reservaService.HistoricoReserva();
+            return Resultado(_reservaService.HistoricoReserva());
+        }
 
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Dados);
+        // buscar armario com reserva
+        [Authorize(Roles = "admin")]
+        [HttpGet("com-reserva")]
+        public IActionResult BuscarAlunosComReserva()
+        {
+            return Resultado(_reservaService.AlunosComReservaAtiva());
+        }
+       
+        // transferir o aluno de armario
+        [Authorize(Roles = "admin")]
+        [HttpPost("transferir")]
+        public IActionResult TransferirAlunoArmario(TransferirAlunoArmarioRequest dto)
+        {
+            return Resultado(_reservaService.TransferirAlunoDeArmario(dto));
         }
     }
 }

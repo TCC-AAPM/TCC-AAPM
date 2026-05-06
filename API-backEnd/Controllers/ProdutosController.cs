@@ -11,7 +11,7 @@ namespace API_backEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProdutosController : ControllerBase
+    public class ProdutosController : BaseController
     {
         private readonly ProdutoService _produtoService;
         public ProdutosController(ProdutoService produtoService)
@@ -22,27 +22,14 @@ namespace API_backEnd.Controllers
         [HttpGet]
         public IActionResult GetProdutos()
         {
-            var resultado = _produtoService.BuscarProduto();
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Mensagem);
-
-            return Ok(resultado.Dados);
+            return Resultado(_produtoService.BuscarProduto());
         }
 
         [Authorize(Roles = "admin")]
         [HttpPut("{idProduto}")]
         public IActionResult AlterarPrecoProduto(int idProduto, ProdutoRequest dto)
         {
-            if (!ModelState.IsValid)
-                return BadRequest(ModelState);
-
-            var resultado = _produtoService.AlterarPrecoProduto(idProduto, dto);
-
-            if (!resultado.Sucesso)
-                return BadRequest(resultado.Sucesso);
-
-            return Ok(resultado.Mensagem);
+            return Resultado(_produtoService.AlterarPrecoProduto(idProduto, dto));
         }
     }
 }

@@ -27,9 +27,6 @@ namespace API_backEnd.Controllers
         [HttpPost]
         public IActionResult Login(LoginRequest login)
         {
-           if(!ModelState.IsValid)
-                return BadRequest(ModelState);
-
            var resultado = _authService.Login(login);
 
             if (!resultado.Sucesso)

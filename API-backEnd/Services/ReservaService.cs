@@ -1,4 +1,6 @@
 ﻿using API_backEnd.Common;
+using API_backEnd.DTOs.Aluno;
+using API_backEnd.DTOs.Armario;
 using API_backEnd.DTOs.Reserva;
 using API_backEnd.Enums;
 using API_backEnd.Models;
@@ -95,7 +97,7 @@ namespace API_backEnd.Services
                 };
 
 
-                armario.Estado = EstadoArmario.O.ToString();
+                armario.Estado = EstadoArmario.O;
                 db.TabelaReservaArmarios.Add(reserva);
                 db.SaveChanges();
                 transaction.Commit();
@@ -164,7 +166,7 @@ namespace API_backEnd.Services
 
                 AceitarTermos(aluno.IdUsuario, dto.IdTermoSite, dto.IdTermoArmario);
 
-                armario.Estado = EstadoArmario.O.ToString();
+                armario.Estado = EstadoArmario.O;
 
                 db.TabelaReservaArmarios.Add(reserva);
 
@@ -207,6 +209,93 @@ namespace API_backEnd.Services
                 }
             ).ToList();
             return ResultadoPadrao<object>.Ok(dados);
+        }
+
+        public ResultadoPadrao<object> AlunosComReservaAtiva()
+        {
+            var config = db.ConfigReservas.FirstOrDefault();
+            if (config == null)
+            {
+                return ResultadoPadrao<object>.Falha("Configuração não encontrada");
+            }
+
+            var dados = (
+            from r in db.TabelaReservaArmarios
+            join a in db.TabelaAlunos on r.IdAluno equals a.Id
+            join ar in db.TabelaArmarios on r.IdArmario equals ar.NumeroArmario
+            join c in db.TabelaCursos on a.CursoId equals c.Id
+            join t in db.TabelaTurmas on a.TurmaId equals t.Id
+            join p in db.TabelaPagamentos on a.Id equals p.IdAluno
+            where r.IsAtivo && a.IsAtivo
+            select new AlunoComReservaResponse
+            {
+                NomeAluno = a.Nome,
+                NomeSocial = string.IsNullOrWhiteSpace(a.NomeSocial) ? null : a.NomeSocial,
+                NumeroArmario = ar.NumeroArmario,
+                Telefone = a.Telefone,
+                CPF = a.Cpf,
+                Email = a.Email,
+                Curso = c.Nome,
+                Turma = t.Turma,
+                Pagamento = p.Metodo,
+                DataExpiracao = config.DataExpiracaoGlobal
+            }
+            ).ToList();
+
+            if (dados.Count == 0)
+            {
+                return ResultadoPadrao<object>.Falha("");
+            }
+            return ResultadoPadrao<object>.Ok(dados);
+        }
+
+        public ResultadoPadrao<object> TransferirAlunoDeArmario(TransferirAlunoArmarioRequest dto)
+        {
+
+            if (dto.NumeroArmarioAtual == dto.NumeroArmarioNovo)
+            {
+                return ResultadoPadrao<object>.Falha("Escolha um armario diferente do atual");
+            }
+
+            var armarioReservaAtual = db.TabelaReservaArmarios.FirstOrDefault(a => a.IdArmario == dto.NumeroArmarioAtual && a.IsAtivo);
+
+            if (armarioReservaAtual == null)
+            {
+                return ResultadoPadrao<object>.Falha("Reserva nao encontrada");
+            }
+
+            var armarioAtual = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == armarioReservaAtual.IdArmario);
+
+            if (armarioAtual == null)
+            {
+                return ResultadoPadrao<object>.Falha("Armario não encontrado");
+            }
+
+            var armarioNovo = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == dto.NumeroArmarioNovo);
+
+            if (armarioNovo == null)
+            {
+                return ResultadoPadrao<object>.Falha("Armario nao existe");
+            }
+
+            if (armarioNovo.Estado == EstadoArmario.O || armarioNovo.Estado == EstadoArmario.M)
+            {
+                return ResultadoPadrao<object>.Falha("armario em manutencao ou ocupado");
+            }
+
+            //mudar para o armario novo e o estado
+            armarioReservaAtual.IdArmario = armarioNovo.NumeroArmario;
+            armarioNovo.Estado = EstadoArmario.O;
+
+            //mudar o estado do armario antigo e colocar a obs
+            armarioAtual.Estado = EstadoArmario.M;
+            armarioAtual.Observacao = string.IsNullOrWhiteSpace(dto.Observacao) ? null : dto.Observacao;
+
+
+
+            db.SaveChanges();
+
+            return ResultadoPadrao<object>.Ok(mensagem: "Aluno realocado de armário com sucesso");
         }
 
         private ResultadoPadrao<object> ValidarIdadeETermos(DateOnly dataNasc, int idTermoSite,

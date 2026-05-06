@@ -61,6 +61,10 @@ builder.Services.AddDbContext<AapmContext>(options =>
         ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
     )
 );
+
+// services
+
+builder.Services.AddScoped<AdminService>();
 builder.Services.AddScoped<AlunoService>();
 builder.Services.AddScoped<ArmarioService>();
 builder.Services.AddScoped<AuthService>();
@@ -68,6 +72,7 @@ builder.Services.AddScoped<CadastroService>();
 builder.Services.AddScoped<CursoService>();
 builder.Services.AddScoped<IdadeService>();
 builder.Services.AddScoped<ProdutoService>();
+builder.Services.AddScoped<ReservaService>();
 builder.Services.AddScoped<TermoService>();
 builder.Services.AddScoped<TurmaService>();
 builder.Services.AddScoped<UsuarioService>(); 

@@ -1,10 +1,18 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\gabriel\\Desktop\\API-aapm\\",
+  "WorkspaceRootPath": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\services\\alunoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\alunoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\services\\armarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\armarioservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\armarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\armarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\services\\reservaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\reservaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -14,19 +22,49 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 0,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "AlunoService.cs",
-              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Services\\AlunoService.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Services\\AlunoService.cs",
-              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Services\\AlunoService.cs",
-              "RelativeToolTip": "API-backEnd\\Services\\AlunoService.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAAAbAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "ReservaService.cs",
+              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Services\\ReservaService.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Services\\ReservaService.cs",
+              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Services\\ReservaService.cs",
+              "RelativeToolTip": "API-backEnd\\Services\\ReservaService.cs",
+              "ViewState": "AgIAAG8AAAAAAAAAAAAvwNQAAAA+AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-06T02:31:57.615Z",
+              "WhenOpened": "2026-05-06T21:53:10.641Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ArmarioService.cs",
+              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Services\\ArmarioService.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Services\\ArmarioService.cs",
+              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Services\\ArmarioService.cs",
+              "RelativeToolTip": "API-backEnd\\Services\\ArmarioService.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAAAvwEIAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-06T21:28:49.736Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ArmariosController.cs",
+              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\ArmariosController.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\ArmariosController.cs",
+              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\ArmariosController.cs",
+              "RelativeToolTip": "API-backEnd\\Controllers\\ArmariosController.cs",
+              "ViewState": "AgIAACkAAAAAAAAAAAAiwEAAAAAnAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-06T21:27:40.266Z",
               "EditorCaption": ""
             }
           ]

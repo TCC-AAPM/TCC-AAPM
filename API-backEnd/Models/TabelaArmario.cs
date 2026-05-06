@@ -8,7 +8,7 @@ public partial class TabelaArmario
 {
     public int NumeroArmario { get; set; }
 
-    public string Estado { get; set; }
+    public EstadoArmario Estado { get; set; }
 
     public string? Observacao { get; set; }
 
