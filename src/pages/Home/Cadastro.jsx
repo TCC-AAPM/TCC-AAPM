@@ -57,12 +57,10 @@ export default function Cadastro() {
             <br />
             pessoais
           </h1>
-
           <p>
             Preencha as informações ao lado para contratar o serviço. Rápido e
             sem burocracia.
           </p>
-
           <div className={styles.passos}>
             <div className={styles.passo}>
               <div className={`${styles["passo-num"]} ${styles.ativo}`}>1</div>
@@ -71,7 +69,6 @@ export default function Cadastro() {
                 <span>Você está aqui</span>
               </div>
             </div>
-
             <div className={styles.passo}>
               <div className={`${styles["passo-num"]} ${styles.pendente}`}>
                 2
@@ -91,41 +88,49 @@ export default function Cadastro() {
           <div className={styles.campo}>
             <input
               type="text"
-              placeholder="Nome completo"
+              placeholder=" "
               value={form.nome}
               onChange={atualizar("nome")}
               required
             />
+            <label>Nome completo</label>
           </div>
 
           <div className={styles.campo}>
             <input
               type="text"
-              placeholder="Nome social (opcional)"
+              placeholder=" "
               value={form.nomeSocial}
               onChange={atualizar("nomeSocial")}
             />
+            <label>Nome social (opcional)</label>
           </div>
 
           <div className={styles.linha}>
             <div className={styles.campo}>
               <input
                 type="text"
-                placeholder="CPF"
+                placeholder=" "
                 value={form.cpf}
                 onChange={atualizar("cpf")}
                 maxLength={14}
                 required
               />
+              <label>CPF</label>
             </div>
-
-            <div className={styles.campo}>
+            <div
+              className={`${styles.campo} ${form.nascimento ? styles.filled : ""}`}
+            >
               <input
                 type="date"
                 value={form.nascimento}
                 onChange={atualizar("nascimento")}
+                max={
+                  new Date(Date.now() - 86400000).toISOString().split("T")[0]
+                }
                 required
               />
+              <label>Nascimento</label>
             </div>
           </div>
 
@@ -134,44 +139,50 @@ export default function Cadastro() {
           <div className={styles.campo}>
             <input
               type="email"
-              placeholder="E-mail"
+              placeholder=" "
               value={form.email}
               onChange={atualizar("email")}
               required
             />
+            <label>E-mail</label>
           </div>
 
           <div className={styles.campo}>
             <input
               type="tel"
-              placeholder="Telefone"
+              placeholder=" "
               value={form.telefone}
               onChange={atualizar("telefone")}
               maxLength={15}
               required
             />
+            <label>Telefone</label>
           </div>
 
           <div className={styles.separador}>Escola</div>
 
           <div className={styles.linha}>
-            <div className={styles.campo}>
+            <div
+              className={`${styles.campo} ${form.curso ? styles.filled : ""}`}
+            >
               <select value={form.curso} onChange={atualizar("curso")} required>
-                <option value="">Curso</option>
+                <option value="" />
                 {cursos.map((c) => (
                   <option key={c}>{c}</option>
                 ))}
               </select>
+              <label>Curso</label>
             </div>
 
             <div className={styles.campo}>
               <input
                 type="text"
-                placeholder="Turma (ex: DS3A)"
+                placeholder=" "
                 value={form.turma}
                 onChange={atualizar("turma")}
                 required
               />
+              <label>Turma (ex: DS3A)</label>
             </div>
           </div>
 
