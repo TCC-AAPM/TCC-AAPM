@@ -17,20 +17,30 @@ namespace API_backEnd.Controllers
             _alunoService = alunoService;
         }
 
+        /// <summary>
+        /// Retorna os dados do aluno autenticado
+        /// </summary>
         [Authorize(Roles = "aluno")]
         [HttpGet("me")]
         public IActionResult BuscarAlunoLogado()
         {
             return Resultado(_alunoService.DadosAlunoLogado());
         }
-       
+
+        /// <summary>
+        /// Exclui a conta do aluno autenticado
+        /// </summary>
         [Authorize(Roles = "aluno")]
-        [HttpPost("deletar-conta")]
+        [HttpPost("excluir-conta")]
         public IActionResult DeletarConta(ConfirmarSenhaRequest dto)
         {
             return Resultado(_alunoService.DeletarConta(dto));
         }
 
+        /// <summary>
+        /// Busca aluno pelo CPF
+        /// </summary>
+        [AllowAnonymous]
         [HttpPost("buscar-por-cpf")]
         public IActionResult BuscarPorCPF(BuscarAlunoPorCpfRequest dto)
         {

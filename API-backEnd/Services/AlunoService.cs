@@ -30,13 +30,13 @@ namespace API_backEnd.Services
 
             if (config == null)
             {
-                return ResultadoPadrao<AlunoLogadoResponse>.Falha("Configuração não encontrada");
+                return ResultadoPadrao<AlunoLogadoResponse>.Falha("Configuração não encontrada", 404);
             }
            
             var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
 
             if (aluno == null)
-                return ResultadoPadrao<AlunoLogadoResponse>.Falha("Aluno não encontrado");
+                return ResultadoPadrao<AlunoLogadoResponse>.Falha("Aluno não encontrado", 404);
 
             var dadosAluno = new AlunoLogadoResponse
             {
@@ -68,19 +68,19 @@ namespace API_backEnd.Services
 
             if (usuario == null)
             {
-                return ResultadoPadrao<object>.Falha("Usuário não encontrado");
+                return ResultadoPadrao<object>.Falha("Usuário não encontrado", 404);
             }
 
             if (!BCrypt.Net.BCrypt.Verify(dto.Senha, usuario.Senha))
             {
-                return ResultadoPadrao<object>.Falha("Senha incorreta");
+                return ResultadoPadrao<object>.Falha("Senha incorreta", 400);
             }
 
             var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
 
             if (aluno == null)
             {
-                return ResultadoPadrao<object>.Falha("Aluno não encontrado");
+                return ResultadoPadrao<object>.Falha("Aluno não encontrado", 404);
             }
 
             using var transaction = db.Database.BeginTransaction();
@@ -94,7 +94,7 @@ namespace API_backEnd.Services
                     if (armario != null)
                     {
                         armario.Observacao = $"O aluno {aluno.Nome} excluiu a conta";
-                        armario.Estado = EstadoArmario.P.ToString();
+                        armario.Estado = EstadoArmario.P;
                     }
 
                     reserva.IsAtivo = false;
@@ -114,7 +114,7 @@ namespace API_backEnd.Services
             catch
             {
                 transaction.Rollback();
-                return ResultadoPadrao<object>.Falha("Erro ao deletar conta");
+                return ResultadoPadrao<object>.Falha("Erro ao deletar conta", 500);
             }
         }
 
@@ -124,7 +124,7 @@ namespace API_backEnd.Services
 
             if (aluno == null)
             {
-                return ResultadoPadrao<RecadastroResponse>.Falha("Aluno não encontrado");
+                return ResultadoPadrao<RecadastroResponse>.Falha("Aluno não encontrado", 404);
             }
             var dados = new RecadastroResponse
             {

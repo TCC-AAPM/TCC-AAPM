@@ -23,21 +23,9 @@ namespace API_backEnd.Controllers
             _reservaService = reservaService;
         }
 
-        [Authorize(Roles = "admin")]
-        [HttpPost("cadastro-armario")]
-        public IActionResult CadastroReservaArmarioCompleto(CriarCadastroArmarioRequest dto)
-        {
-            return Resultado(_reservaService.CadastrarReservaArmario(dto));
-        }
-
-        [Authorize(Roles = "admin")]
-        [HttpPost("recadastrar-armario")]
-        public IActionResult RecadastroReserva(RecadastrarReservaRequest dto)
-        {
-            return Resultado(_reservaService.RecadastrarReserva(dto));
-        }
-
-        
+        /// <summary>
+        /// Retorna o histórico de reservas de armários
+        /// </summary>
         [Authorize(Roles = "admin")]
         [HttpGet("historico-reserva")]
         public IActionResult HistoricoReserva()
@@ -45,15 +33,39 @@ namespace API_backEnd.Controllers
             return Resultado(_reservaService.HistoricoReserva());
         }
 
-        // buscar armario com reserva
+        /// <summary>
+        /// Retorna os alunos com reserva ativa de armário
+        /// </summary>
         [Authorize(Roles = "admin")]
         [HttpGet("com-reserva")]
         public IActionResult BuscarAlunosComReserva()
         {
             return Resultado(_reservaService.AlunosComReservaAtiva());
         }
-       
-        // transferir o aluno de armario
+
+        /// <summary>
+        /// Realiza o cadastro completo de uma reserva de armário
+        /// </summary>
+        [Authorize(Roles = "admin")]
+        [HttpPost("cadastro-armario")]
+        public IActionResult CadastroReservaArmarioCompleto(CriarCadastroArmarioRequest dto)
+        {
+            return Resultado(_reservaService.CadastrarReservaArmario(dto));
+        }
+
+        /// <summary>
+        /// Realiza o recadastro de uma reserva de armário
+        /// </summary>
+        [Authorize(Roles = "admin")]
+        [HttpPost("recadastrar-armario")]
+        public IActionResult RecadastroReserva(RecadastrarReservaRequest dto)
+        {
+            return Resultado(_reservaService.RecadastrarReserva(dto));
+        }
+
+        /// <summary>
+        /// Transfere um aluno para outro armário
+        /// </summary>
         [Authorize(Roles = "admin")]
         [HttpPost("transferir")]
         public IActionResult TransferirAlunoArmario(TransferirAlunoArmarioRequest dto)

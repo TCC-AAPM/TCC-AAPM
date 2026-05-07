@@ -1,8 +1,12 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "API-aapm",
-    "version": "1.0"
+    "title": "AAPM API",
+    "description": "\r\nAPI para gerenciamento de armários, estacionamentos e alunos\r\n\r\n\r\nDesenvolvido por Gabriel Duarte\r\n",
+    "contact": {
+      "name": "Gabriel Duarte"
+    },
+    "version": "v1.0"
   },
   "paths": {
     "/api/Admin/me": {
@@ -10,6 +14,7 @@
         "tags": [
           "Admin"
         ],
+        "summary": "Retorna os dados do administrador autenticado",
         "responses": {
           "200": {
             "description": "Success"
@@ -22,6 +27,7 @@
         "tags": [
           "Admin"
         ],
+        "summary": "Cria um novo administrador",
         "requestBody": {
           "content": {
             "application/json": {
@@ -48,11 +54,12 @@
         }
       }
     },
-    "/api/Admin/{id}/excluir": {
+    "/api/Admin/{id}/confirmar-exclusao": {
       "post": {
         "tags": [
           "Admin"
         ],
+        "summary": "Remove um administrador",
         "parameters": [
           {
             "name": "id",
@@ -95,6 +102,7 @@
         "tags": [
           "Alunos"
         ],
+        "summary": "Retorna os dados do aluno autenticado",
         "responses": {
           "200": {
             "description": "Success"
@@ -102,11 +110,12 @@
         }
       }
     },
-    "/api/Alunos/deletar-conta": {
+    "/api/Alunos/excluir-conta": {
       "post": {
         "tags": [
           "Alunos"
         ],
+        "summary": "Exclui a conta do aluno autenticado",
         "requestBody": {
           "content": {
             "application/json": {
@@ -138,6 +147,7 @@
         "tags": [
           "Alunos"
         ],
+        "summary": "Busca aluno pelo CPF",
         "requestBody": {
           "content": {
             "application/json": {
@@ -169,6 +179,37 @@
         "tags": [
           "Armarios"
         ],
+        "summary": "Retorna todos os armários ativos",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Armarios"
+        ],
+        "summary": "Cria um novo armário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarArmarioRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarArmarioRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarArmarioRequest"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Success"
@@ -176,14 +217,15 @@
         }
       }
     },
-    "/api/Armarios/{id}": {
+    "/api/Armarios/{numeroArmario}": {
       "get": {
         "tags": [
           "Armarios"
         ],
+        "summary": "Busca um armário pelo número",
         "parameters": [
           {
-            "name": "id",
+            "name": "numeroArmario",
             "in": "path",
             "required": true,
             "schema": {
@@ -197,108 +239,12 @@
             "description": "Success"
           }
         }
-      }
-    },
-    "/api/Armarios/com-reserva": {
-      "get": {
-        "tags": [
-          "Armarios"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Armarios/buscar-por-estado": {
-      "get": {
-        "tags": [
-          "Armarios"
-        ],
-        "parameters": [
-          {
-            "name": "estado",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/EstadoArmario"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Armarios/criar-armario": {
-      "post": {
-        "tags": [
-          "Armarios"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarArmarioRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarArmarioRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarArmarioRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Armarios/transferir": {
-      "post": {
-        "tags": [
-          "Armarios"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TransferirAlunoArmarioRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/TransferirAlunoArmarioRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/TransferirAlunoArmarioRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Armarios/{numeroArmario}": {
+      },
       "delete": {
         "tags": [
           "Armarios"
         ],
+        "summary": "Remove um armário",
         "parameters": [
           {
             "name": "numeroArmario",
@@ -317,11 +263,34 @@
         }
       }
     },
+    "/api/Armarios/estado": {
+      "get": {
+        "tags": [
+          "Armarios"
+        ],
+        "summary": "Retorna os armários filtrados pelo estado",
+        "parameters": [
+          {
+            "name": "estado",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/EstadoArmario"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Armarios/estado/{numeroArmario}": {
       "put": {
         "tags": [
           "Armarios"
         ],
+        "summary": "Atualiza o estado de um armário",
         "parameters": [
           {
             "name": "numeroArmario",
@@ -364,6 +333,7 @@
         "tags": [
           "Cadastro"
         ],
+        "summary": "Realiza o pré-cadastro de um aluno",
         "requestBody": {
           "content": {
             "application/json": {
@@ -395,18 +365,18 @@
         "tags": [
           "Cursos"
         ],
+        "summary": "Retorna todos os cursos ativos",
         "responses": {
           "200": {
             "description": "Success"
           }
         }
-      }
-    },
-    "/api/Cursos/criar-curso": {
+      },
       "post": {
         "tags": [
           "Cursos"
         ],
+        "summary": "Cria um novo curso",
         "requestBody": {
           "content": {
             "application/json": {
@@ -434,31 +404,11 @@
       }
     },
     "/api/Cursos/{idCurso}": {
-      "delete": {
-        "tags": [
-          "Cursos"
-        ],
-        "parameters": [
-          {
-            "name": "idCurso",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
       "put": {
         "tags": [
           "Cursos"
         ],
+        "summary": "Atualiza os dados de um curso",
         "parameters": [
           {
             "name": "idCurso",
@@ -494,6 +444,28 @@
             "description": "Success"
           }
         }
+      },
+      "delete": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Remove um curso",
+        "parameters": [
+          {
+            "name": "idCurso",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
       }
     },
     "/api/EsqueciSenha": {
@@ -501,6 +473,7 @@
         "tags": [
           "EsqueciSenha"
         ],
+        "summary": "Verifica se o email informado possui cadastro no sistema",
         "requestBody": {
           "content": {
             "application/json": {
@@ -532,6 +505,7 @@
         "tags": [
           "EsqueciSenha"
         ],
+        "summary": "Valida o código de recuperação de senha",
         "requestBody": {
           "content": {
             "application/json": {
@@ -563,6 +537,7 @@
         "tags": [
           "EsqueciSenha"
         ],
+        "summary": "Redefine a senha do usuário",
         "requestBody": {
           "content": {
             "application/json": {
@@ -594,6 +569,7 @@
         "tags": [
           "Login"
         ],
+        "summary": "Realiza a autenticação do usuário no sistema",
         "requestBody": {
           "content": {
             "application/json": {
@@ -625,6 +601,7 @@
         "tags": [
           "Produtos"
         ],
+        "summary": "Retorna todos os produtos disponíveis",
         "responses": {
           "200": {
             "description": "Success"
@@ -637,6 +614,7 @@
         "tags": [
           "Produtos"
         ],
+        "summary": "Atualiza o preço de um produto",
         "parameters": [
           {
             "name": "idProduto",
@@ -674,11 +652,38 @@
         }
       }
     },
+    "/api/Reservas/historico-reserva": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Retorna o histórico de reservas de armários",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Reservas/com-reserva": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Retorna os alunos com reserva ativa de armário",
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Reservas/cadastro-armario": {
       "post": {
         "tags": [
           "Reservas"
         ],
+        "summary": "Realiza o cadastro completo de uma reserva de armário",
         "requestBody": {
           "content": {
             "application/json": {
@@ -710,6 +715,7 @@
         "tags": [
           "Reservas"
         ],
+        "summary": "Realiza o recadastro de uma reserva de armário",
         "requestBody": {
           "content": {
             "application/json": {
@@ -736,11 +742,66 @@
         }
       }
     },
-    "/api/Reservas/historico-reserva": {
-      "get": {
+    "/api/Reservas/transferir": {
+      "post": {
         "tags": [
           "Reservas"
         ],
+        "summary": "Transfere um aluno para outro armário",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferirAlunoArmarioRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferirAlunoArmarioRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TransferirAlunoArmarioRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Termo/obter-pdf": {
+      "get": {
+        "tags": [
+          "Termo"
+        ],
+        "summary": "Retorna o arquivo PDF de um termo",
+        "parameters": [
+          {
+            "name": "referencia",
+            "in": "query",
+            "schema": {
+              "$ref": "#/components/schemas/ReferenciaTermos"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Termo/verificar-termos-aceito": {
+      "get": {
+        "tags": [
+          "Termo"
+        ],
+        "summary": "Verifica os termos aceitos pelo usuário autenticado",
         "responses": {
           "200": {
             "description": "Success"
@@ -753,6 +814,7 @@
         "tags": [
           "Termo"
         ],
+        "summary": "Cria um novo termo",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -790,44 +852,12 @@
         }
       }
     },
-    "/api/Termo/obter-pdf": {
-      "get": {
-        "tags": [
-          "Termo"
-        ],
-        "parameters": [
-          {
-            "name": "referencia",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/ReferenciaTermos"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Termo/verificar-termos-aceito": {
-      "get": {
-        "tags": [
-          "Termo"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/Termo/aceitar-novos-termos": {
       "post": {
         "tags": [
           "Termo"
         ],
+        "summary": "Registra o aceite de um termo pelo usuário autenticado",
         "requestBody": {
           "content": {
             "application/json": {
@@ -859,6 +889,7 @@
         "tags": [
           "Turmas"
         ],
+        "summary": "Retorna todas as turmas ativas",
         "responses": {
           "200": {
             "description": "Success"
@@ -869,6 +900,7 @@
         "tags": [
           "Turmas"
         ],
+        "summary": "Cria uma nova turma",
         "requestBody": {
           "content": {
             "application/json": {
@@ -900,6 +932,7 @@
         "tags": [
           "Turmas"
         ],
+        "summary": "Retorna as turmas vinculadas a um curso",
         "parameters": [
           {
             "name": "idCurso",
@@ -923,6 +956,7 @@
         "tags": [
           "Turmas"
         ],
+        "summary": "Remove uma turma",
         "parameters": [
           {
             "name": "IdTurma",
@@ -946,6 +980,7 @@
         "tags": [
           "Turmas"
         ],
+        "summary": "Atualiza os dados de uma turma",
         "parameters": [
           {
             "name": "id",
@@ -988,6 +1023,7 @@
         "tags": [
           "Usuario"
         ],
+        "summary": "Altera a senha do usuário autenticado",
         "requestBody": {
           "content": {
             "application/json": {
@@ -1089,8 +1125,11 @@
       },
       "CriarAdminRequest": {
         "required": [
+          "aceitouTermoSite",
           "cpf",
+          "dataNasc",
           "email",
+          "idTermoSite",
           "nome",
           "telefone"
         ],
@@ -1098,22 +1137,43 @@
         "properties": {
           "nome": {
             "minLength": 1,
-            "type": "string"
+            "type": "string",
+            "default": "Administrador AAPM"
+          },
+          "nomeSocial": {
+            "type": "string",
+            "default": "Administrador",
+            "nullable": true
           },
           "email": {
             "minLength": 1,
             "type": "string",
-            "format": "email"
+            "format": "email",
+            "default": "administrador@gmail.com"
           },
           "telefone": {
             "minLength": 1,
             "pattern": "^\\d{10,11}$",
-            "type": "string"
+            "type": "string",
+            "default": "11999999999"
           },
           "cpf": {
             "maxLength": 11,
             "minLength": 11,
-            "type": "string"
+            "type": "string",
+            "default": "12345678900"
+          },
+          "dataNasc": {
+            "type": "string",
+            "format": "date",
+            "default": "2000-01-01"
+          },
+          "idTermoSite": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "aceitouTermoSite": {
+            "type": "boolean"
           }
         },
         "additionalProperties": false
@@ -1602,6 +1662,7 @@
     "securitySchemes": {
       "Bearer": {
         "type": "http",
+        "description": "Digite o token JWT sem 'Bearer'",
         "scheme": "bearer",
         "bearerFormat": "JWT"
       }

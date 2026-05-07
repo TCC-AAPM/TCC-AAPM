@@ -17,6 +17,9 @@ namespace API_backEnd.Controllers
             _usuarioService = usuarioService;
         }
 
+        /// <summary>
+        /// Altera a senha do usuário autenticado
+        /// </summary>
         [Authorize]
         [HttpPost("trocar-senha")]
         public IActionResult TrocarSenha(TrocarSenhaRequest dto)

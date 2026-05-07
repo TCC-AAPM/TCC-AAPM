@@ -1,11 +1,7 @@
 ﻿using API_backEnd.DTOs.Produto;
-using API_backEnd.Enums;
-using API_backEnd.Models;
 using API_backEnd.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Text.RegularExpressions;
 
 namespace API_backEnd.Controllers
 {
@@ -19,12 +15,19 @@ namespace API_backEnd.Controllers
             _produtoService = produtoService;
         }
 
+        /// <summary>
+        /// Retorna todos os produtos disponíveis
+        /// </summary>
+        [AllowAnonymous]
         [HttpGet]
         public IActionResult GetProdutos()
         {
             return Resultado(_produtoService.BuscarProduto());
         }
 
+        /// <summary>
+        /// Atualiza o preço de um produto
+        /// </summary>
         [Authorize(Roles = "admin")]
         [HttpPut("{idProduto}")]
         public IActionResult AlterarPrecoProduto(int idProduto, ProdutoRequest dto)

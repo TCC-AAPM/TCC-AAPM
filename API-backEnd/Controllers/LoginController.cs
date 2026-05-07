@@ -24,10 +24,15 @@ namespace API_backEnd.Controllers
         {
             _authService = authService;
         }
+
+        /// <summary>
+        /// Realiza a autenticação do usuário no sistema
+        /// </summary>
+        [AllowAnonymous]
         [HttpPost]
         public IActionResult Login(LoginRequest login)
         {
-           var resultado = _authService.Login(login);
+            var resultado = _authService.Login(login);
 
             if (!resultado.Sucesso)
                 return Unauthorized(resultado.Mensagem);

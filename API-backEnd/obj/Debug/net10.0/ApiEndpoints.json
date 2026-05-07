@@ -18,7 +18,7 @@
   {
     "ContainingType": "API_backEnd.Controllers.AdminController",
     "Method": "DeletarAdmin",
-    "RelativePath": "api/Admin/{id}/excluir",
+    "RelativePath": "api/Admin/{id}/confirmar-exclusao",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -65,7 +65,7 @@
   {
     "ContainingType": "API_backEnd.Controllers.AlunosController",
     "Method": "DeletarConta",
-    "RelativePath": "api/Alunos/deletar-conta",
+    "RelativePath": "api/Alunos/excluir-conta",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -90,7 +90,7 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.ArmariosController",
-    "Method": "Get",
+    "Method": "BuscarArmario",
     "RelativePath": "api/Armarios",
     "HttpMethod": "GET",
     "IsController": true,
@@ -100,14 +100,30 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.ArmariosController",
-    "Method": "GetById",
-    "RelativePath": "api/Armarios/{id}",
+    "Method": "CriarArmario",
+    "RelativePath": "api/Armarios",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Armario.CriarArmarioRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.ArmariosController",
+    "Method": "BuscarArmarioPeloNumero",
+    "RelativePath": "api/Armarios/{numeroArmario}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "id",
+        "Name": "numeroArmario",
         "Type": "System.Int32",
         "IsRequired": true
       }
@@ -132,8 +148,8 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.ArmariosController",
-    "Method": "GetArmarioEstado",
-    "RelativePath": "api/Armarios/buscar-por-estado",
+    "Method": "BuscarArmarioPeloEstado",
+    "RelativePath": "api/Armarios/estado",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -142,32 +158,6 @@
         "Name": "estado",
         "Type": "API_backEnd.Enums.EstadoArmario",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API_backEnd.Controllers.ArmariosController",
-    "Method": "GetAlunosComReserva",
-    "RelativePath": "api/Armarios/com-reserva",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "API_backEnd.Controllers.ArmariosController",
-    "Method": "CriarArmario",
-    "RelativePath": "api/Armarios/criar-armario",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "API_backEnd.DTOs.Armario.CriarArmarioRequest",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -194,22 +184,6 @@
     "ReturnTypes": []
   },
   {
-    "ContainingType": "API_backEnd.Controllers.ArmariosController",
-    "Method": "TransferirAlunoArmario",
-    "RelativePath": "api/Armarios/transferir",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "dto",
-        "Type": "API_backEnd.DTOs.Armario.TransferirAlunoArmarioRequest",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
     "ContainingType": "API_backEnd.Controllers.CadastroController",
     "Method": "PreCadastro",
     "RelativePath": "api/Cadastro/pre-cadastro",
@@ -227,7 +201,7 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.CursosController",
-    "Method": "GetCurso",
+    "Method": "BuscarCursosAtivos",
     "RelativePath": "api/Cursos",
     "HttpMethod": "GET",
     "IsController": true,
@@ -237,15 +211,15 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.CursosController",
-    "Method": "DeletarCurso",
-    "RelativePath": "api/Cursos/{idCurso}",
-    "HttpMethod": "DELETE",
+    "Method": "CriarCurso",
+    "RelativePath": "api/Cursos",
+    "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "idCurso",
-        "Type": "System.Int32",
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Curso.CursoRequest",
         "IsRequired": true
       }
     ],
@@ -274,15 +248,15 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.CursosController",
-    "Method": "CriarCurso",
-    "RelativePath": "api/Cursos/criar-curso",
-    "HttpMethod": "POST",
+    "Method": "DeletarCurso",
+    "RelativePath": "api/Cursos/{idCurso}",
+    "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
     "Parameters": [
       {
-        "Name": "dto",
-        "Type": "API_backEnd.DTOs.Curso.CursoRequest",
+        "Name": "idCurso",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],
@@ -401,6 +375,16 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.ReservasController",
+    "Method": "BuscarAlunosComReserva",
+    "RelativePath": "api/Reservas/com-reserva",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.ReservasController",
     "Method": "HistoricoReserva",
     "RelativePath": "api/Reservas/historico-reserva",
     "HttpMethod": "GET",
@@ -420,6 +404,22 @@
       {
         "Name": "dto",
         "Type": "API_backEnd.DTOs.Reserva.RecadastrarReservaRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.ReservasController",
+    "Method": "TransferirAlunoArmario",
+    "RelativePath": "api/Reservas/transferir",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Armario.TransferirAlunoArmarioRequest",
         "IsRequired": true
       }
     ],

@@ -31,7 +31,7 @@ namespace API_backEnd.Services
 
             if (existe)
             {
-                return ResultadoPadrao<object>.Falha("Curso ja existe");
+                return ResultadoPadrao<object>.Falha("Curso ja existe", 409);
             }
             var cursoNew = new TabelaCurso
             {
@@ -48,7 +48,7 @@ namespace API_backEnd.Services
 
             if (curso == null)
             {
-                return ResultadoPadrao<object>.Falha("Curso não encontrado");
+                return ResultadoPadrao<object>.Falha("Curso não encontrado", 404);
             }
 
             curso.IsAtivo = false;
@@ -62,7 +62,7 @@ namespace API_backEnd.Services
 
             if (curso == null)
             {
-                return ResultadoPadrao<object>.Falha("Curso não encontrado");
+                return ResultadoPadrao<object>.Falha("Curso não encontrado", 404);
             }
 
             curso.Nome = dto.Nome.Trim();

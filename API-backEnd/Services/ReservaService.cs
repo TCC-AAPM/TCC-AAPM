@@ -33,17 +33,17 @@ namespace API_backEnd.Services
 
             // validar se ta ocupado com service 
             if (_armarioService.ArmarioIndisponivel(dto.IdArmario))
-                return ResultadoPadrao<object>.Falha("Armário não está disponível");
+                return ResultadoPadrao<object>.Falha("Armário não está disponível", 409);
 
 
             // validar se o aluno existe pelo cpf no service
             if (_alunoService.ExisteAlunoPorCpf(dto.CPF))
-                return ResultadoPadrao<object>.Falha("CPF já cadastrado");
+                return ResultadoPadrao<object>.Falha("CPF já cadastrado", 409);
 
 
             var armario = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == dto.IdArmario);
             if (armario == null)
-                return ResultadoPadrao<object>.Falha("Armário não encontrado");
+                return ResultadoPadrao<object>.Falha("Armário não encontrado", 404);
 
 
 
@@ -119,7 +119,7 @@ namespace API_backEnd.Services
             var aluno = db.TabelaAlunos.SingleOrDefault(a => a.Cpf == dto.CPF);
             if (aluno == null)
             {
-                return ResultadoPadrao<object>.Falha("Aluno não encontrado");
+                return ResultadoPadrao<object>.Falha("Aluno não encontrado", 404);
             }
 
             var validarIdadeETermos = ValidarIdadeETermos(dto.DataNasc, dto.IdTermoSite, dto.AceitouTermoSite, dto.IdTermoArmario, dto.AceitouTermoArmario, 14);
@@ -130,17 +130,17 @@ namespace API_backEnd.Services
 
             if (reservaAtiva != null)
             {
-                return ResultadoPadrao<object>.Falha("Aluno com armário já reservado");
+                return ResultadoPadrao<object>.Falha("Aluno com armário já reservado", 409);
 
             }
 
             if (_armarioService.ArmarioIndisponivel(dto.IdArmario))
-                return ResultadoPadrao<object>.Falha("Armário não está disponível");
+                return ResultadoPadrao<object>.Falha("Armário não está disponível", 409);
 
 
             var armario = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == dto.IdArmario);
             if (armario == null)
-                return ResultadoPadrao<object>.Falha("Armário não encontrado");
+                return ResultadoPadrao<object>.Falha("Armário não encontrado", 404);
 
 
             using var transaction = db.Database.BeginTransaction();
@@ -216,7 +216,7 @@ namespace API_backEnd.Services
             var config = db.ConfigReservas.FirstOrDefault();
             if (config == null)
             {
-                return ResultadoPadrao<object>.Falha("Configuração não encontrada");
+                return ResultadoPadrao<object>.Falha("Configuração não encontrada", 404);
             }
 
             var dados = (
@@ -254,33 +254,33 @@ namespace API_backEnd.Services
 
             if (dto.NumeroArmarioAtual == dto.NumeroArmarioNovo)
             {
-                return ResultadoPadrao<object>.Falha("Escolha um armario diferente do atual");
+                return ResultadoPadrao<object>.Falha("Escolha um armario diferente do atual", 409);
             }
 
             var armarioReservaAtual = db.TabelaReservaArmarios.FirstOrDefault(a => a.IdArmario == dto.NumeroArmarioAtual && a.IsAtivo);
 
             if (armarioReservaAtual == null)
             {
-                return ResultadoPadrao<object>.Falha("Reserva nao encontrada");
+                return ResultadoPadrao<object>.Falha("Reserva nao encontrada", 404);
             }
 
             var armarioAtual = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == armarioReservaAtual.IdArmario);
 
             if (armarioAtual == null)
             {
-                return ResultadoPadrao<object>.Falha("Armario não encontrado");
+                return ResultadoPadrao<object>.Falha("Armario não encontrado", 404);
             }
 
             var armarioNovo = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == dto.NumeroArmarioNovo);
 
             if (armarioNovo == null)
             {
-                return ResultadoPadrao<object>.Falha("Armario nao existe");
+                return ResultadoPadrao<object>.Falha("Armario nao existe", 404);
             }
 
             if (armarioNovo.Estado == EstadoArmario.O || armarioNovo.Estado == EstadoArmario.M)
             {
-                return ResultadoPadrao<object>.Falha("armario em manutencao ou ocupado");
+                return ResultadoPadrao<object>.Falha("armario em manutencao ou ocupado", 409);
             }
 
             //mudar para o armario novo e o estado

@@ -1,13 +1,8 @@
-﻿using API_backEnd.DTOs;
-using API_backEnd.DTOs.Admin;
+﻿using API_backEnd.DTOs.Admin;
 using API_backEnd.DTOs.Auth;
-using API_backEnd.Models;
 using API_backEnd.Services;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
-using System.Text.RegularExpressions;
 
 namespace API_backEnd.Controllers
 {
@@ -21,6 +16,9 @@ namespace API_backEnd.Controllers
             _adminService = adminService;
         }
 
+        /// <summary>
+        ///  Retorna os dados do administrador autenticado
+        /// </summary>
         [Authorize(Roles = "admin")]
         [HttpGet("me")]
         public IActionResult GetAdmin()
@@ -28,6 +26,9 @@ namespace API_backEnd.Controllers
             return Resultado(_adminService.BuscarAdminLogado());
         }
 
+        /// <summary>
+        /// Cria um novo administrador
+        /// </summary>
         [Authorize(Roles = "admin")]
         [HttpPost]
         public IActionResult CriarAdmin(CriarAdminRequest dto)
@@ -35,8 +36,11 @@ namespace API_backEnd.Controllers
             return Resultado(_adminService.CriarAdmin(dto));
         }
 
+        /// <summary>
+        /// Remove um administrador
+        /// </summary>
         [Authorize(Roles = "admin")]
-        [HttpPost("{id}/excluir")]
+        [HttpPost("{id}/confirmar-exclusao")]
         public IActionResult DeletarAdmin(int id, ConfirmarSenhaRequest dto)
         {
             return Resultado(_adminService.DeletarAdmin(id, dto));

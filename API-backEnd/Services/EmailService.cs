@@ -67,27 +67,27 @@ namespace API_backEnd.Services
             var codigo = db.TabelaVerificacaos.FirstOrDefault(v => v.Email == dto.Email && v.Codigo == dto.Codigo && v.Expiracao > DateTime.UtcNow && v.Usado == false);
             if (codigo == null)
             {
-                return ResultadoPadrao<object>.Falha("Código invalido");
+                return ResultadoPadrao<object>.Falha("Código invalido", 400);
             }
-            return ResultadoPadrao<object>.Ok("Rediricionando para outra tela...");
+            return ResultadoPadrao<object>.Ok("Código validado com sucesso");
         }
 
         public ResultadoPadrao<object> ResetarSenha(ResetarSenhaRequest dto)
         {
             if (dto.SenhaNova != dto.ConfirmarSenha)
             {
-                return ResultadoPadrao<object>.Falha("As senhas não coincidem");
+                return ResultadoPadrao<object>.Falha("As senhas não coincidem", 400);
             }
 
             if (!SenhaRegex.IsMatch(dto.SenhaNova))
             {
-                return ResultadoPadrao<object>.Falha("A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula e número");
+                return ResultadoPadrao<object>.Falha("A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula e número", 400);
             }
 
             var codigo = db.TabelaVerificacaos.FirstOrDefault(v => v.Codigo == dto.Codigo && v.Email == dto.Email && v.Usado == false && v.Expiracao > DateTime.UtcNow);
             if (codigo == null)
             {
-                return ResultadoPadrao<object>.Falha("Código inválido ou expirado");
+                return ResultadoPadrao<object>.Falha("Código inválido ou expirado", 400);
             }
             var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == codigo.Email);
             var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == codigo.Email);
@@ -102,17 +102,17 @@ namespace API_backEnd.Services
             }
             else
             {
-                return ResultadoPadrao<object>.Falha("");
+                return ResultadoPadrao<object>.Falha("Usuário não encontrado", 404);
             }
             var usuario = db.TabelaUsuarios.FirstOrDefault(u => u.Id == idUsuario);
             if (usuario == null)
             {
-                return ResultadoPadrao<object>.Falha("Usuario não encontrado");
+                return ResultadoPadrao<object>.Falha("Usuario não encontrado", 404);
             }
             usuario.Senha = BCrypt.Net.BCrypt.HashPassword(dto.SenhaNova);
             codigo.Usado = true;
             db.SaveChanges();
-            return ResultadoPadrao<object>.Ok("Senha resetada");
+            return ResultadoPadrao<object>.Ok("Senha redefinida com sucesso");
         }
     }
 }

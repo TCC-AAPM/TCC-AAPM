@@ -402,3 +402,6 @@ C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0
 C:\Users\gabriel\Desktop\API-aapm\API-backEnd\obj\Debug\net10.0\staticwebassets.upToDateCheck.txt
 C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0\API-aapm.staticwebassets.runtime.json
 C:\Users\gabriel\Desktop\API-aapm\API-backEnd\bin\Debug\net10.0\API-aapm.staticwebassets.runtime.json
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0\API-aapm.xml
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\obj\Debug\net10.0\API-aapm.xml
+C:\Users\biel1\OneDrive\Área de Trabalho\API-aapm\API-backEnd\bin\Debug\net10.0\Scalar.AspNetCore.dll

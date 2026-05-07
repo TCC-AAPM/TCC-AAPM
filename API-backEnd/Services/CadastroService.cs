@@ -31,7 +31,7 @@ namespace API_backEnd.Services
 
             var validarCpf = _alunoService.ExisteAlunoPorCpf(dto.CPF);
             if (validarCpf)
-                return ResultadoPadrao<object>.Falha("CPF já cadastrado");
+                return ResultadoPadrao<object>.Falha("CPF já cadastrado", 409);
             
             using var transaction = db.Database.BeginTransaction();
 
@@ -84,20 +84,20 @@ namespace API_backEnd.Services
             var validacaoIdadeResultado = _idadeService.ValidarIdade(dataNasc, idadeMin);
 
             if (!validacaoIdadeResultado.Sucesso)
-                return ResultadoPadrao<object>.Falha(validacaoIdadeResultado.Mensagem);
+                return ResultadoPadrao<object>.Falha(validacaoIdadeResultado.Mensagem, validacaoIdadeResultado.StatusCode);
                 
 
             // validar o aceite do termo site com m
             var termoSiteResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.S, idTermoSite, aceitouTermoSite);
 
             if (!termoSiteResultado.Sucesso)
-                return ResultadoPadrao<object>.Falha(termoSiteResultado.Mensagem);
+                return ResultadoPadrao<object>.Falha(termoSiteResultado.Mensagem, termoSiteResultado.StatusCode);
                 
 
             var termoArmarioResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.A, idTermoArmario, aceitouTermoArmario);
 
             if (!termoArmarioResultado.Sucesso)
-                return ResultadoPadrao<object>.Falha(termoArmarioResultado.Mensagem);
+                return ResultadoPadrao<object>.Falha(termoArmarioResultado.Mensagem, termoArmarioResultado.StatusCode);
 
 
             return ResultadoPadrao<object>.Ok();

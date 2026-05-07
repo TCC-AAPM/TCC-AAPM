@@ -39,27 +39,27 @@ namespace API_backEnd.Services
 
             if (usuario == null)
             {
-                return ResultadoPadrao<object>.Falha("Usuário não encontrado");
+                return ResultadoPadrao<object>.Falha("Usuário não encontrado", 404);
             }
 
             if (!BCrypt.Net.BCrypt.Verify(dto.SenhaAtual, usuario.Senha))
             {
-                return ResultadoPadrao<object>.Falha("Senha atual incorreta");
+                return ResultadoPadrao<object>.Falha("Senha atual incorreta", 400);
             }
 
             if (BCrypt.Net.BCrypt.Verify(dto.SenhaNova, usuario.Senha))
             {
-                return ResultadoPadrao<object>.Falha("A senha nova tem que ser diferente da antiga");
+                return ResultadoPadrao<object>.Falha("A senha nova tem que ser diferente da antiga", 409);
             }
 
             if (!SenhaRegex.IsMatch(dto.SenhaNova))
             {
-                return ResultadoPadrao<object>.Falha("A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula e número");
+                return ResultadoPadrao<object>.Falha("A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula e número", 400);
             }
 
             if (dto.SenhaNova != dto.ConfirmarSenha)
             {
-                return ResultadoPadrao<object>.Falha("As senhas não coincidem");
+                return ResultadoPadrao<object>.Falha("As senhas não coincidem", 400);
             }
 
             usuario.Senha = BCrypt.Net.BCrypt.HashPassword(dto.SenhaNova);

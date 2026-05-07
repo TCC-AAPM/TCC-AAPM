@@ -33,7 +33,7 @@ namespace API_backEnd.Services
 
             if (armariosAtivo.Count == 0)
             {
-                return ResultadoPadrao<List<DadosArmarioResponse>>.Falha("Nenhum armário encontrado");
+                return ResultadoPadrao<List<DadosArmarioResponse>>.Falha("Nenhum armário encontrado", 404);
             }
 
             return ResultadoPadrao<List<DadosArmarioResponse>>.Ok(armariosAtivo);
@@ -50,7 +50,7 @@ namespace API_backEnd.Services
             
             if (armario == null)
             {
-                return ResultadoPadrao<DadosArmarioResponse>.Falha("");
+                return ResultadoPadrao<DadosArmarioResponse>.Falha("", 404);
             }
 
             return ResultadoPadrao<DadosArmarioResponse>.Ok(armario);
@@ -66,7 +66,7 @@ namespace API_backEnd.Services
             }).ToList(); ;
 
             if (armarios.Count == 0)
-                return ResultadoPadrao<List<DadosArmarioResponse>>.Falha("Nenhum armário encontrado");
+                return ResultadoPadrao<List<DadosArmarioResponse>>.Falha("Nenhum armário encontrado", 404);
 
             return ResultadoPadrao<List<DadosArmarioResponse>>.Ok(armarios);
         }
@@ -75,14 +75,14 @@ namespace API_backEnd.Services
         {
             if (dto.NumeroArmario <= 0)
             {
-                return ResultadoPadrao<object>.Falha("Número do armário deve ser maior que zero.");
+                return ResultadoPadrao<object>.Falha("Número do armário deve ser maior que zero.", 400);
             }
 
             var armarioExiste = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == dto.NumeroArmario);
 
             if (armarioExiste != null && armarioExiste.IsAtivo)
             {
-                return ResultadoPadrao<object>.Falha("Armario ja existe");
+                return ResultadoPadrao<object>.Falha("Armario ja existe", 409);
             }
 
             if (armarioExiste != null && !armarioExiste.IsAtivo)
@@ -116,7 +116,7 @@ namespace API_backEnd.Services
 
             if (armario == null || armario.IsAtivo == false)
             {
-                return ResultadoPadrao<object>.Falha("Armário não encontrado ou já desativado.");
+                return ResultadoPadrao<object>.Falha("Armário não encontrado ou já desativado.", 404);
             }
 
             armario.IsAtivo = false;
@@ -131,17 +131,17 @@ namespace API_backEnd.Services
 
             if (armarioExiste == null)
             {
-                return ResultadoPadrao<object>.Falha("Armário não encontrado");
+                return ResultadoPadrao<object>.Falha("Armário não encontrado", 404);
             }
 
             if (armarioExiste.Estado == dto.Estado)
             {
-                return ResultadoPadrao<object>.Falha("Tem que mudar para um estado diferente");
+                return ResultadoPadrao<object>.Falha("Tem que mudar para um estado diferente", 409);
             }
 
             if (armarioExiste.Estado == EstadoArmario.O)
             {
-                return ResultadoPadrao<object>.Falha("O armário esta ocupado");
+                return ResultadoPadrao<object>.Falha("O armário esta ocupado", 409);
             }
 
 

@@ -1,0 +1,203 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>API-aapm</name>
+    </assembly>
+    <members>
+        <member name="M:API_backEnd.Controllers.AdminController.GetAdmin">
+            <summary>
+             Retorna os dados do administrador autenticado
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.AdminController.CriarAdmin(API_backEnd.DTOs.Admin.CriarAdminRequest)">
+            <summary>
+            Cria um novo administrador
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.AdminController.DeletarAdmin(System.Int32,API_backEnd.DTOs.Auth.ConfirmarSenhaRequest)">
+            <summary>
+            Remove um administrador
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.AlunosController.BuscarAlunoLogado">
+            <summary>
+            Retorna os dados do aluno autenticado
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.AlunosController.DeletarConta(API_backEnd.DTOs.Auth.ConfirmarSenhaRequest)">
+            <summary>
+            Exclui a conta do aluno autenticado
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.AlunosController.BuscarPorCPF(API_backEnd.DTOs.Aluno.BuscarAlunoPorCpfRequest)">
+            <summary>
+            Busca aluno pelo CPF
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ArmariosController.BuscarArmario">
+            <summary>
+            Retorna todos os armários ativos
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ArmariosController.BuscarArmarioPeloNumero(System.Int32)">
+            <summary>
+            Busca um armário pelo número
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ArmariosController.BuscarArmarioPeloEstado(API_backEnd.Enums.EstadoArmario)">
+            <summary>
+            Retorna os armários filtrados pelo estado
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ArmariosController.CriarArmario(API_backEnd.DTOs.Armario.CriarArmarioRequest)">
+            <summary>
+            Cria um novo armário
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ArmariosController.MudarEstadoArmario(System.Int32,API_backEnd.DTOs.Armario.AtualizarEstadoArmarioRequest)">
+            <summary>
+            Atualiza o estado de um armário
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ArmariosController.DeletarArmario(System.Int32)">
+            <summary>
+            Remove um armário
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.CadastroController.PreCadastro(API_backEnd.DTOs.Reserva.PreCadastroRequest)">
+            <summary>
+            Realiza o pré-cadastro de um aluno
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.CursosController.BuscarCursosAtivos">
+            <summary>
+            Retorna todos os cursos ativos
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.CursosController.CriarCurso(API_backEnd.DTOs.Curso.CursoRequest)">
+            <summary>
+            Cria um novo curso
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.CursosController.EditarCurso(System.Int32,API_backEnd.DTOs.Curso.CursoRequest)">
+            <summary>
+            Atualiza os dados de um curso
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.CursosController.DeletarCurso(System.Int32)">
+            <summary>
+            Remove um curso
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.EsqueciSenhaController.VerificarEmail(API_backEnd.DTOs.Auth.ConfirmarEmailRequest)">
+            <summary>
+            Verifica se o email informado possui cadastro no sistema
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.EsqueciSenhaController.VerificarCodigo(API_backEnd.DTOs.Auth.VerificarCodigoRequest)">
+            <summary>
+            Valida o código de recuperação de senha
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.EsqueciSenhaController.ResetarSenha(API_backEnd.DTOs.Auth.ResetarSenhaRequest)">
+            <summary>
+            Redefine a senha do usuário
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.LoginController.Login(API_backEnd.DTOs.Auth.LoginRequest)">
+            <summary>
+            Realiza a autenticação do usuário no sistema
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ProdutosController.GetProdutos">
+            <summary>
+            Retorna todos os produtos disponíveis
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ProdutosController.AlterarPrecoProduto(System.Int32,API_backEnd.DTOs.Produto.ProdutoRequest)">
+            <summary>
+            Atualiza o preço de um produto
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ReservasController.HistoricoReserva">
+            <summary>
+            Retorna o histórico de reservas de armários
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ReservasController.BuscarAlunosComReserva">
+            <summary>
+            Retorna os alunos com reserva ativa de armário
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ReservasController.CadastroReservaArmarioCompleto(API_backEnd.DTOs.Reserva.CriarCadastroArmarioRequest)">
+            <summary>
+            Realiza o cadastro completo de uma reserva de armário
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ReservasController.RecadastroReserva(API_backEnd.DTOs.Reserva.RecadastrarReservaRequest)">
+            <summary>
+            Realiza o recadastro de uma reserva de armário
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.ReservasController.TransferirAlunoArmario(API_backEnd.DTOs.Armario.TransferirAlunoArmarioRequest)">
+            <summary>
+            Transfere um aluno para outro armário
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.TermoController.ObterPdf(API_backEnd.Enums.ReferenciaTermos)">
+            <summary>
+            Retorna o arquivo PDF de um termo
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.TermoController.VerificarTermosAceito">
+            <summary>
+            Verifica os termos aceitos pelo usuário autenticado
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.TermoController.CriarTermo(API_backEnd.DTOs.Termo.CriarTermoRequest)">
+            <summary>
+            Cria um novo termo
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.TermoController.AceitarTermos(API_backEnd.DTOs.Termo.AceitarTermoRequest)">
+            <summary>
+            Registra o aceite de um termo pelo usuário autenticado
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.TurmasController.GetTurma">
+            <summary>
+            Retorna todas as turmas ativas
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.TurmasController.GetTurmaPorCurso(System.Int32)">
+            <summary>
+            Retorna as turmas vinculadas a um curso
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.TurmasController.CriarTurma(API_backEnd.DTOs.Turma.CriarTurmaRequest)">
+            <summary>
+            Cria uma nova turma
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.TurmasController.DeletarTurma(System.Int32)">
+            <summary>
+            Remove uma turma
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.TurmasController.EditarTurma(System.Int32,API_backEnd.DTOs.Turma.EditarTurmaRequest)">
+            <summary>
+            Atualiza os dados de uma turma
+            </summary>
+        </member>
+        <member name="M:API_backEnd.Controllers.UsuarioController.TrocarSenha(API_backEnd.DTOs.Auth.TrocarSenhaRequest)">
+            <summary>
+            Altera a senha do usuário autenticado
+            </summary>
+        </member>
+        <member name="T:Program">
+            <summary>
+            Auto-generated public partial Program class for top-level statement apps.
+            </summary>
+        </member>
+    </members>
+</doc>

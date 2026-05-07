@@ -43,10 +43,10 @@ namespace API_backEnd.Services
             }
 
             if (usuario == null)
-                return ResultadoPadrao<string>.Falha("Email ou senha inválidos");
+                return ResultadoPadrao<string>.Falha("Email ou senha inválidos", 401);
 
             if (!BCrypt.Net.BCrypt.Verify(login.Senha, usuario.Senha))
-                return ResultadoPadrao<string>.Falha("Email ou senha inválidos");
+                return ResultadoPadrao<string>.Falha("Email ou senha inválidos", 401);
 
             var token = GerarToken(usuario.Id, role);
 

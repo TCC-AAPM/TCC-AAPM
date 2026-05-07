@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "giUPuHWY8uQ=",
+  "dgSpecHash": "/ja1KuqHLDg=",
   "success": true,
   "projectFilePath": "C:\\Users\\biel1\\OneDrive\\Área de Trabalho\\API-aapm\\API-backEnd\\API-aapm.csproj",
   "expectedPackageFiles": [
@@ -34,6 +34,7 @@
     "C:\\Users\\biel1\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
     "C:\\Users\\biel1\\.nuget\\packages\\mysqlconnector\\2.4.0\\mysqlconnector.2.4.0.nupkg.sha512",
     "C:\\Users\\biel1\\.nuget\\packages\\pomelo.entityframeworkcore.mysql\\9.0.0\\pomelo.entityframeworkcore.mysql.9.0.0.nupkg.sha512",
+    "C:\\Users\\biel1\\.nuget\\packages\\scalar.aspnetcore\\2.14.11\\scalar.aspnetcore.2.14.11.nupkg.sha512",
     "C:\\Users\\biel1\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
     "C:\\Users\\biel1\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\biel1\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",

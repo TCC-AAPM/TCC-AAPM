@@ -1,6 +1,6 @@
 ﻿using API_backEnd.DTOs.Reserva;
 using API_backEnd.Services;
-using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API_backEnd.Controllers
@@ -16,6 +16,10 @@ namespace API_backEnd.Controllers
             _cadastroService = cadastroService;
         }
 
+        /// <summary>
+        /// Realiza o pré-cadastro de um aluno
+        /// </summary>
+        [AllowAnonymous]
         [HttpPost("pre-cadastro")]
         public IActionResult PreCadastro(PreCadastroRequest dto)
         {

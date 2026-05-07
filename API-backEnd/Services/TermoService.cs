@@ -23,16 +23,16 @@ namespace API_backEnd.Services
             var nome = ObterNomeDoTermo(referencia);
             if (termoAtivo == null)
             {
-                return ResultadoPadrao<object>.Falha($"Termo do {nome} não encontrado");
+                return ResultadoPadrao<object>.Falha($"Termo do {nome} não encontrado", 404);
             }
             if (termoAtivo.Id != idTermoDto)
             {
-                return ResultadoPadrao<object>.Falha($"Termo do {nome} inválido");
+                return ResultadoPadrao<object>.Falha($"Termo do {nome} inválido", 400);
                 
             }
             if (!aceitouTermo)
             {
-                return ResultadoPadrao<object>.Falha($"Precisa aceitar os termos do {nome}");
+                return ResultadoPadrao<object>.Falha($"Precisa aceitar os termos do {nome}", 400);
                 
             }
 
@@ -45,7 +45,7 @@ namespace API_backEnd.Services
             var termoAtualExiste = db.TabelaTermos.FirstOrDefault(t => t.Id == idTermo && t.IsAtivo);
             if (termoAtualExiste == null)
             {
-                return ResultadoPadrao<object>.Falha("Termo não encontrado");
+                return ResultadoPadrao<object>.Falha("Termo não encontrado", 404);
             }
 
             var jaAceito = db.TabelaTermosAceitos.Any(t => t.IdUsuario == idUsuario && t.IdTermos == idTermo && t.IsAtivo);
@@ -134,12 +134,12 @@ namespace API_backEnd.Services
             }
 
             if (dto.Pdf == null || dto.Pdf.Length == 0)
-                return ResultadoPadrao<object>.Falha("Arquivo inválido");
+                return ResultadoPadrao<object>.Falha("Arquivo inválido", 400);
                 
 
             if (dto.Pdf.ContentType != "application/pdf")
             {
-                return ResultadoPadrao<object>.Falha("Somente PDF permitido");
+                return ResultadoPadrao<object>.Falha("Somente PDF permitido", 400);
             }
             var caminhoPdf = await SalvarPdf(dto.Pdf);
             var termos = new TabelaTermo
@@ -162,7 +162,7 @@ namespace API_backEnd.Services
                 .FirstOrDefault(t => t.Referencia == referencia && t.IsAtivo);
 
             if (termo == null)
-                return ResultadoPadrao<string>.Falha("Termo não encontrado");
+                return ResultadoPadrao<string>.Falha("Termo não encontrado", 404);
                 
 
             var caminhoFisico = Path.Combine(
@@ -172,7 +172,7 @@ namespace API_backEnd.Services
             );
 
             if (!System.IO.File.Exists(caminhoFisico))
-                return ResultadoPadrao<string>.Falha("Arquivo não encontrado");
+                return ResultadoPadrao<string>.Falha("Arquivo não encontrado", 404);
 
 
             return ResultadoPadrao<string>.Ok(caminhoFisico);

@@ -3,7 +3,6 @@ using API_backEnd.DTOs.Admin;
 using API_backEnd.DTOs.Auth;
 using API_backEnd.Enums;
 using API_backEnd.Models;
-using System.Security.Claims;
 
 namespace API_backEnd.Services
 {
@@ -29,7 +28,7 @@ namespace API_backEnd.Services
 
             if (admin == null)
             {
-                return ResultadoPadrao<AdminLogadoResponse>.Falha("Admin não encontrado");
+                return ResultadoPadrao<AdminLogadoResponse>.Falha("Admin não encontrado", 404);
             }
 
             var dadosAdmin = new AdminLogadoResponse
@@ -53,7 +52,7 @@ namespace API_backEnd.Services
 
             if (adminExiste)
             {
-                return ResultadoPadrao<object>.Falha("CPF ja cadastrado como admin");
+                return ResultadoPadrao<object>.Falha("CPF ja cadastrado como admin", 409);
             }
 
             using var transaction = db.Database.BeginTransaction();
@@ -91,7 +90,7 @@ namespace API_backEnd.Services
             catch (Exception ex)
             {
                 transaction.Rollback();
-                return ResultadoPadrao<object>.Falha(ex.Message);
+                return ResultadoPadrao<object>.Falha("Erro ao criar admin", 500);
             }
         }
 
@@ -103,26 +102,35 @@ namespace API_backEnd.Services
 
             if (usuarioLogado == null)
             {
-                return ResultadoPadrao<object>.Falha("Usuário logado não encontrado");
+                return ResultadoPadrao<object>.Falha("Usuário logado não encontrado", 404);
             }
 
             if (!BCrypt.Net.BCrypt.Verify(dto.Senha, usuarioLogado.Senha))
             {
-                return ResultadoPadrao<object>.Falha("Senha incorreta");
+                return ResultadoPadrao<object>.Falha("Senha incorreta", 400);
             }
 
 
             var DelAdmin = db.TabelaAdmins.FirstOrDefault(a => a.Id == id && a.IsAtivo);
+
+            if (DelAdmin == null)
+            {
+                return ResultadoPadrao<object>.Falha(
+                    "Admin não encontrado",
+                    404
+                );
+            }
+
             var DelUsuarioAdmin = db.TabelaUsuarios.FirstOrDefault(u => u.Id == DelAdmin.IdUsuario);
 
-            if (DelAdmin == null && DelUsuarioAdmin == null)
+            if (DelUsuarioAdmin == null)
             {
-                return ResultadoPadrao<object>.Falha("Admin não encontrado");
+                return ResultadoPadrao<object>.Falha("Usuário do admin não encontrado", 404);
             }
 
             if (DelAdmin.IdUsuario == usuarioLogado.Id)
             {
-                return ResultadoPadrao<object>.Falha("Você não pode excluir a si mesmo");
+                return ResultadoPadrao<object>.Falha("Você não pode excluir a si mesmo", 400);
             }
 
             DelUsuarioAdmin.IsAtivo = false;
@@ -137,14 +145,14 @@ namespace API_backEnd.Services
             var validacaoIdadeResultado = _idadeService.ValidarIdade(dataNasc, idadeMin);
 
             if (!validacaoIdadeResultado.Sucesso)
-                return ResultadoPadrao<object>.Falha(validacaoIdadeResultado.Mensagem);
+                return ResultadoPadrao<object>.Falha(validacaoIdadeResultado.Mensagem, validacaoIdadeResultado.StatusCode);
 
 
             // validar o aceite do termo site com m
             var termoSiteResultado = _termoService.ValidarAceiteDeTermo(ReferenciaTermos.S, idTermoSite, aceitouTermoSite);
 
             if (!termoSiteResultado.Sucesso)
-                return ResultadoPadrao<object>.Falha(termoSiteResultado.Mensagem);
+                return ResultadoPadrao<object>.Falha(termoSiteResultado.Mensagem, termoSiteResultado.StatusCode);
 
             return ResultadoPadrao<object>.Ok();
         }

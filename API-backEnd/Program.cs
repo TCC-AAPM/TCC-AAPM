@@ -1,12 +1,11 @@
-using API_backEnd.Controllers;
 using API_backEnd.Models;
 using API_backEnd.Services;
 using API_backEnd.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,15 +28,36 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
 {
+    options.SwaggerDoc("v1", new OpenApiInfo
+    {
+        Title = "AAPM API",
+        Version = "v1.0",
+        Description = """
+        
+        API para gerenciamento de armários, estacionamentos e alunos
+        
+
+        Desenvolvido por Gabriel Duarte
+        
+        """,
+        Contact = new OpenApiContact
+        {
+            Name = "Gabriel Duarte"
+        }
+    });
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
         Type = SecuritySchemeType.Http,
         Scheme = "bearer",
         BearerFormat = "JWT",
-        In = ParameterLocation.Header
+        In = ParameterLocation.Header,
+        Description = "Digite o token JWT sem 'Bearer'"
     });
+    var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
+    options.IncludeXmlComments(xmlPath);
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -75,7 +95,7 @@ builder.Services.AddScoped<ProdutoService>();
 builder.Services.AddScoped<ReservaService>();
 builder.Services.AddScoped<TermoService>();
 builder.Services.AddScoped<TurmaService>();
-builder.Services.AddScoped<UsuarioService>(); 
+builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddHttpContextAccessor();
 
 // 🔹 JWT Authentication

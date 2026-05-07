@@ -52,7 +52,7 @@ namespace API_backEnd.Services
 
             if (existe)
             {
-                return ResultadoPadrao<object>.Falha("Turma ja existe");
+                return ResultadoPadrao<object>.Falha("Turma ja existe", 409);
             }
 
             var turmaNew = new TabelaTurma
@@ -74,7 +74,7 @@ namespace API_backEnd.Services
 
             if (turma == null)
             {
-                return ResultadoPadrao<object>.Falha("Turma não encontrada");
+                return ResultadoPadrao<object>.Falha("Turma não encontrada", 404);
             }
 
             turma.IsAtivo = false;
@@ -89,13 +89,13 @@ namespace API_backEnd.Services
 
             if (turma == null)
             {
-                return ResultadoPadrao<object>.Falha("Turma não encontrado");
+                return ResultadoPadrao<object>.Falha("Turma não encontrado", 404);
             }
             var cursoExiste = db.TabelaCursos.Any(c => c.Id == dto.IdCurso);
 
             if (!cursoExiste)
             {
-                return ResultadoPadrao<object>.Falha("Curso inválido");
+                return ResultadoPadrao<object>.Falha("Curso inválido", 404);
             }
 
             turma.Turma = dto.NomeTurma;

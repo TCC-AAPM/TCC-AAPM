@@ -34,7 +34,7 @@ namespace API_backEnd.Services
 
             if (produto == null)
             {
-                return ResultadoPadrao<object>.Falha("Produto não encontrado");
+                return ResultadoPadrao<object>.Falha("Produto não encontrado", 404);
             }
 
             produto.Preco = dto.Preco;

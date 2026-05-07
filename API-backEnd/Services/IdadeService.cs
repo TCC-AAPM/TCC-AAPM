@@ -4,7 +4,7 @@ namespace API_backEnd.Services
 {
     public class IdadeService
     {
-        public ResultadoPadrao<int> ValidarIdade(DateOnly dataNasc, int idadeMin)
+        public ResultadoPadrao<object> ValidarIdade(DateOnly dataNasc, int idadeMin)
         {
             DateOnly hoje = DateOnly.FromDateTime(DateTime.Today);
             int idade = hoje.Year - dataNasc.Year;
@@ -16,11 +16,11 @@ namespace API_backEnd.Services
 
             if (idade < idadeMin)
             {
-                return ResultadoPadrao<int>.Falha($"Idade mínima de {idadeMin} anos.");
-                
+                return ResultadoPadrao<object>.Falha($"Idade mínima de {idadeMin} anos.", 400);
+               
             }
 
-            return ResultadoPadrao<int>.Ok(idade);
+            return ResultadoPadrao<object>.Ok(idade);
             
         }
     }
