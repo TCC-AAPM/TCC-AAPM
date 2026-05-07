@@ -14,85 +14,17 @@
         "tags": [
           "Admin"
         ],
-        "summary": "Retorna os dados do administrador autenticado",
+        "summary": "Retorna os dados do usuário autenticado.",
+        "description": "Necessário estar autenticado com perfil de admin.",
         "responses": {
           "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Admin": {
-      "post": {
-        "tags": [
-          "Admin"
-        ],
-        "summary": "Cria um novo administrador",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarAdminRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarAdminRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarAdminRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Admin/{id}/confirmar-exclusao": {
-      "post": {
-        "tags": [
-          "Admin"
-        ],
-        "summary": "Remove um administrador",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
+            "description": "Dados retornados com sucesso"
+          },
+          "401": {
+            "description": "Usuário não autenticado"
+          },
+          "404": {
+            "description": "Administrador  não encontrado"
           }
         }
       }
@@ -102,10 +34,520 @@
         "tags": [
           "Alunos"
         ],
-        "summary": "Retorna os dados do aluno autenticado",
+        "summary": "Retorna os dados do usuário autenticado.",
+        "description": "Necessário estar autenticado com perfil de aluno.",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Dados retornados com sucesso"
+          },
+          "401": {
+            "description": "Usuário não autenticado"
+          }
+        }
+      }
+    },
+    "/api/Armarios": {
+      "get": {
+        "tags": [
+          "Armarios"
+        ],
+        "summary": "Retorna todos os armários ativos.",
+        "description": "Apenas administradores autenticados podem acessar esta rota.",
+        "responses": {
+          "200": {
+            "description": "Armários retornados com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Armarios"
+        ],
+        "summary": "Cria um novo armário.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "requestBody": {
+          "description": "Dados necessários para criação do armário.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarArmarioRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarArmarioRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarArmarioRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Armário criado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou armário já existente."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          }
+        }
+      }
+    },
+    "/api/Armarios/{numeroArmario}": {
+      "get": {
+        "tags": [
+          "Armarios"
+        ],
+        "summary": "Busca um armário pelo número.",
+        "description": "Apenas administradores autenticados podem acessar esta rota.",
+        "parameters": [
+          {
+            "name": "numeroArmario",
+            "in": "path",
+            "description": "Número do armário que será buscado.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Armário encontrado com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Armário não encontrado."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Armarios"
+        ],
+        "summary": "Remove um armário.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "parameters": [
+          {
+            "name": "numeroArmario",
+            "in": "path",
+            "description": "Número do armário que será removido.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Armário removido com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Armário não encontrado."
+          }
+        }
+      }
+    },
+    "/api/Armarios/estado": {
+      "get": {
+        "tags": [
+          "Armarios"
+        ],
+        "summary": "Retorna os armários filtrados pelo estado.",
+        "description": "Apenas administradores autenticados podem acessar esta rota.",
+        "parameters": [
+          {
+            "name": "estado",
+            "in": "query",
+            "description": "Estado utilizado para filtrar os armários.",
+            "schema": {
+              "$ref": "#/components/schemas/EstadoArmario"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Armários retornados com sucesso."
+          },
+          "400": {
+            "description": "Estado informado inválido."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          }
+        }
+      }
+    },
+    "/api/Cursos": {
+      "get": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Retorna todos os cursos ativos.",
+        "description": "Esta rota é pública e não requer autenticação.",
+        "responses": {
+          "200": {
+            "description": "Cursos retornados com sucesso."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Cria um novo curso.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "requestBody": {
+          "description": "Dados necessários para criação do curso.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Curso criado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou curso já existente."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          }
+        }
+      }
+    },
+    "/api/Produtos": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Retorna todos os produtos disponíveis.",
+        "description": "Esta rota é pública e não requer autenticação.",
+        "responses": {
+          "200": {
+            "description": "Produtos retornados com sucesso."
+          }
+        }
+      }
+    },
+    "/api/Reservas/historico-reserva": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Retorna o histórico de reservas de armários.",
+        "description": "Apenas administradores autenticados podem acessar esta rota.",
+        "responses": {
+          "200": {
+            "description": "Histórico retornado com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          }
+        }
+      }
+    },
+    "/api/Reservas/com-reserva": {
+      "get": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Retorna os alunos com reserva ativa de armário.",
+        "description": "Apenas administradores autenticados podem acessar esta rota.",
+        "responses": {
+          "200": {
+            "description": "Alunos retornados com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          }
+        }
+      }
+    },
+    "/api/Termo/obter-pdf": {
+      "get": {
+        "tags": [
+          "Termo"
+        ],
+        "summary": "Retorna o arquivo PDF de um termo.",
+        "description": "Esta rota é pública e não requer autenticação.",
+        "parameters": [
+          {
+            "name": "referencia",
+            "in": "query",
+            "description": "Referência do termo que será obtido.",
+            "schema": {
+              "$ref": "#/components/schemas/ReferenciaTermos"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Arquivo PDF retornado com sucesso."
+          },
+          "404": {
+            "description": "Termo não encontrado."
+          }
+        }
+      }
+    },
+    "/api/Termo/verificar-termos-aceito": {
+      "get": {
+        "tags": [
+          "Termo"
+        ],
+        "summary": "Verifica os termos aceitos pelo usuário autenticado.",
+        "description": "Retorna os termos já aceitos e os pendentes de aceite.",
+        "responses": {
+          "200": {
+            "description": "Status dos termos retornado com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          }
+        }
+      }
+    },
+    "/api/Turmas": {
+      "get": {
+        "tags": [
+          "Turmas"
+        ],
+        "summary": "Retorna todas as turmas ativas.",
+        "description": "Esta rota é pública e não requer autenticação.",
+        "responses": {
+          "200": {
+            "description": "Turmas retornadas com sucesso."
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Turmas"
+        ],
+        "summary": "Cria uma nova turma.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "requestBody": {
+          "description": "Dados necessários para criação da turma.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarTurmaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarTurmaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarTurmaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Turma criada com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou turma já existente."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          }
+        }
+      }
+    },
+    "/api/Turmas/por-curso/{idCurso}": {
+      "get": {
+        "tags": [
+          "Turmas"
+        ],
+        "summary": "Retorna as turmas vinculadas a um curso.",
+        "description": "Apenas administradores autenticados podem acessar esta rota.",
+        "parameters": [
+          {
+            "name": "idCurso",
+            "in": "path",
+            "description": "Identificador do curso utilizado para busca das turmas.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Turmas retornadas com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Curso não encontrado."
+          }
+        }
+      }
+    },
+    "/api/Admin": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Cria um novo administrador.",
+        "description": "Apenas administradores autenticados podem realizar este cadastro.",
+        "requestBody": {
+          "description": "Dados necessários para criação do administrador.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarAdminRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarAdminRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CriarAdminRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Administrador criado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou administrador já existente."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          }
+        }
+      }
+    },
+    "/api/Admin/{id}/confirmar-exclusao": {
+      "post": {
+        "tags": [
+          "Admin"
+        ],
+        "summary": "Remove um administrador.",
+        "description": "Necessário confirmar a senha do usuário autenticado para concluir a exclusão.\r\nApenas administradores autenticados podem realizar esta ação.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador do administrador que será removido.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Dados necessários para confirmação da exclusão.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConfirmarSenhaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Administrador removido com sucesso."
+          },
+          "400": {
+            "description": "Senha inválida ou solicitação inválida."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Administrador não encontrado."
           }
         }
       }
@@ -174,167 +616,15 @@
         }
       }
     },
-    "/api/Armarios": {
-      "get": {
-        "tags": [
-          "Armarios"
-        ],
-        "summary": "Retorna todos os armários ativos",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Armarios"
-        ],
-        "summary": "Cria um novo armário",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarArmarioRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarArmarioRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarArmarioRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Armarios/{numeroArmario}": {
-      "get": {
-        "tags": [
-          "Armarios"
-        ],
-        "summary": "Busca um armário pelo número",
-        "parameters": [
-          {
-            "name": "numeroArmario",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Armarios"
-        ],
-        "summary": "Remove um armário",
-        "parameters": [
-          {
-            "name": "numeroArmario",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Armarios/estado": {
-      "get": {
-        "tags": [
-          "Armarios"
-        ],
-        "summary": "Retorna os armários filtrados pelo estado",
-        "parameters": [
-          {
-            "name": "estado",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/EstadoArmario"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Armarios/estado/{numeroArmario}": {
-      "put": {
-        "tags": [
-          "Armarios"
-        ],
-        "summary": "Atualiza o estado de um armário",
-        "parameters": [
-          {
-            "name": "numeroArmario",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AtualizarEstadoArmarioRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/AtualizarEstadoArmarioRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/AtualizarEstadoArmarioRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/Cadastro/pre-cadastro": {
       "post": {
         "tags": [
           "Cadastro"
         ],
-        "summary": "Realiza o pré-cadastro de um aluno",
+        "summary": "Realiza o pré-cadastro de um aluno.",
+        "description": "Esta rota é pública e não requer autenticação.",
         "requestBody": {
+          "description": "Dados necessários para realização do pré-cadastro.",
           "content": {
             "application/json": {
               "schema": {
@@ -355,115 +645,10 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Cursos": {
-      "get": {
-        "tags": [
-          "Cursos"
-        ],
-        "summary": "Retorna todos os cursos ativos",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Cursos"
-        ],
-        "summary": "Cria um novo curso",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CursoRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CursoRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CursoRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Cursos/{idCurso}": {
-      "put": {
-        "tags": [
-          "Cursos"
-        ],
-        "summary": "Atualiza os dados de um curso",
-        "parameters": [
-          {
-            "name": "idCurso",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CursoRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CursoRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CursoRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "delete": {
-        "tags": [
-          "Cursos"
-        ],
-        "summary": "Remove um curso",
-        "parameters": [
-          {
-            "name": "idCurso",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
+            "description": "Pré-cadastro realizado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou aluno já cadastrado."
           }
         }
       }
@@ -473,8 +658,10 @@
         "tags": [
           "EsqueciSenha"
         ],
-        "summary": "Verifica se o email informado possui cadastro no sistema",
+        "summary": "Verifica se o e-mail informado possui cadastro no sistema.",
+        "description": "Caso o e-mail exista, um código de recuperação será enviado.\r\nEsta rota é pública e não requer autenticação.",
         "requestBody": {
+          "description": "E-mail utilizado para recuperação de senha.",
           "content": {
             "application/json": {
               "schema": {
@@ -495,7 +682,10 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Código enviado com sucesso."
+          },
+          "400": {
+            "description": "E-mail inválido ou não cadastrado."
           }
         }
       }
@@ -505,8 +695,10 @@
         "tags": [
           "EsqueciSenha"
         ],
-        "summary": "Valida o código de recuperação de senha",
+        "summary": "Valida o código de recuperação de senha.",
+        "description": "Esta rota é pública e não requer autenticação.",
         "requestBody": {
+          "description": "Dados necessários para validação do código.",
           "content": {
             "application/json": {
               "schema": {
@@ -527,7 +719,10 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Código validado com sucesso."
+          },
+          "400": {
+            "description": "Código inválido ou expirado."
           }
         }
       }
@@ -537,8 +732,10 @@
         "tags": [
           "EsqueciSenha"
         ],
-        "summary": "Redefine a senha do usuário",
+        "summary": "Redefine a senha do usuário.",
+        "description": "Necessário informar um código de recuperação válido.\r\nEsta rota é pública e não requer autenticação.",
         "requestBody": {
+          "description": "Dados necessários para redefinição da senha.",
           "content": {
             "application/json": {
               "schema": {
@@ -559,7 +756,10 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Senha redefinida com sucesso."
+          },
+          "400": {
+            "description": "Código inválido, expirado ou dados incorretos."
           }
         }
       }
@@ -569,8 +769,10 @@
         "tags": [
           "Login"
         ],
-        "summary": "Realiza a autenticação do usuário no sistema",
+        "summary": "Realiza a autenticação do usuário no sistema.",
+        "description": "Retorna um token JWT utilizado para autenticação nas demais rotas protegidas.\r\nEsta rota é pública e não requer autenticação.",
         "requestBody": {
+          "description": "Credenciais de acesso do usuário.",
           "content": {
             "application/json": {
               "schema": {
@@ -591,89 +793,10 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Produtos": {
-      "get": {
-        "tags": [
-          "Produtos"
-        ],
-        "summary": "Retorna todos os produtos disponíveis",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Produtos/{idProduto}": {
-      "put": {
-        "tags": [
-          "Produtos"
-        ],
-        "summary": "Atualiza o preço de um produto",
-        "parameters": [
-          {
-            "name": "idProduto",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProdutoRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProdutoRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ProdutoRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Reservas/historico-reserva": {
-      "get": {
-        "tags": [
-          "Reservas"
-        ],
-        "summary": "Retorna o histórico de reservas de armários",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Reservas/com-reserva": {
-      "get": {
-        "tags": [
-          "Reservas"
-        ],
-        "summary": "Retorna os alunos com reserva ativa de armário",
-        "responses": {
-          "200": {
-            "description": "Success"
+            "description": "Autenticação realizada com sucesso."
+          },
+          "401": {
+            "description": "Usuário ou senha inválidos."
           }
         }
       }
@@ -683,8 +806,10 @@
         "tags": [
           "Reservas"
         ],
-        "summary": "Realiza o cadastro completo de uma reserva de armário",
+        "summary": "Realiza o cadastro completo de uma reserva de armário.",
+        "description": "Esta rota realiza o cadastro do aluno e a criação da reserva do armário.\r\nApenas administradores autenticados podem realizar esta ação.",
         "requestBody": {
+          "description": "Dados necessários para cadastro da reserva.",
           "content": {
             "application/json": {
               "schema": {
@@ -705,7 +830,16 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Reserva criada com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou armário indisponível."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
           }
         }
       }
@@ -715,8 +849,10 @@
         "tags": [
           "Reservas"
         ],
-        "summary": "Realiza o recadastro de uma reserva de armário",
+        "summary": "Realiza o recadastro de uma reserva de armário.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
         "requestBody": {
+          "description": "Dados necessários para recadastro da reserva.",
           "content": {
             "application/json": {
               "schema": {
@@ -737,7 +873,16 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Recadastro realizado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou reserva inexistente."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
           }
         }
       }
@@ -747,8 +892,10 @@
         "tags": [
           "Reservas"
         ],
-        "summary": "Transfere um aluno para outro armário",
+        "summary": "Transfere um aluno para outro armário.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
         "requestBody": {
+          "description": "Dados necessários para transferência do aluno.",
           "content": {
             "application/json": {
               "schema": {
@@ -769,42 +916,19 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Termo/obter-pdf": {
-      "get": {
-        "tags": [
-          "Termo"
-        ],
-        "summary": "Retorna o arquivo PDF de um termo",
-        "parameters": [
-          {
-            "name": "referencia",
-            "in": "query",
-            "schema": {
-              "$ref": "#/components/schemas/ReferenciaTermos"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Termo/verificar-termos-aceito": {
-      "get": {
-        "tags": [
-          "Termo"
-        ],
-        "summary": "Verifica os termos aceitos pelo usuário autenticado",
-        "responses": {
-          "200": {
-            "description": "Success"
+            "description": "Transferência realizada com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou armário indisponível."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Reserva ou armário não encontrado."
           }
         }
       }
@@ -814,7 +938,8 @@
         "tags": [
           "Termo"
         ],
-        "summary": "Cria um novo termo",
+        "summary": "Cria um novo termo.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -847,7 +972,16 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Termo criado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos ou arquivo não informado."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
           }
         }
       }
@@ -857,8 +991,10 @@
         "tags": [
           "Termo"
         ],
-        "summary": "Registra o aceite de um termo pelo usuário autenticado",
+        "summary": "Registra o aceite de um termo pelo usuário autenticado.",
+        "description": "Necessário estar autenticado para aceitar um termo.",
         "requestBody": {
+          "description": "Identificador do termo que será aceito.",
           "content": {
             "application/json": {
               "schema": {
@@ -879,141 +1015,16 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Turmas": {
-      "get": {
-        "tags": [
-          "Turmas"
-        ],
-        "summary": "Retorna todas as turmas ativas",
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Turmas"
-        ],
-        "summary": "Cria uma nova turma",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarTurmaRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarTurmaRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CriarTurmaRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Turmas/por-curso/{idCurso}": {
-      "get": {
-        "tags": [
-          "Turmas"
-        ],
-        "summary": "Retorna as turmas vinculadas a um curso",
-        "parameters": [
-          {
-            "name": "idCurso",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Turmas/{IdTurma}": {
-      "delete": {
-        "tags": [
-          "Turmas"
-        ],
-        "summary": "Remove uma turma",
-        "parameters": [
-          {
-            "name": "IdTurma",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Turmas/{id}": {
-      "put": {
-        "tags": [
-          "Turmas"
-        ],
-        "summary": "Atualiza os dados de uma turma",
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EditarTurmaRequest"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/EditarTurmaRequest"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/EditarTurmaRequest"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
+            "description": "Termo aceito com sucesso."
+          },
+          "400": {
+            "description": "Termo inválido ou já aceito."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "404": {
+            "description": "Termo não encontrado."
           }
         }
       }
@@ -1023,8 +1034,10 @@
         "tags": [
           "Usuario"
         ],
-        "summary": "Altera a senha do usuário autenticado",
+        "summary": "Altera a senha do usuário autenticado.",
+        "description": "Necessário informar a senha atual para realizar a alteração.",
         "requestBody": {
+          "description": "Dados necessários para alteração da senha.",
           "content": {
             "application/json": {
               "schema": {
@@ -1045,7 +1058,348 @@
         },
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Senha alterada com sucesso."
+          },
+          "400": {
+            "description": "Senha atual inválida ou dados incorretos."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          }
+        }
+      }
+    },
+    "/api/Armarios/estado/{numeroArmario}": {
+      "put": {
+        "tags": [
+          "Armarios"
+        ],
+        "summary": "Atualiza o estado de um armário.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "parameters": [
+          {
+            "name": "numeroArmario",
+            "in": "path",
+            "description": "Número do armário que será atualizado.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Novo estado do armário.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AtualizarEstadoArmarioRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AtualizarEstadoArmarioRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AtualizarEstadoArmarioRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Estado do armário atualizado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Armário não encontrado."
+          }
+        }
+      }
+    },
+    "/api/Cursos/{idCurso}": {
+      "put": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Atualiza os dados de um curso.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "parameters": [
+          {
+            "name": "idCurso",
+            "in": "path",
+            "description": "Identificador do curso que será atualizado.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Novos dados do curso.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CursoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Curso atualizado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Curso não encontrado."
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cursos"
+        ],
+        "summary": "Remove um curso.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "parameters": [
+          {
+            "name": "idCurso",
+            "in": "path",
+            "description": "Identificador do curso que será removido.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Curso removido com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Curso não encontrado."
+          }
+        }
+      }
+    },
+    "/api/Produtos/{idProduto}": {
+      "put": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Atualiza o preço de um produto.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "parameters": [
+          {
+            "name": "idProduto",
+            "in": "path",
+            "description": "Identificador do produto que será atualizado.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Novo valor do produto.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProdutoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProdutoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProdutoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Preço atualizado com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Produto não encontrado."
+          }
+        }
+      }
+    },
+    "/api/Turmas/{id}": {
+      "put": {
+        "tags": [
+          "Turmas"
+        ],
+        "summary": "Atualiza os dados de uma turma.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Identificador da turma que será atualizada.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Novos dados da turma.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditarTurmaRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditarTurmaRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditarTurmaRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Turma atualizada com sucesso."
+          },
+          "400": {
+            "description": "Dados inválidos."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Turma não encontrada."
+          }
+        }
+      }
+    },
+    "/api/Reservas/{numeroArmario}": {
+      "delete": {
+        "tags": [
+          "Reservas"
+        ],
+        "summary": "Exclui a reserva de um armário.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "parameters": [
+          {
+            "name": "numeroArmario",
+            "in": "path",
+            "description": "Número do armário vinculado à reserva.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Reserva removida com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Reserva não encontrada."
+          }
+        }
+      }
+    },
+    "/api/Turmas/{IdTurma}": {
+      "delete": {
+        "tags": [
+          "Turmas"
+        ],
+        "summary": "Remove uma turma.",
+        "description": "Apenas administradores autenticados podem realizar esta ação.",
+        "parameters": [
+          {
+            "name": "IdTurma",
+            "in": "path",
+            "description": "Identificador da turma que será removida.",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Turma removida com sucesso."
+          },
+          "401": {
+            "description": "Usuário não autenticado."
+          },
+          "403": {
+            "description": "Usuário sem permissão para acessar esta rota."
+          },
+          "404": {
+            "description": "Turma não encontrada."
           }
         }
       }

@@ -28,6 +28,19 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
 {
+    options.OrderActionsBy(apiDesc =>
+    {
+        var methodOrder = apiDesc.HttpMethod switch
+        {
+            "GET" => "1",
+            "POST" => "2",
+            "PUT" => "3",
+            "DELETE" => "4",
+            _ => "5"
+        };
+
+        return methodOrder;
+    });
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "AAPM API",

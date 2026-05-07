@@ -1,21 +1,12 @@
 ﻿using API_backEnd.DTOs.Auth;
-using API_backEnd.Models;
 using API_backEnd.Services;
-using BCrypt.Net;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace API_backEnd.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-
     public class LoginController : ControllerBase
     {
         private readonly AuthService _authService;
@@ -26,8 +17,17 @@ namespace API_backEnd.Controllers
         }
 
         /// <summary>
-        /// Realiza a autenticação do usuário no sistema
+        /// Realiza a autenticação do usuário no sistema.
         /// </summary>
+        /// <remarks>
+        /// Retorna um token JWT utilizado para autenticação nas demais rotas protegidas.
+        /// Esta rota é pública e não requer autenticação.
+        /// </remarks>
+        /// <param name="login">
+        /// Credenciais de acesso do usuário.
+        /// </param>
+        /// <response code="200">Autenticação realizada com sucesso.</response>
+        /// <response code="401">Usuário ou senha inválidos.</response>
         [AllowAnonymous]
         [HttpPost]
         public IActionResult Login(LoginRequest login)

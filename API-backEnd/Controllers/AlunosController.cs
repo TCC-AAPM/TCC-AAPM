@@ -18,8 +18,13 @@ namespace API_backEnd.Controllers
         }
 
         /// <summary>
-        /// Retorna os dados do aluno autenticado
+        /// Retorna os dados do usuário autenticado.
         /// </summary>
+        /// <remarks>
+        /// Necessário estar autenticado com perfil de aluno.
+        /// </remarks>
+        /// <response code="200">Dados retornados com sucesso</response>
+        /// <response code="401">Usuário não autenticado</response>>
         [Authorize(Roles = "aluno")]
         [HttpGet("me")]
         public IActionResult BuscarAlunoLogado()

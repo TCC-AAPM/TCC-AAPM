@@ -20,7 +20,8 @@ namespace API_backEnd.Services
             _termoService = termoService;
         }
 
-        public ResultadoPadrao<AdminLogadoResponse> BuscarAdminLogado()
+       
+        public ResultadoPadrao<AdminLogadoResponse> ObterAdminLogado()
         {
             var id = _usuarioService.ObterIdUsuarioLogado();
 
@@ -31,7 +32,7 @@ namespace API_backEnd.Services
                 return ResultadoPadrao<AdminLogadoResponse>.Falha("Admin não encontrado", 404);
             }
 
-            var dadosAdmin = new AdminLogadoResponse
+            var response = new AdminLogadoResponse
             {
                 Nome = admin.Nome,
                 Email = admin.Email,
@@ -39,7 +40,7 @@ namespace API_backEnd.Services
                 CPF = admin.Cpf
             };
 
-            return ResultadoPadrao<AdminLogadoResponse>.Ok(dadosAdmin);
+            return ResultadoPadrao<AdminLogadoResponse>.Ok(response);
         }
 
         public ResultadoPadrao<object> CriarAdmin(CriarAdminRequest dto)

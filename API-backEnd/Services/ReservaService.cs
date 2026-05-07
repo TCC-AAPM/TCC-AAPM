@@ -4,6 +4,7 @@ using API_backEnd.DTOs.Armario;
 using API_backEnd.DTOs.Reserva;
 using API_backEnd.Enums;
 using API_backEnd.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using System.Text.RegularExpressions;
 
 namespace API_backEnd.Services
@@ -296,6 +297,23 @@ namespace API_backEnd.Services
             db.SaveChanges();
 
             return ResultadoPadrao<object>.Ok(mensagem: "Aluno realocado de armário com sucesso");
+        }
+
+        public ResultadoPadrao<object> ExcluirReserva(int numeroArmario)
+        {
+            var reservaAtiva = db.TabelaReservaArmarios.FirstOrDefault(a => a.IdArmario == numeroArmario && a.IsAtivo);
+            if (reservaAtiva == null)
+                return ResultadoPadrao<object>.Falha("Reserva não encontrada", 404);
+
+            var armario = db.TabelaArmarios.FirstOrDefault(a => a.NumeroArmario == numeroArmario && a.IsAtivo);
+            if (armario == null)
+                return ResultadoPadrao<object>.Falha("Armário não encontrado", 404);
+
+            armario.Estado = EstadoArmario.D;
+            reservaAtiva.IsAtivo = false;
+            db.SaveChanges();
+
+            return ResultadoPadrao<object>.Ok();
         }
 
         private ResultadoPadrao<object> ValidarIdadeETermos(DateOnly dataNasc, int idTermoSite,

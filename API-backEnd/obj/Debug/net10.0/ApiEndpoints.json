@@ -38,7 +38,7 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.AdminController",
-    "Method": "GetAdmin",
+    "Method": "ObterAdminLogado",
     "RelativePath": "api/Admin/me",
     "HttpMethod": "GET",
     "IsController": true,
@@ -352,6 +352,22 @@
       {
         "Name": "dto",
         "Type": "API_backEnd.DTOs.Produto.ProdutoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.ReservasController",
+    "Method": "ExcluirReserva",
+    "RelativePath": "api/Reservas/{numeroArmario}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "numeroArmario",
+        "Type": "System.Int32",
         "IsRequired": true
       }
     ],

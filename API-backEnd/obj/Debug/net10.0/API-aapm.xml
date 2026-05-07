@@ -4,25 +4,61 @@
         <name>API-aapm</name>
     </assembly>
     <members>
-        <member name="M:API_backEnd.Controllers.AdminController.GetAdmin">
+        <member name="M:API_backEnd.Controllers.AdminController.ObterAdminLogado">
             <summary>
-             Retorna os dados do administrador autenticado
+            Retorna os dados do usuário autenticado.
             </summary>
+            <remarks>
+            Necessário estar autenticado com perfil de admin.
+            </remarks>
+            <response code="200">Dados retornados com sucesso</response>
+            <response code="401">Usuário não autenticado</response>
+            <response code="404">Administrador  não encontrado</response>
         </member>
         <member name="M:API_backEnd.Controllers.AdminController.CriarAdmin(API_backEnd.DTOs.Admin.CriarAdminRequest)">
             <summary>
-            Cria um novo administrador
+            Cria um novo administrador.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar este cadastro.
+            </remarks>
+            <param name="dto">
+            Dados necessários para criação do administrador.
+            </param>
+            <response code="200">Administrador criado com sucesso.</response>
+            <response code="400">Dados inválidos ou administrador já existente.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.AdminController.DeletarAdmin(System.Int32,API_backEnd.DTOs.Auth.ConfirmarSenhaRequest)">
             <summary>
-            Remove um administrador
+            Remove um administrador.
             </summary>
+            <remarks>
+            Necessário confirmar a senha do usuário autenticado para concluir a exclusão.
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="id">
+            Identificador do administrador que será removido.
+            </param>
+            <param name="dto">
+            Dados necessários para confirmação da exclusão.
+            </param>
+            <response code="200">Administrador removido com sucesso.</response>
+            <response code="400">Senha inválida ou solicitação inválida.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Administrador não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.AlunosController.BuscarAlunoLogado">
             <summary>
-            Retorna os dados do aluno autenticado
+            Retorna os dados do usuário autenticado.
             </summary>
+            <remarks>
+            Necessário estar autenticado com perfil de aluno.
+            </remarks>
+            <response code="200">Dados retornados com sucesso</response>
+            <response code="401">Usuário não autenticado</response>>
         </member>
         <member name="M:API_backEnd.Controllers.AlunosController.DeletarConta(API_backEnd.DTOs.Auth.ConfirmarSenhaRequest)">
             <summary>
@@ -36,163 +72,471 @@
         </member>
         <member name="M:API_backEnd.Controllers.ArmariosController.BuscarArmario">
             <summary>
-            Retorna todos os armários ativos
+            Retorna todos os armários ativos.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem acessar esta rota.
+            </remarks>
+            <response code="200">Armários retornados com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ArmariosController.BuscarArmarioPeloNumero(System.Int32)">
             <summary>
-            Busca um armário pelo número
+            Busca um armário pelo número.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem acessar esta rota.
+            </remarks>
+            <param name="numeroArmario">
+            Número do armário que será buscado.
+            </param>
+            <response code="200">Armário encontrado com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Armário não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ArmariosController.BuscarArmarioPeloEstado(API_backEnd.Enums.EstadoArmario)">
             <summary>
-            Retorna os armários filtrados pelo estado
+            Retorna os armários filtrados pelo estado.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem acessar esta rota.
+            </remarks>
+            <param name="estado">
+            Estado utilizado para filtrar os armários.
+            </param>
+            <response code="200">Armários retornados com sucesso.</response>
+            <response code="400">Estado informado inválido.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ArmariosController.CriarArmario(API_backEnd.DTOs.Armario.CriarArmarioRequest)">
             <summary>
-            Cria um novo armário
+            Cria um novo armário.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="dto">
+            Dados necessários para criação do armário.
+            </param>
+            <response code="200">Armário criado com sucesso.</response>
+            <response code="400">Dados inválidos ou armário já existente.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ArmariosController.MudarEstadoArmario(System.Int32,API_backEnd.DTOs.Armario.AtualizarEstadoArmarioRequest)">
             <summary>
-            Atualiza o estado de um armário
+            Atualiza o estado de um armário.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="numeroArmario">
+            Número do armário que será atualizado.
+            </param>
+            <param name="dto">
+            Novo estado do armário.
+            </param>
+            <response code="200">Estado do armário atualizado com sucesso.</response>
+            <response code="400">Dados inválidos.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Armário não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ArmariosController.DeletarArmario(System.Int32)">
             <summary>
-            Remove um armário
+            Remove um armário.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="numeroArmario">
+            Número do armário que será removido.
+            </param>
+            <response code="200">Armário removido com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Armário não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.CadastroController.PreCadastro(API_backEnd.DTOs.Reserva.PreCadastroRequest)">
             <summary>
-            Realiza o pré-cadastro de um aluno
+            Realiza o pré-cadastro de um aluno.
             </summary>
+            <remarks>
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <param name="dto">
+            Dados necessários para realização do pré-cadastro.
+            </param>
+            <response code="200">Pré-cadastro realizado com sucesso.</response>
+            <response code="400">Dados inválidos ou aluno já cadastrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.CursosController.BuscarCursosAtivos">
             <summary>
-            Retorna todos os cursos ativos
+            Retorna todos os cursos ativos.
             </summary>
+            <remarks>
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <response code="200">Cursos retornados com sucesso.</response>
         </member>
         <member name="M:API_backEnd.Controllers.CursosController.CriarCurso(API_backEnd.DTOs.Curso.CursoRequest)">
             <summary>
-            Cria um novo curso
+            Cria um novo curso.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="dto">
+            Dados necessários para criação do curso.
+            </param>
+            <response code="200">Curso criado com sucesso.</response>
+            <response code="400">Dados inválidos ou curso já existente.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.CursosController.EditarCurso(System.Int32,API_backEnd.DTOs.Curso.CursoRequest)">
             <summary>
-            Atualiza os dados de um curso
+            Atualiza os dados de um curso.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="idCurso">
+            Identificador do curso que será atualizado.
+            </param>
+            <param name="dto">
+            Novos dados do curso.
+            </param>
+            <response code="200">Curso atualizado com sucesso.</response>
+            <response code="400">Dados inválidos.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Curso não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.CursosController.DeletarCurso(System.Int32)">
             <summary>
-            Remove um curso
+            Remove um curso.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="idCurso">
+            Identificador do curso que será removido.
+            </param>
+            <response code="200">Curso removido com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Curso não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.EsqueciSenhaController.VerificarEmail(API_backEnd.DTOs.Auth.ConfirmarEmailRequest)">
             <summary>
-            Verifica se o email informado possui cadastro no sistema
+            Verifica se o e-mail informado possui cadastro no sistema.
             </summary>
+            <remarks>
+            Caso o e-mail exista, um código de recuperação será enviado.
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <param name="dto">
+            E-mail utilizado para recuperação de senha.
+            </param>
+            <response code="200">Código enviado com sucesso.</response>
+            <response code="400">E-mail inválido ou não cadastrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.EsqueciSenhaController.VerificarCodigo(API_backEnd.DTOs.Auth.VerificarCodigoRequest)">
             <summary>
-            Valida o código de recuperação de senha
+            Valida o código de recuperação de senha.
             </summary>
+            <remarks>
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <param name="dto">
+            Dados necessários para validação do código.
+            </param>
+            <response code="200">Código validado com sucesso.</response>
+            <response code="400">Código inválido ou expirado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.EsqueciSenhaController.ResetarSenha(API_backEnd.DTOs.Auth.ResetarSenhaRequest)">
             <summary>
-            Redefine a senha do usuário
+            Redefine a senha do usuário.
             </summary>
+            <remarks>
+            Necessário informar um código de recuperação válido.
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <param name="dto">
+            Dados necessários para redefinição da senha.
+            </param>
+            <response code="200">Senha redefinida com sucesso.</response>
+            <response code="400">Código inválido, expirado ou dados incorretos.</response>
         </member>
         <member name="M:API_backEnd.Controllers.LoginController.Login(API_backEnd.DTOs.Auth.LoginRequest)">
             <summary>
-            Realiza a autenticação do usuário no sistema
+            Realiza a autenticação do usuário no sistema.
             </summary>
+            <remarks>
+            Retorna um token JWT utilizado para autenticação nas demais rotas protegidas.
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <param name="login">
+            Credenciais de acesso do usuário.
+            </param>
+            <response code="200">Autenticação realizada com sucesso.</response>
+            <response code="401">Usuário ou senha inválidos.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ProdutosController.GetProdutos">
             <summary>
-            Retorna todos os produtos disponíveis
+            Retorna todos os produtos disponíveis.
             </summary>
+            <remarks>
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <response code="200">Produtos retornados com sucesso.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ProdutosController.AlterarPrecoProduto(System.Int32,API_backEnd.DTOs.Produto.ProdutoRequest)">
             <summary>
-            Atualiza o preço de um produto
+            Atualiza o preço de um produto.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="idProduto">
+            Identificador do produto que será atualizado.
+            </param>
+            <param name="dto">
+            Novo valor do produto.
+            </param>
+            <response code="200">Preço atualizado com sucesso.</response>
+            <response code="400">Dados inválidos.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Produto não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ReservasController.HistoricoReserva">
             <summary>
-            Retorna o histórico de reservas de armários
+            Retorna o histórico de reservas de armários.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem acessar esta rota.
+            </remarks>
+            <response code="200">Histórico retornado com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ReservasController.BuscarAlunosComReserva">
             <summary>
-            Retorna os alunos com reserva ativa de armário
+            Retorna os alunos com reserva ativa de armário.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem acessar esta rota.
+            </remarks>
+            <response code="200">Alunos retornados com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ReservasController.CadastroReservaArmarioCompleto(API_backEnd.DTOs.Reserva.CriarCadastroArmarioRequest)">
             <summary>
-            Realiza o cadastro completo de uma reserva de armário
+            Realiza o cadastro completo de uma reserva de armário.
             </summary>
+            <remarks>
+            Esta rota realiza o cadastro do aluno e a criação da reserva do armário.
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="dto">
+            Dados necessários para cadastro da reserva.
+            </param>
+            <response code="200">Reserva criada com sucesso.</response>
+            <response code="400">Dados inválidos ou armário indisponível.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ReservasController.RecadastroReserva(API_backEnd.DTOs.Reserva.RecadastrarReservaRequest)">
             <summary>
-            Realiza o recadastro de uma reserva de armário
+            Realiza o recadastro de uma reserva de armário.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="dto">
+            Dados necessários para recadastro da reserva.
+            </param>
+            <response code="200">Recadastro realizado com sucesso.</response>
+            <response code="400">Dados inválidos ou reserva inexistente.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.ReservasController.TransferirAlunoArmario(API_backEnd.DTOs.Armario.TransferirAlunoArmarioRequest)">
             <summary>
-            Transfere um aluno para outro armário
+            Transfere um aluno para outro armário.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="dto">
+            Dados necessários para transferência do aluno.
+            </param>
+            <response code="200">Transferência realizada com sucesso.</response>
+            <response code="400">Dados inválidos ou armário indisponível.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Reserva ou armário não encontrado.</response>
+        </member>
+        <member name="M:API_backEnd.Controllers.ReservasController.ExcluirReserva(System.Int32)">
+            <summary>
+            Exclui a reserva de um armário.
+            </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="numeroArmario">
+            Número do armário vinculado à reserva.
+            </param>
+            <response code="200">Reserva removida com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Reserva não encontrada.</response>
         </member>
         <member name="M:API_backEnd.Controllers.TermoController.ObterPdf(API_backEnd.Enums.ReferenciaTermos)">
             <summary>
-            Retorna o arquivo PDF de um termo
+            Retorna o arquivo PDF de um termo.
             </summary>
+            <remarks>
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <param name="referencia">
+            Referência do termo que será obtido.
+            </param>
+            <response code="200">Arquivo PDF retornado com sucesso.</response>
+            <response code="404">Termo não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.TermoController.VerificarTermosAceito">
             <summary>
-            Verifica os termos aceitos pelo usuário autenticado
+            Verifica os termos aceitos pelo usuário autenticado.
             </summary>
+            <remarks>
+            Retorna os termos já aceitos e os pendentes de aceite.
+            </remarks>
+            <response code="200">Status dos termos retornado com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.TermoController.CriarTermo(API_backEnd.DTOs.Termo.CriarTermoRequest)">
             <summary>
-            Cria um novo termo
+            Cria um novo termo.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="dto">
+            Dados e arquivo PDF do termo.
+            </param>
+            <response code="200">Termo criado com sucesso.</response>
+            <response code="400">Dados inválidos ou arquivo não informado.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.TermoController.AceitarTermos(API_backEnd.DTOs.Termo.AceitarTermoRequest)">
             <summary>
-            Registra o aceite de um termo pelo usuário autenticado
+            Registra o aceite de um termo pelo usuário autenticado.
             </summary>
+            <remarks>
+            Necessário estar autenticado para aceitar um termo.
+            </remarks>
+            <param name="dto">
+            Identificador do termo que será aceito.
+            </param>
+            <response code="200">Termo aceito com sucesso.</response>
+            <response code="400">Termo inválido ou já aceito.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="404">Termo não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.TurmasController.GetTurma">
             <summary>
-            Retorna todas as turmas ativas
+            Retorna todas as turmas ativas.
             </summary>
+            <remarks>
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <response code="200">Turmas retornadas com sucesso.</response>
         </member>
         <member name="M:API_backEnd.Controllers.TurmasController.GetTurmaPorCurso(System.Int32)">
             <summary>
-            Retorna as turmas vinculadas a um curso
+            Retorna as turmas vinculadas a um curso.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem acessar esta rota.
+            </remarks>
+            <param name="idCurso">
+            Identificador do curso utilizado para busca das turmas.
+            </param>
+            <response code="200">Turmas retornadas com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Curso não encontrado.</response>
         </member>
         <member name="M:API_backEnd.Controllers.TurmasController.CriarTurma(API_backEnd.DTOs.Turma.CriarTurmaRequest)">
             <summary>
-            Cria uma nova turma
+            Cria uma nova turma.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="dto">
+            Dados necessários para criação da turma.
+            </param>
+            <response code="200">Turma criada com sucesso.</response>
+            <response code="400">Dados inválidos ou turma já existente.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
         </member>
         <member name="M:API_backEnd.Controllers.TurmasController.DeletarTurma(System.Int32)">
             <summary>
-            Remove uma turma
+            Remove uma turma.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="IdTurma">
+            Identificador da turma que será removida.
+            </param>
+            <response code="200">Turma removida com sucesso.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Turma não encontrada.</response>
         </member>
         <member name="M:API_backEnd.Controllers.TurmasController.EditarTurma(System.Int32,API_backEnd.DTOs.Turma.EditarTurmaRequest)">
             <summary>
-            Atualiza os dados de uma turma
+            Atualiza os dados de uma turma.
             </summary>
+            <remarks>
+            Apenas administradores autenticados podem realizar esta ação.
+            </remarks>
+            <param name="id">
+            Identificador da turma que será atualizada.
+            </param>
+            <param name="dto">
+            Novos dados da turma.
+            </param>
+            <response code="200">Turma atualizada com sucesso.</response>
+            <response code="400">Dados inválidos.</response>
+            <response code="401">Usuário não autenticado.</response>
+            <response code="403">Usuário sem permissão para acessar esta rota.</response>
+            <response code="404">Turma não encontrada.</response>
         </member>
         <member name="M:API_backEnd.Controllers.UsuarioController.TrocarSenha(API_backEnd.DTOs.Auth.TrocarSenhaRequest)">
             <summary>
-            Altera a senha do usuário autenticado
+            Altera a senha do usuário autenticado.
             </summary>
+            <remarks>
+            Necessário informar a senha atual para realizar a alteração.
+            </remarks>
+            <param name="dto">
+            Dados necessários para alteração da senha.
+            </param>
+            <response code="200">Senha alterada com sucesso.</response>
+            <response code="400">Senha atual inválida ou dados incorretos.</response>
+            <response code="401">Usuário não autenticado.</response>
         </member>
         <member name="T:Program">
             <summary>
