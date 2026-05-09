@@ -18,6 +18,10 @@ export const API_ROUTES = {
     carregarCursos: `${BASE_URL}/Cursos`,
   },
 
+  turmas: {
+    porCurso: `${BASE_URL}/Turmas/por-curso/${idCurso}`,
+  },
+
   reservas: {
     reservas: `${BASE_URL}/Reservas`,
     recadastrarReserva: `${BASE_URL}/Reservas/recadastrar`, //nao usando
@@ -29,6 +33,6 @@ export const API_ROUTES = {
   },
 
   cadastro: {
-    preCadastro: `${BASE_URL}/Cadastro/pre-cadastro`
+    preCadastro: `${BASE_URL}/Cadastro/pre-cadastro`,
   },
 };
