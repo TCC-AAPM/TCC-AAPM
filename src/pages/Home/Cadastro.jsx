@@ -28,12 +28,13 @@ function calcularIdade(dataNasc) {
   return idade;
 }
 
-// "nascimento" | "bloqueado" | "formulario" | "termos"
+// "nascimento" | "bloqueado" | "menor" | "formulario" | "termos"
 export default function Cadastro() {
   const navigate = useNavigate();
   const [etapa, setEtapa] = useState("nascimento");
   const [erro, setErro] = useState(null);
   const [cursos, setCursos] = useState([]);
+  const [turmas, setTurmas] = useState([]);
   const [form, setForm] = useState({
     nome: "",
     nomeSocial: "",
@@ -50,13 +51,16 @@ export default function Cadastro() {
     aceitouTermoArmario: false,
   });
 
-  // Carrega cursos da API
   useEffect(() => {
     fetch(API_ROUTES.cursos.carregarCursos)
       .then((r) => r.json())
       .then((data) => {
         console.log("cursos recebidos:", data);
         setCursos(data.dados ?? []);
+      })
+      .catch((err) => {
+        console.error("erro ao carregar cursos:", err);
+        setCursos([]);
       });
   }, []);
 
@@ -67,12 +71,32 @@ export default function Cadastro() {
     setForm((p) => ({ ...p, [campo]: val }));
   };
 
+  function handleCurso(e) {
+    const id = e.target.value;
+    setForm((p) => ({ ...p, idCurso: id, idTurma: "" }));
+    if (!id) {
+      setTurmas([]);
+      return;
+    }
+
+    fetch(API_ROUTES.turmas.porCurso(id))
+      .then((r) => r.json())
+      .then((data) => {
+        console.log("turmas recebidas:", data);
+        setTurmas(data.dados ?? []);
+      })
+      .catch((err) => {
+        console.error("erro ao carregar turmas:", err);
+        setTurmas([]);
+      });
+  }
+
   function handleNascimento(e) {
     const val = e.target.value;
     if (!val) return;
     const idade = calcularIdade(val);
     if (idade < 14) setEtapa("bloqueado");
-    else if (idade < 18) setEtapa("termos");
+    else if (idade < 18) setEtapa("menor");
     else setEtapa("formulario");
   }
 
@@ -93,7 +117,7 @@ export default function Cadastro() {
       aceitouTermoArmario: form.aceitouTermoArmario,
     };
 
-    console.log("payload:", payload);
+    console.log("payload enviado:", payload);
 
     try {
       const res = await fetch(API_ROUTES.cadastro.preCadastro, {
@@ -105,7 +129,7 @@ export default function Cadastro() {
       if (!res.ok) {
         const data = await res.json();
         console.error("Erro do back:", data);
-        setErro(data.message || "Erro ao cadastrar.");
+        setErro(data.mensagem || data.message || "Erro ao cadastrar.");
         return;
       }
 
@@ -116,7 +140,7 @@ export default function Cadastro() {
     }
   }
 
-  // ── Etapa 1: data de nascimento ──────────────────────────────────────────
+  // ── Etapa 1: nascimento ──────────────────────────────────────────────────
   if (etapa === "nascimento") {
     return (
       <div className={styles.pagina}>
@@ -149,7 +173,6 @@ export default function Cadastro() {
                   new Date(Date.now() - 86400000).toISOString().split("T")[0]
                 }
               />
-              <label>Data de nascimento</label>
             </div>
 
             <div className={styles["rodape-card"]}>
@@ -200,7 +223,80 @@ export default function Cadastro() {
     );
   }
 
-  // ── Etapa: formulário completo (18+) ─────────────────────────────────────
+  // ── Etapa: menor (14–17 anos) ─────────────────────────────────────────────
+  if (etapa === "menor") {
+    return (
+      <div className={styles.pagina}>
+        <div className={styles.corpo}>
+          <aside className={styles.esquerda}>
+            <h1>
+              Autorização
+              <br />
+              <em>necessária</em>
+            </h1>
+            <p>
+              Por exigência do ECA e da LGPD, menores de 18 anos precisam da
+              autorização de um responsável legal para utilizar nossos serviços.
+            </p>
+          </aside>
+
+          <div className={styles.card}>
+            <div className={styles.separador}>O que você precisa fazer</div>
+
+            <div className={styles["caixa-termos"]}>
+              <p>
+                Como você ainda não tem 18 anos,{" "}
+                <strong>não é possível concluir o cadastro online</strong>. Seu
+                responsável legal deverá comparecer presencialmente à secretaria
+                e assinar o termo de uso do armário.
+              </p>
+              <p>
+                Você pode imprimir o termo abaixo, preencher os dados e levá-lo
+                já assinado na secretaria da AAPM (localizada perto da
+                biblioteca do Senai) para agilizar o processo.
+              </p>
+            </div>
+
+            <div className={styles.separador}>Termo de uso do armário</div>
+
+            <iframe
+              src="/termo-armario.pdf"
+              className={styles["iframe-termo"]}
+              title="Termo de uso do armário"
+            />
+
+            <a
+              href="/termo-armario.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles["btn-principal"]}
+              style={{
+                textAlign: "center",
+                textDecoration: "none",
+                display: "block",
+              }}
+            >
+              🖨️ Abrir termo para impressão
+            </a>
+
+            <div className={styles["rodape-card"]}>
+              <button
+                className={styles["btn-secundario"]}
+                onClick={() => {
+                  setForm((p) => ({ ...p, nascimento: "" }));
+                  setEtapa("nascimento");
+                }}
+              >
+                ← Voltar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // ── Etapa: formulário (18+) ───────────────────────────────────────────────
   if (etapa === "formulario") {
     return (
       <div className={styles.pagina}>
@@ -231,7 +327,16 @@ export default function Cadastro() {
                 </div>
                 <div className={styles["passo-info"]}>
                   <strong>Termos e Pagamento</strong>
-                  <span>Pagamento presencial</span>
+                  <span>Próxima etapa</span>
+                </div>
+              </div>
+              <div className={styles.passo}>
+                <div className={`${styles["passo-num"]} ${styles.pendente}`}>
+                  3
+                </div>
+                <div className={styles["passo-info"]}>
+                  <strong>Pagamento</strong>
+                  <span>Secretaria presencial</span>
                 </div>
               </div>
             </div>
@@ -323,7 +428,7 @@ export default function Cadastro() {
               <div
                 className={`${styles.campo} ${form.idCurso ? styles.filled : ""}`}
               >
-                <select value={form.idCurso} onChange={atualizar("idCurso")}>
+                <select value={form.idCurso} onChange={handleCurso}>
                   <option value="" />
                   {cursos.map((c) => (
                     <option key={c.id} value={c.id}>
@@ -334,14 +439,22 @@ export default function Cadastro() {
                 <label>Curso</label>
               </div>
 
-              <div className={styles.campo}>
-                <input
-                  type="text"
-                  placeholder=" "
+              <div
+                className={`${styles.campo} ${form.idTurma ? styles.filled : ""}`}
+              >
+                <select
                   value={form.idTurma}
                   onChange={atualizar("idTurma")}
-                />
-                <label>Turma (ex: DS3A)</label>
+                  disabled={!turmas.length}
+                >
+                  <option value="" />
+                  {turmas.map((t) => (
+                    <option key={t.nomeTurma} value={t.nomeTurma}>
+                      {t.nomeTurma}
+                    </option>
+                  ))}
+                </select>
+                <label>Turma</label>
               </div>
             </div>
 
@@ -349,7 +462,10 @@ export default function Cadastro() {
 
             <button
               className={styles["btn-principal"]}
-              onClick={() => setEtapa("termos")}
+              onClick={() => {
+                setErro(null);
+                setEtapa("termos");
+              }}
             >
               Continuar
             </button>
@@ -367,19 +483,22 @@ export default function Cadastro() {
         </div>
       </div>
     );
-  }
 
-  // ── Etapa: termos e pagamento ─────────────────────────────────────────────
+  } // ── Etapa: termos (18+) ───────────────────────────────────────────────────
   if (etapa === "termos") {
     return (
       <div className={styles.pagina}>
         <div className={styles.corpo}>
           <aside className={styles.esquerda}>
             <h1>
-              Termos e<br />
-              <em>Pagamento</em>
+              Quase lá!
+              <br />
+              <em>Revise os termos</em>
             </h1>
-            <p>Leia os termos e finalize seu cadastro presencialmente.</p>
+            <p>
+              Leia os termos abaixo e confirme sua concordância para finalizar o
+              cadastro.
+            </p>
             <div className={styles.passos}>
               <div className={styles.passo}>
                 <div className={`${styles["passo-num"]} ${styles.concluido}`}>
@@ -399,36 +518,31 @@ export default function Cadastro() {
                   <span>Você está aqui</span>
                 </div>
               </div>
+              <div className={styles.passo}>
+                <div className={`${styles["passo-num"]} ${styles.pendente}`}>
+                  3
+                </div>
+                <div className={styles["passo-info"]}>
+                  <strong>Pagamento</strong>
+                  <span>Secretaria presencial</span>
+                </div>
+              </div>
             </div>
           </aside>
 
           <div className={styles.card}>
-            <div className={styles.separador}>Termos de uso</div>
-
+            {/* ── Termo do armário ── */}
+            <div className={styles.separador}>Termo de uso do armário</div>
             <div className={styles["caixa-termos"]}>
-              <p>
-                Ao realizar o cadastro, você concorda com as normas da AAPM
-                SENAI Osasco. O pagamento da mensalidade é realizado de forma
-                presencial na secretaria. O aluno responsabiliza-se pelo uso
-                correto dos serviços contratados.
-              </p>
-              <p>
-                Para alunos menores de 18 anos, é necessária a assinatura de um
-                responsável legal no momento do pagamento presencial.
-              </p>
             </div>
-
-            <label className={styles["check-termo"]}>
-              <input
-                type="checkbox"
-                checked={form.aceitouTermoSite}
-                onChange={(e) =>
-                  setForm((p) => ({ ...p, aceitouTermoSite: e.target.checked }))
-                }
-              />
-              Aceito os termos de uso do site
-            </label>
-
+            <a
+              href="/termo-armario.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles["btn-link"]}
+            >
+              📄 Ler termo de uso do armário
+            </a>
             <label className={styles["check-termo"]}>
               <input
                 type="checkbox"
@@ -440,16 +554,50 @@ export default function Cadastro() {
                   }))
                 }
               />
-              Aceito os termos de uso do armário
+              Li e concordo com os termos de uso do armário da AAPM
             </label>
 
-            <div className={styles.separador}>Pagamento</div>
+            {/* ── Termo do site / LGPD ── */}
+            <div className={styles.separador}>Termo de uso do site e LGPD</div>
+            <div className={styles["caixa-termos"]}>
+            </div>
+            <a
+              href="/termos-site.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={styles["btn-link"]}
+            >
+              📄 Ler termos de uso do site e política de privacidade
+            </a>
+            <label className={styles["check-termo"]}>
+              <input
+                type="checkbox"
+                checked={form.aceitouTermoSite}
+                onChange={(e) =>
+                  setForm((p) => ({ ...p, aceitouTermoSite: e.target.checked }))
+                }
+              />
+              Li e autorizo o uso dos meus dados conforme a LGPD
+            </label>
 
-            <div className={`${styles.campo} ${styles.filled}`}>
-              <select disabled>
-                <option>Pagamento presencial — secretaria</option>
-              </select>
-              <label>Forma de pagamento</label>
+            {/* ── Pagamento ── */}
+            <div className={styles.separador}>Pagamento e acesso</div>
+            <div className={styles["caixa-termos"]}>
+              <p>
+                🎉 <strong>Sua reserva foi registrada!</strong> Para ativar o
+                uso do armário, compareça à secretaria da AAPM para realizar o
+                pagamento presencialmente.
+              </p>
+              <p>
+                Enquanto isso, você já pode <strong>fazer login</strong> no site
+                usando:
+              </p>
+              <p>
+                📧 <strong>E-mail:</strong> {form.email}
+              </p>
+              <p>
+                🔑 <strong>Senha:</strong> seu CPF (apenas números)
+              </p>
             </div>
 
             {erro && <p className={styles["erro-msg"]}>{erro}</p>}
@@ -457,7 +605,7 @@ export default function Cadastro() {
             <button
               className={styles["btn-principal"]}
               onClick={() => {
-                if (!form.aceitouTermoSite || !form.aceitouTermoArmario) {
+                if (!form.aceitouTermoArmario || !form.aceitouTermoSite) {
                   setErro(
                     "Você precisa aceitar os dois termos para continuar.",
                   );
@@ -473,13 +621,7 @@ export default function Cadastro() {
             <div className={styles["rodape-card"]}>
               <button
                 className={styles["btn-secundario"]}
-                onClick={() =>
-                  setEtapa(
-                    calcularIdade(form.nascimento) >= 18
-                      ? "formulario"
-                      : "nascimento",
-                  )
-                }
+                onClick={() => setEtapa("formulario")}
               >
                 ← Voltar
               </button>

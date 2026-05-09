@@ -19,7 +19,7 @@ export const API_ROUTES = {
   },
 
   turmas: {
-    porCurso: `${BASE_URL}/Turmas/por-curso/${idCurso}`,
+    porCurso: `${BASE_URL}/Turmas/por-curso/{idCurso}`,
   },
 
   reservas: {

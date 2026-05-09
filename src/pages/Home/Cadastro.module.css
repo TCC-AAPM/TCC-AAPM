@@ -1,4 +1,11 @@
 /* Cadastro.module.css */
+.iframe-termo {
+  width: 100%;
+  height: 420px;
+  border: none;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
 
 .pagina {
   flex: 1;
