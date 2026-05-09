@@ -34,16 +34,14 @@ namespace API_backEnd.Controllers
         /// Retorna as turmas vinculadas a um curso.
         /// </summary>
         /// <remarks>
-        /// Apenas administradores autenticados podem acessar esta rota.
+        /// Esta rota é pública e não requer autenticação.
         /// </remarks>
         /// <param name="idCurso">
         /// Identificador do curso utilizado para busca das turmas.
         /// </param>
         /// <response code="200">Turmas retornadas com sucesso.</response>
         /// <response code="401">Usuário não autenticado.</response>
-        /// <response code="403">Usuário sem permissão para acessar esta rota.</response>
         /// <response code="404">Curso não encontrado.</response>
-        [Authorize(Roles = "admin")]
         [HttpGet("por-curso/{idCurso}")]
         public IActionResult GetTurmaPorCurso(int idCurso)
         {

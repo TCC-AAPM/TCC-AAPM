@@ -422,7 +422,7 @@
           "Turmas"
         ],
         "summary": "Retorna as turmas vinculadas a um curso.",
-        "description": "Apenas administradores autenticados podem acessar esta rota.",
+        "description": "Esta rota é pública e não requer autenticação.",
         "parameters": [
           {
             "name": "idCurso",
@@ -441,9 +441,6 @@
           },
           "401": {
             "description": "Usuário não autenticado."
-          },
-          "403": {
-            "description": "Usuário sem permissão para acessar esta rota."
           },
           "404": {
             "description": "Curso não encontrado."
