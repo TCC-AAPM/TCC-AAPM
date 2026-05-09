@@ -7,8 +7,7 @@ export const API_ROUTES = {
     deletarConta: `${BASE_URL}/Alunos/deletar-conta`,
   },
 
-  admin: {
-  },
+  admin: {},
 
   armarios: {
     listar: `${BASE_URL}/Armarios`,
@@ -19,7 +18,7 @@ export const API_ROUTES = {
     carregarCursos: `${BASE_URL}/Cursos`,
   },
 
-  reservas : {
+  reservas: {
     reservas: `${BASE_URL}/Reservas`,
     recadastrarReserva: `${BASE_URL}/Reservas/recadastrar`, //nao usando
   },
@@ -27,5 +26,9 @@ export const API_ROUTES = {
   produtos: {
     listar: `${BASE_URL}/Produtos`,
     idProdutos: `${BASE_URL}/Produtos/{idProduto}`, //nao usando
-  }
+  },
+
+  cadastro: {
+    preCadastro: `${BASE_URL}/Cadastro/pre-cadastro`
+  },
 };
