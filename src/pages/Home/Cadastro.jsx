@@ -64,6 +64,19 @@ export default function Cadastro() {
       });
   }, []);
 
+  const [precos, setPrecos] = useState({});
+
+  useEffect(() => {
+    fetch(API_ROUTES.produtos.listar)
+      .then((r) => r.json())
+      .then((data) => {
+        const mapa = {};
+        data.forEach((p) => (mapa[p.produto] = p.preco));
+        setPrecos(mapa);
+      })
+      .catch(() => {});
+  }, []);
+
   const atualizar = (campo) => (e) => {
     let val = e.target.value;
     if (campo === "cpf") val = formatarCPF(val);
@@ -133,7 +146,7 @@ export default function Cadastro() {
         return;
       }
 
-      navigate("/sucesso");
+      navigate("/pagamento");
     } catch (err) {
       console.error("Erro de rede:", err);
       setErro("Erro de conexão com o servidor.");
@@ -326,15 +339,6 @@ export default function Cadastro() {
                   2
                 </div>
                 <div className={styles["passo-info"]}>
-                  <strong>Termos e Pagamento</strong>
-                  <span>Próxima etapa</span>
-                </div>
-              </div>
-              <div className={styles.passo}>
-                <div className={`${styles["passo-num"]} ${styles.pendente}`}>
-                  3
-                </div>
-                <div className={styles["passo-info"]}>
                   <strong>Pagamento</strong>
                   <span>Secretaria presencial</span>
                 </div>
@@ -460,88 +464,15 @@ export default function Cadastro() {
 
             {erro && <p className={styles["erro-msg"]}>{erro}</p>}
 
-            <button
-              className={styles["btn-principal"]}
-              onClick={() => {
-                setErro(null);
-                setEtapa("termos");
-              }}
-            >
-              Continuar
-            </button>
+            <div className={styles.separador}>Termos</div>
 
-            <div className={styles["rodape-card"]}>
-              <span>Já possui cadastro?</span>
-              <button
-                className={styles["btn-secundario"]}
-                onClick={() => navigate("/login")}
-              >
-                Entrar
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
-
-  } // ── Etapa: termos (18+) ───────────────────────────────────────────────────
-  if (etapa === "termos") {
-    return (
-      <div className={styles.pagina}>
-        <div className={styles.corpo}>
-          <aside className={styles.esquerda}>
-            <h1>
-              Quase lá!
-              <br />
-              <em>Revise os termos</em>
-            </h1>
-            <p>
-              Leia os termos abaixo e confirme sua concordância para finalizar o
-              cadastro.
-            </p>
-            <div className={styles.passos}>
-              <div className={styles.passo}>
-                <div className={`${styles["passo-num"]} ${styles.concluido}`}>
-                  ✓
-                </div>
-                <div className={styles["passo-info"]}>
-                  <strong>Dados pessoais</strong>
-                  <span>Concluído</span>
-                </div>
-              </div>
-              <div className={styles.passo}>
-                <div className={`${styles["passo-num"]} ${styles.ativo}`}>
-                  2
-                </div>
-                <div className={styles["passo-info"]}>
-                  <strong>Termos e Pagamento</strong>
-                  <span>Você está aqui</span>
-                </div>
-              </div>
-              <div className={styles.passo}>
-                <div className={`${styles["passo-num"]} ${styles.pendente}`}>
-                  3
-                </div>
-                <div className={styles["passo-info"]}>
-                  <strong>Pagamento</strong>
-                  <span>Secretaria presencial</span>
-                </div>
-              </div>
-            </div>
-          </aside>
-
-          <div className={styles.card}>
-            {/* ── Termo do armário ── */}
-            <div className={styles.separador}>Termo de uso do armário</div>
-            <div className={styles["caixa-termos"]}>
-            </div>
             <a
               href="/termo-armario.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className={styles["btn-link"]}
             >
-              📄 Ler termo de uso do armário
+              📄 Termo de uso do armário
             </a>
             <label className={styles["check-termo"]}>
               <input
@@ -554,20 +485,16 @@ export default function Cadastro() {
                   }))
                 }
               />
-              Li e concordo com os termos de uso do armário da AAPM
+              Li e concordo com os termos de uso do armário
             </label>
 
-            {/* ── Termo do site / LGPD ── */}
-            <div className={styles.separador}>Termo de uso do site e LGPD</div>
-            <div className={styles["caixa-termos"]}>
-            </div>
             <a
               href="/termos-site.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className={styles["btn-link"]}
             >
-              📄 Ler termos de uso do site e política de privacidade
+              📄 Termos de uso do site e LGPD
             </a>
             <label className={styles["check-termo"]}>
               <input
@@ -579,26 +506,6 @@ export default function Cadastro() {
               />
               Li e autorizo o uso dos meus dados conforme a LGPD
             </label>
-
-            {/* ── Pagamento ── */}
-            <div className={styles.separador}>Pagamento e acesso</div>
-            <div className={styles["caixa-termos"]}>
-              <p>
-                🎉 <strong>Sua reserva foi registrada!</strong> Para ativar o
-                uso do armário, compareça à secretaria da AAPM para realizar o
-                pagamento presencialmente.
-              </p>
-              <p>
-                Enquanto isso, você já pode <strong>fazer login</strong> no site
-                usando:
-              </p>
-              <p>
-                📧 <strong>E-mail:</strong> {form.email}
-              </p>
-              <p>
-                🔑 <strong>Senha:</strong> seu CPF (apenas números)
-              </p>
-            </div>
 
             {erro && <p className={styles["erro-msg"]}>{erro}</p>}
 
@@ -619,9 +526,71 @@ export default function Cadastro() {
             </button>
 
             <div className={styles["rodape-card"]}>
+              <span>Já possui cadastro?</span>
               <button
                 className={styles["btn-secundario"]}
-                onClick={() => setEtapa("formulario")}
+                onClick={() => navigate("/login")}
+              >
+                Entrar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  // ── Etapa: pagamenti ─────────────────────────────────────────────
+  if (etapa === "pagamento") {
+    return (
+      <div className={styles.pagina}>
+        <div className={styles.corpo}>
+          <aside className={styles.esquerda}>
+            <h1>
+              Pagamento
+              <br />
+              <em>presencial</em>
+            </h1>
+            <p>
+              Voce precisa realizar o pagamento presencialmente na secretaria da
+              AAPM para finalizar sua contratação.
+            </p>
+          </aside>
+
+          <div className={styles.card}>
+            <div className={styles.separador}>O que você precisa fazer</div>
+
+            <div className={styles["caixa-termos"]}>
+              <p>
+                Como atualemente não temos uma solução de pagamento online, o
+                próximo passo é realizar o pagamento presencialmente na
+                secretaria da AAPM. Leve um documento de identificação e o
+                comprovante de pré-cadastro para finalizar sua contratação.
+              </p>
+              <p>
+                Mas não se preocupe, o processo é rápido e simples! A equipe da
+                AAPM está pronta para te atender e garantir que tudo seja
+                concluído sem complicações.
+              </p>
+            </div>
+
+            <div className={styles.separador}>Pagamento</div>
+
+            <div className={styles["aviso-pagamento"]}>
+              <p>
+                O valor do aluguel do armário é de{" "}
+                <strong>R$ 20,00 por mês</strong>. O pagamento deve ser
+                realizado na secretaria da AAPM, localizada perto da biblioteca
+                do Senai.
+              </p>
+            </div>
+
+            <div className={styles["rodape-card"]}>
+              <button
+                className={styles["btn-secundario"]}
+                onClick={() => {
+                  setForm((p) => ({ ...p, nascimento: "" }));
+                  setEtapa("nascimento");
+                }}
               >
                 ← Voltar
               </button>
