@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import styles from "./Cadastro.module.css";
+import styles from "./PreCadastroArmario.module.css";
 import { useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../../routes/config/api.js";
+import { API_ROUTES } from "/src/routes/config/api.js";
 
 function formatarCPF(v) {
   const d = v.replace(/\D/g, "").slice(0, 11);
@@ -29,7 +29,7 @@ function calcularIdade(dataNasc) {
 }
 
 // "nascimento" | "bloqueado" | "menor" | "formulario" | "termos"
-export default function Cadastro() {
+export default function CadastroArmario() {
   const navigate = useNavigate();
   const [etapa, setEtapa] = useState("nascimento");
   const [erro, setErro] = useState(null);

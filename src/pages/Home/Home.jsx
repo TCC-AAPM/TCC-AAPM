@@ -39,7 +39,7 @@ function Card({ s }) {
 
       <button
         className={styles.btnContratar}
-        onClick={() => navigate("/cadastro")}
+        onClick={() => navigate(s.route)}
       >
         <div className={styles.btnBg} />
         <span className={styles.btnLabel}>Contratar Serviço</span>
@@ -76,6 +76,7 @@ export default function Home() {
       badgeClass: styles.badgePopular,
       icon: <Icon name="inventory_2" />,
       name: "Armário",
+      route: "/cadastro-armario",
       produtoKey: "A",
       title: "Seja um associado da AAPM",
       price: precos["A"]
@@ -98,6 +99,7 @@ export default function Home() {
       badgeClass: styles.badgeNovo,
       icon: <Icon name="two_wheeler" />,
       name: "Estacionamento",
+      route: "/cadastro-estacionamento",
       produtoKey: "E",
       title: "Vaga de Estacionamento",
       price: precos["E"]
