@@ -17,9 +17,9 @@ export const API_ROUTES = {
   cursos: {
     carregarCursos: `${BASE_URL}/Cursos`,
   },
-
+  
   turmas: {
-    porCurso: `${BASE_URL}/Turmas/por-curso/{idCurso}`,
+    porCurso: (idCurso) => `${BASE_URL}/Turmas/por-curso/${idCurso}`,
   },
 
   reservas: {

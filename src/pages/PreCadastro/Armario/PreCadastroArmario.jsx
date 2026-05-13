@@ -51,6 +51,7 @@ export default function CadastroArmario() {
     aceitouTermoArmario: false,
   });
 
+  //carrega todos os cursos ativo
   useEffect(() => {
     fetch(API_ROUTES.cursos.carregarCursos)
       .then((r) => r.json())
@@ -64,6 +65,19 @@ export default function CadastroArmario() {
       });
   }, []);
 
+  //puxar turmas por id do curso
+  useEffect(() => {
+    if (!form.idCurso) {
+      setTurmas([]);
+      return;
+    }
+    fetch(API_ROUTES.turmas.porCurso(form.idCurso))
+      .then((r) => r.json())
+      .then((data) => setTurmas(data.dados ?? []))
+      .catch(() => setTurmas([]));
+  }, [form.idCurso]);
+
+  //pra pegar o preco de cada servico
   const [precos, setPrecos] = useState({});
 
   useEffect(() => {
