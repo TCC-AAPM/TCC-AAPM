@@ -24,10 +24,10 @@ export default function TelaPrincipal() {
       .then((r) => r.json())
       .then((data) => {
         setDados({
-          nome: data.nome,
-          numArmario: data.numeroArmario ?? "-",
-          dataFim: data.dataExpiracao
-            ? new Date(data.dataExpiracao).toLocaleDateString("pt-BR")
+          nome: data.dados.nome,
+          numArmario: data.dados.numeroArmario ?? "-",
+          dataFim: data.dados.dataExpiracao
+            ? new Date(data.dados.dataExpiracao).toLocaleDateString("pt-BR")
             : "-",
         });
       })

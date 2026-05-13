@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import styles from "./PreCadastroArmario.module.css";
 import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "/src/routes/config/api.js";
+import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 
 function formatarCPF(v) {
   const d = v.replace(/\D/g, "").slice(0, 11);
@@ -28,13 +29,49 @@ function calcularIdade(dataNasc) {
   return idade;
 }
 
-// "nascimento" | "bloqueado" | "menor" | "formulario" | "termos"
+function validarCPF(cpf) {
+  const d = cpf.replace(/\D/g, "");
+  if (d.length !== 11 || /^(\d)\1+$/.test(d)) return false;
+  let soma = 0;
+  for (let i = 0; i < 9; i++) soma += parseInt(d[i]) * (10 - i);
+  let r = (soma * 10) % 11;
+  if (r === 10 || r === 11) r = 0;
+  if (r !== parseInt(d[9])) return false;
+  soma = 0;
+  for (let i = 0; i < 10; i++) soma += parseInt(d[i]) * (11 - i);
+  r = (soma * 10) % 11;
+  if (r === 10 || r === 11) r = 0;
+  return r === parseInt(d[10]);
+}
+
+function validarEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+}
+
+function validarFormulario(form) {
+  if (!form.nome.trim()) return "Informe seu nome completo.";
+  if (form.nome.trim().split(" ").length < 2)
+    return "Informe nome e sobrenome.";
+  if (!form.cpf || form.cpf.replace(/\D/g, "").length !== 11)
+    return "CPF incompleto.";
+  if (!validarCPF(form.cpf)) return "CPF inválido.";
+  if (!form.nascimento) return "Informe sua data de nascimento.";
+  if (!form.email.trim()) return "Informe seu e-mail.";
+  if (!validarEmail(form.email)) return "E-mail inválido.";
+  if (!form.telefone || form.telefone.replace(/\D/g, "").length < 10)
+    return "Telefone incompleto.";
+  if (!form.idCurso) return "Selecione um curso.";
+  if (!form.aceitouTermoArmario) return "Aceite o termo de uso do armário.";
+  if (!form.aceitouTermoSite) return "Aceite os termos de uso do site e LGPD.";
+  return null;
+}
+
 export default function CadastroArmario() {
   const navigate = useNavigate();
   const [etapa, setEtapa] = useState("nascimento");
-  const [erro, setErro] = useState(null);
   const [cursos, setCursos] = useState([]);
   const [turmas, setTurmas] = useState([]);
+  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     nome: "",
     nomeSocial: "",
@@ -51,21 +88,15 @@ export default function CadastroArmario() {
     aceitouTermoArmario: false,
   });
 
-  //carrega todos os cursos ativo
+  // Carrega cursos ativos
   useEffect(() => {
     fetch(API_ROUTES.cursos.carregarCursos)
       .then((r) => r.json())
-      .then((data) => {
-        console.log("cursos recebidos:", data);
-        setCursos(data.dados ?? []);
-      })
-      .catch((err) => {
-        console.error("erro ao carregar cursos:", err);
-        setCursos([]);
-      });
+      .then((data) => setCursos(data.dados ?? []))
+      .catch(() => setCursos([]));
   }, []);
 
-  //puxar turmas por id do curso
+  // Carrega turmas ao trocar de curso
   useEffect(() => {
     if (!form.idCurso) {
       setTurmas([]);
@@ -77,20 +108,6 @@ export default function CadastroArmario() {
       .catch(() => setTurmas([]));
   }, [form.idCurso]);
 
-  //pra pegar o preco de cada servico
-  const [precos, setPrecos] = useState({});
-
-  useEffect(() => {
-    fetch(API_ROUTES.produtos.listar)
-      .then((r) => r.json())
-      .then((data) => {
-        const mapa = {};
-        data.forEach((p) => (mapa[p.produto] = p.preco));
-        setPrecos(mapa);
-      })
-      .catch(() => {});
-  }, []);
-
   const atualizar = (campo) => (e) => {
     let val = e.target.value;
     if (campo === "cpf") val = formatarCPF(val);
@@ -101,21 +118,6 @@ export default function CadastroArmario() {
   function handleCurso(e) {
     const id = e.target.value;
     setForm((p) => ({ ...p, idCurso: id, idTurma: "" }));
-    if (!id) {
-      setTurmas([]);
-      return;
-    }
-
-    fetch(API_ROUTES.turmas.porCurso(id))
-      .then((r) => r.json())
-      .then((data) => {
-        console.log("turmas recebidas:", data);
-        setTurmas(data.dados ?? []);
-      })
-      .catch((err) => {
-        console.error("erro ao carregar turmas:", err);
-        setTurmas([]);
-      });
   }
 
   function handleNascimento(e) {
@@ -128,23 +130,29 @@ export default function CadastroArmario() {
   }
 
   async function handleSubmit() {
+    const erroValidacao = validarFormulario(form);
+    if (erroValidacao) {
+      alertErro(erroValidacao);
+      return;
+    }
+
+    setLoading(true);
+
     const payload = {
       cpf: form.cpf.replace(/\D/g, ""),
-      nome: form.nome,
-      nomeSocial: form.nomeSocial || null,
+      nome: form.nome.trim(),
+      nomeSocial: form.nomeSocial.trim() || null,
       telefone: form.telefone.replace(/\D/g, ""),
-      email: form.email,
-      matricula: form.matricula || null,
+      email: form.email.trim(),
+      matricula: form.matricula.trim() || null,
       dataNasc: form.nascimento,
       idCurso: Number(form.idCurso),
-      idTurma: Number(form.idTurma) || 0,
+      idTurma: form.idTurma ? Number(form.idTurma) : null,
       idTermoSite: form.idTermoSite,
       aceitouTermoSite: form.aceitouTermoSite,
       idTermoArmario: form.idTermoArmario,
       aceitouTermoArmario: form.aceitouTermoArmario,
     };
-
-    console.log("payload enviado:", payload);
 
     try {
       const res = await fetch(API_ROUTES.cadastro.preCadastro, {
@@ -153,21 +161,23 @@ export default function CadastroArmario() {
         body: JSON.stringify(payload),
       });
 
+      const data = await res.json();
+
       if (!res.ok) {
-        const data = await res.json();
-        console.error("Erro do back:", data);
-        setErro(data.mensagem || data.message || "Erro ao cadastrar.");
+        alertErro(data.mensagem || data.message || "Erro ao cadastrar.");
         return;
       }
 
+      alertSucesso("Pré-cadastro realizado com sucesso!");
       navigate("/pagamento");
-    } catch (err) {
-      console.error("Erro de rede:", err);
-      setErro("Erro de conexão com o servidor.");
+    } catch {
+      alertErro("Erro de conexão com o servidor.");
+    } finally {
+      setLoading(false);
     }
   }
 
-  // ── Etapa 1: nascimento ──────────────────────────────────────────────────
+  // ── Etapa: nascimento ────────────────────────────────────────────────────
   if (etapa === "nascimento") {
     return (
       <div className={styles.pagina}>
@@ -201,7 +211,6 @@ export default function CadastroArmario() {
                 }
               />
             </div>
-
             <div className={styles["rodape-card"]}>
               <span>Já possui cadastro?</span>
               <button
@@ -229,13 +238,12 @@ export default function CadastroArmario() {
             </h1>
             <p>Infelizmente não conseguimos prosseguir com o seu cadastro.</p>
           </aside>
-
           <div className={styles.card}>
             <div className={styles.separador}>Cadastro não permitido</div>
             <div className={styles["aviso-bloqueio"]}>
               <p>
                 Você precisa ter <strong>pelo menos 14 anos</strong> para
-                realizar o cadastro na plataforma.
+                realizar o cadastro.
               </p>
             </div>
             <button
@@ -262,36 +270,29 @@ export default function CadastroArmario() {
               <em>necessária</em>
             </h1>
             <p>
-              Por exigência do ECA e da LGPD, menores de 18 anos precisam da
-              autorização de um responsável legal para utilizar nossos serviços.
+              Por exigência do ECA e da LGPD, menores de 18 anos precisam de
+              autorização de um responsável legal.
             </p>
           </aside>
-
           <div className={styles.card}>
             <div className={styles.separador}>O que você precisa fazer</div>
-
             <div className={styles["caixa-termos"]}>
               <p>
                 Como você ainda não tem 18 anos,{" "}
                 <strong>não é possível concluir o cadastro online</strong>. Seu
-                responsável legal deverá comparecer presencialmente à secretaria
-                e assinar o termo de uso do armário.
+                responsável deverá comparecer presencialmente à secretaria.
               </p>
               <p>
-                Você pode imprimir o termo abaixo, preencher os dados e levá-lo
-                já assinado na secretaria da AAPM (localizada perto da
-                biblioteca do Senai) para agilizar o processo.
+                Você pode imprimir o termo abaixo e levá-lo já assinado para
+                agilizar o processo.
               </p>
             </div>
-
             <div className={styles.separador}>Termo de uso do armário</div>
-
             <iframe
               src="/termo-armario.pdf"
               className={styles["iframe-termo"]}
               title="Termo de uso do armário"
             />
-
             <a
               href="/termo-armario.pdf"
               target="_blank"
@@ -305,7 +306,6 @@ export default function CadastroArmario() {
             >
               🖨️ Abrir termo para impressão
             </a>
-
             <div className={styles["rodape-card"]}>
               <button
                 className={styles["btn-secundario"]}
@@ -384,7 +384,9 @@ export default function CadastroArmario() {
             </div>
 
             <div className={styles.linha}>
-              <div className={styles.campo}>
+              <div
+                className={`${styles.campo} ${form.cpf ? styles.filled : ""}`}
+              >
                 <input
                   type="text"
                   placeholder=" "
@@ -476,8 +478,6 @@ export default function CadastroArmario() {
               </div>
             </div>
 
-            {erro && <p className={styles["erro-msg"]}>{erro}</p>}
-
             <div className={styles.separador}>Termos</div>
 
             <a
@@ -521,22 +521,12 @@ export default function CadastroArmario() {
               Li e autorizo o uso dos meus dados conforme a LGPD
             </label>
 
-            {erro && <p className={styles["erro-msg"]}>{erro}</p>}
-
             <button
               className={styles["btn-principal"]}
-              onClick={() => {
-                if (!form.aceitouTermoArmario || !form.aceitouTermoSite) {
-                  setErro(
-                    "Você precisa aceitar os dois termos para continuar.",
-                  );
-                  return;
-                }
-                setErro(null);
-                handleSubmit();
-              }}
+              onClick={handleSubmit}
+              disabled={loading}
             >
-              Confirmar cadastro
+              {loading ? "Enviando..." : "Confirmar cadastro"}
             </button>
 
             <div className={styles["rodape-card"]}>
@@ -553,7 +543,8 @@ export default function CadastroArmario() {
       </div>
     );
   }
-  // ── Etapa: pagamenti ─────────────────────────────────────────────
+
+  // ── Etapa: pagamento ──────────────────────────────────────────────────────
   if (etapa === "pagamento") {
     return (
       <div className={styles.pagina}>
@@ -565,39 +556,31 @@ export default function CadastroArmario() {
               <em>presencial</em>
             </h1>
             <p>
-              Voce precisa realizar o pagamento presencialmente na secretaria da
+              Você precisa realizar o pagamento presencialmente na secretaria da
               AAPM para finalizar sua contratação.
             </p>
           </aside>
-
           <div className={styles.card}>
             <div className={styles.separador}>O que você precisa fazer</div>
-
             <div className={styles["caixa-termos"]}>
               <p>
-                Como atualemente não temos uma solução de pagamento online, o
+                Como atualmente não temos uma solução de pagamento online, o
                 próximo passo é realizar o pagamento presencialmente na
-                secretaria da AAPM. Leve um documento de identificação e o
-                comprovante de pré-cadastro para finalizar sua contratação.
+                secretaria da AAPM.
               </p>
               <p>
-                Mas não se preocupe, o processo é rápido e simples! A equipe da
-                AAPM está pronta para te atender e garantir que tudo seja
-                concluído sem complicações.
+                Leve um documento de identificação e a equipe da AAPM irá te
+                atender.
               </p>
             </div>
-
             <div className={styles.separador}>Pagamento</div>
-
             <div className={styles["aviso-pagamento"]}>
               <p>
                 O valor do aluguel do armário é de{" "}
-                <strong>R$ 20,00 por mês</strong>. O pagamento deve ser
-                realizado na secretaria da AAPM, localizada perto da biblioteca
-                do Senai.
+                <strong>R$ 20,00 por mês</strong>. Pagamento na secretaria da
+                AAPM, perto da biblioteca do Senai.
               </p>
             </div>
-
             <div className={styles["rodape-card"]}>
               <button
                 className={styles["btn-secundario"]}

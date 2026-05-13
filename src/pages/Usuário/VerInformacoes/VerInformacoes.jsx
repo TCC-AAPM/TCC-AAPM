@@ -44,15 +44,15 @@ export default function VerInformacoes() {
   console.log(aluno);
   const campos = aluno
     ? [
-        ["Nome de Usuário", aluno.nome],
-        ["CPF", maskCPF(aluno.cpf)],
-        ["Matrícula", aluno.matricula],
-        ["Telefone", maskPhone(aluno.telefone)],
-        ["Email", aluno.email],
-        ["Data de Nascimento", aluno.dataNascimento],
-        ["Curso", aluno.curso],
-        ["Turma", aluno.turma],
-        ["Pagamento", METODOS[aluno.pagamento]],
+        ["Nome de Usuário", aluno.dados.nome],
+        ["CPF", maskCPF(aluno.dados.cpf)],
+        ["Matrícula", aluno.dados.matricula],
+        ["Telefone", maskPhone(aluno.dados.telefone)],
+        ["Email", aluno.dados.email],
+        ["Data de Nascimento", aluno.dados.dataNasc],
+        ["Curso", aluno.dados.curso],
+        ["Turma", aluno.dados.turma],
+        ["Pagamento", aluno.dados.pagamento],
       ]
     : [];
 
