@@ -36,8 +36,11 @@ function Card({ s }) {
           </div>
         ))}
       </div>
-      
-      <button className={styles.btnContratar} onClick={() => navigate("/cadastro")}>
+
+      <button
+        className={styles.btnContratar}
+        onClick={() => navigate("/cadastro")}
+      >
         <div className={styles.btnBg} />
         <span className={styles.btnLabel}>Contratar Serviço</span>
         <span className={styles.btnArrow}>
@@ -55,15 +58,16 @@ export default function Home() {
   const navigate = useNavigate();
   const [precos, setPrecos] = useState({});
 
+  console.log(precos);
+
   useEffect(() => {
     fetch(API_ROUTES.produtos.listar)
       .then((r) => r.json())
       .then((data) => {
         const mapa = {};
-        data.forEach((p) => (mapa[p.produto] = p.preco));
+        data.dados.forEach((p) => (mapa[p.produto] = p.preco));
         setPrecos(mapa);
       })
-      .catch(() => {});
   }, []);
 
   const services = [
@@ -72,7 +76,7 @@ export default function Home() {
       badgeClass: styles.badgePopular,
       icon: <Icon name="inventory_2" />,
       name: "Armário",
-      produtoKey: "Armário",
+      produtoKey: "A",
       title: "Seja um associado da AAPM",
       price: precos["A"]
         ? `R$ ${precos["A"].toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
@@ -94,7 +98,7 @@ export default function Home() {
       badgeClass: styles.badgeNovo,
       icon: <Icon name="two_wheeler" />,
       name: "Estacionamento",
-      produtoKey: "Estacionamento",
+      produtoKey: "E",
       title: "Vaga de Estacionamento",
       price: precos["E"]
         ? `R$ ${precos["E"].toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
