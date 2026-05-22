@@ -115,52 +115,54 @@ export default function Home() {
 
   return (
     <>
-      <div className={styles.blob1} />
-      <div className={styles.blob2} />
-      <nav className={styles.nav}>
-        <div className={styles.navLogo}>
-          <div className={styles.navLogoBox}>
-            <img
-              src="./src/assets/images/AAPM-Logo.png"
-              alt="AAPM"
-              style={{ width: "100%", height: "100%", objectFit: "contain" }}
-            />
+      <div className={styles.containerGeral}>
+        <div className={styles.blob1} />
+        <div className={styles.blob2} />
+        <nav className={styles.nav}>
+          <div className={styles.navLogo}>
+            <div className={styles.navLogoBox}>
+              <img
+                src="./src/assets/images/AAPM-Logo.png"
+                alt="AAPM"
+                style={{ width: "100%", height: "100%", objectFit: "contain" }}
+              />
+            </div>
+            <div className={styles.navBrand}>
+              AAPM<small>SENAI Osasco</small>
+            </div>
           </div>
-          <div className={styles.navBrand}>
-            AAPM<small>SENAI Osasco</small>
+          <div className={styles.navActions}>
+            <button
+              className={styles.btnGhost}
+              onClick={() => navigate("/login")}
+            >
+              Entrar
+            </button>
           </div>
+        </nav>
+        <div className={styles.hero}>
+          <div className={styles.heroPill}>
+            <span className={styles.pillDot} />
+            Serviços por assinatura
+          </div>
+          <h1>
+            Serviços <em>AAPM</em>
+            <br />
+            Senai Osasco
+          </h1>
+          <p>
+            Assine nossos serviços de armário e estacionamento com praticidade
+            total. Sem burocracia, sem complicação.
+          </p>
         </div>
-        <div className={styles.navActions}>
-          <button
-            className={styles.btnGhost}
-            onClick={() => navigate("/login")}
-          >
-            Entrar
-          </button>
-        </div>
-      </nav>
-      <div className={styles.hero}>
-        <div className={styles.heroPill}>
-          <span className={styles.pillDot} />
-          Serviços por assinatura
-        </div>
-        <h1>
-          Serviços <em>AAPM</em>
-          <br />
-          Senai Osasco
-        </h1>
-        <p>
-          Assine nossos serviços de armário e estacionamento com praticidade
-          total. Sem burocracia, sem complicação.
-        </p>
-      </div>
-      <div className={styles.section}>
-        <div className={styles.sectionEyebrow}>Escolha seu plano</div>
-        <div className={styles.cards}>
-          {services.map((s) => (
-            <Card key={s.name} s={s} />
-          ))}
-        </div>
+        <div className={styles.section}>
+          <div className={styles.sectionEyebrow}>Escolha seu plano</div>
+          <div className={styles.cards}>
+            {services.map((s) => (
+              <Card key={s.name} s={s} />
+            ))}
+          </div>
+        </div>{" "}
       </div>
     </>
   );

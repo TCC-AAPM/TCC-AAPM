@@ -54,6 +54,11 @@
   }
 }
 
+.containerGeral {
+  flex: 1;
+  min-height: calc(100vh - 60px);
+}
+
 .nav {
   position: sticky;
   top: 0;
