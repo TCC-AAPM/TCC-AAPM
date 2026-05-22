@@ -37,10 +37,7 @@ function Card({ s }) {
         ))}
       </div>
 
-      <button
-        className={styles.btnContratar}
-        onClick={() => navigate(s.route)}
-      >
+      <button className={styles.btnContratar} onClick={() => navigate(s.route)}>
         <div className={styles.btnBg} />
         <span className={styles.btnLabel}>Contratar Serviço</span>
         <span className={styles.btnArrow}>
@@ -67,7 +64,7 @@ export default function Home() {
         const mapa = {};
         data.dados.forEach((p) => (mapa[p.produto] = p.preco));
         setPrecos(mapa);
-      })
+      });
   }, []);
 
   const services = [
