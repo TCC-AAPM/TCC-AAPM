@@ -21,11 +21,12 @@ export default function Footer() {
               SENAI de Osasco atua na Escola SENAI "Nadir Dias de Figueiredo".
             </p>
             <div className={styles.socialRow}>
-              <a href="#" className={styles.socialBtn} aria-label="Email">
+              <a
+                href="mailto:aapmsenaiosasco@gmail.com"
+                className={styles.socialBtn}
+                aria-label="Email"
+              >
                 <Email fontSize="small" />
-              </a>
-              <a href="#" className={styles.socialBtn} aria-label="WhatsApp">
-                <WhatsApp fontSize="small" />
               </a>
             </div>
           </div>
@@ -93,14 +94,11 @@ export default function Footer() {
             <h4 className={styles.colTitle}>Suporte</h4>
             <div className={styles.supportItem}>
               <Email fontSize="small" />
-              <a href="#" className={styles.link}>
-                E-mail
-              </a>
-            </div>
-            <div className={styles.supportItem}>
-              <Phone fontSize="small" />
-              <a href="#" className={styles.link}>
-                Fale Conosco
+              <a
+                href="mailto:aapmsenaiosasco@gmail.com"
+                className={styles.link}
+              >
+               Email
               </a>
             </div>
             <div className={styles.supportItem}>
