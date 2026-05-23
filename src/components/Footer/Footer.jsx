@@ -8,10 +8,14 @@ import {
   LocationOn,
   Map,
 } from "@mui/icons-material";
+import { useTheme } from "../../utils/darkMode";
 
 export default function Footer() {
+  const { darkMode } = useTheme();
   return (
-    <footer className={styles.footer}>
+    <footer
+      className={styles.footer} data-theme={darkMode ? "dark" : "light"}
+    >
       <div className={styles.main}>
         <div className={styles.grid}>
           <div className={styles.brand}>
@@ -98,7 +102,7 @@ export default function Footer() {
                 href="mailto:aapmsenaiosasco@gmail.com"
                 className={styles.link}
               >
-               Email
+                Email
               </a>
             </div>
             <div className={styles.supportItem}>

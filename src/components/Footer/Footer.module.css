@@ -200,6 +200,57 @@
   color: #60a5fa;
   font-weight: 500;
 }
+/* LIGHT MODE */
+.light {
+  background: #1a3a6e;
+}
+
+.light .main {
+  background: #0f2654;
+}
+
+.light .brandDesc,
+.light .locationAddr {
+  color: #7aa3d4;
+}
+
+.light .colTitle {
+  color: #93c5fd;
+}
+
+.light .link {
+  color: #7aa3d4;
+}
+
+.light .link:hover {
+  color: #bfdbfe;
+}
+
+.light .socialBtn {
+  background: #1e3a6e;
+  color: #93c5fd;
+}
+
+.light .supportItem {
+  color: #60a5fa;
+}
+
+.light .locationStrip {
+  background: #0f2654;
+  border-top: 0.5px solid #1e3a6e;
+}
+
+.light .locationTitle {
+  color: #ffffff;
+}
+
+.light .bottomBar {
+  background: #07172ec7;
+}
+
+.light .copyright {
+  color: #4a7096;
+}
 
 /* ─── Responsivo ──────────────────────────────────────── */
 @media (max-width: 900px) {
@@ -232,3 +283,4 @@
     justify-content: center;
   }
 }
+
