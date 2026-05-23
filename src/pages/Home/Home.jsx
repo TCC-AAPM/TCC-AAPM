@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import styles from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "../../utils/auth.js";
+import HeaderLogin from "../../components/HeaderLogin/HeaderLogin.jsx";
 
 function Icon({ name }) {
   return <span className="material-symbols-outlined">{name}</span>;
@@ -36,7 +37,6 @@ function Card({ s }) {
           </div>
         ))}
       </div>
-
       <button className={styles.btnContratar} onClick={() => navigate(s.route)}>
         <div className={styles.btnBg} />
         <span className={styles.btnLabel}>Contratar Serviço</span>
@@ -51,11 +51,15 @@ function Card({ s }) {
   );
 }
 
+function formatPrice(valor) {
+  return valor
+    ? `R$ ${valor.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
+    : "---";
+}
+
 export default function Home() {
   const navigate = useNavigate();
   const [precos, setPrecos] = useState({});
-
-  console.log(precos);
 
   useEffect(() => {
     fetch(API_ROUTES.produtos.listar)
@@ -67,103 +71,73 @@ export default function Home() {
       });
   }, []);
 
-  const services = [
-    {
-      badge: "Popular",
-      badgeClass: styles.badgePopular,
-      icon: <Icon name="inventory_2" />,
-      name: "Armário",
-      route: "/cadastro-armario",
-      produtoKey: "A",
-      title: "Seja um associado da AAPM",
-      price: precos["A"]
-        ? `R$ ${precos["A"].toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
-        : "---",
-      period: "/ semestre",
-      desc: "Guarde seus pertences com total segurança durante o período escolar e além disso:",
-      features: [
-        "Armário individual incluso",
-        "Desconto no Curso de Inglês",
-        "Wifi Livre",
-        "Apoio Assistencial",
-        "Ações em datas comemorativas",
-        "Localização próxima às salas de aula",
-        "Ambiente monitorado por câmeras",
-      ],
-    },
-    {
-      badge: "Novo",
-      badgeClass: styles.badgeNovo,
-      icon: <Icon name="two_wheeler" />,
-      name: "Estacionamento",
-      route: "/cadastro-estacionamento",
-      produtoKey: "E",
-      title: "Vaga de Estacionamento",
-      price: precos["E"]
-        ? `R$ ${precos["E"].toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
-        : "---",
-      period: "/ mês",
-      desc: "Disponível nos três turnos, segurança reforçada no período noturno.",
-      features: [
-        "Vaga garantida",
-        "Monitoramento por câmeras",
-        "Turnos manhã, tarde e noite",
-        "Pagamento por Pix",
-      ],
-    },
-  ];
-
   return (
-    <>
-      <div className={styles.containerGeral}>
-        <div className={styles.blob1} />
-        <div className={styles.blob2} />
-        <nav className={styles.nav}>
-          <div className={styles.navLogo}>
-            <div className={styles.navLogoBox}>
-              <img
-                src="./src/assets/images/AAPM-Logo.png"
-                alt="AAPM"
-                style={{ width: "100%", height: "100%", objectFit: "contain" }}
-              />
-            </div>
-            <div className={styles.navBrand}>
-              AAPM<small>SENAI Osasco</small>
-            </div>
-          </div>
-          <div className={styles.navActions}>
-            <button
-              className={styles.btnGhost}
-              onClick={() => navigate("/login")}
-            >
-              Entrar
-            </button>
-          </div>
-        </nav>
-        <div className={styles.hero}>
-          <div className={styles.heroPill}>
-            <span className={styles.pillDot} />
-            Serviços por assinatura
-          </div>
-          <h1>
-            Serviços <em>AAPM</em>
-            <br />
-            Senai Osasco
-          </h1>
-          <p>
-            Assine nossos serviços de armário e estacionamento com praticidade
-            total. Sem burocracia, sem complicação.
-          </p>
+    <div className={styles.containerGeral}>
+      <div className={styles.blob1} />
+      <div className={styles.blob2} />
+      <HeaderLogin></HeaderLogin>
+      <div className={styles.hero}>
+        <div className={styles.heroPill}>
+          <span className={styles.pillDot} />
+          Serviços por assinatura
         </div>
-        <div className={styles.section}>
-          <div className={styles.sectionEyebrow}>Escolha seu plano</div>
-          <div className={styles.cards}>
-            {services.map((s) => (
-              <Card key={s.name} s={s} />
-            ))}
-          </div>
-        </div>{" "}
+        <h1>
+          Serviços <em>AAPM</em>
+          <br />
+          Senai Osasco
+        </h1>
+        <p>
+          Assine nossos serviços de armário e estacionamento com praticidade
+          total. Sem burocracia, sem complicação.
+        </p>
       </div>
-    </>
+
+      <div className={styles.section}>
+        <div className={styles.sectionEyebrow}>Escolha seu plano</div>
+        <div className={styles.cards}>
+          <Card
+            s={{
+              badge: "Popular",
+              badgeClass: styles.badgePopular,
+              icon: <Icon name="inventory_2" />,
+              name: "Armário",
+              route: "/cadastro-armario",
+              title: "Seja um associado da AAPM",
+              price: formatPrice(precos["A"]),
+              period: "/ semestre",
+              desc: "Guarde seus pertences com total segurança durante o período escolar e além disso:",
+              features: [
+                "Armário individual incluso",
+                "Desconto no Curso de Inglês",
+                "Wifi Livre",
+                "Apoio Assistencial",
+                "Ações em datas comemorativas",
+                "Localização próxima às salas de aula",
+                "Ambiente monitorado por câmeras",
+              ],
+            }}
+          />
+          <Card
+            s={{
+              badge: "Novo",
+              badgeClass: styles.badgeNovo,
+              icon: <Icon name="two_wheeler" />,
+              name: "Estacionamento",
+              route: "/cadastro-estacionamento",
+              title: "Vaga de Estacionamento",
+              price: formatPrice(precos["E"]),
+              period: "/ mês",
+              desc: "Disponível nos três turnos, segurança reforçada no período noturno.",
+              features: [
+                "Vaga garantida",
+                "Monitoramento por câmeras",
+                "Turnos manhã, tarde e noite",
+                "Pagamento por Pix",
+              ],
+            }}
+          />
+        </div>
+      </div>
+    </div>
   );
 }

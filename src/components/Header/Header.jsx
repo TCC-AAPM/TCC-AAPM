@@ -1,37 +1,23 @@
-import { useState, useEffect } from "react";
 import styles from "./Header.module.css";
 import logo from "../../assets/images/AAPM-Logo.png";
+import { useTheme } from "../../utils/darkMode";
+import { Sun, Moon } from "lucide-react";
+
 
 export default function Header() {
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("tema") === "dark",
-  );
-
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark-mode");
-      localStorage.setItem("tema", "dark");
-    } else {
-      document.body.classList.remove("dark-mode");
-      localStorage.setItem("tema", "light");
-    }
-  }, [darkMode]);
+  const { darkMode, setDarkMode } = useTheme();
 
   return (
-    
-    <div className={styles.navBar}>
-      <div className={styles.logoAapm}>
-        <img src={logo} alt="Logo da AAPM" height="50" width="50" />
-      </div>
-
-      <button
-        className={styles.toggleDark}
-        onClick={() => setDarkMode(!darkMode)}
-      >
-        {darkMode ? "☀️" : "🌙"}
-      </button>
-
-      <div className={styles.fundoOnda}></div>
-    </div>
+   <nav className={styles.nav}>
+         <img src={logo} alt="AAPM" className={styles.imgLogo} />
+         <div className={styles.navActions}>
+           <button
+             className={styles.toggleDark}
+             onClick={() => setDarkMode(!darkMode)}
+           >
+             {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+           </button>
+         </div>
+       </nav>
   );
 }
