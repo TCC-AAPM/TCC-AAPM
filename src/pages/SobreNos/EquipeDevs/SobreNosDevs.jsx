@@ -15,12 +15,13 @@ export default function SobreNosDevs() {
 
       <div className={styles.hero}>
         <h1>
-          Quem construiu <em>isso</em>
+          Quem desenvolveu <em>tudo</em>
         </h1>
       </div>
 
       <div className={styles.cards}>
-        <div className={styles.card}>
+
+        <a className={styles.card} href="https://lopreti.github.io/meu-portfolio/" target="_blank" rel="noreferrer">
           <div className={styles.photo}>
             <img src={isabellaFoto} alt="Isabella Lopreti" />
           </div>
@@ -38,33 +39,20 @@ export default function SobreNosDevs() {
               <span className={styles.stack}>MUI</span>
             </div>
             <div className={styles.links}>
-              <a
-                className={styles.link}
-                href="https://github.com/lopreti"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a className={styles.link} href="https://github.com/lopreti" target="_blank" rel="noreferrer">
                 <GitHubIcon fontSize="small" /> GitHub
               </a>
-              <a
-                className={styles.link}
-                href="https://www.linkedin.com/in/isabella-lopreti-541619305"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a className={styles.link} href="https://www.linkedin.com/in/isabella-lopreti-541619305" target="_blank" rel="noreferrer">
                 <LinkedInIcon fontSize="small" /> LinkedIn
               </a>
-              <a
-                className={styles.link}
-                href="mailto:lopretiisabella@gmail.com"
-              >
+              <a className={styles.link} href="mailto:lopretiisabella@gmail.com">
                 <EmailIcon fontSize="small" /> E-mail
               </a>
             </div>
           </div>
-        </div>
+        </a>
 
-        <div className={`${styles.card} ${styles.cardRight}`}>
+        <a className={`${styles.card} ${styles.cardRight}`} href="https://devgabrielduarte07.github.io/Portfolio-Gabriel/" target="_blank" rel="noreferrer">
           <div className={styles.info}>
             <span className={styles.role}>Backend · API</span>
             <h2 className={styles.name}>Gabriel Duarte</h2>
@@ -80,27 +68,13 @@ export default function SobreNosDevs() {
               <span className={styles.stack}>JWT</span>
             </div>
             <div className={styles.links}>
-              <a
-                className={styles.link}
-                href="https://github.com/devGabrielDuarte07"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a className={styles.link} href="https://github.com/devGabrielDuarte07" target="_blank" rel="noreferrer">
                 <GitHubIcon fontSize="small" /> GitHub
               </a>
-              <a
-                className={styles.link}
-                href="https://www.linkedin.com/in/gabriel-duarte-bb25542b7/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                {" "}
+              <a className={styles.link} href="https://www.linkedin.com/in/gabriel-duarte-bb25542b7/" target="_blank" rel="noreferrer">
                 <LinkedInIcon fontSize="small" /> LinkedIn
               </a>
-              <a
-                className={styles.link}
-                href="mailto:dev.gabrielduarte07@gmail.com"
-              >
+              <a className={styles.link} href="mailto:dev.gabrielduarte07@gmail.com">
                 <EmailIcon fontSize="small" /> E-mail
               </a>
             </div>
@@ -108,14 +82,14 @@ export default function SobreNosDevs() {
           <div className={styles.photo}>
             <img src={gabrielFoto} alt="Gabriel Duarte" />
           </div>
-        </div>
+        </a>
 
-        <div className={styles.card}>
+        <a className={styles.card} href="https://rhuanvieira.github.io/portfolio/" target="_blank" rel="noreferrer">
           <div className={styles.photo}>
-             <img src={rhuanFoto} alt="Rhuan Vieira" />
+            <img src={rhuanFoto} alt="Rhuan Vieira" />
           </div>
           <div className={styles.info}>
-            <span className={styles.role}> Mobile · Full Stack </span>
+            <span className={styles.role}>Mobile · Full Stack</span>
             <h2 className={styles.name}>Rhuan Vieira</h2>
             <p className={styles.bio}>
               Desenvolveu a versão mobile da plataforma AAPM — um aplicativo em
@@ -127,20 +101,10 @@ export default function SobreNosDevs() {
               <span className={styles.stack}>Android Studio</span>
             </div>
             <div className={styles.links}>
-              <a
-                className={styles.link}
-                href="https://github.com/RhuanVieira"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a className={styles.link} href="https://github.com/RhuanVieira" target="_blank" rel="noreferrer">
                 <GitHubIcon fontSize="small" /> GitHub
               </a>
-              <a
-                className={styles.link}
-                href="https://www.linkedin.com/in/rhuanvieira79bb0b35b/"
-                target="_blank"
-                rel="noreferrer"
-              >
+              <a className={styles.link} href="https://www.linkedin.com/in/rhuanvieira79bb0b35b/" target="_blank" rel="noreferrer">
                 <LinkedInIcon fontSize="small" /> LinkedIn
               </a>
               <a className={styles.link} href="mailto:@email.com">
@@ -148,7 +112,8 @@ export default function SobreNosDevs() {
               </a>
             </div>
           </div>
-        </div>
+        </a>
+
       </div>
     </div>
   );
