@@ -3,6 +3,10 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import EmailIcon from "@mui/icons-material/Email";
 
+import isabellaFoto from "../../../assets/images/isabella.jpeg";
+import gabrielFoto from "../../../assets/images/gabriel.jpg"
+import rhuanFoto from "../../../assets/images/rhuan.jpg"
+
 export default function SobreNosDevs() {
   return (
     <div className={styles.containerGeral}>
@@ -18,7 +22,7 @@ export default function SobreNosDevs() {
       <div className={styles.cards}>
         <div className={styles.card}>
           <div className={styles.photo}>
-            <span className={styles.initials}>IL</span>
+            <img src={isabellaFoto} alt="Isabella Lopreti" />
           </div>
           <div className={styles.info}>
             <span className={styles.role}>Frontend · UI/UX</span>
@@ -102,15 +106,13 @@ export default function SobreNosDevs() {
             </div>
           </div>
           <div className={styles.photo}>
-            {" "}
-            <span className={styles.initials}>GD</span>
+            <img src={gabrielFoto} alt="Gabriel Duarte" />
           </div>
         </div>
 
         <div className={styles.card}>
           <div className={styles.photo}>
-            {" "}
-            <span className={styles.initials}>RV</span>
+             <img src={rhuanFoto} alt="Rhuan Vieira" />
           </div>
           <div className={styles.info}>
             <span className={styles.role}> Mobile · Full Stack </span>
