@@ -35,9 +35,9 @@ export default function HeaderUsuario() {
     sessionStorage.removeItem("token");
     navigate("/", { replace: true });
   }
+
   return (
-    <>
-      {/* OVERLAY */}
+    <div data-theme={darkMode ? "dark" : "light"}>
       <div
         className={`${styles.overlay} ${menuAberto ? styles.visivel : ""}`}
         onClick={() => setMenuAberto(false)}
@@ -57,15 +57,11 @@ export default function HeaderUsuario() {
           </button>
           <img src={logo} alt="AAPM" className={styles.imgLogo} />
         </div>
-        <button
-          className={styles.toggleDark}
-          onClick={() => setDarkMode(!darkMode)}
-        >
+        <button className={styles.toggleDark} onClick={() => setDarkMode(!darkMode)}>
           {darkMode ? <Sun size={18} /> : <Moon size={18} />}
         </button>
       </nav>
 
-      {/* MENU LATERAL */}
       <div
         ref={menuRef}
         className={`${styles.menuFlutuante} ${menuAberto ? styles.abrir : ""}`}
@@ -76,21 +72,13 @@ export default function HeaderUsuario() {
         </div>
 
         <div className={styles.menu}>
-          <button onClick={() => navigate("/usuario/ver-informacoes")}>
-           Veja seus dados
-          </button>
-          <button onClick={() => navigate("/usuario/modificar-senha")}>
-           Modificar senha
-          </button>
-          <button onClick={() => navigate("/usuario/deletar-conta")}>
-           Deletar conta
-          </button>
+          <button onClick={() => navigate("/usuario/ver-informacoes")}>Veja seus dados</button>
+          <button onClick={() => navigate("/usuario/modificar-senha")}>Modificar senha</button>
+          <button onClick={() => navigate("/usuario/deletar-conta")}>Deletar conta</button>
         </div>
 
-        <button className={styles.btnSair} onClick={sair}>
-         Sair
-        </button>
+        <button className={styles.btnSair} onClick={sair}>Sair</button>
       </div>
-    </>
+    </div>
   );
 }
