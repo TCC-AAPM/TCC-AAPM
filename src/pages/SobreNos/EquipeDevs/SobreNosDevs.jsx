@@ -18,7 +18,6 @@ export default function SobreNosDevs() {
       <div className={styles.cards}>
         <div className={styles.card}>
           <div className={styles.photo}>
-            {/* <img src="/assets/images/isabella.jpg" alt="Isabella Lopreti" /> */}
             <span className={styles.initials}>IL</span>
           </div>
           <div className={styles.info}>
@@ -27,7 +26,7 @@ export default function SobreNosDevs() {
             <p className={styles.bio}>
               Criou toda a interface do sistema, dos wireframes no Figma aos
               componentes em React. Definiu a identidade visual da AAPM e
-              garantiu uma experiência fluida em todos os fluxos.
+              garantiu uma experiência fluida.
             </p>
             <div className={styles.stacks}>
               <span className={styles.stack}>React</span>
@@ -103,14 +102,14 @@ export default function SobreNosDevs() {
             </div>
           </div>
           <div className={styles.photo}>
-            {/* <img src="/assets/images/marcos.jpg" alt="Marcos Oliveira" /> */}
+            {" "}
             <span className={styles.initials}>GD</span>
           </div>
         </div>
 
         <div className={styles.card}>
           <div className={styles.photo}>
-            {/* <img src="/assets/images/ana.jpg" alt="Ana Lima" /> */}
+            {" "}
             <span className={styles.initials}>RV</span>
           </div>
           <div className={styles.info}>
