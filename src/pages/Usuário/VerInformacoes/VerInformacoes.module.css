@@ -3,10 +3,10 @@
   max-width: 420px;
   margin: 0 auto;
   display: flex;
-  flex-direction: column;      
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1.5rem;                  
+  gap: 1.5rem;
   min-height: calc(100vh - 60px);
   padding: 20px;
   padding-top: 80px;
@@ -24,56 +24,9 @@
   align-items: center;
   margin-bottom: 1.5rem;
 }
+
 .entreAqui :global(.material-symbols-outlined) {
   font-size: 60px;
-}
-
-.btnMenu {
-  position: absolute;
-  top: 0.5rem;
-  right: 5rem;
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  z-index: 20;
-}
-.btnMenu :global(.material-symbols-outlined) {
-  font-size: 40px;
-  color: white;
-}
-
-.menuFlutuante {
-  position: fixed;
-  top: -100vh;
-  right: 0;
-  left: 0;
-  background-color: var(--light-blue);
-  padding-top: 70px;
-  transition: top 0.3s ease;
-  z-index: 15;
-  box-shadow: 0 4px 8px rgba(151, 175, 255, 0.2);
-}
-.menuFlutuante.abrir {
-  top: 0;
-}
-
-.menu {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-  padding: 0 1rem;
-}
-.menu a,
-.menu button {
-  font-size: 18px;
-  padding: 10px;
-  color: white;
-  text-decoration: none;
-  background: none;
-  border: none;
-  text-align: left;
-  cursor: pointer;
-  transition: background 0.3s;
 }
 
 .card {
@@ -91,6 +44,7 @@
   padding: 16px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.15);
 }
+
 .infoSection:last-child {
   border-bottom: none;
 }
@@ -101,39 +55,30 @@
   color: rgba(255, 255, 255, 0.7);
   margin-bottom: 5px;
 }
+
 .infoValue {
   font-size: 15px;
   color: white;
 }
 
 .voltar {
-  margin-top: 1.5rem;
+  position: fixed;
+  bottom: 10%;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.15);
   color: white;
-  background: none;
-  border: none;
-  cursor: pointer;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
   font-size: 15px;
+  transition: all 0.3s;
+}
+
+.voltar:hover {
+  background: rgba(255, 255, 255, 0.25);
 }
 
 @media (min-width: 910px) {
-  .menuFlutuante {
-    position: fixed;
-    top: 0;
-    left: -250px;
-    right: auto;
-    width: 250px;
-    height: 100vh;
-    padding-top: 100px;
-    transition: left 0.3s ease;
-  }
-  .menuFlutuante.abrir {
-    left: 0;
-  }
-  .menu a:hover,
-  .menu button:hover {
-    background-color: #3b82f6;
-  }
-
   .card {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -146,21 +91,4 @@
   .principalBox {
     padding-top: 4rem;
   }
-}
-
-.voltar {
-    position: fixed;
-    bottom: 10%;
-    left: 20px;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 15px;
-    transition: all var(--transition);
-}
-
-.voltar:hover {
-    background: rgba(255, 255, 255, 0.25);
 }

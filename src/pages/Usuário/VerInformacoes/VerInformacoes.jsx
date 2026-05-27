@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./VerInformacoes.module.css";
-import Menu from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
+import HeaderUsuario from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
 
 const maskCPF = (v) =>
   v
@@ -58,11 +58,10 @@ export default function VerInformacoes() {
 
   return (
     <>
+      <HeaderUsuario />
       <div className={styles.containerGeral}>
-        <div className={styles.princiaplBox}>
-          <div className={styles.topBar}>
-            <Menu aberto={menuAberto} setAberto={setMenuAberto} />
-          </div>
+        <div className={styles.principalBox}>
+          <div className={styles.topBar}></div>
           <div className={styles.entreAqui}>
             <span className="material-symbols-outlined">info</span>
             <h3>Veja seus dados</h3>

@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./ModificarSenha.module.css";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 import { useNavigate } from "react-router-dom";
-import Menu from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
+import HeaderUsuario from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
 
 function verificarSenha(senha) {
   const erros = [];
@@ -83,11 +83,9 @@ export default function ModificarSenha() {
 
   return (
     <>
+      <HeaderUsuario />
       <div className={styles.containerGeral}>
         <div className={styles.principalBox}>
-          <div className={styles.topBar}>
-            <Menu aberto={menuAberto} setAberto={setMenuAberto} />
-          </div>
           <div className={styles.entreAqui}>
             <h1 className="material-symbols-outlined">lock_reset</h1>
             <h3>Modifique sua senha</h3>

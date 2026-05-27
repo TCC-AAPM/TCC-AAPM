@@ -45,6 +45,7 @@ export default function HeaderUsuario() {
 
       <nav className={styles.nav}>
         <div className={styles.left}>
+          <img src={logo} alt="AAPM" className={styles.imgLogo} />
           <button
             ref={btnRef}
             className={styles.btnMenu}
@@ -55,9 +56,11 @@ export default function HeaderUsuario() {
           >
             <span className="material-symbols-outlined">menu</span>
           </button>
-          <img src={logo} alt="AAPM" className={styles.imgLogo} />
         </div>
-        <button className={styles.toggleDark} onClick={() => setDarkMode(!darkMode)}>
+        <button
+          className={styles.toggleDark}
+          onClick={() => setDarkMode(!darkMode)}
+        >
           {darkMode ? <Sun size={18} /> : <Moon size={18} />}
         </button>
       </nav>
@@ -72,12 +75,20 @@ export default function HeaderUsuario() {
         </div>
 
         <div className={styles.menu}>
-          <button onClick={() => navigate("/usuario/ver-informacoes")}>Veja seus dados</button>
-          <button onClick={() => navigate("/usuario/modificar-senha")}>Modificar senha</button>
-          <button onClick={() => navigate("/usuario/deletar-conta")}>Deletar conta</button>
+          <button onClick={() => navigate("/usuario/ver-informacoes")}>
+            Veja seus dados
+          </button>
+          <button onClick={() => navigate("/usuario/modificar-senha")}>
+            Modificar senha
+          </button>
+          <button onClick={() => navigate("/usuario/deletar-conta")}>
+            Deletar conta
+          </button>
         </div>
 
-        <button className={styles.btnSair} onClick={sair}>Sair</button>
+        <button className={styles.btnSair} onClick={sair}>
+          Sair
+        </button>
       </div>
     </div>
   );
