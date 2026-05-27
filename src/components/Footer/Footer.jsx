@@ -9,13 +9,13 @@ import {
   Map,
 } from "@mui/icons-material";
 import { useTheme } from "../../utils/darkMode";
+import { useNavigate } from "react-router-dom";
 
 export default function Footer() {
   const { darkMode } = useTheme();
+  const navigate = useNavigate();
   return (
-    <footer
-      className={styles.footer} data-theme={darkMode ? "dark" : "light"}
-    >
+    <footer className={styles.footer} data-theme={darkMode ? "dark" : "light"}>
       <div className={styles.main}>
         <div className={styles.grid}>
           <div className={styles.brand}>
@@ -39,12 +39,10 @@ export default function Footer() {
             <h4 className={styles.colTitle}>Quem Somos</h4>
             <ul className={styles.linkList}>
               <li>
-                <a href="#" className={styles.link}>
-                  Nós AAPM
-                </a>
+                <a className={styles.link}>Nós AAPM</a>
               </li>
               <li>
-                <a href="#" className={styles.link}>
+                <a onClick={() => navigate("/sobre-nos-devs")} className={styles.link}>
                   Nós Desenvolvedores
                 </a>
               </li>
