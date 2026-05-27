@@ -39,7 +39,9 @@ export default function Footer() {
             <h4 className={styles.colTitle}>Quem Somos</h4>
             <ul className={styles.linkList}>
               <li>
-                <a className={styles.link}>Nós AAPM</a>
+                <a onClick={() => navigate("/sobre-nos-aapm")} className={styles.link}>
+                  Nós AAPM
+                </a>
               </li>
               <li>
                 <a onClick={() => navigate("/sobre-nos-devs")} className={styles.link}>

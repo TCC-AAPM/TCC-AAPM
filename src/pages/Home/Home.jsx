@@ -109,8 +109,6 @@ export default function Home() {
               features: [
                 "Armário individual incluso",
                 "Desconto no Curso de Inglês",
-                "Wifi Livre",
-                "Apoio Assistencial",
                 "Ações em datas comemorativas",
                 "Localização próxima às salas de aula",
                 "Ambiente monitorado por câmeras",
@@ -130,9 +128,10 @@ export default function Home() {
               desc: "Disponível nos três turnos, segurança reforçada no período noturno.",
               features: [
                 "Vaga garantida",
+                "Empresa parceira de segurança",
                 "Monitoramento por câmeras",
                 "Turnos manhã, tarde e noite",
-                "Pagamento por Pix",
+                "Pagamento apenas presencialmente",
               ],
             }}
           />

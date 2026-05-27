@@ -4,6 +4,7 @@ import PrivateRoute from "./PrivateRoute";
 import Home from "../pages/Home/Home.jsx";
 import Login from "../pages/Login/Index.jsx";
 import SobreNosDevs from "../pages/SobreNos/EquipeDevs/SobreNosDevs.jsx";
+import SobreNosAAPM from "../pages/SobreNos/EquipeAAPM/SobreNosAAPM.jsx"
 import CadastroArmario from "../pages/PreCadastro/Armario/PreCadastroArmario.jsx";
 import AcessoNegado from "../pages/AcessoNegado/AcessoNegado.jsx";
 
@@ -29,6 +30,7 @@ export default function AppRoutes() {
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
       <Route path="/sobre-nos-devs" element= {<SobreNosDevs />} />
+      <Route path="/sobre-nos-aapm" element= {<SobreNosAAPM />} />
       <Route path="/cadastro-armario" element={<CadastroArmario />} />
       <Route path="/acesso-negado" element={<AcessoNegado />} />
       <Route path="/senha/esqueci" element={<EsqueciSenha />} />
