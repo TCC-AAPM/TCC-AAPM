@@ -1,4 +1,7 @@
 import styles from "./SobreNosDevs.module.css";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import EmailIcon from "@mui/icons-material/Email";
 
 export default function SobreNosDevs() {
   return (
@@ -38,7 +41,7 @@ export default function SobreNosDevs() {
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub
+                <GitHubIcon fontSize="small" /> GitHub
               </a>
               <a
                 className={styles.link}
@@ -46,13 +49,13 @@ export default function SobreNosDevs() {
                 target="_blank"
                 rel="noreferrer"
               >
-                LinkedIn
+                <LinkedInIcon fontSize="small" /> LinkedIn
               </a>
               <a
                 className={styles.link}
                 href="mailto:lopretiisabella@gmail.com"
               >
-                E-mail
+                <EmailIcon fontSize="small" /> E-mail
               </a>
             </div>
           </div>
@@ -80,7 +83,7 @@ export default function SobreNosDevs() {
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub
+                <GitHubIcon fontSize="small" /> GitHub
               </a>
               <a
                 className={styles.link}
@@ -88,13 +91,14 @@ export default function SobreNosDevs() {
                 target="_blank"
                 rel="noreferrer"
               >
-                LinkedIn
+                {" "}
+                <LinkedInIcon fontSize="small" /> LinkedIn
               </a>
               <a
                 className={styles.link}
                 href="mailto:dev.gabrielduarte07@gmail.com"
               >
-                E-mail
+                <EmailIcon fontSize="small" /> E-mail
               </a>
             </div>
           </div>
@@ -113,8 +117,9 @@ export default function SobreNosDevs() {
             <span className={styles.role}> Mobile · Full Stack </span>
             <h2 className={styles.name}>Rhuan Vieira</h2>
             <p className={styles.bio}>
-              Desenvolveu a versão mobile da plataforma AAPM — um aplicativo em Flutter
-              que replica as funcionalidades do site e está atualmente em beta.
+              Desenvolveu a versão mobile da plataforma AAPM — um aplicativo em
+              Flutter que replica as funcionalidades do site e está atualmente
+              em beta.
             </p>
             <div className={styles.stacks}>
               <span className={styles.stack}>Flutter</span>
@@ -127,7 +132,7 @@ export default function SobreNosDevs() {
                 target="_blank"
                 rel="noreferrer"
               >
-                GitHub
+                <GitHubIcon fontSize="small" /> GitHub
               </a>
               <a
                 className={styles.link}
@@ -135,10 +140,10 @@ export default function SobreNosDevs() {
                 target="_blank"
                 rel="noreferrer"
               >
-                LinkedIn
+                <LinkedInIcon fontSize="small" /> LinkedIn
               </a>
               <a className={styles.link} href="mailto:@email.com">
-                E-mail
+                <EmailIcon fontSize="small" /> E-mail
               </a>
             </div>
           </div>
