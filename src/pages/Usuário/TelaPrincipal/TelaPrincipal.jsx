@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./TelaPrincipal.module.css";
-import Menu from "../../../components/MenuUsuario/Menu.jsx";
+import Menu from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
+import HeaderUsuario from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
 
 export default function TelaPrincipal() {
   const navigate = useNavigate();
-  const [menuAberto, setMenuAberto] = useState(false);
   const [dados, setDados] = useState({
     nome: "",
     numArmario: "-",
@@ -37,9 +37,7 @@ export default function TelaPrincipal() {
 
   return (
     <div className={styles.containerGeral}>
-      <div className={styles.topBar}>
-        <Menu aberto={menuAberto} setAberto={setMenuAberto}/>
-      </div>
+      <HeaderUsuario />
 
       <div className={styles.principalBox}>
         <p className={styles.saudacao}>Olá, {dados.nome || "Usuário"}!</p>

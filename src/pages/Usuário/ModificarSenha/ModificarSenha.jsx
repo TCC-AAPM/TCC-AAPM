@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./ModificarSenha.module.css";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 import { useNavigate } from "react-router-dom";
-import Menu from "../../../components/MenuUsuario/Menu.jsx";
+import Menu from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
 
 function verificarSenha(senha) {
   const erros = [];

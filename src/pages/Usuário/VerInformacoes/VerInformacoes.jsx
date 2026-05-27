@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./VerInformacoes.module.css";
-import Menu from "../../../components/MenuUsuario/Menu.jsx";
+import Menu from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
 
 const maskCPF = (v) =>

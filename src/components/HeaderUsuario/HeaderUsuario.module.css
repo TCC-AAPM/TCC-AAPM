@@ -1,0 +1,179 @@
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 28px;
+  background: transparent;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.imgLogo {
+  width: 3rem;
+  height: 52px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.toggleDark {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.6);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+
+.toggleDark:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.btnMenu {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: rgba(255, 255, 255, 0.8);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.btnMenu:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+
+.btnMenu .material-symbols-outlined {
+  font-size: 1.4rem;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  top: 56px;
+  z-index: 98;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.menuFlutuante {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 260px;
+  height: 100vh;
+  background: #0f2654;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 999;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 80px 16px 32px;
+}
+
+.menuFlutuante.abrir {
+  left: 0;
+}
+
+.menuHeader {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menuLogo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.menuTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.menu button {
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: rgba(255, 255, 255, 0.65);
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.18s;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu button:hover {
+  background: rgba(255, 255, 255, 0.07);
+  color: #fff;
+  padding-left: 18px;
+}
+
+.btnSair {
+  background: transparent;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: rgba(239, 68, 68, 0.7);
+  border-radius: 10px;
+  padding: 10px 14px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.18s;
+}
+
+.btnSair:hover {
+  background: rgba(239, 68, 68, 0.08);
+  color: #f87171;
+  padding-left: 18px;
+}
+
+@media (max-width: 767px) {
+  .menuFlutuante {
+    width: 100%;
+    left: -100%;
+    top: 0;
+    transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .menuFlutuante.abrir {
+    left: 0;
+  }
+}

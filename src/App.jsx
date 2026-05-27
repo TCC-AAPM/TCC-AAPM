@@ -8,7 +8,7 @@ import ScrollSubir from "./utils/scrollSubir";
 function Layout() {
   const location = useLocation();
 
-  const rotasSemHeader = "/"; // rotas com header próprio
+  const rotasSemHeader = ["/",  "/usuario/tela-principal", "/usuario/ver-informacoes", "/usuario/modificar-senha", "/usuario/deletar-conta"]; // rotas com header próprio
   const rotasSemFooter = ["/usuario/deletar-conta"];
 
   const semHeader = rotasSemHeader.includes(location.pathname);
