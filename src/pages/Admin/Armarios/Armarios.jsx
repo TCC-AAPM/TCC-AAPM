@@ -22,16 +22,34 @@ export default function Armarios() {
       "Content-Type": "application/json",
     };
 
-    async function carregar() {
-      const [arm, usr] = await Promise.all([
-        fetch(API_ROUTES.armarios.listar, { headers }).then((r) => r.json()),
-        fetch(API_ROUTES.armarios.comReserva, { headers }).then((r) =>
-          r.json(),
-        ),
-      ]);
-      setArmarios(arm);
-      setUsuarios(usr);
-    }
+   async function carregar() {
+  try {
+    const respostaArmarios = await fetch(
+      API_ROUTES.armarios.listar,
+      { headers },
+    );
+
+    const respostaUsuarios = await fetch(
+      API_ROUTES.reservas.comReserva,
+      { headers },
+    );
+
+    const arm = await respostaArmarios.json();
+    const usr = await respostaUsuarios.json();
+
+    console.log("ARMARIOS:", arm);
+    console.log("USUARIOS:", usr);
+
+    setArmarios(Array.isArray(arm.dados) ? arm.dados : []);
+
+    setUsuarios(Array.isArray(usr.dados) ? usr.dados : []);
+  } catch (erro) {
+    console.error(erro);
+
+    setArmarios([]);
+    setUsuarios([]);
+  }
+}
 
     carregar().catch(console.error);
   }, []);

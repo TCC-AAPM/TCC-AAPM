@@ -518,8 +518,15 @@ export default function CadastroArmario() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  Política de Privacidade e LGPD
-                </a>
+                  Política de Privacidade e LGPD {""}
+                </a> 
+                 e com os <a
+                  href="/termos-site.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Termos de Uso do Site
+                </a> 
               </span>
             </label>
 

@@ -11,7 +11,6 @@ export const API_ROUTES = {
 
   armarios: {
     listar: `${BASE_URL}/Armarios`,
-    comReserva: `${BASE_URL}/Armarios/com-reserva`,
   },
 
   cursos: {
@@ -25,6 +24,7 @@ export const API_ROUTES = {
   reservas: {
     reservas: `${BASE_URL}/Reservas`,
     recadastrarReserva: `${BASE_URL}/Reservas/recadastrar`, //nao usando
+    comReserva: "/api/Reservas/com-reserva"
   },
 
   produtos: {
