@@ -23,7 +23,7 @@ namespace API_backEnd.Services
                     IdTurma = c.Id,
                     NomeTurma = c.Turma,
                     IdCurso = c.CursoId,
-                    Periodo = (PeriodoTurma)Enum.Parse(typeof(PeriodoTurma), c.Periodo),
+                    Periodo = Enum.Parse<PeriodoTurma>(c.Periodo),
                     SemestreInicio = c.SemestreInicio
                 })
                 .ToList();

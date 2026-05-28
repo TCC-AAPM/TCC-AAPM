@@ -1,65 +1,65 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\",
+  "WorkspaceRootPath": "C:\\Users\\gabriel\\Desktop\\API-aapm\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\emailtemplates\\emailtemplates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\emailtemplates\\emailtemplates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\emailtemplates\\emailtemplates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\api-aapm.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\api-aapm.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\api-aapm.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\settings\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\settings\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\settings\\emailsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\turmascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\turmascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\turmascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\armarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\armarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\armarioscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\termocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\termocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\termocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\reservascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\reservascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\reservascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\produtoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\produtoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\produtoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\esquecisenhacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\esquecisenhacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\esquecisenhacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\cursoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\cursoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\cursoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\biel1\\onedrive\\\u00E1rea de trabalho\\api-aapm\\api-backend\\controllers\\cadastrocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\gabriel\\desktop\\api-aapm\\api-backend\\controllers\\cadastrocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\cadastrocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -70,60 +70,53 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 3,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
-            },
             {
               "$type": "Document",
               "DocumentIndex": 1,
               "Title": "EmailTemplates.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\EmailTemplates\\EmailTemplates.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\EmailTemplates\\EmailTemplates.cs",
               "RelativeDocumentMoniker": "API-backEnd\\EmailTemplates\\EmailTemplates.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\EmailTemplates\\EmailTemplates.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\EmailTemplates\\EmailTemplates.cs",
               "RelativeToolTip": "API-backEnd\\EmailTemplates\\EmailTemplates.cs",
               "ViewState": "AgIAAGIAAAAAAAAAAAAowJsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T16:56:37.797Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T16:56:37.797Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "API-aapm",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\API-aapm.csproj",
+              "Title": "API-aapm.csproj",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\API-aapm.csproj",
               "RelativeDocumentMoniker": "API-backEnd\\API-aapm.csproj",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\API-aapm.csproj",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\API-aapm.csproj",
               "RelativeToolTip": "API-backEnd\\API-aapm.csproj",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-05-09T16:56:05.821Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T16:56:05.821Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
               "Title": "EmailSettings.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Settings\\EmailSettings.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Settings\\EmailSettings.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Settings\\EmailSettings.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Settings\\EmailSettings.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Settings\\EmailSettings.cs",
               "RelativeToolTip": "API-backEnd\\Settings\\EmailSettings.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T16:54:12.377Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T16:54:12.377Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
               "Title": "EmailService.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Services\\EmailService.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Services\\EmailService.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Services\\EmailService.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Services\\EmailService.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Services\\EmailService.cs",
               "RelativeToolTip": "API-backEnd\\Services\\EmailService.cs",
-              "ViewState": "AgIAABgAAAAAAAAAAAA1wDUAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAABkAAAAAAAAAAAAQwDUAAAARAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-09T16:53:53.014Z",
               "EditorCaption": ""
@@ -132,22 +125,21 @@
               "$type": "Document",
               "DocumentIndex": 4,
               "Title": "TurmasController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\TurmasController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\TurmasController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\TurmasController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\TurmasController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\TurmasController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\TurmasController.cs",
               "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T13:46:39.045Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-07T13:46:39.045Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
               "Title": "TermoController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\TermoController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\TermoController.cs",
               "ViewState": "AgIAAEEAAAAAAAAAAAAmwGwAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -157,9 +149,9 @@
               "$type": "Document",
               "DocumentIndex": 9,
               "Title": "ReservasController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\ReservasController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\ReservasController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\ReservasController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\ReservasController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\ReservasController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\ReservasController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -169,9 +161,9 @@
               "$type": "Document",
               "DocumentIndex": 10,
               "Title": "ProdutosController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\ProdutosController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\ProdutosController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\ProdutosController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\ProdutosController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\ProdutosController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\ProdutosController.cs",
               "ViewState": "AgIAAA0AAAAAAAAAAAA4wDgAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -181,9 +173,9 @@
               "$type": "Document",
               "DocumentIndex": 11,
               "Title": "LoginController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\LoginController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\LoginController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\LoginController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\LoginController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\LoginController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\LoginController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -193,9 +185,9 @@
               "$type": "Document",
               "DocumentIndex": 12,
               "Title": "EsqueciSenhaController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\EsqueciSenhaController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\EsqueciSenhaController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\EsqueciSenhaController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\EsqueciSenhaController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\EsqueciSenhaController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\EsqueciSenhaController.cs",
               "ViewState": "AgIAACMAAAAAAAAAAAAmwE4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -205,9 +197,9 @@
               "$type": "Document",
               "DocumentIndex": 13,
               "Title": "CursosController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\CursosController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\CursosController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\CursosController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\CursosController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\CursosController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\CursosController.cs",
               "ViewState": "AgIAADYAAAAAAAAAAAAmwGEAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -217,22 +209,21 @@
               "$type": "Document",
               "DocumentIndex": 5,
               "Title": "ArmariosController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\ArmariosController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\ArmariosController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\ArmariosController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\ArmariosController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\ArmariosController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\ArmariosController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T13:43:11.236Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-07T13:43:11.236Z"
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
               "Title": "UsuarioController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\UsuarioController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\UsuarioController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\UsuarioController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\UsuarioController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\UsuarioController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\UsuarioController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAApAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -242,9 +233,9 @@
               "$type": "Document",
               "DocumentIndex": 6,
               "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Program.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Program.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Program.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Program.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Program.cs",
               "RelativeToolTip": "API-backEnd\\Program.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAgwDgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -254,9 +245,9 @@
               "$type": "Document",
               "DocumentIndex": 14,
               "Title": "CadastroController.cs",
-              "DocumentMoniker": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\CadastroController.cs",
+              "DocumentMoniker": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\CadastroController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\CadastroController.cs",
-              "ToolTip": "C:\\Users\\biel1\\OneDrive\\\u00C1rea de Trabalho\\API-aapm\\API-backEnd\\Controllers\\CadastroController.cs",
+              "ToolTip": "C:\\Users\\gabriel\\Desktop\\API-aapm\\API-backEnd\\Controllers\\CadastroController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\CadastroController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
