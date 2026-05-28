@@ -480,14 +480,6 @@ export default function CadastroArmario() {
 
             <div className={styles.separador}>Termos</div>
 
-            <a
-              href="/termo-armario.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles["btn-link"]}
-            >
-              📄 Termo de uso do armário
-            </a>
             <label className={styles["check-termo"]}>
               <input
                 type="checkbox"
@@ -499,17 +491,18 @@ export default function CadastroArmario() {
                   }))
                 }
               />
-              Li e concordo com os termos de uso do armário
+              <span>
+                Li e estou de acordo com o{" "}
+                <a
+                  href="/termo-armario.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Termo de Uso do Armário
+                </a>
+              </span>
             </label>
 
-            <a
-              href="/termos-site.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles["btn-link"]}
-            >
-              📄 Termos de uso do site e LGPD
-            </a>
             <label className={styles["check-termo"]}>
               <input
                 type="checkbox"
@@ -518,7 +511,16 @@ export default function CadastroArmario() {
                   setForm((p) => ({ ...p, aceitouTermoSite: e.target.checked }))
                 }
               />
-              Li e autorizo o uso dos meus dados conforme a LGPD
+              <span>
+                Li e autorizo o uso dos meus dados conforme a{" "}
+                <a
+                  href="/termos-site.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  Política de Privacidade e LGPD
+                </a>
+              </span>
             </label>
 
             <button
