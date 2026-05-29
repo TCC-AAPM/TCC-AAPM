@@ -252,6 +252,56 @@
   color: #4a7096;
 }
 
+/* ===================================================== */
+/* FOOTER USUÁRIO */
+/* ===================================================== */
+
+.userFooter {
+  background: #1a3a6e;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.userContainer {
+  background: #0f2654;
+  padding: 2rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+/* ===================================================== */
+/* FOOTER ADMIN */
+/* ===================================================== */
+
+.adminFooter {
+  background: #1a3a6e;
+  border-radius: 16px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.adminText {
+  background: #0f2654;
+  padding: 1rem 2rem;
+  color: #7aa3d4;
+  font-size: 12px;
+  text-align: center;
+  margin: 0;
+}
+
+/* ===================================================== */
+/* RESPONSIVO */
+/* ===================================================== */
+
+@media (max-width: 768px) {
+  .userContainer {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ─── Responsivo ──────────────────────────────────────── */
 @media (max-width: 900px) {
   .grid {
