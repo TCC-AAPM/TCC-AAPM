@@ -18,26 +18,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: white;
+  color: var(--white);
   font-weight: 600;
   font-size: 15px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid var(--border-glass-strong);
   margin-bottom: 20px;
-}
-
-.btnMenu {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--white);
-  position: absolute;
-  right: 70px;
-  top: 12px;
-}
-
-.btnMenu .material-symbols-outlined,
-.btnMenu span {
-  font-size: 3rem;
 }
 
 .formControl {
@@ -45,23 +30,23 @@
   max-width: 700px;
   border-radius: 18px;
   padding: 12px 20px;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: white;
+  background: var(--border-glass);
+  border: 1px solid var(--border-glass-strong);
+  color: var(--white);
   font-size: 14px;
   backdrop-filter: blur(8px);
-  transition: all 0.3s ease;
+  transition: all var(--transition);
 }
 
 .formControl::placeholder {
-  color: rgba(255, 255, 255, 0.6);
+  color: var(--text-white-soft);
 }
 
 .formControl:focus {
   outline: none;
-  background: rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.08);
+  background: var(--border-glass-mid);
+  border-color: var(--text-white-high);
+  box-shadow: 0 0 0 3px var(--border-glass);
 }
 
 .filtros {
@@ -81,20 +66,12 @@
   font-weight: 500;
   color: var(--white);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition);
   opacity: 0.8;
 }
 
 .filtroBtn:hover {
   opacity: 1;
-}
-
-.filtroPendente {
-  background: linear-gradient(135deg, #6366f1 0%, #4338ca 100%);
-}
-
-.filtroAtrasado {
-  background: linear-gradient(135deg, #f97316 0%, #c2410c 100%);
 }
 
 .filtroBtn.ativo {
@@ -104,15 +81,23 @@
 }
 
 .filtroOcupado {
-  background: linear-gradient(135deg, #e63946 0%, #a4161b 100%);
+  background: linear-gradient(135deg, var(--color-ocupado) 0%, var(--color-ocupado-dark) 100%);
 }
 
 .filtroDisponivel {
-  background: linear-gradient(135deg, #14b8a6 0%, #0f766def 100%);
+  background: linear-gradient(135deg, var(--color-disponivel) 0%, var(--color-disponivel-dark) 100%);
 }
 
 .filtroManutencao {
-  background: linear-gradient(135deg, #f59e0b 0%, #d97706e8 100%);
+  background: linear-gradient(135deg, var(--color-manutencao) 0%, var(--color-manutencao-dark) 100%);
+}
+
+.filtroPendente {
+  background: linear-gradient(135deg, var(--color-pendente) 0%, var(--color-pendente-dark) 100%);
+}
+
+.filtroAtrasado {
+  background: linear-gradient(135deg, var(--color-atrasado) 0%, var(--color-atrasado-dark) 100%);
 }
 
 .cardsArea {
@@ -136,13 +121,15 @@
   font-weight: 500;
   cursor: pointer;
   outline: none;
-  border: 2px solid #ccc;
-  transition: all 0.2s ease;
+  border: 1px solid var(--border-glass-strong);
+  background: var(--light-blue);
+  color: var(--white);
+  transition: all var(--transition);
 }
 
 .select:hover,
 .select:focus {
-  border-color: var(--light-blue);
+  border-color: var(--blue);
 }
 
 .atualizarEstado {
@@ -153,7 +140,7 @@
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all var(--transition);
   background-color: var(--dark-blue);
   color: var(--white);
   border: none;
@@ -173,14 +160,14 @@
   font-size: 15px;
   font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
-  color: white;
+  transition: all var(--transition);
+  color: var(--white);
   border: none;
 }
 
 .btnExcluir:hover {
   transform: scale(1.05);
-  background-color: #a4161b;
+  background-color: var(--color-ocupado-dark);
 }
 
 .btnAtualizar:hover {
@@ -190,12 +177,12 @@
 
 .textarea {
   width: 100%;
-  background-color: var(--white);
-  border: none;
+  background: var(--light-blue);
+  border: 1px solid var(--border-glass-strong);
   border-radius: 16px;
   padding: 10px 10px;
   font-size: 16px;
-  color: rgb(0, 0, 0);
+  color: var(--white);
   outline: none;
   transition: all var(--transition);
   min-height: 110px;
@@ -205,7 +192,7 @@
 }
 
 .textarea::placeholder {
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--text-white-soft);
 }
 
 .textarea:focus {
@@ -221,7 +208,7 @@
   display: block;
   font-size: 14px;
   font-weight: 500;
-  color: white;
+  color: var(--white);
   margin-bottom: 0.75rem;
 }
 
@@ -239,11 +226,12 @@
   border: none;
   font-size: 14px;
   font-weight: 500;
-  color: black;
+  color: var(--white);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition);
   opacity: 0.8;
-  background: var(--white);
+  background: var(--border-glass);
+  border: 1px solid var(--border-glass-mid);
   white-space: nowrap;
   flex: 1 1 auto;
   min-width: 150px;
@@ -267,26 +255,26 @@
 
 .textareaBox .formControl {
   width: 100%;
-  background-color: var(--white) !important;
-  border: none;
+  background: var(--light-blue);
+  border: 1px solid var(--border-glass-strong);
   border-radius: 12px;
   padding: 14px 18px;
   font-size: 16px;
-  color: rgb(0, 0, 0);
+  color: var(--white);
   outline: none;
-  transition: all 0.3s ease;
+  transition: all var(--transition);
   min-height: 110px;
 }
 
 .textareaBox .formControl::placeholder {
-  color: rgba(0, 0, 0, 0.7);
+  color: var(--text-white-soft);
 }
 
 .textareaBox .formControl:focus {
-  background-color: var(--white) !important;
+  background-color: var(--light-blue);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   transform: translateY(-2px);
-  color: #000;
+  color: var(--white);
 }
 
 .curso {
@@ -347,6 +335,7 @@
     padding: 6px 12px;
     font-size: 12px;
   }
+
   .cardsArea {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: 3rem;

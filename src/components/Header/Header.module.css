@@ -1,16 +1,3 @@
-.toggleDark {
-  width: 34px;
-  height: 34px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  background: transparent;
-  color: var(--text-secondary);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .nav {
   position: sticky;
   top: 0;
@@ -20,7 +7,13 @@
   justify-content: space-between;
   padding: 6px 28px;
   backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid var(--border-glass);
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .imgLogo {
@@ -29,25 +22,219 @@
   object-fit: contain;
   border-radius: 8px;
 }
+
 .navActions {
   display: flex;
   gap: 8px;
 }
 
+.toggleDark {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border-glass-mid);
+  background: transparent;
+  color: var(--text-white-high);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.toggleDark:hover {
+  background: var(--border-glass);
+  color: var(--white);
+}
+
 .btnGhost {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid var(--border);
-  color: rgba(255, 255, 255, 0.8);
+  background: var(--border-glass);
+  border: 1px solid var(--border-glass-mid);
+  color: var(--text-white-high);
   padding: 7px 16px;
   border-radius: 8px;
   font-family: inherit;
   font-size: 13px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--transition);
 }
 
 .btnGhost:hover {
-  background: rgba(255, 255, 255, 0.14);
-  border-color: var(--border-hover);
-  color: #fff;
+  background: var(--border-glass-mid);
+  border-color: var(--border-glass-strong);
+  color: var(--white);
+}
+
+.btnIconAction {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  border: 1px solid var(--border-glass-mid);
+  background: transparent;
+  color: var(--text-white-high);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition);
+}
+
+.btnIconAction:hover {
+  background: var(--border-glass);
+  color: var(--white);
+}
+
+.btnIconAction .material-symbols-outlined {
+  font-size: 1.35rem;
+}
+
+.btnMenu {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--text-white-high);
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: all var(--transition);
+}
+
+.btnMenu:hover {
+  background: var(--border-glass);
+  color: var(--white);
+}
+
+.btnMenu .material-symbols-outlined {
+  font-size: 1.4rem;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  top: 56px;
+  z-index: 98;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+
+.menuFlutuante {
+  position: fixed;
+  top: 0;
+  left: -280px;
+  width: 260px;
+  height: 100vh;
+  background: var(--navy-deep);
+  border-right: 1px solid var(--border-glass);
+  z-index: 999;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  padding: 80px 16px 32px;
+}
+
+.menuFlutuante.abrir {
+  left: 0;
+}
+
+.menuHeader {
+  position: absolute;
+  top: 16px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menuLogo {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+}
+
+.menuTitle {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-white-high);
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.menu button {
+  background: transparent;
+  border: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: var(--text-white-soft);
+  font-size: 14px;
+  font-family: inherit;
+  transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.menu button:hover {
+  background: var(--border-glass);
+  color: var(--white);
+  padding-left: 18px;
+}
+
+.btnSair {
+  background: transparent;
+  border: 1px solid var(--danger-bg);
+  color: var(--danger);
+  border-radius: 10px;
+  padding: 10px 14px;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all var(--transition);
+}
+
+.btnSair:hover {
+  background: var(--danger-bg);
+  color: var(--white);
+  padding-left: 18px;
+}
+
+[data-theme="light"] .menuFlutuante {
+  background-color: var(--light-blue);
+  border-right: 1px solid var(--border-glass);
+}
+
+[data-theme="light"] .btnSair {
+  background: var(--danger-bg);
+  color: var(--white);
+}
+
+[data-theme="light"] .btnSair:hover {
+  background: var(--danger);
+  color: var(--white);
+  padding-left: 18px;
+}
+
+@media (max-width: 767px) {
+  .menuFlutuante {
+    width: 100%;
+    left: -100%;
+    top: 0;
+  }
+
+  .menuFlutuante.abrir {
+    left: 0;
+  }
 }

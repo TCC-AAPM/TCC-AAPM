@@ -2,7 +2,6 @@ import { useState } from "react";
 import styles from "./ModificarSenha.module.css";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 import { useNavigate } from "react-router-dom";
-import HeaderUsuario from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
 
 function verificarSenha(senha) {
   const erros = [];
@@ -38,7 +37,6 @@ function PasswordInput({ id, label, value, onChange }) {
 
 export default function ModificarSenha() {
   const navigate = useNavigate();
-  const [menuAberto, setMenuAberto] = useState(false);
   const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
@@ -83,7 +81,6 @@ export default function ModificarSenha() {
 
   return (
     <>
-      <HeaderUsuario />
       <div className={styles.containerGeral}>
         <div className={styles.principalBox}>
           <div className={styles.entreAqui}>

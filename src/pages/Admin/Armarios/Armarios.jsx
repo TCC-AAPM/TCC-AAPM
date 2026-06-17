@@ -102,13 +102,6 @@ export default function Armarios() {
 
   return (
     <>
-      <button
-        className={styles.btnMenu}
-        onClick={() => navigate("/admin/gestao-admin")}
-      >
-        <span className="material-symbols-outlined">menu</span>
-      </button>
-
       <div className={styles.principalBox}>
         <div className="container-lg mb-3">
           <div className={styles.inputPesquisa}>

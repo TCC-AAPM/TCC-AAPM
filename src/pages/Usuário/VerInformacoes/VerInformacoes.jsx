@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./VerInformacoes.module.css";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
-import HeaderUsuario from "../../../components/HeaderUsuario/HeaderUsuario.jsx";
 
 const maskCPF = (v) =>
   v
@@ -21,7 +20,6 @@ const METODOS = { A: "Dinheiro", P: "Pix", D: "Débito", C: "Crédito" };
 export default function VerInformacoes() {
   const navigate = useNavigate();
   const [aluno, setAluno] = useState(null);
-  const [menuAberto, setMenuAberto] = useState(false);
 
   useEffect(() => {
     const usuario = getUsuarioLogado();
@@ -58,7 +56,6 @@ export default function VerInformacoes() {
 
   return (
     <>
-      <HeaderUsuario />
       <div className={styles.containerGeral}>
         <div className={styles.principalBox}>
           <div className={styles.topBar}></div>

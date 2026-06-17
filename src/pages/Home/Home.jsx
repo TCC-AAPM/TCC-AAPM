@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import styles from "./Home.module.css";
 import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "../../utils/auth.js";
-import HeaderLogin from "../../components/HeaderLogin/HeaderLogin.jsx";
 
 function Icon({ name }) {
   return <span className="material-symbols-outlined">{name}</span>;
@@ -58,7 +57,6 @@ function formatPrice(valor) {
 }
 
 export default function Home() {
-  const navigate = useNavigate();
   const [precos, setPrecos] = useState({});
 
   useEffect(() => {
@@ -75,7 +73,6 @@ export default function Home() {
     <div className={styles.containerGeral}>
       <div className={styles.blob1} />
       <div className={styles.blob2} />
-      <HeaderLogin></HeaderLogin>
       <div className={styles.hero}>
         <div className={styles.heroPill}>
           <span className={styles.pillDot} />

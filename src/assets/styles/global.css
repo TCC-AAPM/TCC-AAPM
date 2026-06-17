@@ -1,337 +1,552 @@
+/* ============================================================
+   global.css — AAPM SENAI Osasco
+   Paleta centralizada. Edite aqui para mudar cores em todo o
+   projeto. Cada variável tem comentário de onde é usada.
+   ============================================================ */
+
 :root {
-    /* Cores principais */
-    --blue: #3B82F6;
-    --back-blue: #1E40AF;
-    --dark-blue: #0A1E52;
-    --light-blue: #1E3A8A;
-    --white: #FFFFFF;
+  /* ──────────────────────────────────────────────────────────
+     AZUIS PRINCIPAIS
+     Paleta core. Usada em botões, fundos, inputs, headers.
+     ────────────────────────────────────────────────────────── */
 
-    /* Tema claro (padrão) */
-    --bg-primary: #ffffff;
-    --bg-secondary: #f8fafc;
-    --bg-card: #ffffff;
-    --text-primary: #000000cb;
-    --text-secondary: #64748b;
-    --border-color: #e2e8f0;
+  --blue: #3b82f6;
+  /* → global.css: form-check:checked, swal-btn-confirmar hover, swal progress bar
+     → Home.module.css: badges, surface2, bg2, btnContratar
+     → PreCadastroArmario.module.css: passo-num.ativo, check-termo accent
+     → SobreNosAAPM.module.css: h1 em (cor accent)
+     → Armarios.module.css: filtroDisponivel (parcial) */
 
-    /* Backgrounds */
-    --background-light: url("../images/fundo-tela.svg");
-    --background-dark: url("../images/fundo-tela-dark.svg");
+  --back-blue: #1e40af;
+  /* → global.css: swal-btn-cancelar hover
+     → Dashboard.module.css: dark-mode card hover */
 
-    /* Transições */
-    --transition: 0.3s ease;
+  --dark-blue: #0a1e52;
+  /* → global.css: btn-primary bg, dark-mode --bg-primary/--bg-card, swal dark bg
+     → PopupModal.module.css: .pop background, btn-editar/excluir bg
+     → CadastrarUsuario.module.css: .btnPrimary
+     → TelaPrincipal.module.css: dark-mode .card
+     → Home.module.css: --bg */
 
+  --light-blue: #1e3a8a;
+  /* → global.css: inputs/selects background, dark-mode --bg-secondary
+     → CardArmario.module.css: .card background base
+     → TelaPrincipal.module.css: .card background
+     → GestaoAdmin.module.css: .cartao background
+     → global.css: swal-btn-cancelar bg */
+
+  --white: #ffffff;
+  /* → global.css: dark-mode --text-primary, .material-symbols-outlined
+     → Quase todos os módulos para textos sobre fundo azul */
+
+  /* ──────────────────────────────────────────────────────────
+     AZUIS DE SUPERFÍCIE
+     Tons intermediários hardcoded nos módulos.
+     ────────────────────────────────────────────────────────── */
+
+  --navy-deep: #0f2654;
+  /* → Footer.module.css: .main bg, .locationStrip bg, .bottomBar bg
+     → Header.module.css: .menuFlutuante background */
+
+  --navy-mid: #1a3a6e;
+  /* → Footer.module.css: .footer bg, .adminFooter bg, .userFooter bg
+     → Footer.module.css: .socialBtn bg, borders internos */
+
+  --navy-action: #2563eb;
+  /* → Footer.module.css: .mapBtn bg, .socialBtn hover, link underline
+     → Home.module.css: --bg2, btnContratar, badges */
+
+  --navy-input: rgba(30, 58, 138, 0.6);
+  /* → CadastrarUsuario.module.css: .formControl e .formSelect background */
+
+  --navy-input-focus: rgba(30, 58, 138, 0.8);
+  /* → CadastrarUsuario.module.css: inputs/selects focus state */
+
+  --glass-surface: rgba(33, 85, 175, 0.05);
+  /* → Login.module.css: .principalBox background
+     → PreCadastroArmario.module.css: .card background */
+
+  --glass-card: rgba(22, 58, 160, 0.5);
+  /* → SobreNosDevs.module.css: .card background
+     → SobreNosAAPM.module.css: .cardTexto, .cardFoto background */
+
+  /* ──────────────────────────────────────────────────────────
+     ESTADOS DOS ARMÁRIOS
+     Gradientes e bases para os cards e filtros de armário.
+     ────────────────────────────────────────────────────────── */
+
+  --color-ocupado: #e63946;
+  --color-ocupado-dark: #a4161b;
+  /* → CardArmario.module.css: .ocupado gradient
+     → Armarios.module.css: .filtroOcupado, .btnExcluir hover */
+
+  --color-disponivel: #14b8a6;
+  --color-disponivel-dark: #0f766d;
+  /* → CardArmario.module.css: .disponivel gradient
+     → Armarios.module.css: .filtroDisponivel */
+
+  --color-manutencao: #f59e0b;
+  --color-manutencao-dark: #d97706;
+  /* → CardArmario.module.css: .manutencao gradient
+     → Armarios.module.css: .filtroManutencao */
+
+  --color-pendente: #6366f1;
+  --color-pendente-dark: #4338ca;
+  /* → CardArmario.module.css: .pendente gradient
+     → Armarios.module.css: .filtroPendente */
+
+  --color-atrasado: #f97316;
+  --color-atrasado-dark: #c2410c;
+  /* → CardArmario.module.css: .atrasado gradient
+     → Armarios.module.css: .filtroAtrasado */
+
+  /* ──────────────────────────────────────────────────────────
+     DANGER / DESTRUTIVO
+     Ações de exclusão e avisos críticos.
+     ────────────────────────────────────────────────────────── */
+
+  --danger: #e24b4a;
+  /* → DeletarConta.module.css: .btnExcluir bg, .aviso border-left
+     → PopupModal.module.css: .btn-excluir hover */
+
+  --danger-dark: #c43c3b;
+  /* → DeletarConta.module.css: .btnExcluir hover */
+
+  --danger-bg: rgba(226, 75, 74, 0.15);
+  /* → DeletarConta.module.css: .aviso background */
+
+  /* ──────────────────────────────────────────────────────────
+     TEMA CLARO (tokens semânticos)
+     Sobrescritos no dark mode abaixo.
+     ────────────────────────────────────────────────────────── */
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-card: #ffffff;
+  --text-primary: #000000cb;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  /* → global.css: .card, inputs base, body color
+     → AcessoNegado.module.css: .erroCard bg (#fff — pode migrar) */
+
+  /* ──────────────────────────────────────────────────────────
+     TEXTO SOBRE FUNDOS ESCUROS
+     Hierarquia tipográfica em brancos com opacidade.
+     ────────────────────────────────────────────────────────── */
+
+  --text-white-high: rgba(255, 255, 255, 0.8);
+  /* → Header.module.css: .btnMenu color, .toggleDark color
+     → global.css: form-control placeholder */
+
+  --text-white-soft: rgba(255, 255, 255, 0.5);
+  /* → PreCadastroArmario.module.css: .campo label color
+     → SobreNosDevs.module.css: .bio color
+     → SobreNosAAPM.module.css: .bio color */
+
+  --text-white-muted: rgba(255, 255, 255, 0.35);
+  /* → PreCadastroArmario.module.css: .separador color
+     → DeletarConta.module.css: .inputSenha placeholder */
+
+  --text-footer-link: #7aa3d4;
+  /* → Footer.module.css: .brandDesc, .link (idle), .locationAddr */
+
+  --text-footer-title: #93c5fd;
+  /* → Footer.module.css: .colTitle, .socialBtn color */
+
+  --text-footer-support: #60a5fa;
+  /* → Footer.module.css: .supportItem color, .locationPin */
+
+  --text-card-muted: rgba(200, 220, 255, 0.6);
+  /* → SobreNosDevs.module.css: .role color
+     → SobreNosAAPM.module.css: .role color */
+
+  --text-card-soft: #c9dae7;
+  /* → GestaoAdmin.module.css: .cartao p color */
+
+  /* ──────────────────────────────────────────────────────────
+     BORDAS E GLASSMORPHISM
+     Bordas sutis para painéis com backdrop-filter.
+     ────────────────────────────────────────────────────────── */
+
+  --border-glass: rgba(255, 255, 255, 0.08);
+  /* → Header.module.css: .nav border-bottom
+     → Login.module.css: .principalBox border
+     → SobreNosDevs.module.css: .card border
+     → SobreNosAAPM.module.css: .card border */
+
+  --border-glass-mid: rgba(255, 255, 255, 0.12);
+  /* → Header.module.css: .toggleDark border, .menuFlutuante border-right
+     → DeletarConta.module.css: .modal border */
+
+  --border-glass-strong: rgba(255, 255, 255, 0.2);
+  /* → PreCadastroArmario.module.css: .campo input/select border
+     → DeletarConta.module.css: .btnCancelar border */
+
+  --border-footer: #1e3a6e;
+  /* → Footer.module.css: todos os divisores hr internos */
+
+  /* ──────────────────────────────────────────────────────────
+     BACKGROUNDS
+     Imagens de fundo do body.
+     ────────────────────────────────────────────────────────── */
+
+  --background-light: url("../images/fundo-tela.svg");
+  --background-dark: url("../images/fundo-tela-dark.svg");
+  /* → global.css: body background-image */
+
+  /* ──────────────────────────────────────────────────────────
+     TRANSIÇÕES
+     Padrão global de animação.
+     ────────────────────────────────────────────────────────── */
+
+  --transition: 0.3s ease;
+  /* → global.css: inputs, cards, botões
+     → Armarios.module.css: filtros e cards
+     → CardArmario.module.css: .card transition */
 }
 
-/* ========== DARK MODE ========== */
+/* ============================================================
+   DARK MODE
+   Sobrescreve só os tokens semânticos que mudam de tema.
+   ============================================================ */
+
 body.dark-mode {
-    --bg-primary: var(--dark-blue);
-    --bg-secondary: var(--light-blue);
-    --bg-card: var(--dark-blue);
-    --text-primary: var(--white);
-    --text-secondary: #CBD5E1;
-    --border-color: #334155;
-    --background-light: var(--background-dark);
+  --bg-primary: var(--dark-blue);
+  --bg-secondary: var(--light-blue);
+  --bg-card: var(--dark-blue);
+  --text-primary: var(--white);
+  --text-secondary: #cbd5e1;
+  --border-color: #334155;
+  --background-light: var(--background-dark);
 }
 
-/* ========== RESET ========== */
+/* ============================================================
+   RESET
+   ============================================================ */
+
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 html {
-    overflow-x: hidden;
+  overflow-x: hidden;
 }
 
-/* ========== BASE ========== */
+/* ============================================================
+   BASE
+   ============================================================ */
 
 body {
-    font-family: "Poppins", sans-serif;
-    background-image: url("../images/fundo-tela.svg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    color: var(--text-primary);
-    transition: background-color var(--transition), color var(--transition);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    overflow-x: hidden;
+  font-family: "Poppins", sans-serif;
+  background-image: url("../images/fundo-tela.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  color: var(--text-primary);
+  transition:
+    background-color var(--transition),
+    color var(--transition);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
 }
 
 body.dark-mode {
-    background-image: url("../images/fundo-tela-dark.svg");
+  background-image: url("../images/fundo-tela-dark.svg");
 }
 
 a {
-    color: var(--blue);
-    text-decoration: none;
-    transition: color var(--transition);
+  color: var(--blue);
+  text-decoration: none;
+  transition: color var(--transition);
 }
 
 a:hover {
-    color: var(--dark-blue);
+  color: var(--dark-blue);
 }
 
 .dark-mode a:hover {
-    color: var(--white);
+  color: var(--white);
 }
 
-/* ========== ÍCONES ========== */
+/* ============================================================
+   ÍCONES
+   ============================================================ */
+
 .material-symbols-outlined {
-    color: white;
+  color: white;
 }
 
-/* ========== FORMULÁRIOS ========== */
+/* ============================================================
+   FORMULÁRIOS
+   ============================================================ */
 
-/* Inputs e Selects */
 .input-box input,
 .info-input,
 .select-box select,
 .form-control {
-    width: 100%;
-    height: 60px;
-    background-color: var(--light-blue);
-    border: none;
-    border-radius: 18px;
-    padding: 0 20px;
-    font-size: 16px;
-    color: white;
-    outline: none;
-    transition: all var(--transition);
+  width: 100%;
+  height: 60px;
+  background-color: var(--light-blue);
+  border: none;
+  border-radius: 18px;
+  padding: 0 20px;
+  font-size: 16px;
+  color: white;
+  outline: none;
+  transition: all var(--transition);
 }
 
 .form-control::placeholder,
 .input-box input::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
 
 .form-control:focus,
 .select-box select:focus,
 .input-box input:focus {
-    background-color: rgba(30, 58, 138, 0.85);
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5);
-    border: 2px solid rgba(147, 197, 253, 0.8);
-    color: white;
+  background-color: rgba(30, 58, 138, 0.85);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5);
+  border: 2px solid rgba(147, 197, 253, 0.8);
+  color: white;
 }
 
-/* Select customizado */
 .select-box {
-    position: relative;
+  position: relative;
 }
 
 .select-box select {
-    appearance: none;
+  appearance: none;
 }
 
-/* Dark mode - Inputs */
 .dark-mode .form-control,
 .dark-mode .input-box input,
 .dark-mode .select-box select {
-    background-color: var(--dark-blue);
-    color: var(--white);
-    border: 2px solid rgba(59, 130, 246, 0.3);
+  background-color: var(--dark-blue);
+  color: var(--white);
+  border: 2px solid rgba(59, 130, 246, 0.3);
 }
 
 .dark-mode .form-control:focus,
 .dark-mode .input-box input:focus,
 .dark-mode .select-box select:focus {
-    background-color: rgba(18, 23, 65, 0.493);
-    border-color: var(--blue);
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+  background-color: rgba(18, 23, 65, 0.493);
+  border-color: var(--blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
 }
 
 .dark-mode .form-select {
-    background-color: rgba(30, 58, 138, 0.5);
-    color: var(--white);
-    border: 2px solid rgba(59, 130, 246, 0.3);
+  background-color: rgba(30, 58, 138, 0.5);
+  color: var(--white);
+  border: 2px solid rgba(59, 130, 246, 0.3);
 }
 
-/* Checkbox */
 .form-check-input {
-    background-color: white;
-    border: none;
-    cursor: pointer;
+  background-color: white;
+  border: none;
+  cursor: pointer;
 }
 
 .form-check-input:checked {
-    background-color: var(--blue);
+  background-color: var(--blue);
 }
 
 .form-check-label {
-    color: white;
-    cursor: pointer;
+  color: white;
+  cursor: pointer;
 }
 
-/* ========== BOTÕES ========== */
+/* ============================================================
+   BOTÕES
+   ============================================================ */
+
 .btn-primary {
-    background-color: var(--dark-blue);
-    border: none;
-    border-radius: 18px;
-    font-weight: 500;
-    transition: all var(--transition);
-    padding: 12px 24px;
+  background-color: var(--dark-blue);
+  border: none;
+  border-radius: 18px;
+  font-weight: 500;
+  transition: all var(--transition);
+  padding: 12px 24px;
 }
 
 .btn-primary:hover {
-    background-color: var(--dark-blue);
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  background-color: var(--dark-blue);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Dark mode - Botões */
 .dark-mode .btn-primary {
-    background-color: var(--blue);
-    color: var(--white);
+  background-color: var(--blue);
+  color: var(--white);
 }
 
-/* ========== CARDS ========== */
+/* ============================================================
+   CARDS
+   ============================================================ */
+
 .card {
-    background-color: var(--bg-card);
-    border: none;
-    border-radius: 18px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: all var(--transition);
+  background-color: var(--bg-card);
+  border: none;
+  border-radius: 18px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition);
 }
 
 .card:hover {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transform: translateY(-2px);
 }
 
-/* Dark mode - Cards */
 .dark-mode .card {
-    background-color: var(--bg-card);
-    border: none;
-    color: var(--text-primary);
+  background-color: var(--bg-card);
+  border: none;
+  color: var(--text-primary);
 }
 
-/* ========== PERFIL ========== */
+/* ============================================================
+   PERFIL
+   ============================================================ */
+
 .perfil {
-    position: absolute;
-    top: 20px;
-    right: 80px;
+  position: absolute;
+  top: 20px;
+  right: 80px;
 }
 
 .perfil span {
-    font-size: 40px;
+  font-size: 40px;
 }
 
-/* ========== BOTÃO VOLTAR ========== */
+/* ============================================================
+   BOTÃO VOLTAR
+   ============================================================ */
+
 .voltar {
-    position: fixed;
-    bottom: 10%;
-    left: 20px;
-    background: rgba(255, 255, 255, 0.15);
-    color: white;
-    padding: 12px 20px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-size: 15px;
-    transition: all var(--transition);
+  position: fixed;
+  bottom: 10%;
+  left: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all var(--transition);
 }
 
 .voltar:hover {
-    background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.25);
 }
 
+/* ============================================================
+   MENU FLUTUANTE
+   ============================================================ */
 
-/* ========== MENU FLUTUANTE ========== */
 .dark-mode .menu-flutuante {
-    background-color: var(--dark-blue);
-    color: var(--white);
+  background-color: var(--dark-blue);
+  color: var(--white);
 }
 
-/* ========== UTILITÁRIOS ========== */
+/* ============================================================
+   UTILITÁRIOS
+   ============================================================ */
+
 .transition-all {
-    transition: all var(--transition);
+  transition: all var(--transition);
 }
 
 .hover-lift:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
 }
 
 .dark-mode .text-muted {
-    color: var(--text-secondary);
+  color: var(--text-secondary);
 }
 
-/* ========== RESPONSIVO ========== */
+/* ============================================================
+   RESPONSIVO
+   ============================================================ */
+
 @media (max-width: 768px) {
-    .voltar {
-        display: none;
-    }
+  .voltar {
+    display: none;
+  }
 
-    .perfil {
-        right: 20px;
-    }
+  .perfil {
+    right: 20px;
+  }
 }
-/* ========== SWEETALERT2 ========== */
+
+/* ============================================================
+   SWEETALERT2
+   ============================================================ */
+
 .swal-popup {
-    border-radius: 16px !important;
-    font-family: "Poppins", sans-serif !important;
-    background-color: var(--bg-card) !important;
-    color: var(--text-primary) !important;
+  border-radius: 16px !important;
+  font-family: "Poppins", sans-serif !important;
+  background-color: var(--bg-card) !important;
+  color: var(--text-primary) !important;
 }
 
 .swal2-title {
-    font-family: "Poppins", sans-serif !important;
-    font-size: 1rem !important;
-    color: var(--text-primary) !important;
+  font-family: "Poppins", sans-serif !important;
+  font-size: 1rem !important;
+  color: var(--text-primary) !important;
 }
 
 .swal2-html-container {
-    font-family: "Poppins", sans-serif !important;
-    color: var(--text-secondary) !important;
+  font-family: "Poppins", sans-serif !important;
+  color: var(--text-secondary) !important;
 }
 
 .swal-btn-confirmar {
-    background-color: var(--dark-blue) !important;
-    border-radius: 10px !important;
-    font-family: "Poppins", sans-serif !important;
-    padding: 10px 24px !important;
+  background-color: var(--dark-blue) !important;
+  border-radius: 10px !important;
+  font-family: "Poppins", sans-serif !important;
+  padding: 10px 24px !important;
 }
 
 .swal-btn-confirmar:hover {
-    background-color: var(--blue) !important;
+  background-color: var(--blue) !important;
 }
 
 .swal-btn-cancelar {
-    background-color: var(--light-blue) !important;
-    border-radius: 10px !important;
-    font-family: "Poppins", sans-serif !important;
-    padding: 10px 24px !important;
+  background-color: var(--light-blue) !important;
+  border-radius: 10px !important;
+  font-family: "Poppins", sans-serif !important;
+  padding: 10px 24px !important;
 }
 
 .swal-btn-cancelar:hover {
-    background-color: var(--back-blue) !important;
+  background-color: var(--back-blue) !important;
 }
 
 .dark-mode .swal-popup {
-    background-color: #0A1E52 !important; 
+  background-color: var(--dark-blue) !important;
 }
 
 .dark-mode .swal2-title {
-    color: #FFFFFF !important;
+  color: var(--white) !important;
 }
 
 .dark-mode .swal2-html-container {
-    color: #CBD5E1 !important;
+  color: #cbd5e1 !important;
 }
 
-/* toast dark mode */
 .dark-mode .swal2-toast {
-    background-color: #0A1E52 !important;
-    color: #FFFFFF !important;
+  background-color: var(--dark-blue) !important;
+  color: var(--white) !important;
 }
 
 .dark-mode .swal2-toast .swal2-title {
-    color: #FFFFFF !important;
+  color: var(--white) !important;
 }
 
 .swal2-timer-progress-bar {
-    background-color: var(--blue) !important;
+  background-color: var(--blue) !important;
 }

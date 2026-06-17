@@ -13,7 +13,7 @@
 .modal {
   background: rgba(10, 20, 60, 0.75);
   backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid var(--border-glass-mid);
   border-radius: 16px;
   padding: 1.75rem;
   max-width: 540px;
@@ -26,18 +26,18 @@
   font-size: 18px;
   font-weight: 600;
   margin: 0 0 4px;
-  color: #ffffff;
+  color: var(--white);
 }
 
 .subtitulo {
   font-size: 13px;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-white-soft);
   margin: 0 0 1.25rem;
 }
 
 .aviso {
-  background: rgba(226, 75, 74, 0.15);
-  border-left: 3px solid #e24b4a;
+  background: var(--danger-bg);
+  border-left: 3px solid var(--danger);
   border-radius: 0;
   padding: 0.75rem 1rem;
   font-size: 14px;
@@ -56,11 +56,11 @@
 .lista li {
   font-size: 14px;
   line-height: 1.6;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-white-high);
 }
 
 .lista li strong {
-  color: #ffffff;
+  color: var(--white);
 }
 
 .checkboxRow {
@@ -68,7 +68,7 @@
   align-items: flex-start;
   gap: 10px;
   font-size: 14px;
-  color: rgba(255, 255, 255, 0.8);
+  color: var(--text-white-high);
   cursor: pointer;
   margin-bottom: 1.25rem;
   line-height: 1.5;
@@ -91,14 +91,14 @@
   border-radius: 8px;
   font-size: 14px;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-glass-strong);
   background: transparent;
-  color: rgba(255, 255, 255, 0.75);
-  transition: background 0.2s;
+  color: var(--text-white-high);
+  transition: background var(--transition);
 }
 
 .btnCancelar:hover {
-  background: rgba(255, 255, 255, 0.08);
+  background: var(--border-glass);
 }
 
 .btnExcluir {
@@ -107,14 +107,14 @@
   font-size: 14px;
   cursor: pointer;
   border: none;
-  background: #e24b4a;
-  color: #fff;
+  background: var(--danger);
+  color: var(--white);
   font-weight: 500;
-  transition: background 0.2s;
+  transition: background var(--transition);
 }
 
 .btnExcluir:hover:not(:disabled) {
-  background: #c43c3b;
+  background: var(--danger-dark);
 }
 
 .btnExcluir:disabled {
@@ -126,22 +126,22 @@
   width: 100%;
   padding: 8px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(0, 81, 255, 0.15);
-  background: rgba(255, 255, 255, 0.07);
-  color: #ffffff;
+  border: 1px solid var(--border-glass-mid);
+  background: var(--border-glass);
+  color: var(--white);
   font-size: 14px;
   margin-bottom: 0.75rem;
   box-sizing: border-box;
-  transition: border-color 0.2s;
+  transition: border-color var(--transition);
 }
 
 .inputSenha::placeholder {
-  color: rgba(255, 255, 255, 0.35);
+  color: var(--text-white-muted);
 }
 
 .inputSenha:focus {
   outline: none;
-  border: 1px solid rgba(0, 81, 255, 0.856);
+  border: 1px solid var(--blue);
 }
 
 .erro {
@@ -150,61 +150,62 @@
   margin: 0 0 0.75rem;
 }
 
+/* === modo claro === */
 .modal[data-theme="light"] {
-  background: #3b83f6cc;
+  background: var(--glass-card);
   backdrop-filter: none;
-  border: 1px solid #2785ff8a;
+  border: 1px solid var(--border-glass-mid);
 }
 
 .modal[data-theme="light"] .titulo {
-  color: #ffffff;
+  color: var(--white);
 }
 
 .modal[data-theme="light"] .subtitulo {
-  color: #e4e4e4;
+  color: var(--text-white-high);
 }
 
 .modal[data-theme="light"] .aviso {
-  background: #fff0f0;
-  color: #a32d2d;
+  background: var(--danger-bg);
+  color: var(--white);
 }
 
 .modal[data-theme="light"] .lista li {
-  color: #ffffffcb;
+  color: var(--text-white-high);
 }
 
 .modal[data-theme="light"] .lista li strong {
-  color: #ffffff;
+  color: var(--white);
 }
 
 .modal[data-theme="light"] .checkboxRow {
-  color: #ffffffcb;
+  color: var(--text-white-high);
 }
 
 .modal[data-theme="light"] .btnCancelar {
-  background-color: #3a64ce50;
-  border-color: #ffffff6c;
-  color: #ffffff;
+  background-color: var(--border-glass);
+  border-color: var(--border-glass-strong);
+  color: var(--white);
 }
 
 .modal[data-theme="light"] .btnCancelar:hover {
-  border-color: white;
+  border-color: var(--white);
 }
 
 .modal[data-theme="light"] .inputSenha {
-  background: #ffffff;
-  border-color: #e2e8f0;
-  color: #0a1e52;
+  background: var(--white);
+  border-color: var(--border-color);
+  color: var(--dark-blue);
 }
 
 .modal[data-theme="light"] .inputSenha::placeholder {
-  color: #64748b;
+  color: var(--text-secondary);
 }
 
 .modal[data-theme="light"] .inputSenha:focus {
-  border-color: #3b82f6;
+  border-color: var(--blue);
 }
 
 .modal[data-theme="light"] .erro {
-  color: #a32d2d;
+  color: var(--danger-dark);
 }
