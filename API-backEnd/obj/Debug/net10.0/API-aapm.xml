@@ -398,6 +398,15 @@
             <response code="403">Usuário sem permissão para acessar esta rota.</response>
             <response code="404">Reserva não encontrada.</response>
         </member>
+        <member name="M:API_backEnd.Controllers.TermoController.TermosAtivos">
+            <summary>
+            Retorna uma lista dos termos ativos
+            </summary>
+            <remarks>
+            Esta rota é pública e não requer autenticação.
+            </remarks>
+            <response code="200">Lista de termos retornado com sucesso.</response>
+        </member>
         <member name="M:API_backEnd.Controllers.TermoController.ObterPdf(API_backEnd.Enums.ReferenciaTermos)">
             <summary>
             Retorna o arquivo PDF de um termo.

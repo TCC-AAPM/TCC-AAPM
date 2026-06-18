@@ -496,6 +496,16 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.TermoController",
+    "Method": "TermosAtivos",
+    "RelativePath": "api/Termo/termos-ativos",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.TermoController",
     "Method": "VerificarTermosAceito",
     "RelativePath": "api/Termo/verificar-termos-aceito",
     "HttpMethod": "GET",

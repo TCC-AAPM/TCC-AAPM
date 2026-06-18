@@ -16,6 +16,19 @@ namespace API_backEnd.Services
         {
             db = context;
         }
+
+        public ResultadoPadrao<List<TermosResponse>> BuscarTermosAtivos()
+        {
+            var termosAtivo = db.TabelaTermos.Where(t => t.IsAtivo).Select(t => new TermosResponse
+            {
+                Referencia = t.Referencia,
+                IdTermo = t.Id
+            }).ToList();
+
+
+            return ResultadoPadrao<List<TermosResponse>>.Ok(termosAtivo);
+        }
+
         public ResultadoPadrao<object> ValidarAceiteDeTermo(ReferenciaTermos referencia, int idTermoDto, bool aceitouTermo)
         {
             

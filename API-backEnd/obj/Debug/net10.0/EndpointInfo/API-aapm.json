@@ -317,6 +317,20 @@
         }
       }
     },
+    "/api/Termo/termos-ativos": {
+      "get": {
+        "tags": [
+          "Termo"
+        ],
+        "summary": "Retorna uma lista dos termos ativos",
+        "description": "Esta rota é pública e não requer autenticação.",
+        "responses": {
+          "200": {
+            "description": "Lista de termos retornado com sucesso."
+          }
+        }
+      }
+    },
     "/api/Termo/obter-pdf": {
       "get": {
         "tags": [

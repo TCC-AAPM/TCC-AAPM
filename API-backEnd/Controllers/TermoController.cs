@@ -24,6 +24,20 @@ namespace API_backEnd.Controllers
             _usuarioService = usuarioService;
         }
 
+
+        /// <summary>
+        /// Retorna uma lista dos termos ativos
+        /// </summary>
+        /// <remarks>
+        /// Esta rota é pública e não requer autenticação.
+        /// </remarks>
+        /// <response code="200">Lista de termos retornado com sucesso.</response>
+        [HttpGet("termos-ativos")]
+        public IActionResult TermosAtivos()
+        {
+            return Resultado(_termoService.BuscarTermosAtivos());
+        }
+
         /// <summary>
         /// Retorna o arquivo PDF de um termo.
         /// </summary>
