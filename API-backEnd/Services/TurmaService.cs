@@ -37,6 +37,7 @@ namespace API_backEnd.Services
                 .Where(t => t.CursoId == idCurso && t.IsAtivo)
                 .Select(t => new TurmaPorCursoResponse
                 {
+                    IdTurma = t.Id,
                     NomeCurso = t.Curso.Nome,
                     NomeTurma = t.Turma
                 }).ToList();
