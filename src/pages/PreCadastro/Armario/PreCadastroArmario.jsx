@@ -4,6 +4,38 @@ import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "/src/routes/config/api.js";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 
+const TERMO_SITE = "S";
+const TERMO_ARMARIO = "A";
+
+function obterIdTurma(turma) {
+  return turma.id ?? turma.idTurma ?? turma.Id ?? turma.IdTurma;
+}
+
+function obterNomeTurma(turma) {
+  return turma.turma ?? turma.nomeTurma ?? turma.NomeTurma ?? turma.nome ?? "";
+}
+
+function obterListaDados(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.dados)) return data.dados;
+  if (Array.isArray(data?.Dados)) return data.Dados;
+  return [];
+}
+
+function obterIdCurso(curso) {
+  return curso.id ?? curso.idCurso ?? curso.Id ?? curso.IdCurso;
+}
+
+function obterNomeCurso(curso) {
+  return curso.nome ?? curso.Nome ?? curso.nomeCurso ?? curso.NomeCurso ?? "";
+}
+
+function formatarPreco(valor) {
+  return valor
+    ? `R$ ${valor.toLocaleString("pt-BR", { minimumFractionDigits: 2 })}`
+    : "---";
+}
+
 function formatarCPF(v) {
   const d = v.replace(/\D/g, "").slice(0, 11);
   return d
@@ -61,6 +93,7 @@ function validarFormulario(form) {
   if (!form.telefone || form.telefone.replace(/\D/g, "").length < 10)
     return "Telefone incompleto.";
   if (!form.idCurso) return "Selecione um curso.";
+  if (!form.idTurma) return "Selecione uma turma.";
   if (!form.aceitouTermoArmario) return "Aceite o termo de uso do armário.";
   if (!form.aceitouTermoSite) return "Aceite os termos de uso do site e LGPD.";
   return null;
@@ -71,6 +104,7 @@ export default function CadastroArmario() {
   const [etapa, setEtapa] = useState("nascimento");
   const [cursos, setCursos] = useState([]);
   const [turmas, setTurmas] = useState([]);
+  const [precos, setPrecos] = useState({});
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     nome: "",
@@ -82,17 +116,36 @@ export default function CadastroArmario() {
     matricula: "",
     idCurso: "",
     idTurma: "",
-    idTermoSite: 1,
+    idTermoSite: 9,
     aceitouTermoSite: false,
-    idTermoArmario: 1,
+    idTermoArmario: 10,
     aceitouTermoArmario: false,
   });
+  const termoArmarioUrl = API_ROUTES.termos.obterPdf(TERMO_ARMARIO);
+  const termoSiteUrl = API_ROUTES.termos.obterPdf(TERMO_SITE);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }, [etapa]);
+
+  useEffect(() => {
+    fetch(API_ROUTES.produtos.listar)
+      .then((r) => r.json())
+      .then((data) => {
+        const mapa = {};
+        obterListaDados(data).forEach((p) => {
+          mapa[p.produto ?? p.Produto] = p.preco ?? p.Preco;
+        });
+        setPrecos(mapa);
+      })
+      .catch(() => setPrecos({}));
+  }, []);
 
   // Carrega cursos ativos
   useEffect(() => {
     fetch(API_ROUTES.cursos.carregarCursos)
       .then((r) => r.json())
-      .then((data) => setCursos(data.dados ?? []))
+      .then((data) => setCursos(obterListaDados(data)))
       .catch(() => setCursos([]));
   }, []);
 
@@ -104,7 +157,7 @@ export default function CadastroArmario() {
     }
     fetch(API_ROUTES.turmas.porCurso(form.idCurso))
       .then((r) => r.json())
-      .then((data) => setTurmas(data.dados ?? []))
+      .then((data) => setTurmas(obterListaDados(data)))
       .catch(() => setTurmas([]));
   }, [form.idCurso]);
 
@@ -139,19 +192,19 @@ export default function CadastroArmario() {
     setLoading(true);
 
     const payload = {
-      cpf: form.cpf.replace(/\D/g, ""),
-      nome: form.nome.trim(),
-      nomeSocial: form.nomeSocial.trim() || null,
-      telefone: form.telefone.replace(/\D/g, ""),
-      email: form.email.trim(),
-      matricula: form.matricula.trim() || null,
-      dataNasc: form.nascimento,
-      idCurso: Number(form.idCurso),
-      idTurma: form.idTurma ? Number(form.idTurma) : null,
-      idTermoSite: form.idTermoSite,
-      aceitouTermoSite: form.aceitouTermoSite,
-      idTermoArmario: form.idTermoArmario,
-      aceitouTermoArmario: form.aceitouTermoArmario,
+      CPF: form.cpf.replace(/\D/g, ""),
+      Nome: form.nome.trim(),
+      NomeSocial: form.nomeSocial.trim() || null,
+      Telefone: form.telefone.replace(/\D/g, ""),
+      Email: form.email.trim(),
+      Matricula: form.matricula.trim() || null,
+      DataNasc: form.nascimento,
+      IdCurso: Number(form.idCurso),
+      IdTurma: Number(form.idTurma),
+      IdTermoSite: form.idTermoSite,
+      AceitouTermoSite: form.aceitouTermoSite,
+      IdTermoArmario: form.idTermoArmario,
+      AceitouTermoArmario: form.aceitouTermoArmario,
     };
 
     try {
@@ -169,7 +222,7 @@ export default function CadastroArmario() {
       }
 
       alertSucesso("Pré-cadastro realizado com sucesso!");
-      navigate("/pagamento");
+      setEtapa("pagamento");
     } catch {
       alertErro("Erro de conexão com o servidor.");
     } finally {
@@ -289,12 +342,12 @@ export default function CadastroArmario() {
             </div>
             <div className={styles.separador}>Termo de uso do armário</div>
             <iframe
-              src="/termo-armario.pdf"
+              src={termoArmarioUrl}
               className={styles["iframe-termo"]}
               title="Termo de uso do armário"
             />
             <a
-              href="/termo-armario.pdf"
+              href={termoArmarioUrl}
               target="_blank"
               rel="noopener noreferrer"
               className={styles["btn-principal"]}
@@ -309,10 +362,7 @@ export default function CadastroArmario() {
             <div className={styles["rodape-card"]}>
               <button
                 className={styles["btn-secundario"]}
-                onClick={() => {
-                  setForm((p) => ({ ...p, nascimento: "" }));
-                  setEtapa("nascimento");
-                }}
+                onClick={() => navigate("/")}
               >
                 ← Voltar
               </button>
@@ -450,11 +500,16 @@ export default function CadastroArmario() {
               >
                 <select value={form.idCurso} onChange={handleCurso}>
                   <option value="" />
-                  {cursos.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.nome}
-                    </option>
-                  ))}
+                  {cursos
+                    .filter((c) => obterIdCurso(c) !== undefined)
+                    .map((c) => {
+                      const idCurso = obterIdCurso(c);
+                      return (
+                        <option key={idCurso} value={idCurso}>
+                          {obterNomeCurso(c)}
+                        </option>
+                      );
+                    })}
                 </select>
                 <label>Curso</label>
               </div>
@@ -468,11 +523,16 @@ export default function CadastroArmario() {
                   disabled={!turmas.length}
                 >
                   <option value="" />
-                  {turmas.map((t) => (
-                    <option key={t.nomeTurma} value={t.nomeTurma}>
-                      {t.nomeTurma}
-                    </option>
-                  ))}
+                  {turmas
+                    .filter((t) => obterIdTurma(t) !== undefined)
+                    .map((t) => {
+                      const idTurma = obterIdTurma(t);
+                      return (
+                        <option key={idTurma} value={idTurma}>
+                          {obterNomeTurma(t)}
+                        </option>
+                      );
+                    })}
                 </select>
                 <label>Turma</label>
               </div>
@@ -494,7 +554,7 @@ export default function CadastroArmario() {
               <span>
                 Li e estou de acordo com o{" "}
                 <a
-                  href="/termo-armario.pdf"
+                  href={termoArmarioUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -514,14 +574,14 @@ export default function CadastroArmario() {
               <span>
                 Li e autorizo o uso dos meus dados conforme a{" "}
                 <a
-                  href="/termos-site.pdf"
+                  href={termoSiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   Política de Privacidade e LGPD {""}
                 </a> 
                  e com os <a
-                  href="/termos-site.pdf"
+                  href={termoSiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -586,17 +646,14 @@ export default function CadastroArmario() {
             <div className={styles["aviso-pagamento"]}>
               <p>
                 O valor do aluguel do armário é de{" "}
-                <strong>R$ 20,00 por mês</strong>. Pagamento na secretaria da
+                <strong>{formatarPreco(precos["A"])}</strong>. Pagamento na secretaria da
                 AAPM, perto da biblioteca do Senai.
               </p>
             </div>
             <div className={styles["rodape-card"]}>
               <button
                 className={styles["btn-secundario"]}
-                onClick={() => {
-                  setForm((p) => ({ ...p, nascimento: "" }));
-                  setEtapa("nascimento");
-                }}
+                onClick={() => navigate("/")}
               >
                 ← Voltar
               </button>

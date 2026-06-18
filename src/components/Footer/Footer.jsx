@@ -3,6 +3,10 @@ import logo from "../../assets/images/AAPM-Logo.png";
 import { Email, Computer, LocationOn, Map } from "@mui/icons-material";
 import { useTheme } from "../../utils/darkMode";
 import { useNavigate, useLocation } from "react-router-dom";
+import { API_ROUTES } from "../../routes/config/api.js";
+
+const TERMO_ARMARIO = "A";
+const TERMO_ESTACIONAMENTO = "E";
 
 export default function Footer() {
   const { darkMode } = useTheme();
@@ -93,7 +97,7 @@ export default function Footer() {
             <ul className={styles.linkList}>
               <li>
                 <a
-                  href="/termo-armario.pdf"
+                  href={API_ROUTES.termos.obterPdf(TERMO_ARMARIO)}
                   target="_blank"
                   className={styles.link}
                 >
@@ -103,7 +107,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/termo-estacionamento.pdf"
+                  href={API_ROUTES.termos.obterPdf(TERMO_ESTACIONAMENTO)}
                   target="_blank"
                   className={styles.link}
                 >
@@ -222,7 +226,7 @@ export default function Footer() {
             <ul className={styles.linkList}>
               <li>
                 <a
-                  href="/termo-armario.pdf"
+                  href={API_ROUTES.termos.obterPdf(TERMO_ARMARIO)}
                   target="_blank"
                   className={styles.link}
                 >
@@ -232,7 +236,7 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="/termo-estacionamento.pdf"
+                  href={API_ROUTES.termos.obterPdf(TERMO_ESTACIONAMENTO)}
                   target="_blank"
                   className={styles.link}
                 >

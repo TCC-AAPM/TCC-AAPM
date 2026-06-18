@@ -35,4 +35,12 @@ export const API_ROUTES = {
   cadastro: {
     preCadastro: `${BASE_URL}/Cadastro/pre-cadastro`,
   },
+
+  termos: {
+    obterPdf: (referencia, versao = Date.now()) =>
+      `${BASE_URL}/Termo/obter-pdf?referencia=${referencia}&v=${versao}`,
+    verificarAceitos: `${BASE_URL}/Termo/verificar-termos-aceito`,
+    criar: `${BASE_URL}/Termo/criar-termo`,
+    aceitarNovos: `${BASE_URL}/Termo/aceitar-novos-termos`,
+  },
 };
