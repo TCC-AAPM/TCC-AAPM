@@ -621,6 +621,7 @@ export default function CadastroArmario() {
           <aside className={styles.esquerda}>
             <h1>
               Pagamento
+              
               <br />
               <em>presencial</em>
             </h1>

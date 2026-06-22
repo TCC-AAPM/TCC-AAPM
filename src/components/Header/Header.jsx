@@ -39,6 +39,15 @@ export default function Header() {
     return () => document.removeEventListener("click", handler);
   }, [headerType]);
 
+  useEffect(() => {
+    setMenuAberto(false);
+  }, [location.pathname]);
+
+  function navegarMenu(path) {
+    setMenuAberto(false);
+    navigate(path);
+  }
+
   async function sair() {
     const confirmar = await alertConfirmar("Deseja realmente sair da conta?");
     if (!confirmar) return;
@@ -96,13 +105,13 @@ export default function Header() {
           </div>
 
           <div className={styles.menu}>
-            <button onClick={() => navigate("/usuario/ver-informacoes")}>
+            <button onClick={() => navegarMenu("/usuario/ver-informacoes")}>
               Veja seus dados
             </button>
-            <button onClick={() => navigate("/usuario/modificar-senha")}>
+            <button onClick={() => navegarMenu("/usuario/modificar-senha")}>
               Modificar senha
             </button>
-            <button onClick={() => navigate("/usuario/deletar-conta")}>
+            <button onClick={() => navegarMenu("/usuario/deletar-conta")}>
               Deletar conta
             </button>
           </div>
