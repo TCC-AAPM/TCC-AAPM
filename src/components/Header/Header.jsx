@@ -3,7 +3,7 @@ import logo from "../../assets/images/AAPM-Logo.png";
 import { useTheme } from "../../utils/darkMode";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { Sun, Moon } from "lucide-react";
+import { Bell, Sun, Moon } from "lucide-react";
 import { alertConfirmar } from "../Alerts/Alerts.jsx";
 
 export default function Header() {
@@ -139,6 +139,16 @@ export default function Header() {
           </button>
         )}
         {renderThemeButton()}
+        {mostrarMenuAdmin && (
+          <button
+            className={styles.btnIconAction}
+            type="button"
+            aria-label="Notificações"
+            title="Notificações"
+          >
+            <Bell size={18} />
+          </button>
+        )}
         {headerType === "login" && (
           <button className={styles.btnGhost} onClick={() => navigate("/login")}>
             Entrar
