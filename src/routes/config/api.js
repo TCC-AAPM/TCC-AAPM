@@ -16,7 +16,7 @@ export const API_ROUTES = {
   cursos: {
     carregarCursos: `${BASE_URL}/Cursos`,
   },
-  
+
   turmas: {
     porCurso: (idCurso) => `${BASE_URL}/Turmas/por-curso/${idCurso}`,
   },
@@ -24,7 +24,7 @@ export const API_ROUTES = {
   reservas: {
     reservas: `${BASE_URL}/Reservas`,
     recadastrarReserva: `${BASE_URL}/Reservas/recadastrar`, //nao usando
-    comReserva: "/api/Reservas/com-reserva"
+    comReserva: "/api/Reservas/com-reserva",
   },
 
   produtos: {
@@ -40,6 +40,7 @@ export const API_ROUTES = {
     obterPdf: (referencia, versao = Date.now()) =>
       `${BASE_URL}/Termo/obter-pdf?referencia=${referencia}&v=${versao}`,
     verificarAceitos: `${BASE_URL}/Termo/verificar-termos-aceito`,
+    termosAtivos: `${BASE_URL}/Termo/termos-ativos`,
     criar: `${BASE_URL}/Termo/criar-termo`,
     aceitarNovos: `${BASE_URL}/Termo/aceitar-novos-termos`,
   },

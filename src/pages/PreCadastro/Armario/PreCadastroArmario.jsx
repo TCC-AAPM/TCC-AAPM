@@ -116,13 +116,28 @@ export default function CadastroArmario() {
     matricula: "",
     idCurso: "",
     idTurma: "",
-    idTermoSite: 9,
+    idTermoSite: null,
     aceitouTermoSite: false,
-    idTermoArmario: 10,
+    idTermoArmario: null,
     aceitouTermoArmario: false,
   });
   const termoArmarioUrl = API_ROUTES.termos.obterPdf(TERMO_ARMARIO);
   const termoSiteUrl = API_ROUTES.termos.obterPdf(TERMO_SITE);
+
+  useEffect(() => {
+  fetch(API_ROUTES.termos.termosAtivos)
+    .then((r) => r.json())
+    .then((data) => {
+      const lista = data.dados ?? data;
+      const site = lista.find((t) => t.referencia === "S");
+      const armario = lista.find((t) => t.referencia === "A");
+      setForm((p) => ({
+        ...p,
+        idTermoSite: site?.idTermo ?? null,
+        idTermoArmario: armario?.idTermo ?? null,
+      }));
+    });
+}, []);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });

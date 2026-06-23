@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import styles from "./TelaPrincipal.module.css";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
 
+import { useTermoVerification } from "../../../utils/useTermoVerification.js";
+import ModalNovoTermo from "../../../components/ModalNovoTermo/ModalNovoTermo.jsx";
+
 export default function TelaPrincipal() {
+  const { showModal, termosParaAceitar, handleAceitar, handleRecusar } =
+    useTermoVerification();
+
   const [dados, setDados] = useState({
     nome: "",
     numArmario: "-",
@@ -33,6 +39,13 @@ export default function TelaPrincipal() {
 
   return (
     <div className={styles.containerGeral}>
+      {showModal && (
+        <ModalNovoTermo
+          termos={termosParaAceitar}
+          onAceitar={handleAceitar}
+          onRecusar={handleRecusar}
+        />
+      )}
       <div className={styles.principalBox}>
         <p className={styles.saudacao}>Olá, {dados.nome || "Usuário"}!</p>
 

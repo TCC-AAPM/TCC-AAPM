@@ -1,0 +1,122 @@
+/* src/components/ModalNovoTermo/ModalNovoTermo.module.css */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.modal {
+  background: var(--navy-mid);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  padding: 2rem;
+  max-width: 480px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-footer-title);
+}
+
+.header span {
+  font-size: 1.75rem;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--white);
+}
+
+.descricao {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--text-white-high);
+  line-height: 1.5;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.termoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-glass);
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+  font-size: 0.875rem;
+  color: var(--text-white-high);
+}
+
+.termoItem span.material-symbols-outlined {
+  font-size: 1.1rem;
+  color: var(--text-footer-support);
+  flex-shrink: 0;
+}
+
+.termoItem a {
+  margin-left: auto;
+  color: var(--text-footer-support);
+  font-size: 0.8rem;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.termoItem a:hover {
+  text-decoration: underline;
+}
+
+.acoes {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+  padding-top: 0.25rem;
+}
+
+.btnRecusar {
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 0.55rem 1.25rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background 0.2s;
+}
+
+.btnRecusar:hover {
+  background: var(--danger-bg);
+}
+
+.btnAceitar {
+  background: var(--navy-action);
+  border: none;
+  color: var(--white);
+  padding: 0.55rem 1.4rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btnAceitar:hover {
+  opacity: 0.88;
+}
