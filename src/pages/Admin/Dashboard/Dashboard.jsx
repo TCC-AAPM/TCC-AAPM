@@ -2,12 +2,24 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Dashboard.module.css";
 
+import { useTermoVerification } from "../../../utils/useTermoVerification.js";
+import ModalNovoTermo from "../../../components/ModalNovoTermo/ModalNovoTermo.jsx";
+
 export default function Dashboard() {
   const navigate = useNavigate();
+  const { showModal, termosParaAceitar, handleAceitar, handleRecusar } =
+    useTermoVerification();
 
   return (
     <>
       <div className={styles.principalBox}>
+        {showModal && (
+          <ModalNovoTermo
+            termos={termosParaAceitar}
+            onAceitar={handleAceitar}
+            onRecusar={handleRecusar}
+          />
+        )}
         <div className={styles.cardsRow}>
           <div className={styles.col}>
             <div
