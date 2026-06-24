@@ -11,16 +11,15 @@ export default function ModalNovoTermo({ termos, onAceitar, onRecusar }) {
   return (
     <div className={styles.overlay}>
       <div className={styles.modal}>
-
         <div className={styles.header}>
           <h2>Termos atualizados</h2>
         </div>
-        
+
         <div className={styles.divider} />
 
         <p className={styles.descricao}>
-          Os documentos abaixo foram atualizados desde seu último acesso.
-          Leia e aceite para continuar.
+          Os documentos abaixo foram atualizados desde seu último acesso. Leia e
+          aceite para continuar.
         </p>
 
         <div className={styles.lista}>
@@ -29,7 +28,9 @@ export default function ModalNovoTermo({ termos, onAceitar, onRecusar }) {
             return (
               <div key={t.idTermo ?? t.id} className={styles.termoItem}>
                 <span className="material-symbols-outlined">description</span>
-                <span className={styles.termoLabel}>{LABELS[ref] ?? "Termo de Uso"}</span>
+                <span className={styles.termoLabel}>
+                  {LABELS[ref] ?? "Termo de Uso"}
+                </span>
                 <a
                   href={API_ROUTES.termos.obterPdf(ref)}
                   target="_blank"
@@ -44,7 +45,6 @@ export default function ModalNovoTermo({ termos, onAceitar, onRecusar }) {
           })}
         </div>
 
-
         <div className={styles.acoes}>
           <button className={styles.btnRecusar} onClick={onRecusar}>
             Recusar e sair
@@ -53,7 +53,6 @@ export default function ModalNovoTermo({ termos, onAceitar, onRecusar }) {
             Aceitar e continuar
           </button>
         </div>
-
       </div>
     </div>
   );
