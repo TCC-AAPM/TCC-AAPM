@@ -15,7 +15,9 @@ function Layout() {
     <>
       <ScrollSubir />
       <Header />
-      <AppRoutes />
+      <main className="app-content">
+        <AppRoutes />
+      </main>
       {!semFooter && <Footer />}
     </>
   );
