@@ -16,6 +16,8 @@ export default function Armarios() {
   const [popup, setPopup] = useState(null);
   const [pesquisa, setPesquisa] = useState("");
   const [filtro, setFiltro] = useState(null);
+  const [modoSelecao, setModoSelecao] = useState(false);
+  const [selecionados, setSelecionados] = useState([]);
 
   useEffect(() => {
     const headers = {
@@ -71,6 +73,15 @@ export default function Armarios() {
   });
 
   function handleClick(arm) {
+    if (modoSelecao) {
+      setSelecionados((prev) =>
+        prev.includes(arm.numeroArmario)
+          ? prev.filter((n) => n !== arm.numeroArmario)
+          : [...prev, arm.numeroArmario],
+      );
+      return;
+    }
+
     if (arm.estado === "D") {
       localStorage.setItem("armarioSelecionado", arm.numeroArmario);
       navigate("/admin/cadastrar-aluno");
@@ -87,6 +98,56 @@ export default function Armarios() {
     setPopup({ tipo: "manutencao-ctx", armario: arm, usuario });
   }
 
+  function handleSelecionarTodos() {
+    const todosIds = lista.map((a) => a.numeroArmario);
+    const todosSelecionados = todosIds.every((id) => selecionados.includes(id));
+    setSelecionados(todosSelecionados ? [] : todosIds);
+  }
+
+  async function handleAcaoEmLote(novoEstado) {
+    const headers = {
+      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      "Content-Type": "application/json",
+    };
+
+    const numerosValidos = selecionados.filter((numero) => {
+      const arm = armarios.find((a) => a.numeroArmario === numero);
+      return arm && arm.estado !== novoEstado && arm.estado !== "O";
+    });
+
+    if (numerosValidos.length === 0) {
+      setModoSelecao(false);
+      setSelecionados([]);
+      return;
+    }
+
+    try {
+      await Promise.all(
+        numerosValidos.map((numero) =>
+          fetch(API_ROUTES.armarios.atualizarEstado(numero), {
+            method: "PUT",
+            headers,
+            body: JSON.stringify({ estado: novoEstado }),
+          }),
+        ),
+      );
+    } catch (erro) {
+      console.error("Erro ao atualizar armários:", erro);
+    } finally {
+      setModoSelecao(false);
+      setSelecionados([]);
+      window.location.reload();
+    }
+  }
+
+  function handleAcaoManutencao() {
+    handleAcaoEmLote("M");
+  }
+
+  function handleAcaoDisponivel() {
+    handleAcaoEmLote("D");
+  }
+
   const filtros = [
     ["filtroOcupado", "ocupado", "Ocupado"],
     ["filtroManutencao", "manutencao", "Manutenção"],
@@ -94,6 +155,15 @@ export default function Armarios() {
     ["filtroPendente", "pendente", "Pendente"],
   ];
   const filtroLabel = filtros.find(([, estado]) => estado === filtro)?.[2];
+  const afetadosManutencao = selecionados.filter((n) => {
+    const arm = armarios.find((a) => a.numeroArmario === n);
+    return arm && arm.estado !== "M" && arm.estado !== "O";
+  }).length;
+
+  const afetadosDisponivel = selecionados.filter((n) => {
+    const arm = armarios.find((a) => a.numeroArmario === n);
+    return arm && arm.estado !== "D" && arm.estado !== "O";
+  }).length;
 
   return (
     <div className={styles.principalBox}>
@@ -104,7 +174,23 @@ export default function Armarios() {
               <p className={styles.kicker}>Gestão de armários</p>
               <h1 className={styles.titulo}>Armários</h1>
             </div>
-            <span className={styles.resultado}>{lista.length} encontrados</span>
+            <div className={styles.toolbarActions}>
+              <span className={styles.resultado}>
+                {lista.length} encontrados
+              </span>
+              <button
+                type="button"
+                className={`${styles.btnSelecao} ${
+                  modoSelecao ? styles.btnSelecaoAtivo : ""
+                }`}
+                onClick={() => {
+                  setModoSelecao((v) => !v);
+                  setSelecionados([]);
+                }}
+              >
+                {modoSelecao ? "Cancelar seleção" : "Selecionar"}
+              </button>
+            </div>
           </div>
 
           <div className={styles.filtroBar}>
@@ -179,6 +265,8 @@ export default function Armarios() {
                 )}
                 onClick={() => handleClick(arm)}
                 onContextMenu={() => handleContextMenu(arm)}
+                modoSelecao={modoSelecao}
+                selecionado={selecionados.includes(arm.numeroArmario)}
               />
             ))
           ) : (
@@ -205,6 +293,31 @@ export default function Armarios() {
           onClose={() => setPopup(null)}
           onReload={() => window.location.reload()}
         />
+      )}
+
+      {selecionados.length > 0 && (
+        <div className={styles.barraAcoes}>
+          <span>{selecionados.length} armário(s) selecionado(s)</span>
+          <button type="button" onClick={handleSelecionarTodos}>
+            Selecionar todos
+          </button>
+          <button
+            type="button"
+            className={styles.btnAcaoManutencao}
+            onClick={handleAcaoManutencao}
+            disabled={afetadosManutencao === 0}
+          >
+            Manutenção ({afetadosManutencao})
+          </button>
+          <button
+            type="button"
+            className={styles.btnAcaoDisponivel}
+            onClick={handleAcaoDisponivel}
+            disabled={afetadosDisponivel === 0}
+          >
+            Disponível ({afetadosDisponivel})
+          </button>
+        </div>
       )}
     </div>
   );

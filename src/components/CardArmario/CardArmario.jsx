@@ -1,6 +1,13 @@
 import styles from "./CardArmario.module.css";
 
-export function CardArmario({ armario, usuario, onClick, onContextMenu }) {
+export function CardArmario({
+  armario,
+  usuario,
+  onClick,
+  onContextMenu,
+  modoSelecao,
+  selecionado,
+}) {
   const estadoMap = {
     O: styles.ocupado,
     M: styles.manutencao,
@@ -20,6 +27,12 @@ export function CardArmario({ armario, usuario, onClick, onContextMenu }) {
         onContextMenu?.();
       }}
     >
+      {modoSelecao && (
+        <div className={styles.checkbox}>
+          <input type="checkbox" readOnly checked={selecionado} />
+        </div>
+      )}
+
       <div className={styles.infos}>
         <p className={styles.info}>
           <strong>Armário:</strong> {armario.numeroArmario}

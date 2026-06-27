@@ -20,21 +20,30 @@
   transform: translateY(-10px);
 }
 
-.card:hover::after {
-  content: "Botão direito para alterar o estado";
-  width: 100%;
+.checkbox {
   position: absolute;
-  bottom: -35px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--white);
-  background: var(--navy-deep);
-  padding: 6px 10px;
-  font-size: 12px;
-  border-radius: 8px;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-  z-index: 1000;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.checkbox input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--blue);
+  cursor: pointer;
+  margin: 0;
+}
+
+.checkbox input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 2px;
 }
 
 .ocupado {

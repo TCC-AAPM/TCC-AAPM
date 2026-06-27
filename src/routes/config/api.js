@@ -11,6 +11,9 @@ export const API_ROUTES = {
 
   armarios: {
     listar: `${BASE_URL}/Armarios`,
+    atualizar: (numeroArmario) => `${BASE_URL}/Armarios/${numeroArmario}`,
+    atualizarEstado: (numeroArmario) =>
+      `${BASE_URL}/armarios/estado/${numeroArmario}`,
   },
 
   cursos: {
