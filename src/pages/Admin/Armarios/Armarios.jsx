@@ -1,6 +1,13 @@
-import { useEffect, useState } from "react";
+﻿import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Search, SlidersHorizontal, X } from "lucide-react";
+import {
+  CheckCircle,
+  Search,
+  SlidersHorizontal,
+  Wrench,
+  X,
+  XSquare,
+} from "lucide-react";
 
 import { CardArmario } from "../../../components/CardArmario/CardArmario.jsx";
 import { PopupModal } from "../../../components/PopupModal/PopupModal.jsx";
@@ -18,6 +25,7 @@ export default function Armarios() {
   const [filtro, setFiltro] = useState(null);
   const [modoSelecao, setModoSelecao] = useState(false);
   const [selecionados, setSelecionados] = useState([]);
+  const [ultimoClicado, setUltimoClicado] = useState(null);
 
   useEffect(() => {
     const headers = {
@@ -72,13 +80,37 @@ export default function Armarios() {
     return matchPesquisa && matchFiltro;
   });
 
-  function handleClick(arm) {
+  function handleClick(arm, e) {
     if (modoSelecao) {
-      setSelecionados((prev) =>
-        prev.includes(arm.numeroArmario)
-          ? prev.filter((n) => n !== arm.numeroArmario)
-          : [...prev, arm.numeroArmario],
-      );
+      if (e?.shiftKey && ultimoClicado !== null) {
+        const indexAtual = lista.findIndex(
+          (a) => a.numeroArmario === arm.numeroArmario,
+        );
+        const indexUltimo = lista.findIndex(
+          (a) => a.numeroArmario === ultimoClicado,
+        );
+
+        const [inicio, fim] =
+          indexAtual < indexUltimo
+            ? [indexAtual, indexUltimo]
+            : [indexUltimo, indexAtual];
+
+        const intervalo = lista.slice(inicio, fim + 1).map((a) => a.numeroArmario);
+
+        setSelecionados((prev) => {
+          const novos = intervalo.filter((n) => !prev.includes(n));
+          return [...prev, ...novos];
+        });
+
+        setUltimoClicado(arm.numeroArmario);
+      } else {
+        setSelecionados((prev) =>
+          prev.includes(arm.numeroArmario)
+            ? prev.filter((n) => n !== arm.numeroArmario)
+            : [...prev, arm.numeroArmario],
+        );
+        setUltimoClicado(arm.numeroArmario);
+      }
       return;
     }
 
@@ -98,11 +130,14 @@ export default function Armarios() {
     setPopup({ tipo: "manutencao-ctx", armario: arm, usuario });
   }
 
-  function handleSelecionarTodos() {
+  const handleSelecionarTodos = useCallback(() => {
     const todosIds = lista.map((a) => a.numeroArmario);
     const todosSelecionados = todosIds.every((id) => selecionados.includes(id));
     setSelecionados(todosSelecionados ? [] : todosIds);
-  }
+    setUltimoClicado(
+      todosSelecionados ? null : lista[lista.length - 1]?.numeroArmario ?? null,
+    );
+  }, [lista, selecionados]);
 
   async function handleAcaoEmLote(novoEstado) {
     const headers = {
@@ -154,6 +189,7 @@ export default function Armarios() {
     ["filtroDisponivel", "disponivel", "Disponível"],
     ["filtroPendente", "pendente", "Pendente"],
   ];
+
   const filtroLabel = filtros.find(([, estado]) => estado === filtro)?.[2];
   const afetadosManutencao = selecionados.filter((n) => {
     const arm = armarios.find((a) => a.numeroArmario === n);
@@ -164,6 +200,35 @@ export default function Armarios() {
     const arm = armarios.find((a) => a.numeroArmario === n);
     return arm && arm.estado !== "D" && arm.estado !== "O";
   }).length;
+
+  const todosVisivelSelecionados =
+    lista.length > 0 && lista.every((arm) => selecionados.includes(arm.numeroArmario));
+
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (["INPUT", "TEXTAREA", "SELECT"].includes(e.target?.tagName)) return;
+
+      if (e.key === "s" && e.altKey && !modoSelecao) {
+        setModoSelecao(true);
+        return;
+      }
+
+      if (e.key === "Escape" && modoSelecao) {
+        setModoSelecao(false);
+        setSelecionados([]);
+        setUltimoClicado(null);
+        return;
+      }
+
+      if (e.key === "a" && e.ctrlKey && modoSelecao) {
+        e.preventDefault();
+        handleSelecionarTodos();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown);
+    return () => document.removeEventListener("keydown", handleKeyDown);
+  }, [modoSelecao, selecionados, lista, afetadosManutencao, afetadosDisponivel, handleSelecionarTodos]);
 
   return (
     <div className={styles.principalBox}>
@@ -186,9 +251,17 @@ export default function Armarios() {
                 onClick={() => {
                   setModoSelecao((v) => !v);
                   setSelecionados([]);
+                  setUltimoClicado(null);
                 }}
               >
-                {modoSelecao ? "Cancelar seleção" : "Selecionar"}
+                {modoSelecao ? (
+                  <>
+                    <XSquare size={15} />
+                    Cancelar seleção
+                  </>
+                ) : (
+                  "Selecionar"
+                )}
               </button>
             </div>
           </div>
@@ -263,7 +336,7 @@ export default function Armarios() {
                 usuario={usuarios.find(
                   (u) => u.numeroArmario === arm.numeroArmario,
                 )}
-                onClick={() => handleClick(arm)}
+                onClick={(e) => handleClick(arm, e)}
                 onContextMenu={() => handleContextMenu(arm)}
                 modoSelecao={modoSelecao}
                 selecionado={selecionados.includes(arm.numeroArmario)}
@@ -299,7 +372,7 @@ export default function Armarios() {
         <div className={styles.barraAcoes}>
           <span>{selecionados.length} armário(s) selecionado(s)</span>
           <button type="button" onClick={handleSelecionarTodos}>
-            Selecionar todos
+            {todosVisivelSelecionados ? "Desmarcar todos" : "Selecionar todos"}
           </button>
           <button
             type="button"
@@ -307,6 +380,7 @@ export default function Armarios() {
             onClick={handleAcaoManutencao}
             disabled={afetadosManutencao === 0}
           >
+            <Wrench size={15} />
             Manutenção ({afetadosManutencao})
           </button>
           <button
@@ -315,8 +389,10 @@ export default function Armarios() {
             onClick={handleAcaoDisponivel}
             disabled={afetadosDisponivel === 0}
           >
+            <CheckCircle size={15} />
             Disponível ({afetadosDisponivel})
           </button>
+          <span className={styles.dicaTeclado}>Esc cancelar · Ctrl+A todos · Alt+S selecionar</span>
         </div>
       )}
     </div>

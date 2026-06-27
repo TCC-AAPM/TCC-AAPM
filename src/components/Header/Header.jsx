@@ -3,7 +3,7 @@ import logo from "../../assets/images/AAPM-Logo.png";
 import { useTheme } from "../../utils/darkMode";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { Bell, Sun, Moon } from "lucide-react";
+import { Bell, Home, Menu, Sun, Moon } from "lucide-react";
 import { alertConfirmar } from "../Alerts/Alerts.jsx";
 
 export default function Header() {
@@ -19,7 +19,8 @@ export default function Header() {
     : location.pathname === "/"
       ? "login"
       : "default";
-  const mostrarMenuAdmin = location.pathname === "/admin/armarios";
+  const isAdmin = location.pathname.startsWith("/admin");
+  const isPainelAdmin = location.pathname === "/admin/gestao-admin";
 
   useEffect(() => {
     if (headerType !== "user") return undefined;
@@ -62,6 +63,7 @@ export default function Header() {
         className={styles.toggleDark}
         onClick={() => setDarkMode(!darkMode)}
         aria-label={darkMode ? "Ativar modo claro" : "Ativar modo escuro"}
+        title={darkMode ? "Modo claro" : "Modo escuro"}
       >
         {darkMode ? <Sun size={18} /> : <Moon size={18} />}
       </button>
@@ -128,18 +130,22 @@ export default function Header() {
     <nav className={styles.nav} data-theme={darkMode ? "dark" : "light"}>
       <img src={logo} alt="AAPM" className={styles.imgLogo} />
       <div className={styles.navActions}>
-        {mostrarMenuAdmin && (
+        {isAdmin && (
           <button
             className={styles.btnIconAction}
-            onClick={() => navigate("/admin/gestao-admin")}
-            aria-label="Voltar para gestão admin"
-            title="Menu admin"
+            onClick={() =>
+              isPainelAdmin
+                ? navigate("/admin/armarios")
+                : navigate("/admin/gestao-admin")
+            }
+            aria-label={isPainelAdmin ? "Ir para armários" : "Abrir gestão admin"}
+            title={isPainelAdmin ? "Armários" : "Gestão admin"}
           >
-            <span className="material-symbols-outlined">menu</span>
+            {isPainelAdmin ? <Home size={18} /> : <Menu size={18} />}
           </button>
         )}
         {renderThemeButton()}
-        {mostrarMenuAdmin && (
+        {isAdmin && (
           <button
             className={styles.btnIconAction}
             type="button"

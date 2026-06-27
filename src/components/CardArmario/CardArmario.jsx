@@ -21,7 +21,7 @@ export function CardArmario({
   return (
     <div
       className={`${styles.card} ${classeEstado}`}
-      onClick={onClick}
+      onClick={(e) => onClick?.(e)}
       onContextMenu={(e) => {
         e.preventDefault();
         onContextMenu?.();

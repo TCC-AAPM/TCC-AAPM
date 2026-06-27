@@ -359,6 +359,9 @@
 }
 
 .barraAcoes button {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 7px 12px;
   border-radius: 8px;
   border: 1px solid var(--border-glass);
@@ -394,6 +397,13 @@
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+}
+
+.dicaTeclado {
+  font-size: 11px;
+  color: var(--text-white-soft);
+  margin-left: auto;
+  white-space: nowrap;
 }
 
 .containerSelect {
