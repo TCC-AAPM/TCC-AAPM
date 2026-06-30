@@ -5,3 +5,5 @@ wwwroot\uploads\termos\517f224d-d666-46b0-a956-4bcb82489fed.pdf
 wwwroot\uploads\termos\6699f20c-5f55-43a3-8270-076cd1e8e276.pdf
 wwwroot\uploads\termos\9bdf6d9f-3672-4005-b249-ed48bcf910b9.pdf
 wwwroot\uploads\termos\cbf696c7-15ba-4c1c-b6b5-ef303da7c7e4.pdf
+wwwroot\uploads\termos\da047a5f-6ca7-4455-953b-6e3b28f915cc.pdf
+wwwroot\uploads\termos\58dfd7b3-c0da-4f87-b141-5cbf49b79545.pdf

@@ -32,11 +32,14 @@ namespace API_backEnd.Services
             {
                 return ResultadoPadrao<AlunoLogadoResponse>.Falha("Configuração não encontrada", 404);
             }
-           
+
             var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == id && a.IsAtivo);
 
             if (aluno == null)
                 return ResultadoPadrao<AlunoLogadoResponse>.Falha("Aluno não encontrado", 404);
+
+            var hoje = DateOnly.FromDateTime(DateTime.Today);
+            var reservaValida = config.DataExpiracaoGlobal >= hoje;
 
             var dadosAluno = new AlunoLogadoResponse
             {
@@ -47,15 +50,22 @@ namespace API_backEnd.Services
                 Telefone = aluno.Telefone,
                 Email = aluno.Email,
                 DataNasc = aluno.DataNasc,
-                
             };
+
             dadosAluno.Turma = db.TabelaTurmas.Where(t => t.Id == aluno.TurmaId && t.IsAtivo).Select(t => t.Turma).FirstOrDefault() ?? "Turma não identificada";
             dadosAluno.Curso = db.TabelaCursos.Where(c => c.Id == aluno.CursoId && c.IsAtivo).Select(c => c.Nome).FirstOrDefault() ?? "Curso não identificado";
-            dadosAluno.NumeroArmario = db.TabelaReservaArmarios.Where(r => r.IdAluno == aluno.Id && r.IsAtivo).Select(a => (int?) a.IdArmario).FirstOrDefault() ?? null;
-            dadosAluno.IdVaga = db.TabelaReservaEstacionamentos.Where(r => r.IdAluno == aluno.Id && r.IsAtivo).Select(e => (int?) e.IdVaga).FirstOrDefault() ?? null;
+
+            dadosAluno.NumeroArmario = reservaValida
+                ? db.TabelaReservaArmarios.Where(r => r.IdAluno == aluno.Id && r.IsAtivo).Select(a => (int?)a.IdArmario).FirstOrDefault() ?? null
+                : null;
+
+            dadosAluno.IdVaga = reservaValida
+                ? db.TabelaReservaEstacionamentos.Where(r => r.IdAluno == aluno.Id && r.IsAtivo).Select(e => (int?)e.IdVaga).FirstOrDefault() ?? null
+                : null;
+
             dadosAluno.Pagamento = db.TabelaPagamentos.Where(p => p.IdAluno == aluno.Id).Select(p => p.Metodo).FirstOrDefault() ?? "Pagamento não identificado";
             dadosAluno.DataExpiracao = config.DataExpiracaoGlobal;
-
+            dadosAluno.JaTeveReserva = db.TabelaReservaArmarios.Any(r => r.IdAluno == aluno.Id);
 
             return ResultadoPadrao<AlunoLogadoResponse>.Ok(dadosAluno);
         }

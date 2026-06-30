@@ -15,5 +15,6 @@
         public string? Pagamento { get; set; }
         public DateOnly DataExpiracao { get; set; }
         public DateOnly DataNasc {  get; set; }
+        public bool JaTeveReserva { get; set; }
     }
 }
