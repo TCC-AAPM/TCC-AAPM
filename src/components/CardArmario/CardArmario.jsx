@@ -1,4 +1,5 @@
 import styles from "./CardArmario.module.css";
+import { getNomeExibicao } from "../../utils/getNomeExibicao.js";
 
 export function CardArmario({
   armario,
@@ -39,7 +40,7 @@ export function CardArmario({
         </p>
         {armario.estado === "O" && usuario && (
           <p className={styles.info}>
-            <strong>Aluno:</strong> {usuario.nomeAluno}
+            <strong>Aluno:</strong> {getNomeExibicao(usuario)}
           </p>
         )}
         {(armario.estado === "M" || armario.estado === "D") && (

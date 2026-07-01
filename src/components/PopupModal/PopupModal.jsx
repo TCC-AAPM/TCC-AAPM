@@ -1,9 +1,8 @@
 import styles from "./PopupModal.module.css";
+import { getNomeExibicao } from "../../utils/getNomeExibicao.js";
 
 export function PopupModal({ popup, onClose }) {
   const { usuario, armario } = popup;
-
-  console.log(usuario);
 
   const metodo = {
     A: "Dinheiro",
@@ -27,7 +26,7 @@ export function PopupModal({ popup, onClose }) {
       <div className={styles.pop} onClick={(e) => e.stopPropagation()}>
         {/* TÍTULO */}
         <div className={styles["section-divider"]}>
-          <h2 className={styles["pop-title"]}>{usuario.nomeAluno}</h2>
+          <h2 className={styles["pop-title"]}>{getNomeExibicao(usuario)}</h2>
         </div>
 
         {/* INFOS */}

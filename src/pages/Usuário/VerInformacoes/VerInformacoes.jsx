@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./VerInformacoes.module.css";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
+import { getNomeExibicao } from "../../../utils/getNomeExibicao.js";
 
 const maskCPF = (v) =>
   v
@@ -36,13 +37,26 @@ export default function VerInformacoes() {
         }
         return r.json();
       })
-      .then((d) => d && setAluno(d));
+      .then((d) =>
+        d &&
+        setAluno({
+          ...d,
+          dados: {
+            ...d.dados,
+            nomeSocial:
+              d.dados?.nomeSocial ??
+              d.dados?.NomeSocial ??
+              d.dados?.nomeSocialAluno ??
+              d.dados?.NomeSocialAluno ??
+              "",
+          },
+        }),
+      );
   }, [navigate]);
 
-  console.log(aluno);
   const campos = aluno
     ? [
-        ["Nome de Usuário", aluno.dados.nome],
+        ["Nome de Usuário", getNomeExibicao(aluno.dados)],
         ["CPF", maskCPF(aluno.dados.cpf)],
         ["Matrícula", aluno.dados.matricula],
         ["Telefone", maskPhone(aluno.dados.telefone)],

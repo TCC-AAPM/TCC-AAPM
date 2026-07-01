@@ -47,7 +47,19 @@ export default function Armarios() {
         const usr = await respostaUsuarios.json();
 
         setArmarios(Array.isArray(arm.dados) ? arm.dados : []);
-        setUsuarios(Array.isArray(usr.dados) ? usr.dados : []);
+        setUsuarios(
+          Array.isArray(usr.dados)
+            ? usr.dados.map((u) => ({
+                ...u,
+                nomeSocial:
+                  u.nomeSocial ??
+                  u.NomeSocial ??
+                  u.nomeSocialAluno ??
+                  u.NomeSocialAluno ??
+                  u.nomeSocial,
+              }))
+            : [],
+        );
       } catch (erro) {
         console.error(erro);
         setArmarios([]);

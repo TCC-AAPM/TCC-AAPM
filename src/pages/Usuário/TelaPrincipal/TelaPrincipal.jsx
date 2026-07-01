@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./TelaPrincipal.module.css";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
 import { useTermoVerification } from "../../../utils/useTermoVerification.js";
+import { getNomeExibicao } from "../../../utils/getNomeExibicao.js";
 import ModalNovoTermo from "../../../components/ModalNovoTermo/ModalNovoTermo.jsx";
 import Planos from "../../../components/Planos/Planos.jsx";
 
@@ -84,6 +85,7 @@ export default function TelaPrincipal() {
 
   const [dados, setDados] = useState({
     nome: "",
+    nomeSocial: "",
     status: "SEM_RESERVA",
     numArmario: "-",
     dataFim: "-",
@@ -106,6 +108,12 @@ export default function TelaPrincipal() {
 
         setDados({
           nome: aluno.nome,
+          nomeSocial:
+            aluno.nomeSocial ??
+            aluno.NomeSocial ??
+            aluno.nomeSocialAluno ??
+            aluno.NomeSocialAluno ??
+            "",
           status: getStatusUsuario(aluno),
           numArmario: aluno.numeroArmario ?? "-",
           dataFimISO: aluno.dataExpiracao ?? null,
@@ -144,7 +152,9 @@ export default function TelaPrincipal() {
         }`}
       >
         <div className={styles.header}>
-          <p className={styles.saudacao}>Olá, {dados.nome || "Usuário"}!</p>
+          <p className={styles.saudacao}>
+            Olá, {getNomeExibicao(dados, "Usuário")}!
+          </p>
           {tempo?.alerta && (
             <div className={styles.alertaExpiracao}>
               ⚠ Renove em breve para não perder o acesso.
