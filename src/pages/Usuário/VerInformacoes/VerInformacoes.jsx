@@ -16,7 +16,6 @@ const maskPhone = (v) =>
     .slice(0, 11)
     .replace(/(\d{2})(\d)(\d{4})(\d{4})/, "($1) $2 $3-$4") ?? "";
 
-const METODOS = { A: "Dinheiro", P: "Pix", D: "Débito", C: "Crédito" };
 
 export default function VerInformacoes() {
   const navigate = useNavigate();
@@ -64,34 +63,35 @@ export default function VerInformacoes() {
         ["Data de Nascimento", aluno.dados.dataNasc],
         ["Curso", aluno.dados.curso],
         ["Turma", aluno.dados.turma],
-        ["Pagamento", aluno.dados.pagamento],
       ]
     : [];
 
   return (
     <>
       <div className={styles.containerGeral}>
-        <div className={styles.principalBox}>
-          <div className={styles.topBar}></div>
-          <div className={styles.entreAqui}>
-            <span className="material-symbols-outlined">info</span>
-            <h3>Veja seus dados</h3>
-          </div>
+        <div className={styles.conteudoWrapper}>
+          <div className={styles.principalBox}>
+            <div className={styles.topBar}></div>
+            <div className={styles.entreAqui}>
+              <span className="material-symbols-outlined">info</span>
+              <h3>Veja seus dados</h3>
+            </div>
 
-          <div className={styles.card}>
-            {campos.map(([label, valor]) => (
-              <div key={label} className={styles.infoSection}>
-                <span className={styles.infoLabel}>{label}</span>
-                <span className={styles.infoValue}>{valor ?? "-"}</span>
-              </div>
-            ))}
+            <div className={styles.card}>
+              {campos.map(([label, valor]) => (
+                <div key={label} className={styles.infoSection}>
+                  <span className={styles.infoLabel}>{label}</span>
+                  <span className={styles.infoValue}>{valor ?? "-"}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
 
-      <a className={styles.voltar} onClick={() => navigate(-1)}>
-        ← Voltar
-      </a>
+        <a className={styles.voltar} onClick={() => navigate(-1)}>
+          ← Voltar
+        </a>
+      </div>
     </>
   );
 }

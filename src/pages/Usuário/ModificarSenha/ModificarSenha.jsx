@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./ModificarSenha.module.css";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 import { useNavigate } from "react-router-dom";
+import { API_ROUTES } from "../../../routes/config/api.js";
 
 function verificarSenha(senha) {
   const erros = [];
@@ -57,8 +58,8 @@ export default function ModificarSenha() {
 
     const token = localStorage.getItem("token");
 
-    const response = await fetch("/api/Alunos/trocar-senha", {
-      method: "PUT",
+    const response = await fetch(API_ROUTES.alunos.trocarSenha, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
@@ -69,7 +70,14 @@ export default function ModificarSenha() {
         confirmarSenha,
       }),
     });
-    const text = await response.text();
+    const data = await response.json();
+
+    if (!response.ok) {
+      alertErro(data.mensagem ?? "Erro ao trocar senha");
+      return;
+    }
+    alertSucesso(data.mensagem ?? "Senha alterada com sucesso");
+    navigate("/usuario/tela-principal");
 
     if (!response.ok) {
       alertErro(text);
@@ -80,8 +88,8 @@ export default function ModificarSenha() {
   }
 
   return (
-    <>
-      <div className={styles.containerGeral}>
+    <div className={styles.containerGeral}>
+      <div className={styles.conteudoWrapper}>
         <div className={styles.principalBox}>
           <div className={styles.entreAqui}>
             <h1 className="material-symbols-outlined">lock_reset</h1>
@@ -117,6 +125,6 @@ export default function ModificarSenha() {
       <a onClick={() => navigate(-1)} className={styles.voltar}>
         ← Voltar
       </a>
-    </>
+    </div>
   );
 }
