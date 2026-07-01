@@ -13,7 +13,7 @@ function formatPrice(valor) {
     : "---";
 }
 
-function Card({ s }) {
+function Card({ s, modoConsulta }) {
   const navigate = useNavigate();
 
   return (
@@ -43,21 +43,36 @@ function Card({ s }) {
           </div>
         ))}
       </div>
-      <button className={styles.btnContratar} onClick={() => navigate(s.route)}>
+      <button
+        className={`${styles.btnContratar} ${
+          modoConsulta ? styles.btnConsulta : ""
+        }`}
+        type="button"
+        onClick={() => {
+          if (!modoConsulta) navigate(s.route);
+        }}
+        disabled={modoConsulta}
+      >
         <div className={styles.btnBg} />
-        <span className={styles.btnLabel}>Contratar Serviço</span>
-        <span className={styles.btnArrow}>
-          <svg viewBox="0 0 16 16">
-            <line x1="2" y1="8" x2="13" y2="8" />
-            <polyline points="9,4 13,8 9,12" />
-          </svg>
+        <span className={styles.btnLabel}>
+          {modoConsulta
+            ? "Consulte a secretaria para renovação"
+            : "Contratar Serviço"}
         </span>
+        {!modoConsulta && (
+          <span className={styles.btnArrow}>
+            <svg viewBox="0 0 16 16">
+              <line x1="2" y1="8" x2="13" y2="8" />
+              <polyline points="9,4 13,8 9,12" />
+            </svg>
+          </span>
+        )}
       </button>
     </div>
   );
 }
 
-export default function Planos({ mostrarTitulo = true }) {
+export default function Planos({ mostrarTitulo = true, modoConsulta = false }) {
   const [precos, setPrecos] = useState({});
 
   useEffect(() => {
@@ -77,6 +92,7 @@ export default function Planos({ mostrarTitulo = true }) {
       )}
       <div className={styles.cards}>
         <Card
+          modoConsulta={modoConsulta}
           s={{
             badge: "Popular",
             badgeClass: styles.badgePopular,
@@ -97,6 +113,7 @@ export default function Planos({ mostrarTitulo = true }) {
           }}
         />
         <Card
+          modoConsulta={modoConsulta}
           s={{
             badge: "Novo",
             badgeClass: styles.badgeNovo,

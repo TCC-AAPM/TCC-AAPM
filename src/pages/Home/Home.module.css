@@ -347,6 +347,27 @@
 .btnContratar:hover .btnBg {
   opacity: 1;
 }
+
+.btnConsulta {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--border-glass-mid);
+  color: var(--text-white-high);
+  cursor: default;
+}
+
+.btnConsulta:hover {
+  transform: none;
+}
+
+.btnConsulta .btnBg,
+.btnConsulta:hover .btnBg {
+  opacity: 0;
+}
+
+.btnConsulta:disabled {
+  opacity: 1;
+}
+
 .btnLabel,
 .btnArrow {
   position: relative;

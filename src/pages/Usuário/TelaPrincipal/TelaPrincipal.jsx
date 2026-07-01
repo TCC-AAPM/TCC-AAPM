@@ -177,7 +177,7 @@ export default function TelaPrincipal() {
             <p className={styles.textoExpirado}>
               Sua assinatura expirou. Conheça nossos planos e assine novamente!
             </p>
-            <Planos mostrarTitulo={false} />
+            <Planos mostrarTitulo={false} modoConsulta />
           </div>
         )}
 
