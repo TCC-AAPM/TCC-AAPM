@@ -3,7 +3,18 @@ import logo from "../../assets/images/AAPM-Logo.png";
 import { useTheme } from "../../utils/darkMode";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
-import { Bell, Home, Menu, Sun, Moon } from "lucide-react";
+import {
+  Bell,
+  Home,
+  KeyRound,
+  LogOut,
+  Menu,
+  Moon,
+  Sun,
+  Trash2,
+  UserRound,
+  X,
+} from "lucide-react";
 import { alertConfirmar } from "../Alerts/Alerts.jsx";
 
 export default function Header() {
@@ -79,46 +90,74 @@ export default function Header() {
         />
 
         <nav className={styles.nav}>
-          <div className={styles.left}>
-            <img src={logo} alt="AAPM" className={styles.imgLogo} />
+          <img src={logo} alt="AAPM" className={styles.imgLogo} />
+
+          <div className={styles.navActions}>
+            <button
+              className={styles.btnIconAction}
+              type="button"
+              onClick={() => navegarMenu("/usuario/tela-principal")}
+              aria-label="Ir para tela principal"
+              title="Tela principal"
+            >
+              <Home size={18} />
+            </button>
+            {renderThemeButton()}
+            <button
+              className={styles.btnIconAction}
+              type="button"
+              aria-label="Notificações"
+              title="Notificações"
+            >
+              <Bell size={18} />
+            </button>
             <button
               ref={btnRef}
-              className={styles.btnMenu}
+              className={styles.btnIconAction}
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setMenuAberto((v) => !v);
               }}
               aria-label="Abrir menu"
+              title="Menu"
             >
-              <span className="material-symbols-outlined">menu</span>
+              <Menu size={18} />
             </button>
           </div>
-
-          {renderThemeButton()}
         </nav>
 
         <div
           ref={menuRef}
           className={`${styles.menuFlutuante} ${menuAberto ? styles.abrir : ""}`}
         >
-          <div className={styles.menuHeader}>
-            <img src={logo} alt="AAPM" className={styles.menuLogo} />
-            <span className={styles.menuTitle}>MENU</span>
-          </div>
+          <button
+            className={styles.btnFecharMenu}
+            type="button"
+            onClick={() => setMenuAberto(false)}
+            aria-label="Fechar menu"
+            title="Fechar"
+          >
+            <X size={18} />
+          </button>
 
           <div className={styles.menu}>
             <button onClick={() => navegarMenu("/usuario/ver-informacoes")}>
+              <UserRound size={18} />
               Veja seus dados
             </button>
             <button onClick={() => navegarMenu("/usuario/modificar-senha")}>
+              <KeyRound size={18} />
               Modificar senha
             </button>
             <button onClick={() => navegarMenu("/usuario/deletar-conta")}>
+              <Trash2 size={18} />
               Deletar conta
             </button>
           </div>
 
           <button className={styles.btnSair} onClick={sair}>
+            <LogOut size={18} />
             Sair
           </button>
         </div>

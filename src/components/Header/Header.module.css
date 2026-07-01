@@ -25,6 +25,7 @@
 
 .navActions {
   display: flex;
+  align-items: center;
   gap: 8px;
 }
 
@@ -114,57 +115,66 @@
 .overlay {
   position: fixed;
   inset: 0;
-  top: 56px;
+  top: 65px;
   z-index: 98;
+  background: rgba(0, 0, 0, 0.08);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
   opacity: 0;
   pointer-events: none;
   transition: opacity var(--transition);
 }
 
+.overlay.visivel {
+  opacity: 1;
+  pointer-events: auto;
+}
+
 .menuFlutuante {
   position: fixed;
   top: 0;
-  left: -280px;
+  right: 0;
   width: 260px;
   height: 100vh;
   background: var(--navy-deep);
-  border-right: 1px solid var(--border-glass);
+  border-left: 1px solid var(--border-glass);
   z-index: 999;
-  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateX(100%);
+  transition: transform 300ms ease-in-out;
   display: flex;
   flex-direction: column;
-  padding: 80px 16px 32px;
+  gap: 20px;
+  padding: 22px 16px 28px;
 }
 
 .menuFlutuante.abrir {
-  left: 0;
+  transform: translateX(0);
 }
 
-.menuHeader {
-  position: absolute;
-  top: 16px;
-  left: 20px;
+.btnFecharMenu {
+  width: 34px;
+  height: 34px;
+  margin-left: auto;
+  border-radius: 8px;
+  border: 1px solid var(--border-glass-mid);
+  background: transparent;
+  color: var(--text-white-high);
+  cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 10px;
+  justify-content: center;
+  transition: all var(--transition);
 }
 
-.menuLogo {
-  width: 36px;
-  height: 36px;
-  object-fit: contain;
-}
-
-.menuTitle {
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-white-high);
+.btnFecharMenu:hover {
+  background: var(--border-glass);
+  color: var(--white);
 }
 
 .menu {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 6px;
   flex: 1;
 }
 
@@ -174,21 +184,21 @@
   width: 100%;
   text-align: left;
   cursor: pointer;
-  padding: 10px 14px;
+  padding: 12px 14px;
   border-radius: 10px;
-  color: var(--text-white-soft);
+  color: var(--text-white-high);
   font-size: 14px;
   font-family: inherit;
   transition: all var(--transition);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
 .menu button:hover {
   background: var(--border-glass);
   color: var(--white);
-  padding-left: 18px;
+  transform: translateX(-2px);
 }
 
 .btnSair {
@@ -196,24 +206,27 @@
   border: 1px solid var(--danger-bg);
   color: var(--danger);
   border-radius: 10px;
-  padding: 10px 14px;
+  padding: 12px 14px;
   width: 100%;
   text-align: left;
   cursor: pointer;
   font-size: 14px;
   font-family: inherit;
   transition: all var(--transition);
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .btnSair:hover {
   background: var(--danger-bg);
   color: var(--white);
-  padding-left: 18px;
+  transform: translateX(-2px);
 }
 
 [data-theme="light"] .menuFlutuante {
   background-color: var(--light-blue);
-  border-right: 1px solid var(--border-glass);
+  border-left: 1px solid var(--border-glass);
 }
 
 [data-theme="light"] .btnSair {
@@ -224,17 +237,11 @@
 [data-theme="light"] .btnSair:hover {
   background: var(--danger);
   color: var(--white);
-  padding-left: 18px;
 }
 
 @media (max-width: 767px) {
   .menuFlutuante {
     width: 100%;
-    left: -100%;
     top: 0;
-  }
-
-  .menuFlutuante.abrir {
-    left: 0;
   }
 }

@@ -24,6 +24,10 @@
   box-sizing: border-box;
 }
 
+.principalBoxPlanos {
+  max-width: 900px;
+}
+
 .topBar {
   position: fixed;
   top: 0;
@@ -192,6 +196,92 @@
   font-weight: 600;
 }
 
+.planosExpirados {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  animation: statusFadeIn 0.28s ease;
+}
+
+.textoExpirado {
+  margin: 0;
+  color: var(--white);
+  font-size: clamp(16px, 3.5vw, 20px);
+  font-weight: 600;
+  line-height: 1.45;
+  text-align: center;
+}
+
+.avisoStatus {
+  background-color: var(--light-blue);
+  color: var(--white);
+  width: 100%;
+  border-radius: 20px;
+  padding: clamp(20px, 5vw, 36px) clamp(16px, 5vw, 32px);
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 4vw, 24px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  box-sizing: border-box;
+  animation: statusFadeIn 0.28s ease;
+}
+
+.avisoIcon span {
+  font-size: clamp(40px, 10vw, 62px);
+  color: var(--white);
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.avisoConteudo {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+.avisoConteudo p {
+  margin: 0;
+  color: var(--white);
+  font-size: clamp(14px, 3.5vw, 18px);
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.avisoConteudo button {
+  border: 1px solid var(--border-glass-mid);
+  border-radius: 10px;
+  background: var(--border-glass);
+  color: var(--white);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  transition: all var(--transition);
+}
+
+.avisoConteudo button:hover {
+  background: var(--border-glass-mid);
+  border-color: var(--border-glass-strong);
+  transform: translateY(-2px);
+}
+
+@keyframes statusFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .alertaExpiracao {
   font-size: clamp(11px, 2.5vw, 13px);
   font-weight: 500;
@@ -200,6 +290,13 @@
 }
 
 :global(.dark-mode) .card,
-:global(.dark-mode) .countdownCard {
+:global(.dark-mode) .countdownCard,
+:global(.dark-mode) .avisoStatus {
   background-color: var(--dark-blue);
+}
+
+@media (max-width: 480px) {
+  .avisoStatus {
+    align-items: flex-start;
+  }
 }

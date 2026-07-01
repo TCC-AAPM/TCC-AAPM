@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./TelaPrincipal.module.css";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
-import { ContagemRegressiva } from "../../../utils/contagemRegressiva.js";
 import { useTermoVerification } from "../../../utils/useTermoVerification.js";
 import ModalNovoTermo from "../../../components/ModalNovoTermo/ModalNovoTermo.jsx";
+import Planos from "../../../components/Planos/Planos.jsx";
 
 function FlipDigit({ value }) {
   const ref = useRef(null);
@@ -54,12 +54,37 @@ function calcMesesDiasHoras(dataFimISO) {
   return { meses, dias, horas, expirado: false, alerta };
 }
 
+function getStatusUsuario(aluno) {
+  if (aluno?.numeroArmario) return "ATIVA";
+  if (aluno?.jaTeveReserva) return "EXPIRADA";
+  return "SEM_RESERVA";
+}
+
+function AvisoStatus({ texto, botaoTexto, aoClicarBotao }) {
+  return (
+    <div className={styles.avisoStatus}>
+      <div className={styles.avisoIcon}>
+        <span className="material-symbols-outlined">info</span>
+      </div>
+      <div className={styles.avisoConteudo}>
+        <p>{texto}</p>
+        {botaoTexto && aoClicarBotao && (
+          <button type="button" onClick={aoClicarBotao}>
+            {botaoTexto}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function TelaPrincipal() {
   const { showModal, termosParaAceitar, handleAceitar, handleRecusar } =
     useTermoVerification();
 
   const [dados, setDados] = useState({
     nome: "",
+    status: "SEM_RESERVA",
     numArmario: "-",
     dataFim: "-",
     dataFimISO: null,
@@ -77,12 +102,15 @@ export default function TelaPrincipal() {
     })
       .then((r) => r.json())
       .then((data) => {
+        const aluno = data.dados;
+
         setDados({
-          nome: data.dados.nome,
-          numArmario: data.dados.numeroArmario ?? "-",
-          dataFimISO: data.dados.dataExpiracao ?? null,
-          dataFim: data.dados.dataExpiracao
-            ? new Date(data.dados.dataExpiracao).toLocaleDateString("pt-BR")
+          nome: aluno.nome,
+          status: getStatusUsuario(aluno),
+          numArmario: aluno.numeroArmario ?? "-",
+          dataFimISO: aluno.dataExpiracao ?? null,
+          dataFim: aluno.dataExpiracao
+            ? new Date(aluno.dataExpiracao).toLocaleDateString("pt-BR")
             : "-",
         });
       })
@@ -90,12 +118,16 @@ export default function TelaPrincipal() {
   }, []);
 
   useEffect(() => {
-    if (!dados.dataFimISO) return;
+    if (dados.status !== "ATIVA" || !dados.dataFimISO) {
+      setTempo(null);
+      return undefined;
+    }
+
     const atualizar = () => setTempo(calcMesesDiasHoras(dados.dataFimISO));
     atualizar();
     const id = setInterval(atualizar, 60 * 1000);
     return () => clearInterval(id);
-  }, [dados.dataFimISO]);
+  }, [dados.dataFimISO, dados.status]);
 
   return (
     <div className={styles.containerGeral}>
@@ -106,7 +138,11 @@ export default function TelaPrincipal() {
           onRecusar={handleRecusar}
         />
       )}
-      <div className={styles.principalBox}>
+      <div
+        className={`${styles.principalBox} ${
+          dados.status === "EXPIRADA" ? styles.principalBoxPlanos : ""
+        }`}
+      >
         <div className={styles.header}>
           <p className={styles.saudacao}>Olá, {dados.nome || "Usuário"}!</p>
           {tempo?.alerta && (
@@ -116,7 +152,7 @@ export default function TelaPrincipal() {
           )}
         </div>
 
-        {tempo && !tempo.expirado && (
+        {dados.status === "ATIVA" && tempo && !tempo.expirado && (
           <div className={styles.countdownCard}>
             <p className={styles.countdownDesc}>
               Tempo restante da sua locação. Após o vencimento, você tem 7 dias
@@ -132,21 +168,36 @@ export default function TelaPrincipal() {
           </div>
         )}
 
-        <div className={styles.card}>
-          <div className={styles.cardIcon}>
-            <span className="material-symbols-outlined">inventory_2</span>
+        {dados.status === "SEM_RESERVA" && (
+          <AvisoStatus texto="Vá até a secretaria da AAPM para realizar o pagamento e escolher seu armário." />
+        )}
+
+        {dados.status === "EXPIRADA" && (
+          <div className={styles.planosExpirados}>
+            <p className={styles.textoExpirado}>
+              Sua assinatura expirou. Conheça nossos planos e assine novamente!
+            </p>
+            <Planos mostrarTitulo={false} />
           </div>
-          <div className={styles.infos}>
-            <div className={styles.infoItem}>
-              <div className={styles.label}>Número do armário</div>
-              <div className={styles.valor}>{dados.numArmario}</div>
+        )}
+
+        {dados.status === "ATIVA" && (
+          <div className={styles.card}>
+            <div className={styles.cardIcon}>
+              <span className="material-symbols-outlined">inventory_2</span>
             </div>
-            <div className={styles.infoItem}>
-              <div className={styles.label}>Encerramento</div>
-              <div className={styles.valor}>{dados.dataFim}</div>
+            <div className={styles.infos}>
+              <div className={styles.infoItem}>
+                <div className={styles.label}>Número do armário</div>
+                <div className={styles.valor}>{dados.numArmario}</div>
+              </div>
+              <div className={styles.infoItem}>
+                <div className={styles.label}>Encerramento</div>
+                <div className={styles.valor}>{dados.dataFim}</div>
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );
