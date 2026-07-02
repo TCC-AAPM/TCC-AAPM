@@ -4,7 +4,7 @@ export const API_ROUTES = {
   alunos: {
     telaPrincipal: `${BASE_URL}/Alunos/me`,
     trocarSenha: `${BASE_URL}/Usuario/trocar-senha`,
-    deletarConta: `${BASE_URL}/Alunos/deletar-conta`,
+    excluirConta: `${BASE_URL}/Alunos/excluir-conta`,
   },
 
   admin: {},

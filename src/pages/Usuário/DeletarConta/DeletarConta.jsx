@@ -26,12 +26,12 @@ export default function DeletarConta() {
   }, []);
 
   async function handleDeletar() {
-    console.log("rota:", API_ROUTES.alunos.deletarConta);
+    console.log("rota:", API_ROUTES.alunos.excluirConta);
     setCarregando(true);
     try {
       const token = localStorage.getItem("token");
       console.log("token:", token);
-      const res = await fetch(API_ROUTES.alunos.deletarConta, {
+      const res = await fetch(API_ROUTES.alunos.excluirConta, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
