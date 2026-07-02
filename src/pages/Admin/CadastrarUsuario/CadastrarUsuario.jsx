@@ -1,30 +1,47 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./CadastrarUsuario.module.css";
-// import { validarCPF } from "../../../utils/validarCPF";
+import { validarCPF } from "../../../utils/validarCPF";
 import { API_ROUTES } from "../../../utils/auth.js";
+import {
+  alertErro,
+  alertSucessoModal,
+  alertAviso,
+  alertInfo,
+} from "../../../components/Alerts/Alerts.jsx";
 
 function mascaraCPF(valor) {
   valor = valor.replace(/\D/g, "").slice(0, 11);
-
   if (valor.length <= 3) return valor;
   if (valor.length <= 6) return valor.replace(/(\d{3})(\d+)/, "$1.$2");
   if (valor.length <= 9) return valor.replace(/(\d{3})(\d{3})(\d+)/, "$1.$2.$3");
-
-  return valor.replace(
-    /(\d{3})(\d{3})(\d{3})(\d{1,2})/,
-    "$1.$2.$3-$4"
-  );
+  return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
 }
 
 function mascaraTelefone(valor) {
   valor = valor.replace(/\D/g, "").slice(0, 11);
-
   if (valor.length <= 2) return valor;
   if (valor.length <= 6) return valor.replace(/(\d{2})(\d+)/, "($1) $2");
-  if (valor.length <= 10)
-    return valor.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
-
+  if (valor.length <= 10) return valor.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
   return valor.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
+}
+
+function obterIdCurso(c) {
+  return c.id ?? c.idCurso ?? c.Id ?? c.IdCurso;
+}
+function obterNomeCurso(c) {
+  return c.nome ?? c.Nome ?? c.nomeCurso ?? c.NomeCurso ?? "";
+}
+function obterIdTurma(t) {
+  return t.id ?? t.idTurma ?? t.Id ?? t.IdTurma;
+}
+function obterNomeTurma(t) {
+  return t.turma ?? t.nomeTurma ?? t.NomeTurma ?? t.nome ?? "";
+}
+function obterListaDados(data) {
+  if (Array.isArray(data)) return data;
+  if (Array.isArray(data?.dados)) return data.dados;
+  if (Array.isArray(data?.Dados)) return data.Dados;
+  return [];
 }
 
 export default function CadastrarUsuario() {
@@ -36,64 +53,45 @@ export default function CadastrarUsuario() {
   const [cursoId, setCursoId] = useState("default");
   const [turmaId, setTurmaId] = useState("default");
   const [pagamento, setPagamento] = useState("default");
-
   const [cursos, setCursos] = useState([]);
   const [turmas, setTurmas] = useState([]);
-
   const [btnLabel, setBtnLabel] = useState("Cadastrar Usuário");
+  const [salvando, setSalvando] = useState(false);
+  const [verificandoCpf, setVerificandoCpf] = useState(false);
 
   const alunoEncontrado = useRef(null);
 
-  /* ===========================
-     CARREGAR CURSOS
-  =========================== */
   useEffect(() => {
     async function carregarCursos() {
       try {
-        const res = await fetch(API_ROUTES.cursos);
+        const res = await fetch(API_ROUTES.cursos.carregarCursos);
         if (!res.ok) throw new Error();
-
-        const dados = await res.json();
-        setCursos(dados);
-      } catch (error) {
-        console.error("Erro ao buscar cursos:", error);
+        setCursos(obterListaDados(await res.json()));
+      } catch {
+        alertErro("Erro ao carregar cursos");
       }
     }
-
     carregarCursos();
   }, []);
 
-  /* ===========================
-     CARREGAR TURMAS
-  =========================== */
   useEffect(() => {
     if (cursoId === "default") return;
 
     async function carregarTurmas() {
       try {
-        const url = API_ROUTES.admin.turmasPorCurso.replace(
-          "{idCurso}",
-          cursoId
-        );
-
-        const res = await fetch(url);
+        const res = await fetch(API_ROUTES.turmas.porCurso(cursoId));
         if (!res.ok) throw new Error();
-
-        const dados = await res.json();
-
-        setTurmas(dados);
+        setTurmas(obterListaDados(await res.json()));
         setTurmaId("default");
-      } catch (error) {
-        console.error("Erro ao buscar turmas:", error);
+      } catch {
+        alertErro("Erro ao carregar turmas");
       }
     }
-
     carregarTurmas();
   }, [cursoId]);
 
   function resetFormulario(limparCpf = true) {
     if (limparCpf) setCpf("");
-
     setNome("");
     setTelefone("");
     setEmail("");
@@ -103,6 +101,7 @@ export default function CadastrarUsuario() {
     setTurmas([]);
     setPagamento("default");
     setBtnLabel("Cadastrar Usuário");
+    alunoEncontrado.current = null;
   }
 
   function preencherFormulario(usuario) {
@@ -110,96 +109,66 @@ export default function CadastrarUsuario() {
     setTelefone(mascaraTelefone(usuario.telefone));
     setEmail(usuario.email);
     setMatricula(usuario.matricula);
-    setCursoId(String(usuario.curso_id));
-    setPagamento(usuario.metodo);
+    setCursoId(String(usuario.idCurso));
     setBtnLabel("Recadastrar Usuário");
-
-    setTimeout(() => {
-      setTurmaId(String(usuario.turma_id));
-    }, 300);
+    setTimeout(() => setTurmaId(String(usuario.idTurma)), 300);
   }
 
   function handleCpfChange(e) {
     const valor = mascaraCPF(e.target.value);
-
     setCpf(valor);
-
-    const limpo = valor.replace(/\D/g, "");
-
-    if (limpo.length < 11) {
-      resetFormulario(false);
-    }
+    if (valor.replace(/\D/g, "").length < 11) resetFormulario(false);
   }
 
   async function handleCpfBlur() {
     const cpfLimpo = cpf.replace(/\D/g, "");
-
     if (cpfLimpo.length !== 11) return;
 
     if (!validarCPF(cpfLimpo)) {
-      Toast?.fire({
-        icon: "error",
-        title: "CPF inválido",
-      });
-
+      alertErro("CPF inválido");
       return;
     }
 
+    setVerificandoCpf(true);
     try {
-      const res = await fetch(API_ROUTES.admin.buscarCpf, {
+      const res = await fetch(API_ROUTES.alunos.buscarPorCPF, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          CPF: cpfLimpo,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ CPF: cpfLimpo }),
       });
-
-      if (!res.ok) throw new Error();
 
       const dados = await res.json();
 
-      if (dados.existe) {
-        alunoEncontrado.current = dados.usuario;
-        preencherFormulario(dados.usuario);
-      } else {
+      if (res.status === 404) {
         alunoEncontrado.current = null;
         resetFormulario(false);
-
-        Toast?.fire({
-          icon: "info",
-          title: "CPF não encontrado",
-        });
+        return;
       }
+
+      if (!res.ok) throw new Error();
+
+      alunoEncontrado.current = dados.dados;
+      preencherFormulario(dados.dados);
+      alertInfo("Dados carregados");
     } catch {
       resetFormulario(false);
+      alertErro("Erro ao buscar CPF");
+    } finally {
+      setVerificandoCpf(false);
     }
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
-
     const telefoneLimpo = telefone.replace(/\D/g, "");
 
-    if (
-      !nome ||
-      !cpf ||
-      !telefone ||
-      !email ||
-      !matricula ||
-      cursoId === "default" ||
-      turmaId === "default" ||
-      pagamento === "default"
-    ) {
-      Toast?.fire({
-        icon: "warning",
-        title: "Preencha todos os campos",
-      });
-
+    if (!nome || !cpf || !telefone || !email || !matricula ||
+        cursoId === "default" || turmaId === "default" || pagamento === "default") {
+      alertAviso("Preencha todos os campos");
       return;
     }
 
+    setSalvando(true);
     try {
       const payload = {
         nome,
@@ -213,33 +182,22 @@ export default function CadastrarUsuario() {
       };
 
       const rota = alunoEncontrado.current
-        ? API_ROUTES.admin.recadastrarAluno
-        : API_ROUTES.admin.cadastrarAluno;
+        ? API_ROUTES.reservas.recadastrarArmario
+        : API_ROUTES.reservas.cadastrarArmario;
 
       const res = await fetch(rota, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
-
       if (!res.ok) throw new Error();
 
-      window.Swal?.fire({
-        icon: "success",
-        title: "Sucesso!",
-        text: "Usuário salvo com sucesso.",
-        timer: 1500,
-        showConfirmButton: false,
-      });
-
+      await alertSucessoModal("Sucesso!", "Usuário salvo com sucesso.");
       resetFormulario();
     } catch {
-      Toast?.fire({
-        icon: "error",
-        title: "Erro ao salvar usuário",
-      });
+      alertErro("Erro ao salvar usuário");
+    } finally {
+      setSalvando(false);
     }
   }
 
@@ -247,8 +205,6 @@ export default function CadastrarUsuario() {
     <>
       <div className={styles.principalBox}>
         <form id="formsCadastro" className={styles.form} onSubmit={handleSubmit}>
-
-          {/* Dados Pessoais */}
           <div className={styles.sectionDivider}>
             <span className={`material-symbols-outlined ${styles.icon}`}>badge</span>
             <span>Dados Pessoais</span>
@@ -259,12 +215,11 @@ export default function CadastrarUsuario() {
             <input
               type="text"
               className={styles.formControl}
-              id="CPF"
-              name="CPF"
               placeholder="Digite o CPF"
               value={cpf}
               onChange={handleCpfChange}
               onBlur={handleCpfBlur}
+              disabled={verificandoCpf}
             />
           </div>
 
@@ -273,14 +228,13 @@ export default function CadastrarUsuario() {
             <input
               type="text"
               className={styles.formControl}
-              id="nome"
               placeholder="Digite o nome"
               value={nome}
               onChange={(e) => setNome(e.target.value)}
+              required
             />
           </div>
 
-          {/* Contato */}
           <div className={styles.sectionDivider}>
             <span className={`material-symbols-outlined ${styles.icon}`}>contact_phone</span>
             <span>Contato</span>
@@ -291,8 +245,6 @@ export default function CadastrarUsuario() {
             <input
               type="tel"
               className={styles.formControl}
-              id="telefone"
-              name="telefone"
               placeholder="Digite o telefone"
               value={telefone}
               onChange={(e) => setTelefone(mascaraTelefone(e.target.value))}
@@ -305,8 +257,6 @@ export default function CadastrarUsuario() {
             <input
               type="email"
               className={styles.formControl}
-              id="email"
-              name="email"
               placeholder="Digite o email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -314,7 +264,6 @@ export default function CadastrarUsuario() {
             />
           </div>
 
-          {/* Dados Acadêmicos */}
           <div className={styles.sectionDivider}>
             <span className={`material-symbols-outlined ${styles.icon}`}>school</span>
             <span>Dados Acadêmicos</span>
@@ -325,8 +274,6 @@ export default function CadastrarUsuario() {
             <input
               type="text"
               className={styles.formControl}
-              id="matricula"
-              name="matricula"
               placeholder="Digite o número de matrícula"
               value={matricula}
               onChange={(e) => setMatricula(e.target.value)}
@@ -338,15 +285,15 @@ export default function CadastrarUsuario() {
             <label>Curso</label>
             <select
               className={styles.formSelect}
-              id="select-curso"
-              name="curso_id"
               value={cursoId}
               onChange={(e) => setCursoId(e.target.value)}
               required
             >
               <option disabled value="default">Selecione o curso</option>
               {cursos.map((c) => (
-                <option key={c.id} value={c.id}>{c.nome}</option>
+                <option key={obterIdCurso(c)} value={obterIdCurso(c)}>
+                  {obterNomeCurso(c)}
+                </option>
               ))}
             </select>
           </div>
@@ -355,20 +302,20 @@ export default function CadastrarUsuario() {
             <label>Turma</label>
             <select
               className={styles.formSelect}
-              id="select-turma"
-              name="turma_id"
               value={turmaId}
               onChange={(e) => setTurmaId(e.target.value)}
+              disabled={cursoId === "default"}
               required
             >
               <option disabled value="default">Selecione a turma</option>
               {turmas.map((t) => (
-                <option key={t.id} value={t.id}>{t.turma}</option>
+                <option key={obterIdTurma(t)} value={obterIdTurma(t)}>
+                  {obterNomeTurma(t)}
+                </option>
               ))}
             </select>
           </div>
 
-          {/* Contrato */}
           <div className={styles.sectionDivider}>
             <span className={`material-symbols-outlined ${styles.icon}`}>payments</span>
             <span>Contrato</span>
@@ -378,8 +325,6 @@ export default function CadastrarUsuario() {
             <label>Forma de Pagamento</label>
             <select
               className={styles.formSelect}
-              id="select-pagamento"
-              name="pagamento"
               value={pagamento}
               onChange={(e) => setPagamento(e.target.value)}
               required
@@ -393,8 +338,8 @@ export default function CadastrarUsuario() {
           </div>
 
           <div className={styles.botaoCadastrar}>
-            <button type="submit" className={styles.btnPrimary} id="btnCadastrar">
-              {btnLabel}
+            <button type="submit" className={styles.btnPrimary} disabled={salvando}>
+              {salvando ? "Salvando..." : btnLabel}
             </button>
           </div>
         </form>
@@ -403,7 +348,6 @@ export default function CadastrarUsuario() {
       <a href="#" onClick={() => history.back()} className={styles.voltar}>
         ← Voltar
       </a>
-
     </>
   );
 }

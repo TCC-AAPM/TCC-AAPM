@@ -5,6 +5,7 @@ export const API_ROUTES = {
     telaPrincipal: `${BASE_URL}/Alunos/me`,
     trocarSenha: `${BASE_URL}/Usuario/trocar-senha`,
     excluirConta: `${BASE_URL}/Alunos/excluir-conta`,
+    buscarPorCPF: `${BASE_URL}/Alunos/buscar-por-cpf`,
   },
 
   admin: {},
@@ -13,7 +14,7 @@ export const API_ROUTES = {
     listar: `${BASE_URL}/Armarios`,
     atualizar: (numeroArmario) => `${BASE_URL}/Armarios/${numeroArmario}`,
     atualizarEstado: (numeroArmario) =>
-      `${BASE_URL}/armarios/estado/${numeroArmario}`,
+      `${BASE_URL}/Armarios/estado/${numeroArmario}`,
   },
 
   cursos: {
@@ -25,14 +26,14 @@ export const API_ROUTES = {
   },
 
   reservas: {
-    reservas: `${BASE_URL}/Reservas`,
-    recadastrarReserva: `${BASE_URL}/Reservas/recadastrar`, //nao usando
-    comReserva: "/api/Reservas/com-reserva",
+    cadastrarArmario: `${BASE_URL}/Reservas/cadastro-armario`,
+    recadastrarArmario: `${BASE_URL}/Reservas/recadastrar-armario`,
+    comReserva: `${BASE_URL}/Reservas/com-reserva`,
+    historico: `${BASE_URL}/Reservas/historico-reserva`,
   },
 
   produtos: {
     listar: `${BASE_URL}/Produtos`,
-    idProdutos: `${BASE_URL}/Produtos/{idProduto}`, //nao usando
   },
 
   cadastro: {
