@@ -1,4 +1,3 @@
-// src/utils/useTermoVerification.js
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "../routes/config/api.js";

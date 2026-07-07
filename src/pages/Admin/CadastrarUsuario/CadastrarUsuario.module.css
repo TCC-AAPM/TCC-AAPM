@@ -3,128 +3,224 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;  
+  justify-content: center;
   min-height: var(--page-min-height);
   padding: 20px;
 }
 
 .form {
-  background: linear-gradient(135deg, #1e3b8a44, #2564eb3a);
-  border-radius: 12px;
-  padding: 0.6rem 1rem;
-  width: 80%;
+  background: var(--glass-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 2rem 2.4rem 1.6rem;
+  width: 100%;
+  max-width: 1100px;
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0.8rem 1.2rem;
-  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  grid-template-columns: repeat(12, 1fr);
+  gap: 1rem 1rem;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
 }
 
 .sectionDivider {
-  grid-column: 1 / 5;
+  grid-column: 1 / 13;
   display: flex;
   align-items: center;
   gap: 0.4rem;
+  color: var(--text-white);
+  font-size: 11px;
   font-weight: 600;
-  color: #3f51b5;
-  border-bottom: 1px solid #e5e7eb;
-  padding-bottom: 0.3rem;
-  margin-top: 0.3rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border-glass-mid);
+  padding-bottom: 0.5rem;
+  margin-top: 0.4rem;
+}
+
+.sectionDivider:first-child {
+  margin-top: 0;
 }
 
 .sectionDivider .icon {
-  font-size: 20px;
+  font-size: 18px;
+  color: var(--blue);
 }
 
 .inputBox,
 .selectBox {
   display: flex;
   flex-direction: column;
+  min-width: 0;
 }
 
 .inputBox label,
-.selectBox label {
-  font-size: 13px;
+.selectBox label,
+.checkboxBox label {
+  font-size: 12px;
   font-weight: 500;
-  color: white;
-  padding-left: 0.7rem;
-  margin-bottom: 0.2rem;
+  color: var(--text-white-high);
+  padding-left: 0.2rem;
+  margin-bottom: 0.35rem;
 }
 
 .inputBox .formControl,
 .selectBox .formSelect {
   width: 100%;
-  padding: 10px 14px;
-  border: none;
+  height: 46px;
+  padding: 0 14px;
   border-radius: 10px;
-  color: white;
-  font-size: 15px;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  height: 52px;
-  background: rgba(30, 58, 138, 0.6);
+  background: transparent;
+  border: 1px solid var(--border-glass-strong);
+  color: var(--text-white-high);
+  font-size: 14px;
+  font-family: "Outfit", sans-serif;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  box-sizing: border-box;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.selectBox .formSelect:has(option[value="default"]:checked) {
+  color: var(--text-white-muted);
 }
 
 .inputBox .formControl::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-white-muted);
 }
 
 .inputBox .formControl:focus,
 .selectBox .formSelect:focus {
-  outline: none;
-  background: rgba(30, 58, 138, 0.8);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
+  border-color: var(--text-white-high);
+  box-shadow: 0 0 0 3px var(--border-glass);
 }
 
-.selectBox .formSelect:valid {
-  color: white;
+.inputBox .formControl:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.inputBox .formControl[type="date"] {
+  color-scheme: dark;
 }
 
 .selectBox .formSelect option {
-  background: #1e3a8a;
-  color: white;
-  padding: 10px;
+  background: var(--light-blue);
+  color: var(--white);
 }
 
 .selectBox .formSelect option:disabled {
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-white-muted);
 }
 
-/* Grid spans */
-.colSpan1 { grid-column: span 1; }
-.colSpan2 { grid-column: span 2; }
-.colSpan3 { grid-column: span 3; }
-.colSpan4 { grid-column: span 4; }
+/* Grid spans (base 12 colunas): ajustado para cada linha somar 12 e não sobrar espaço */
+.colSpan1 { grid-column: span 3; }
+.colSpan2 { grid-column: span 6; }
+.colSpan3 { grid-column: span 6; }
+.colSpan4 { grid-column: span 12; }
+
+/* Aviso de menor de idade (responsavel presente) */
+.avisoMenor {
+  grid-column: 1 / 13;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+  background: rgba(255, 179, 0, 0.14);
+  border: 1px solid rgba(255, 179, 0, 0.5);
+  border-radius: 12px;
+  padding: 0.9rem 1.1rem;
+}
+
+.avisoMenor .material-symbols-outlined {
+  color: #ffb300;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.avisoMenorTexto {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  font-size: 13px;
+  color: var(--text-white-high);
+}
+
+.avisoMenorTexto strong {
+  color: #ffb300;
+}
+
+.avisoMenorTexto label {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+}
+
+/* Checkboxes de aceite dos termos */
+.checkboxBox {
+  grid-column: 1 / 13;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.checkboxBox label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.checkboxBox input[type="checkbox"],
+.avisoMenorTexto input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--blue);
+  cursor: pointer;
+  flex-shrink: 0;
+}
 
 .botaoCadastrar {
-  grid-column: 1 / 5;
+  grid-column: 1 / 13;
   display: flex;
   justify-content: center;
-  margin-top: 0.5rem;
+  margin-top: 0.6rem;
 }
 
 .btnPrimary {
-  background-color: var(--dark-blue, #1e3a8a);
-  height: 48px;
-  border-radius: 14px;
-  font-size: 18px;
+  background-color: var(--dark-blue);
+  height: 46px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: "Outfit", sans-serif;
   width: 100%;
   max-width: 350px;
   border: none;
-  color: white;
+  color: var(--white);
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity var(--transition), transform var(--transition);
 }
 
-.btnPrimary:hover {
-  opacity: 0.85;
+.btnPrimary:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .voltar {
   position: fixed;
   bottom: 10%;
   left: 1.5rem;
-  color: white;
+  color: var(--white);
   text-decoration: none;
   font-weight: 500;
 }
@@ -132,7 +228,13 @@
 .footer {
   text-align: center;
   padding: 1rem;
-  color: white;
+  color: var(--white);
+}
+
+@media (max-width: 1024px) {
+  .form {
+    max-width: none;
+  }
 }
 
 @media (max-width: 768px) {
@@ -143,7 +245,7 @@
   .form {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 1.4rem;
     width: 90%;
   }
 
@@ -152,18 +254,9 @@
     width: 100%;
   }
 
-  .inputBox .formControl,
-  .selectBox .formSelect {
-    width: 100%;
-  }
-
   .btnPrimary {
-    height: 60px;
-    font-size: 20px;
+    height: 56px;
+    font-size: 16px;
     max-width: 100%;
-  }
-
-  .botaoCadastrar {
-    margin-top: 0.5rem;
   }
 }

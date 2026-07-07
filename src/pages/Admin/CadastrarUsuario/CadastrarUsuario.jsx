@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import styles from "./CadastrarUsuario.module.css";
 import { validarCPF } from "../../../utils/validarCPF";
-import { API_ROUTES } from "../../../utils/auth.js";
+import { API_ROUTES, authFetch } from "../../../utils/auth.js";
 import {
   alertErro,
   alertSucessoModal,
@@ -37,6 +37,22 @@ function obterIdTurma(t) {
 function obterNomeTurma(t) {
   return t.turma ?? t.nomeTurma ?? t.NomeTurma ?? t.nome ?? "";
 }
+// NOVO: calcula idade a partir da data de nascimento (formato yyyy-mm-dd do input type="date")
+function calcularIdade(dataNasc) {
+  if (!dataNasc) return null;
+  const nascimento = new Date(dataNasc);
+  if (Number.isNaN(nascimento.getTime())) return null;
+
+  const hoje = new Date();
+  let idade = hoje.getFullYear() - nascimento.getFullYear();
+  const aindaNaoFezAniversario =
+    hoje.getMonth() < nascimento.getMonth() ||
+    (hoje.getMonth() === nascimento.getMonth() && hoje.getDate() < nascimento.getDate());
+
+  if (aindaNaoFezAniversario) idade -= 1;
+  return idade;
+}
+
 function obterListaDados(data) {
   if (Array.isArray(data)) return data;
   if (Array.isArray(data?.dados)) return data.dados;
@@ -50,6 +66,7 @@ export default function CadastrarUsuario() {
   const [telefone, setTelefone] = useState("");
   const [email, setEmail] = useState("");
   const [matricula, setMatricula] = useState("");
+  const [dataNasc, setDataNasc] = useState(""); // NOVO: data de nascimento exigida pelo backend
   const [cursoId, setCursoId] = useState("default");
   const [turmaId, setTurmaId] = useState("default");
   const [pagamento, setPagamento] = useState("default");
@@ -59,7 +76,21 @@ export default function CadastrarUsuario() {
   const [salvando, setSalvando] = useState(false);
   const [verificandoCpf, setVerificandoCpf] = useState(false);
 
+  // NOVO: ids dos termos vigentes (site e armário), carregados via API
+  const [termoSite, setTermoSite] = useState(null);
+  const [termoArmario, setTermoArmario] = useState(null);
+
+  // NOVO: confirmação do admin de que o aluno aceitou cada termo
+  const [aceitouTermoSite, setAceitouTermoSite] = useState(false);
+  const [aceitouTermoArmario, setAceitouTermoArmario] = useState(false);
+
+  // NOVO: confirmação de presença do responsável, exigida se o aluno for menor de idade
+  const [responsavelPresente, setResponsavelPresente] = useState(false);
+
   const alunoEncontrado = useRef(null);
+
+  // NOVO: id do armário clicado no card (salvo em Armarios.jsx)
+  const idArmario = Number(localStorage.getItem("armarioSelecionado"));
 
   useEffect(() => {
     async function carregarCursos() {
@@ -90,16 +121,41 @@ export default function CadastrarUsuario() {
     carregarTurmas();
   }, [cursoId]);
 
+  // NOVO: carrega os termos ativos (site "S" e armário "A") para enviar no cadastro
+  useEffect(() => {
+    async function carregarTermos() {
+      try {
+        const res = await authFetch(API_ROUTES.termos.termosAtivos);
+        if (!res.ok) throw new Error();
+        const data = await res.json();
+        const lista = data.dados ?? data;
+
+        const site = lista.find((t) => (t.referencia ?? t.Referencia) === "S");
+        const armario = lista.find((t) => (t.referencia ?? t.Referencia) === "A");
+
+        setTermoSite(site?.idTermo ?? site?.IdTermo ?? null);
+        setTermoArmario(armario?.idTermo ?? armario?.IdTermo ?? null);
+      } catch {
+        alertErro("Erro ao carregar termos ativos");
+      }
+    }
+    carregarTermos();
+  }, []);
+
   function resetFormulario(limparCpf = true) {
     if (limparCpf) setCpf("");
     setNome("");
     setTelefone("");
     setEmail("");
     setMatricula("");
+    setDataNasc("");
     setCursoId("default");
     setTurmaId("default");
     setTurmas([]);
     setPagamento("default");
+    setAceitouTermoSite(false);
+    setAceitouTermoArmario(false);
+    setResponsavelPresente(false);
     setBtnLabel("Cadastrar Usuário");
     alunoEncontrado.current = null;
   }
@@ -109,6 +165,7 @@ export default function CadastrarUsuario() {
     setTelefone(mascaraTelefone(usuario.telefone));
     setEmail(usuario.email);
     setMatricula(usuario.matricula);
+    setDataNasc(usuario.dataNasc ?? usuario.DataNasc ?? "");
     setCursoId(String(usuario.idCurso));
     setBtnLabel("Recadastrar Usuário");
     setTimeout(() => setTurmaId(String(usuario.idTurma)), 300);
@@ -131,9 +188,9 @@ export default function CadastrarUsuario() {
 
     setVerificandoCpf(true);
     try {
-      const res = await fetch(API_ROUTES.alunos.buscarPorCPF, {
+      // ALTERADO: authFetch em vez de fetch (rota protegida)
+      const res = await authFetch(API_ROUTES.alunos.buscarPorCPF, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ CPF: cpfLimpo }),
       });
 
@@ -162,37 +219,68 @@ export default function CadastrarUsuario() {
     e.preventDefault();
     const telefoneLimpo = telefone.replace(/\D/g, "");
 
-    if (!nome || !cpf || !telefone || !email || !matricula ||
+    // ALTERADO: incluído !dataNasc na validação
+    if (!nome || !cpf || !telefone || !email || !matricula || !dataNasc ||
         cursoId === "default" || turmaId === "default" || pagamento === "default") {
       alertAviso("Preencha todos os campos");
       return;
     }
 
+    if (!idArmario) {
+      alertErro("Nenhum armário selecionado. Volte e clique em um armário disponível.");
+      return;
+    }
+
+    if (!termoSite || !termoArmario) {
+      alertErro("Termos vigentes não carregados. Tente novamente.");
+      return;
+    }
+
+    if (!aceitouTermoSite || !aceitouTermoArmario) {
+      alertAviso("Confirme que o aluno aceitou os termos antes de continuar");
+      return;
+    }
+
+    // NOVO: se menor de idade, exige confirmação de que um responsável está presente (LGPD)
+    const idade = calcularIdade(dataNasc);
+    if (idade !== null && idade < 18 && !responsavelPresente) {
+      alertAviso("Aluno é menor de idade. Confirme a presença do responsável legal.");
+      return;
+    }
+
     setSalvando(true);
     try {
+      // ALTERADO: payload em PascalCase e com todos os campos exigidos pelo DTO
       const payload = {
-        nome,
-        cpf: cpf.replace(/\D/g, ""),
-        telefone: telefoneLimpo,
-        email,
-        matricula,
-        curso_id: Number(cursoId),
-        turma_id: Number(turmaId),
-        metodo: pagamento,
+        IdArmario: idArmario,
+        CPF: cpf.replace(/\D/g, ""),
+        Nome: nome,
+        Telefone: telefoneLimpo,
+        Email: email,
+        Matricula: matricula,
+        DataNasc: dataNasc,
+        IdCurso: Number(cursoId),
+        IdTurma: Number(turmaId),
+        MetodoPagamento: pagamento,
+        IdTermoSite: termoSite,
+        AceitouTermoSite: true,
+        IdTermoArmario: termoArmario,
+        AceitouTermoArmario: true,
       };
 
       const rota = alunoEncontrado.current
         ? API_ROUTES.reservas.recadastrarArmario
         : API_ROUTES.reservas.cadastrarArmario;
 
-      const res = await fetch(rota, {
+      // ALTERADO: authFetch em vez de fetch (rota protegida)
+      const res = await authFetch(rota, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
       if (!res.ok) throw new Error();
 
       await alertSucessoModal("Sucesso!", "Usuário salvo com sucesso.");
+      localStorage.removeItem("armarioSelecionado"); // NOVO: limpa após sucesso
       resetFormulario();
     } catch {
       alertErro("Erro ao salvar usuário");
@@ -200,6 +288,10 @@ export default function CadastrarUsuario() {
       setSalvando(false);
     }
   }
+
+  // NOVO: usado para mostrar o aviso de responsável quando o aluno for menor
+  const idade = calcularIdade(dataNasc);
+  const isMenorDeIdade = idade !== null && idade < 18;
 
   return (
     <>
@@ -234,6 +326,37 @@ export default function CadastrarUsuario() {
               required
             />
           </div>
+
+          {/* NOVO: input de Data de Nascimento */}
+          <div className={`${styles.inputBox} ${styles.colSpan1}`}>
+            <label>Data de Nascimento*</label>
+            <input
+              type="date"
+              className={styles.formControl}
+              value={dataNasc}
+              onChange={(e) => setDataNasc(e.target.value)}
+              required
+            />
+          </div>
+
+          {/* NOVO: aviso e confirmação de responsável legal quando o aluno é menor de idade */}
+          {isMenorDeIdade && (
+            <div className={`${styles.avisoMenor} ${styles.colSpan4}`}>
+              <span className="material-symbols-outlined">shield_person</span>
+              <div className={styles.avisoMenorTexto}>
+                <strong>Aluno menor de idade.</strong>
+                <label>
+                  <input
+                    type="checkbox"
+                    checked={responsavelPresente}
+                    onChange={(e) => setResponsavelPresente(e.target.checked)}
+                  />
+                  Confirmo que um responsável legal está presente e ciente,
+                  fornecendo os dados do menor neste cadastro.
+                </label>
+              </div>
+            </div>
+          )}
 
           <div className={styles.sectionDivider}>
             <span className={`material-symbols-outlined ${styles.icon}`}>contact_phone</span>
@@ -335,6 +458,30 @@ export default function CadastrarUsuario() {
               <option value="A">Dinheiro</option>
               <option value="P">Pix</option>
             </select>
+          </div>
+
+          <div className={styles.sectionDivider}>
+            <span className={`material-symbols-outlined ${styles.icon}`}>gavel</span>
+            <span>Termos</span>
+          </div>
+
+          <div className={`${styles.checkboxBox} ${styles.colSpan4}`}>
+            <label>
+              <input
+                type="checkbox"
+                checked={aceitouTermoSite}
+                onChange={(e) => setAceitouTermoSite(e.target.checked)}
+              />
+              Aluno aceitou o Termo de Uso do Site
+            </label>
+            <label>
+              <input
+                type="checkbox"
+                checked={aceitouTermoArmario}
+                onChange={(e) => setAceitouTermoArmario(e.target.checked)}
+              />
+              Aluno aceitou o Termo de Uso do Armário
+            </label>
           </div>
 
           <div className={styles.botaoCadastrar}>

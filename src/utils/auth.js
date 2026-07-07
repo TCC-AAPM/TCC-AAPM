@@ -1,7 +1,7 @@
 export { API_ROUTES } from "../routes/config/api.js";
 
 export function getUsuarioLogado() {
-  const token = localStorage.getItem("token") ;
+  const token = localStorage.getItem("token");
   if (!token) return null;
 
   try {
@@ -20,4 +20,25 @@ export function getUsuarioLogado() {
   } catch {
     return null;
   }
+}
+
+export async function authFetch(url, options = {}) {
+  const token = localStorage.getItem("token");
+
+  const res = await fetch(url, {
+    ...options,
+    headers: {
+      "Content-Type": "application/json",
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      ...options.headers,
+    },
+  });
+
+  if (res.status === 401) {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    window.location.href = "/login";
+  }
+
+  return res;
 }
