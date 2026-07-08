@@ -3,6 +3,34 @@
   "WorkspaceRootPath": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\services\\reservaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\reservaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\dtos\\reserva\\criarcadastroarmariorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\reserva\\criarcadastroarmariorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\services\\cadastroservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\cadastroservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\cadastrocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\cadastrocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\reservascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\reservascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\services\\alunoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\alunoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -59,10 +87,6 @@
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\turma\\criarturmarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\services\\cadastroservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\cadastroservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\emailservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -79,28 +103,12 @@
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\turmascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\usuariocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\reservascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\reservascontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\produtoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\produtoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\logincontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\esquecisenhacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\esquecisenhacontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\cadastrocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\cadastrocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -110,86 +118,50 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ConfigReserva.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Models\\ConfigReserva.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Models\\ConfigReserva.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Models\\ConfigReserva.cs",
-              "RelativeToolTip": "API-backEnd\\Models\\ConfigReserva.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T22:54:12.775Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PeriodoTurma.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Enums\\PeriodoTurma.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Enums\\PeriodoTurma.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Enums\\PeriodoTurma.cs",
-              "RelativeToolTip": "API-backEnd\\Enums\\PeriodoTurma.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T22:54:02.373Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "AlunoService.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\AlunoService.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Services\\AlunoService.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\AlunoService.cs",
-              "RelativeToolTip": "API-backEnd\\Services\\AlunoService.cs",
-              "ViewState": "AgIAAC0AAAAAAAAAAAAAAEcAAAAAAAAAAAAAAA==",
+              "Title": "ReservaService.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\ReservaService.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Services\\ReservaService.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\ReservaService.cs",
+              "RelativeToolTip": "API-backEnd\\Services\\ReservaService.cs",
+              "ViewState": "AgIAAEQBAAAAAAAAAAAqwGABAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T22:38:48.872Z",
+              "WhenOpened": "2026-07-08T21:48:07.328Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "CadastroService.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\CadastroService.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Services\\CadastroService.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\CadastroService.cs",
-              "RelativeToolTip": "API-backEnd\\Services\\CadastroService.cs",
-              "ViewState": "AgIAAFQAAAAAAAAAAAAqwHAAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "CriarCadastroArmarioRequest.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Reserva\\CriarCadastroArmarioRequest.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Reserva\\CriarCadastroArmarioRequest.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Reserva\\CriarCadastroArmarioRequest.cs",
+              "RelativeToolTip": "API-backEnd\\DTOs\\Reserva\\CriarCadastroArmarioRequest.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAmwCgAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-18T18:00:06.6Z"
+              "WhenOpened": "2026-07-08T21:42:51.892Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "TurmaService.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\TurmaService.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Services\\TurmaService.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\TurmaService.cs",
-              "RelativeToolTip": "API-backEnd\\Services\\TurmaService.cs",
-              "ViewState": "AgIAABIAAAAAAAAAAAAowCsAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 5,
+              "Title": "LoginController.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\LoginController.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\LoginController.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\LoginController.cs",
+              "RelativeToolTip": "API-backEnd\\Controllers\\LoginController.cs",
+              "ViewState": "AgIAAAgAAAAAAAAAAAAUwBcAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-28T11:54:15.992Z"
+              "WhenOpened": "2026-05-07T13:45:21.283Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
-              "Title": "EmailTemplates.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\EmailTemplates\\EmailTemplates.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\EmailTemplates\\EmailTemplates.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\EmailTemplates\\EmailTemplates.cs",
-              "RelativeToolTip": "API-backEnd\\EmailTemplates\\EmailTemplates.cs",
-              "ViewState": "AgIAAGIAAAAAAAAAAAAowJsAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T16:56:37.797Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 23,
               "Title": "API-aapm.csproj",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\API-aapm.csproj",
               "RelativeDocumentMoniker": "API-backEnd\\API-aapm.csproj",
@@ -201,7 +173,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 12,
               "Title": "EmailSettings.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Settings\\EmailSettings.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Settings\\EmailSettings.cs",
@@ -209,12 +181,11 @@
               "RelativeToolTip": "API-backEnd\\Settings\\EmailSettings.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-09T16:54:12.377Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-09T16:54:12.377Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
               "Title": "AlunoLogadoResponse.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Aluno\\AlunoLogadoResponse.cs",
               "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Aluno\\AlunoLogadoResponse.cs",
@@ -222,12 +193,123 @@
               "RelativeToolTip": "API-backEnd\\DTOs\\Aluno\\AlunoLogadoResponse.cs",
               "ViewState": "AgIAAAIAAAAAAAAAAAAxwBEAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-30T22:38:32.583Z",
+              "WhenOpened": "2026-06-30T22:38:32.583Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "UsuarioController.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\UsuarioController.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\UsuarioController.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\UsuarioController.cs",
+              "RelativeToolTip": "API-backEnd\\Controllers\\UsuarioController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAUwA8AAAAtAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T13:47:04.973Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ReservasController.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\ReservasController.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\ReservasController.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\ReservasController.cs",
+              "RelativeToolTip": "API-backEnd\\Controllers\\ReservasController.cs",
+              "ViewState": "AgIAADIAAAAAAAAAAAAwwD8AAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T13:45:53.984Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "CadastroController.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\CadastroController.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\CadastroController.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\CadastroController.cs",
+              "RelativeToolTip": "API-backEnd\\Controllers\\CadastroController.cs",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABMAAAAvAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-07T13:43:34.376Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "CadastroService.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\CadastroService.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Services\\CadastroService.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\CadastroService.cs",
+              "RelativeToolTip": "API-backEnd\\Services\\CadastroService.cs",
+              "ViewState": "AgIAACcAAAAAAAAAAAAowHAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-18T18:00:06.6Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "EmailTemplates.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\EmailTemplates\\EmailTemplates.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\EmailTemplates\\EmailTemplates.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\EmailTemplates\\EmailTemplates.cs",
+              "RelativeToolTip": "API-backEnd\\EmailTemplates\\EmailTemplates.cs",
+              "ViewState": "AgIAAGIAAAAAAAAAAAAowJsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-09T16:56:37.797Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "TurmaService.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\TurmaService.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Services\\TurmaService.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\TurmaService.cs",
+              "RelativeToolTip": "API-backEnd\\Services\\TurmaService.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAowCsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-05-28T11:54:15.992Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "AlunoService.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\AlunoService.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Services\\AlunoService.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\AlunoService.cs",
+              "RelativeToolTip": "API-backEnd\\Services\\AlunoService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJAAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T22:38:48.872Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "PeriodoTurma.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Enums\\PeriodoTurma.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Enums\\PeriodoTurma.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Enums\\PeriodoTurma.cs",
+              "RelativeToolTip": "API-backEnd\\Enums\\PeriodoTurma.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T22:54:02.373Z"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 9,
+              "Title": "ConfigReserva.cs",
+              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Models\\ConfigReserva.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Models\\ConfigReserva.cs",
+              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Models\\ConfigReserva.cs",
+              "RelativeToolTip": "API-backEnd\\Models\\ConfigReserva.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T22:54:12.775Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
               "Title": "TermosResponse.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Termo\\TermosResponse.cs",
               "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Termo\\TermosResponse.cs",
@@ -239,7 +321,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 17,
               "Title": "TermoController.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\TermoController.cs",
@@ -251,7 +333,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Program.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Program.cs",
@@ -259,12 +341,11 @@
               "RelativeToolTip": "API-backEnd\\Program.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAgwDgAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T13:53:14.286Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-07T13:53:14.286Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 13,
               "Title": "CursosController.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\CursosController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\CursosController.cs",
@@ -272,12 +353,11 @@
               "RelativeToolTip": "API-backEnd\\Controllers\\CursosController.cs",
               "ViewState": "AgIAADYAAAAAAAAAAAAmwEQAAABZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T13:44:49.31Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-07T13:44:49.31Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 15,
               "Title": "TermoService.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\TermoService.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Services\\TermoService.cs",
@@ -289,7 +369,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 14,
               "Title": "ArmariosController.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\ArmariosController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\ArmariosController.cs",
@@ -301,7 +381,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 18,
               "Title": "TurmaPorCursoResponse.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Turma\\TurmaPorCursoResponse.cs",
               "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Turma\\TurmaPorCursoResponse.cs",
@@ -313,7 +393,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 20,
               "Title": "CriarTurmaRequest.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Turma\\CriarTurmaRequest.cs",
               "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Turma\\CriarTurmaRequest.cs",
@@ -325,7 +405,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 21,
               "Title": "EmailService.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\EmailService.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Services\\EmailService.cs",
@@ -337,7 +417,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 24,
               "Title": "TurmasController.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\TurmasController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\TurmasController.cs",
@@ -349,19 +429,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
-              "Title": "ReservasController.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\ReservasController.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\ReservasController.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\ReservasController.cs",
-              "RelativeToolTip": "API-backEnd\\Controllers\\ReservasController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T13:45:53.984Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 21,
+              "DocumentIndex": 25,
               "Title": "ProdutosController.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\ProdutosController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\ProdutosController.cs",
@@ -373,19 +441,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "LoginController.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\LoginController.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\LoginController.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\LoginController.cs",
-              "RelativeToolTip": "API-backEnd\\Controllers\\LoginController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAcAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T13:45:21.283Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 23,
+              "DocumentIndex": 26,
               "Title": "EsqueciSenhaController.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\EsqueciSenhaController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\EsqueciSenhaController.cs",
@@ -394,30 +450,6 @@
               "ViewState": "AgIAACMAAAAAAAAAAAAmwE4AAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-07T13:45:04.004Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 19,
-              "Title": "UsuarioController.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\UsuarioController.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\UsuarioController.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\UsuarioController.cs",
-              "RelativeToolTip": "API-backEnd\\Controllers\\UsuarioController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAApAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T13:47:04.973Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 24,
-              "Title": "CadastroController.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\CadastroController.cs",
-              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\CadastroController.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\CadastroController.cs",
-              "RelativeToolTip": "API-backEnd\\Controllers\\CadastroController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-07T13:43:34.376Z"
             }
           ]
         }

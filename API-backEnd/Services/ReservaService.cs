@@ -54,7 +54,8 @@ namespace API_backEnd.Services
             {
                 var usuario = new TabelaUsuario
                 {
-                    Senha = BCrypt.Net.BCrypt.HashPassword(dto.CPF)
+                    Senha = BCrypt.Net.BCrypt.HashPassword(dto.CPF),
+                    IsAtivo = true
                 };
 
                 db.TabelaUsuarios.Add(usuario);
@@ -75,7 +76,8 @@ namespace API_backEnd.Services
                     Email = dto.Email,
                     CursoId = dto.IdCurso,
                     TurmaId = dto.IdTurma,
-                    IdUsuario = idUsuario
+                    IdUsuario = idUsuario,
+                    IsAtivo = true
                 };
 
                 db.TabelaAlunos.Add(aluno);
@@ -348,7 +350,7 @@ namespace API_backEnd.Services
                 throw new Exception(aceiteTermoSite.Mensagem);
 
 
-
+             
             var aceiteTermoArmario = _termoService.AceitarTermoSemSalvar(idUsuario, idTermoArmario);
             if (!aceiteTermoArmario.Sucesso)
                 throw new Exception(aceiteTermoArmario.Mensagem);

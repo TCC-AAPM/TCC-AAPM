@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("API-aapm")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d6688ebb1db1ad48ccd4102164ab7fc267d9a0c1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7973aa6d7b8adcf197e2699b85d3863bfbb575bc")]
 [assembly: System.Reflection.AssemblyProductAttribute("API-aapm")]
 [assembly: System.Reflection.AssemblyTitleAttribute("API-aapm")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
