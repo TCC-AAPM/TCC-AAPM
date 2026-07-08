@@ -254,6 +254,11 @@ export default function CadastrarUsuario() {
       return;
     }
 
+    if (turmaId === "default") {
+      alertAviso("Selecione uma turma");
+      return;
+    }
+
     // se menor de idade, exige confirmação de que um responsável ta presente
     const idade = calcularIdade(dataNasc);
     if (idade !== null && idade < 18 && !responsavelPresente) {
@@ -445,7 +450,7 @@ export default function CadastrarUsuario() {
             </div>
 
             <div className={`${styles.selectBox} ${styles.colSpan1}`}>
-              <label>Turma</label>
+              <label>Turma*</label>
               <select
                 className={styles.formSelect}
                 value={turmaId}

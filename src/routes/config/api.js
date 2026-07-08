@@ -30,6 +30,7 @@ export const API_ROUTES = {
     recadastrarArmario: `${BASE_URL}/Reservas/recadastrar-armario`,
     comReserva: `${BASE_URL}/Reservas/com-reserva`,
     historico: `${BASE_URL}/Reservas/historico-reserva`,
+    excluir: (numeroArmario) => `${BASE_URL}/Reservas/${numeroArmario}`,
   },
 
   produtos: {

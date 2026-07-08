@@ -4,7 +4,7 @@ import PrivateRoute from "./PrivateRoute";
 import Home from "../pages/Home/Home.jsx";
 import Login from "../pages/Login/Index.jsx";
 import SobreNosDevs from "../pages/SobreNos/EquipeDevs/SobreNosDevs.jsx";
-import SobreNosAAPM from "../pages/SobreNos/EquipeAAPM/SobreNosAAPM.jsx"
+import SobreNosAAPM from "../pages/SobreNos/EquipeAAPM/SobreNosAAPM.jsx";
 import CadastroArmario from "../pages/PreCadastro/Armario/PreCadastroArmario.jsx";
 import AcessoNegado from "../pages/AcessoNegado/AcessoNegado.jsx";
 
@@ -23,14 +23,15 @@ import PainelAdmin from "../pages/Admin/GestaoAdmin/GestaoAdmin.jsx";
 // adm
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
 import CadastrarUsuario from "../pages/Admin/CadastrarUsuario/CadastrarUsuario.jsx";
+// import EditarUsuario from "../pages/Admin/EditarUsuario/EditarUsuario.jsx";
 
 export default function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/sobre-nos-devs" element= {<SobreNosDevs />} />
-      <Route path="/sobre-nos-aapm" element= {<SobreNosAAPM />} />
+      <Route path="/sobre-nos-devs" element={<SobreNosDevs />} />
+      <Route path="/sobre-nos-aapm" element={<SobreNosAAPM />} />
       <Route path="/cadastro-armario" element={<CadastroArmario />} />
       <Route path="/acesso-negado" element={<AcessoNegado />} />
       <Route path="/senha/esqueci" element={<EsqueciSenha />} />
@@ -72,6 +73,15 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
+
+      {/* <Route
+        path="/admin/editar-aluno"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <EditarUsuario />
+          </PrivateRoute>
+        }
+      /> */}
 
       <Route
         path="/usuario/tela-principal"
