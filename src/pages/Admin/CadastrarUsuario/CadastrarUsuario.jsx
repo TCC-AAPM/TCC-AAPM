@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./CadastrarUsuario.module.css";
 import { validarCPF } from "../../../utils/validarCPF";
 import { API_ROUTES, authFetch } from "../../../utils/auth.js";
@@ -65,6 +66,8 @@ function obterListaDados(data) {
 }
 
 export default function CadastrarUsuario() {
+  const navigate = useNavigate();
+
   const [cpf, setCpf] = useState("");
   const [nome, setNome] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -226,10 +229,8 @@ export default function CadastrarUsuario() {
       !cpf ||
       !telefone ||
       !email ||
-      !matricula ||
       !dataNasc ||
       cursoId === "default" ||
-      turmaId === "default" ||
       pagamento === "default"
     ) {
       alertAviso("Preencha todos os campos");
@@ -294,6 +295,7 @@ export default function CadastrarUsuario() {
       await alertSucessoModal("Sucesso!", "Usuário salvo com sucesso.");
       localStorage.removeItem("armarioSelecionado"); // limpa após sucesso
       resetFormulario();
+      navigate("/admin/armarios");
     } catch {
       alertErro("Erro ao salvar usuário");
     } finally {
@@ -420,7 +422,6 @@ export default function CadastrarUsuario() {
                 placeholder="Digite o número de matrícula"
                 value={matricula}
                 onChange={(e) => setMatricula(e.target.value)}
-                required
               />
             </div>
 
