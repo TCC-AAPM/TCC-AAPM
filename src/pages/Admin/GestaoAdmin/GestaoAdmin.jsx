@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./GestaoAdmin.module.css";
+import { alertConfirmar } from "../../../components/Alerts/Alerts.jsx";
 
 const cards = [
   {
@@ -15,6 +17,11 @@ const cards = [
     icon: "groups",
     title: "Gerenciar Turmas",
     desc: "Crie, edite e administre as turmas vinculadas aos cursos.",
+  },
+  {
+    icon: "group_search",
+    title: "Gerenciar Administradores",
+    desc: "Crie e analise os usuários administrativos do sistema.",
   },
   {
     icon: "description",
@@ -46,9 +53,38 @@ const cards = [
     title: "Configurações da Conta",
     desc: "Personalize preferências e opções da conta administrativa.",
   },
+  {
+    icon: "question_mark",
+    title: "?",
+    desc: "?.",
+  },
+  {
+    icon: "logout",
+    title: "Sair",
+    desc: "Encerre a sessão e saia do sistema.",
+  },
 ];
 
 export default function PainelAdmin() {
+  const navigate = useNavigate();
+
+  async function handleSair() {
+    const confirmado = await alertConfirmar("Deseja realmente sair?");
+    if (!confirmado) return;
+
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
+    navigate("/login");
+  }
+
+  function handleCardClick(card) {
+    if (card.title === "Sair") {
+      handleSair();
+      return;
+    }
+    // demais cards ainda não têm navegação definida
+  }
+
   return (
     <>
       <div className={styles.principalBox}>
@@ -60,27 +96,30 @@ export default function PainelAdmin() {
           </p>
         </div>
         <div className={styles.cards}>
-          {cards.map((card) => {
-            const inner = (
-              <>
-                <div className={styles.icone}>
-                  <span className="material-symbols-outlined">{card.icon}</span>
-                </div>
-                <h3>{card.title}</h3>
-                <p>{card.desc}</p>
-              </>
-            );
-
-            return (
-              <div className={styles.cartao} id={card.id} key={card.title}>
-                {card.href ? <a href={card.href}>{inner}</a> : inner}
+          {cards.map((card) => (
+            <div
+              className={styles.cartao}
+              key={card.title}
+              onClick={() => handleCardClick(card)}
+            >
+              <div className={styles.icone}>
+                <span className="material-symbols-outlined">{card.icon}</span>
               </div>
-            );
-          })}
+              <h3>{card.title}</h3>
+              <p>{card.desc}</p>
+            </div>
+          ))}
         </div>
       </div>
 
-      <a href="#" onClick={() => history.back()} className="voltar">
+      <a
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          navigate(-1);
+        }}
+        className="voltar"
+      >
         ← Voltar
       </a>
     </>
