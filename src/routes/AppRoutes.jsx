@@ -25,6 +25,7 @@ import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
 import CadastrarUsuario from "../pages/Admin/CadastrarUsuario/CadastrarUsuario.jsx";
 // import EditarUsuario from "../pages/Admin/EditarUsuario/EditarUsuario.jsx";
 import ModificarData from "../pages/Admin/ModificarData/ModificarData.jsx";
+import HistoricoAlunos from "../pages/Admin/HistoricoAlunos/HistoricoAlunos.jsx";
 
 export default function AppRoutes() {
   return (
@@ -92,6 +93,19 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       /> */}
+
+       <Route
+        path="/admin/historico-reserva"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <HistoricoAlunos />
+          </PrivateRoute>
+        }
+      />
+
+
+
+
 
       <Route
         path="/usuario/tela-principal"

@@ -82,12 +82,17 @@ export default function PainelAdmin() {
       handleSair();
       return;
     }
-    
+
     if (card.title === "Modificar Data Final do Semestre") {
-    navigate("/admin/modificar-data-semestre"); 
-    return;
-  }
-    // demais cards ainda não têm navegação definida
+      navigate("/admin/modificar-data-semestre");
+      return;
+    }
+
+    if (card.title === "Histórico de Alunos") {
+      navigate("/admin/historico-reserva");
+      return;
+      // demais cards ainda não têm navegação definida
+    }
   }
 
   return (

@@ -1,0 +1,145 @@
+.principalBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--page-min-height);
+  padding: 4rem 0;
+}
+
+.divHeader {
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.divHeader .icon {
+  font-size: 60px;
+}
+
+.containerLista {
+  margin-top: 2rem;
+  width: 95%;
+  max-width: 1000px;
+  background: var(--glass-card);
+  border: 1px solid var(--border-glass-strong);
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark-mode) .containerLista {
+  background: var(--glass-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glass);
+}
+
+.linha {
+  display: grid;
+  grid-template-columns: 0.7fr 2fr 1.5fr 1.5fr 1fr;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px;
+  color: var(--text-white-high);
+  background: var(--navy-input);
+}
+
+:global(.dark-mode) .linha {
+  background: var(--dark-blue);
+}
+
+.linha.titulo {
+  background: transparent;
+  border-bottom: 2px solid var(--border-glass-mid);
+  color: var(--text-white-high);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding-bottom: 0.8rem;
+}
+
+.mensagem {
+  color: var(--text-white-muted);
+  text-align: center;
+  padding: 1rem;
+}
+
+.btnEditar {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 0.5rem;
+  transition: transform var(--transition), color var(--transition);
+}
+
+.btnEditar:hover {
+  color: var(--dark-blue);
+  transform: scale(1.1);
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.status.ativo {
+  background: rgba(76, 175, 80, 0.15);
+  color: #4caf50;
+}
+
+.status.inativo {
+  background: rgba(244, 67, 54, 0.15);
+  color: #f44336;
+}
+
+@media (max-width: 768px) {
+  .principalBox {
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+  }
+
+  .linha {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  .linha.titulo {
+    display: none;
+  }
+
+  .btnEditar {
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .linha span {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .linha span:nth-child(2)::before { content: "Nome:"; font-weight: 600; opacity: 0.8; }
+  .linha span:nth-child(3)::before { content: "CPF:"; font-weight: 600; opacity: 0.8; }
+  .linha span:nth-child(4)::before { content: "Armário:"; font-weight: 600; opacity: 0.8; }
+  .linha span:nth-child(5)::before { content: "Status:"; font-weight: 600; opacity: 0.8; }
+
+  .status {
+    width: fit-content;
+  }
+}
