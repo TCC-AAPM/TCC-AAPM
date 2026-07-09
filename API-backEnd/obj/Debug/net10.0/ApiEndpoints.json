@@ -200,6 +200,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "API_backEnd.Controllers.ConfigReservaController",
+    "Method": "AlterarDataFimSemestre",
+    "RelativePath": "api/ConfigReserva/data-fim-semestre",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.ConfigReserva.AlterarDataFimSemestreRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "API_backEnd.Controllers.CursosController",
     "Method": "BuscarCursosAtivos",
     "RelativePath": "api/Cursos",

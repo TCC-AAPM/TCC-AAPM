@@ -1138,6 +1138,37 @@
         }
       }
     },
+    "/api/ConfigReserva/data-fim-semestre": {
+      "put": {
+        "tags": [
+          "ConfigReserva"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlterarDataFimSemestreRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlterarDataFimSemestreRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/AlterarDataFimSemestreRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Cursos/{idCurso}": {
       "put": {
         "tags": [
@@ -1427,6 +1458,16 @@
           "idTermo": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "AlterarDataFimSemestreRequest": {
+        "type": "object",
+        "properties": {
+          "dataFimSemestre": {
+            "type": "string",
+            "format": "date"
           }
         },
         "additionalProperties": false
