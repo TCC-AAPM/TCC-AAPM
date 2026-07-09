@@ -1,5 +1,6 @@
 ﻿import { useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { Pagination } from "@mui/material";
 import {
   CheckCircle,
   Search,
@@ -15,6 +16,8 @@ import { PopupModal } from "../../../components/PopupModal/PopupModal.jsx";
 import { API_ROUTES } from "../../../utils/auth.js";
 import styles from "./Armarios.module.css";
 
+const ITENS_POR_PAGINA = 30;
+
 export default function Armarios() {
   const navigate = useNavigate();
 
@@ -26,6 +29,7 @@ export default function Armarios() {
   const [modoSelecao, setModoSelecao] = useState(false);
   const [selecionados, setSelecionados] = useState([]);
   const [ultimoClicado, setUltimoClicado] = useState(null);
+  const [paginaAtual, setPaginaAtual] = useState(1);
 
   useEffect(() => {
     const headers = {
@@ -92,22 +96,54 @@ export default function Armarios() {
     return matchPesquisa && matchFiltro;
   });
 
+  const totalPaginas = Math.max(1, Math.ceil(lista.length / ITENS_POR_PAGINA));
+
+  const listaPaginada = lista.slice(
+    (paginaAtual - 1) * ITENS_POR_PAGINA,
+    paginaAtual * ITENS_POR_PAGINA,
+  );
+
+  // Reseta para a primeira página sempre que pesquisa/filtro mudam
+  useEffect(() => {
+    setPaginaAtual(1);
+  }, [pesquisa, filtro]);
+
+  // Corrige a página atual caso ela fique fora do intervalo válido
+  useEffect(() => {
+    if (paginaAtual > totalPaginas) {
+      setPaginaAtual(totalPaginas);
+    }
+  }, [paginaAtual, totalPaginas]);
+
   function handleClick(arm, e) {
     if (modoSelecao) {
       if (e?.shiftKey && ultimoClicado !== null) {
-        const indexAtual = lista.findIndex(
+        const indexAtual = listaPaginada.findIndex(
           (a) => a.numeroArmario === arm.numeroArmario,
         );
-        const indexUltimo = lista.findIndex(
+        const indexUltimo = listaPaginada.findIndex(
           (a) => a.numeroArmario === ultimoClicado,
         );
+
+        if (indexAtual === -1 || indexUltimo === -1) {
+          // último clicado não está na página visível atual: trata como clique normal
+          setSelecionados((prev) =>
+            prev.includes(arm.numeroArmario)
+              ? prev.filter((n) => n !== arm.numeroArmario)
+              : [...prev, arm.numeroArmario],
+          );
+          setUltimoClicado(arm.numeroArmario);
+          return;
+        }
 
         const [inicio, fim] =
           indexAtual < indexUltimo
             ? [indexAtual, indexUltimo]
             : [indexUltimo, indexAtual];
 
-        const intervalo = lista.slice(inicio, fim + 1).map((a) => a.numeroArmario);
+        const intervalo = listaPaginada
+          .slice(inicio, fim + 1)
+          .map((a) => a.numeroArmario);
 
         setSelecionados((prev) => {
           const novos = intervalo.filter((n) => !prev.includes(n));
@@ -143,13 +179,20 @@ export default function Armarios() {
   }
 
   const handleSelecionarTodos = useCallback(() => {
-    const todosIds = lista.map((a) => a.numeroArmario);
-    const todosSelecionados = todosIds.every((id) => selecionados.includes(id));
-    setSelecionados(todosSelecionados ? [] : todosIds);
-    setUltimoClicado(
-      todosSelecionados ? null : lista[lista.length - 1]?.numeroArmario ?? null,
+    const idsVisiveis = listaPaginada.map((a) => a.numeroArmario);
+    const todosSelecionados = idsVisiveis.every((id) =>
+      selecionados.includes(id),
     );
-  }, [lista, selecionados]);
+
+    setSelecionados((prev) =>
+      todosSelecionados
+        ? prev.filter((id) => !idsVisiveis.includes(id))
+        : [...new Set([...prev, ...idsVisiveis])],
+    );
+    setUltimoClicado(
+      todosSelecionados ? null : idsVisiveis[idsVisiveis.length - 1] ?? null,
+    );
+  }, [listaPaginada, selecionados]);
 
   async function handleAcaoEmLote(novoEstado) {
     const headers = {
@@ -214,7 +257,8 @@ export default function Armarios() {
   }).length;
 
   const todosVisivelSelecionados =
-    lista.length > 0 && lista.every((arm) => selecionados.includes(arm.numeroArmario));
+    listaPaginada.length > 0 &&
+    listaPaginada.every((arm) => selecionados.includes(arm.numeroArmario));
 
   useEffect(() => {
     function handleKeyDown(e) {
@@ -236,11 +280,21 @@ export default function Armarios() {
         e.preventDefault();
         handleSelecionarTodos();
       }
+
+      if (modoSelecao) return;
+
+      if (e.key === "ArrowLeft") {
+        setPaginaAtual((p) => Math.max(1, p - 1));
+      }
+
+      if (e.key === "ArrowRight") {
+        setPaginaAtual((p) => Math.min(totalPaginas, p + 1));
+      }
     }
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [modoSelecao, selecionados, lista, afetadosManutencao, afetadosDisponivel, handleSelecionarTodos]);
+  }, [modoSelecao, selecionados, listaPaginada, handleSelecionarTodos, totalPaginas]);
 
   return (
     <div className={styles.principalBox}>
@@ -340,8 +394,8 @@ export default function Armarios() {
         </div>
 
         <div className={styles.cardsArea}>
-          {lista.length > 0 ? (
-            lista.map((arm) => (
+          {listaPaginada.length > 0 ? (
+            listaPaginada.map((arm) => (
               <CardArmario
                 key={arm.numeroArmario}
                 armario={arm}
@@ -369,6 +423,24 @@ export default function Armarios() {
             </div>
           )}
         </div>
+
+        {totalPaginas > 1 && (
+          <div className={styles.paginacao}>
+            <Pagination
+              count={totalPaginas}
+              page={paginaAtual}
+              onChange={(_, novaPagina) => setPaginaAtual(novaPagina)}
+              shape="rounded"
+              size="medium"
+              siblingCount={1}
+              boundaryCount={1}
+              classes={{
+                root: styles.paginacaoRoot,
+                ul: styles.paginacaoLista,
+              }}
+            />
+          </div>
+        )}
       </div>
 
       {popup && (
@@ -384,7 +456,7 @@ export default function Armarios() {
         <div className={styles.barraAcoes}>
           <span>{selecionados.length} armário(s) selecionado(s)</span>
           <button type="button" onClick={handleSelecionarTodos}>
-            {todosVisivelSelecionados ? "Desmarcar todos" : "Selecionar todos"}
+            {todosVisivelSelecionados ? "Desmarcar página" : "Selecionar página"}
           </button>
           <button
             type="button"
@@ -404,7 +476,9 @@ export default function Armarios() {
             <CheckCircle size={15} />
             Disponível ({afetadosDisponivel})
           </button>
-          <span className={styles.dicaTeclado}>Esc cancelar · Ctrl+A todos · Alt+S selecionar</span>
+          <span className={styles.dicaTeclado}>
+            Esc cancelar · Ctrl+A todos · Alt+S selecionar · ←/→ trocar página
+          </span>
         </div>
       )}
     </div>

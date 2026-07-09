@@ -675,3 +675,30 @@
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
+
+
+
+.paginacao {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.paginacaoLista :global(.MuiPaginationItem-root) {
+  color: #8a8a8a;
+  border: none;
+}
+
+.paginacaoLista :global(.MuiPaginationItem-root:hover) {
+  background-color: #f2f2f2;
+}
+
+.paginacaoLista :global(.MuiPaginationItem-root.Mui-selected) {
+  background-color: #eef1ff;
+  color: #4c5ee0;
+  font-weight: 600;
+}
+
+.paginacaoLista :global(.MuiPaginationItem-root.Mui-selected:hover) {
+  background-color: #e3e7fd;
+}
