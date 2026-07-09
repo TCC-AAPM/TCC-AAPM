@@ -82,6 +82,11 @@ export default function PainelAdmin() {
       handleSair();
       return;
     }
+    
+    if (card.title === "Modificar Data Final do Semestre") {
+    navigate("/admin/modificar-data-semestre"); 
+    return;
+  }
     // demais cards ainda não têm navegação definida
   }
 

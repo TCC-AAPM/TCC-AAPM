@@ -684,21 +684,43 @@
   margin-top: 24px;
 }
 
-.paginacaoLista :global(.MuiPaginationItem-root) {
+body.dark-mode .paginacaoLista :global(.MuiPaginationItem-root) {
   color: #8a8a8a;
   border: none;
 }
 
-.paginacaoLista :global(.MuiPaginationItem-root:hover) {
+body.dark-mode .paginacaoLista :global(.MuiPaginationItem-root:hover) {
   background-color: #f2f2f2;
+  color: #1a1a1a;
 }
 
-.paginacaoLista :global(.MuiPaginationItem-root.Mui-selected) {
+body.dark-mode .paginacaoLista :global(.MuiPaginationItem-root.Mui-selected) {
   background-color: #eef1ff;
   color: #4c5ee0;
   font-weight: 600;
 }
 
-.paginacaoLista :global(.MuiPaginationItem-root.Mui-selected:hover) {
+body.dark-mode .paginacaoLista :global(.MuiPaginationItem-root.Mui-selected:hover) {
   background-color: #e3e7fd;
+}
+
+/* Modo claro */
+body:not(.dark-mode) .paginacaoLista :global(.MuiPaginationItem-root) {
+  color: #b1b1b1;
+  border: none;
+}
+
+body:not(.dark-mode) .paginacaoLista :global(.MuiPaginationItem-root:hover) {
+  background-color: #ececec;
+  color: #1a1a1a;
+}
+
+body:not(.dark-mode) .paginacaoLista :global(.MuiPaginationItem-root.Mui-selected) {
+  background-color: #dde2fb;
+  color: #3949ab;
+  font-weight: 600;
+}
+
+body:not(.dark-mode) .paginacaoLista :global(.MuiPaginationItem-root.Mui-selected:hover) {
+  background-color: #cfd6f8;
 }

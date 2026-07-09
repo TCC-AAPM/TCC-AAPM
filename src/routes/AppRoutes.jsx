@@ -24,6 +24,7 @@ import PainelAdmin from "../pages/Admin/GestaoAdmin/GestaoAdmin.jsx";
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
 import CadastrarUsuario from "../pages/Admin/CadastrarUsuario/CadastrarUsuario.jsx";
 // import EditarUsuario from "../pages/Admin/EditarUsuario/EditarUsuario.jsx";
+import ModificarData from "../pages/Admin/ModificarData/ModificarData.jsx";
 
 export default function AppRoutes() {
   return (
@@ -61,6 +62,15 @@ export default function AppRoutes() {
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
             <PainelAdmin />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/admin/modificar-data-semestre"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <ModificarData />
           </PrivateRoute>
         }
       />
