@@ -70,6 +70,7 @@
   /* → SobreNosDevs.module.css: .card background
      → SobreNosAAPM.module.css: .cardTexto, .cardFoto background */
 
+     
   /* ──────────────────────────────────────────────────────────
      ESTADOS DOS ARMÁRIOS
      Gradientes e bases para os cards e filtros de armário.
@@ -284,6 +285,54 @@ a:hover {
 
 .material-symbols-outlined {
   color: white;
+}
+
+/* ============================================================
+   PAGINAÇÃO (MUI)
+   ============================================================ */
+
+.paginacao {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.paginacaoLista .MuiPaginationItem-root {
+  color: var(--text-white-soft);
+  border: none;
+}
+
+.paginacaoLista .MuiPaginationItem-root:hover {
+  background-color: #ececec;
+  color: #1a1a1a;
+}
+
+.paginacaoLista .MuiPaginationItem-root.Mui-selected {
+  background-color: #dde2fb;
+  color: #3949ab;
+  font-weight: 600;
+}
+
+.paginacaoLista .MuiPaginationItem-root.Mui-selected:hover {
+  background-color: #ffffff;
+}
+
+.dark-mode .paginacaoLista .MuiPaginationItem-root {
+  color: var(--text-white-soft);
+}
+
+.dark-mode .paginacaoLista .MuiPaginationItem-root:hover {
+  background-color: var(--navy-input);
+  color: var(--text-white-high);
+}
+
+.dark-mode .paginacaoLista .MuiPaginationItem-root.Mui-selected {
+  background-color: var(--dark-blue);
+  color: var(--white);
+}
+
+.dark-mode .paginacaoLista .MuiPaginationItem-root.Mui-selected:hover {
+  background-color: var(--blue);
 }
 
 /* ============================================================

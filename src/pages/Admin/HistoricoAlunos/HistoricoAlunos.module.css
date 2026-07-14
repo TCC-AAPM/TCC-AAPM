@@ -20,10 +20,21 @@
   font-size: 60px;
 }
 
+.inputPesquisa {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 95%;
+  max-width: 800px; 
+}
+
 .containerLista {
   margin-top: 2rem;
   width: 95%;
   max-width: 1000px;
+  min-height: 60px; 
   background: var(--glass-card);
   border: 1px solid var(--border-glass-strong);
   border-radius: 20px;
@@ -142,4 +153,54 @@
   .status {
     width: fit-content;
   }
+}
+
+.formControl {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  padding: 0 42px;
+  background: rgba(30, 58, 138, 0.46);
+  border: 1px solid var(--border-glass);
+  color: var(--white);
+  font-size: 14px;
+  transition: all var(--transition);
+}
+
+.formControl::placeholder {
+  color: var(--text-white-soft);
+}
+
+.formControl:focus {
+  outline: none;
+  background: rgba(30, 58, 138, 0.66);
+  border-color: var(--border-glass-strong);
+  box-shadow: 0 0 0 3px var(--border-glass);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-white-soft);
+  pointer-events: none;
+}
+
+.limparPesquisa {
+  position: absolute;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-white-soft);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all var(--transition);
+}
+
+.limparPesquisa:hover {
+  background: var(--border-glass);
+  color: var(--white);
 }

@@ -190,7 +190,7 @@ export default function Armarios() {
         : [...new Set([...prev, ...idsVisiveis])],
     );
     setUltimoClicado(
-      todosSelecionados ? null : idsVisiveis[idsVisiveis.length - 1] ?? null,
+      todosSelecionados ? null : (idsVisiveis[idsVisiveis.length - 1] ?? null),
     );
   }, [listaPaginada, selecionados]);
 
@@ -294,7 +294,13 @@ export default function Armarios() {
 
     document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
-  }, [modoSelecao, selecionados, listaPaginada, handleSelecionarTodos, totalPaginas]);
+  }, [
+    modoSelecao,
+    selecionados,
+    listaPaginada,
+    handleSelecionarTodos,
+    totalPaginas,
+  ]);
 
   return (
     <div className={styles.principalBox}>
@@ -425,7 +431,7 @@ export default function Armarios() {
         </div>
 
         {totalPaginas > 1 && (
-          <div className={styles.paginacao}>
+          <div className="paginacao">
             <Pagination
               count={totalPaginas}
               page={paginaAtual}
@@ -434,10 +440,7 @@ export default function Armarios() {
               size="medium"
               siblingCount={1}
               boundaryCount={1}
-              classes={{
-                root: styles.paginacaoRoot,
-                ul: styles.paginacaoLista,
-              }}
+              classes={{ ul: "paginacaoLista" }}
             />
           </div>
         )}
@@ -456,7 +459,9 @@ export default function Armarios() {
         <div className={styles.barraAcoes}>
           <span>{selecionados.length} armário(s) selecionado(s)</span>
           <button type="button" onClick={handleSelecionarTodos}>
-            {todosVisivelSelecionados ? "Desmarcar página" : "Selecionar página"}
+            {todosVisivelSelecionados
+              ? "Desmarcar página"
+              : "Selecionar página"}
           </button>
           <button
             type="button"
