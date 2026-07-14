@@ -24,5 +24,12 @@ namespace API_backEnd.Controllers
         {
             return Resultado(await _configReservaService.AlterarDataFimSemestre(dto));
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet]
+        public async Task<IActionResult> ObterConfig()
+        {
+            return Resultado(await _configReservaService.ObterConfig());
+        }
     }
 }

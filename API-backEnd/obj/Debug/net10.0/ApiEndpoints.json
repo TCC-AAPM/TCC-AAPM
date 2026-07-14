@@ -201,6 +201,16 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.ConfigReservaController",
+    "Method": "ObterConfig",
+    "RelativePath": "api/ConfigReserva",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.ConfigReservaController",
     "Method": "AlterarDataFimSemestre",
     "RelativePath": "api/ConfigReserva/data-fim-semestre",
     "HttpMethod": "PUT",

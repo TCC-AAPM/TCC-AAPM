@@ -14,6 +14,15 @@ namespace API_backEnd.Services
            this.db = _db;
         }
 
+        public async Task<ResultadoPadrao<ConfigReserva>> ObterConfig()
+        {
+            var config = await db.ConfigReservas.FirstOrDefaultAsync();
+
+            if (config == null)
+                return ResultadoPadrao<ConfigReserva>.Falha("Configuração de reserva não encontrada.", 404);
+
+            return ResultadoPadrao<ConfigReserva>.Ok(config);
+        }
 
         public async Task<ResultadoPadrao<ConfigReserva>> AlterarDataFimSemestre(AlterarDataFimSemestreRequest dto)
         {

@@ -208,6 +208,18 @@
         }
       }
     },
+    "/api/ConfigReserva": {
+      "get": {
+        "tags": [
+          "ConfigReserva"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Cursos": {
       "get": {
         "tags": [
