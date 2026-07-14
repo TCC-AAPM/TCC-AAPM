@@ -1,9 +1,11 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   alertAviso,
   alertSucesso,
+  alertErro,
   alertConfirmar,
-} from "../../../components/Alerts/Alerts"; // ajusta o caminho
+} from "../../../components/Alerts/Alerts";
+import { authFetch, API_ROUTES } from "../../../utils/auth"; 
 import styles from "./ModificarData.module.css";
 
 function formatarDataBR(dataISO) {
@@ -13,9 +15,23 @@ function formatarDataBR(dataISO) {
 }
 
 export default function ModificarData() {
-  // TODO: trocar pelo valor vindo da API quando a rota existir
-  const [dataAtual, setDataAtual] = useState("2026-12-15");
+  const [dataAtual, setDataAtual] = useState(null);
   const [novaData, setNovaData] = useState("");
+  const [carregando, setCarregando] = useState(false);
+
+  useEffect(() => {
+    async function buscarData() {
+      try {
+        const res = await authFetch(API_ROUTES.configReserva.obterDataFimSemestre);
+        const data = await res.json();
+        if (res.ok) setDataAtual(data.dados.dataExpiracaoGlobal);
+        else alertErro(data.mensagem || "Erro ao buscar configuração.");
+      } catch {
+        alertErro("Erro de conexão ao carregar a data atual.");
+      }
+    }
+    buscarData();
+  }, []);
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -32,19 +48,36 @@ export default function ModificarData() {
 
     if (!confirmado) return;
 
-    // TODO: chamar a API quando a rota existir
-    setDataAtual(novaData);
-    setNovaData("");
-    alertSucesso("Data atualizada com sucesso!");
+    try {
+      setCarregando(true);
+
+      const res = await authFetch(API_ROUTES.configReserva.alterarDataFimSemestre, {
+        method: "PUT",
+        body: JSON.stringify({ dataFimSemestre: novaData }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alertErro(data.mensagem || "Erro ao atualizar a data.");
+        return;
+      }
+
+      setDataAtual(novaData);
+      setNovaData("");
+      alertSucesso(data.mensagem || "Data atualizada com sucesso!");
+    } catch {
+      alertErro("Erro de conexão com o servidor.");
+    } finally {
+      setCarregando(false);
+    }
   }
 
   return (
     <div className={styles.conteudoWrapper}>
       <div className={styles.principalBox}>
         <div className={styles.divHeader}>
-          <span
-            className={`material-symbols-outlined ${styles.materialSymbols}`}
-          >
+          <span className={`material-symbols-outlined ${styles.materialSymbols}`}>
             calendar_month
           </span>
           <h3>Modificar Data Final do Semestre</h3>
@@ -53,9 +86,7 @@ export default function ModificarData() {
         <form className={styles.formsDate} onSubmit={handleSubmit}>
           <div className={styles.containerDateView}>
             <span className={styles.labelDate}>Data atual no sistema:</span>
-            <span className={styles.currentDate}>
-              {formatarDataBR(dataAtual)}
-            </span>
+            <span className={styles.currentDate}>{formatarDataBR(dataAtual)}</span>
           </div>
 
           <div className={`mb-3 ${styles.containerDateInput}`}>
@@ -72,8 +103,8 @@ export default function ModificarData() {
           </div>
 
           <div className={styles.btnEditar}>
-            <button type="submit" className={styles.btnSubmit}>
-              Editar
+            <button type="submit" className={styles.btnSubmit} disabled={carregando}>
+              {carregando ? "Salvando..." : "Editar"}
             </button>
           </div>
         </form>

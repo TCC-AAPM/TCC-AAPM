@@ -17,6 +17,11 @@ export const API_ROUTES = {
       `${BASE_URL}/Armarios/estado/${numeroArmario}`,
   },
 
+  configReserva: {
+    obterDataFimSemestre: `${BASE_URL}/ConfigReserva`,
+    alterarDataFimSemestre: `${BASE_URL}/ConfigReserva/data-fim-semestre`,
+  },
+
   cursos: {
     carregarCursos: `${BASE_URL}/Cursos`,
   },
