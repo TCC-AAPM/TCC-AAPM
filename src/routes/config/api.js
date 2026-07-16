@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL ?? "/api";
+const BASE_URL = import.meta.env.VITE_API_URL ?? `/api`;
 
 export const API_ROUTES = {
   alunos: {
@@ -24,6 +24,9 @@ export const API_ROUTES = {
 
   cursos: {
     carregarCursos: `${BASE_URL}/Cursos`,
+    criar: `${BASE_URL}/Cursos`,
+    editar: (id) => `${BASE_URL}/Cursos/${id}`,
+    deletar: (id) => `${BASE_URL}/Cursos/${id}`,
   },
 
   turmas: {

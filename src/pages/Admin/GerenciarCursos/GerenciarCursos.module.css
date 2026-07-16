@@ -1,0 +1,284 @@
+.principalBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--page-min-height);
+  padding: 4rem 0;
+}
+
+.divHeader {
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+
+.divHeader .icon {
+  font-size: 60px;
+}
+
+.topo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 95%;
+  max-width: 800px;
+}
+
+.inputPesquisa {
+  display: flex;
+  align-items: center;
+  position: relative;
+  flex: 1;
+}
+
+.btnNovo {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  height: 44px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-glass);
+  background: rgba(30, 58, 138, 0.46);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all var(--transition);
+}
+
+.btnNovo:hover {
+  background: rgba(30, 58, 138, 0.66);
+  border-color: var(--border-glass-strong);
+}
+
+.containerLista {
+  margin-top: 1rem;
+  width: 95%;
+  max-width: 1000px;
+  min-height: 60px;
+  background: var(--glass-card);
+  border: 1px solid var(--border-glass-strong);
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark-mode) .containerLista {
+  background: var(--glass-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glass);
+}
+
+.linha {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  padding: 1rem 1rem 1rem 1.5rem;
+  border-radius: 12px;
+  color: var(--text-white-high);
+  background: var(--navy-input);
+}
+
+.nomeCurso {
+  margin-left: 60px; /* controla a distância do botão editar */
+}
+
+.btnDeletar {
+  margin-left: 20px; /* controla a distância antes do deletar */
+}
+
+:global(.dark-mode) .linha {
+  background: var(--dark-blue);
+}
+
+.mensagem {
+  color: var(--text-white-muted);
+  text-align: center;
+  padding: 1rem;
+}
+
+.btnEditar,
+.btnDeletar {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--blue);
+  display: flex;
+  align-items: center;
+  transition: transform var(--transition), color var(--transition);
+}
+
+.btnEditar:hover {
+  color: var(--dark-blue);
+  transform: scale(1.1);
+}
+
+.btnDeletar {
+  color: #f44336;
+}
+
+.btnDeletar:hover {
+  color: #d32f2f;
+  transform: scale(1.1);
+}
+
+.formControl {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  padding: 0 36px;
+  background: rgba(30, 58, 138, 0.46);
+  border: 1px solid var(--border-glass);
+  color: var(--white);
+  font-size: 14px;
+  transition: all var(--transition);
+}
+
+.formControl::placeholder {
+  color: var(--text-white-soft);
+}
+
+.formControl:focus {
+  outline: none;
+  background: rgba(30, 58, 138, 0.66);
+  border-color: var(--border-glass-strong);
+  box-shadow: 0 0 0 3px var(--border-glass);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-white-soft);
+  pointer-events: none;
+}
+
+.limparPesquisa {
+  position: absolute;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-white-soft);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all var(--transition);
+}
+
+.limparPesquisa:hover {
+  background: var(--border-glass);
+  color: var(--white);
+}
+
+/* ===== Modal ===== */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modal {
+  background: var(--glass-card);
+  border: 1px solid var(--border-glass-strong);
+  border-radius: 20px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--white);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+.modalAcoes {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+:global(.dark-mode) .modal {
+  background: var(--glass-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glass);
+}
+
+.btnCancelar {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid var(--border-glass);
+  background: transparent;
+  color: var(--text-white-soft);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btnCancelar:hover {
+  background: var(--border-glass);
+  color: var(--white);
+}
+
+.btnSalvar {
+  height: 40px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: none;
+  background: var(--blue);
+  color: var(--white);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.btnSalvar:hover {
+  background: var(--dark-blue);
+}
+
+.btnSalvar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.erroTexto {
+  color: #f44336;
+  font-size: 12px;
+  margin-top: 4px;
+  padding-left: 4px;
+}
+
+@media (max-width: 768px) {
+  .principalBox {
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+  }
+
+  .topo {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .linha.titulo {
+    display: none;
+  }
+}

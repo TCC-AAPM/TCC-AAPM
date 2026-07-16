@@ -26,6 +26,7 @@ import CadastrarUsuario from "../pages/Admin/CadastrarUsuario/CadastrarUsuario.j
 // import EditarUsuario from "../pages/Admin/EditarUsuario/EditarUsuario.jsx";
 import ModificarData from "../pages/Admin/ModificarData/ModificarData.jsx";
 import HistoricoAlunos from "../pages/Admin/HistoricoAlunos/HistoricoAlunos.jsx";
+import GerenciarCursos from "../pages/Admin/GerenciarCursos/GerenciarCursos.jsx";
 
 export default function AppRoutes() {
   return (
@@ -103,6 +104,14 @@ export default function AppRoutes() {
         }
       />
 
+        <Route
+        path="/admin/gerenciar-cursos"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <GerenciarCursos />
+          </PrivateRoute>
+        }
+      />
 
 
 

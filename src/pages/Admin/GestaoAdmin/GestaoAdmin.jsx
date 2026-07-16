@@ -88,6 +88,11 @@ export default function PainelAdmin() {
       return;
     }
 
+    if (card.title === "Gerenciar Cursos"){
+      navigate("/admin/gerenciar-cursos");
+      return;
+    }
+
     if (card.title === "Histórico de Alunos") {
       navigate("/admin/historico-reserva");
       return;
