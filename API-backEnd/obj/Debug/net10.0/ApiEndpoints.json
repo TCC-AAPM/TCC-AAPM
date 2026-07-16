@@ -48,6 +48,27 @@
   },
   {
     "ContainingType": "API_backEnd.Controllers.AlunosController",
+    "Method": "EditarAluno",
+    "RelativePath": "api/Alunos/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "API_backEnd.DTOs.Aluno.EditarAlunoRequest",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "API_backEnd.Controllers.AlunosController",
     "Method": "BuscarPorCPF",
     "RelativePath": "api/Alunos/buscar-por-cpf",
     "HttpMethod": "POST",

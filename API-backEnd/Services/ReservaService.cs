@@ -119,7 +119,7 @@ namespace API_backEnd.Services
 
         public ResultadoPadrao<object> RecadastrarReserva(RecadastrarReservaRequest dto)
         {
-            var aluno = db.TabelaAlunos.SingleOrDefault(a => a.Cpf == dto.CPF);
+            var aluno = _alunoService.ObterAlunoPorCpf(dto.CPF);
             if (aluno == null)
             {
                 return ResultadoPadrao<object>.Falha("Aluno não encontrado", 404);
@@ -146,18 +146,18 @@ namespace API_backEnd.Services
                 return ResultadoPadrao<object>.Falha("Armário não encontrado", 404);
 
 
+            var validacao = _alunoService.ValidarAtualizacaoAluno(aluno.Id, dto);
+
+            if (!validacao.Sucesso)
+                return validacao;
+
             using var transaction = db.Database.BeginTransaction();
 
             try
             {
-                aluno.Nome = dto.Nome;
-                aluno.NomeSocial = string.IsNullOrWhiteSpace(dto.NomeSocial) ? null : dto.NomeSocial;
-                aluno.Matricula = string.IsNullOrWhiteSpace(dto.Matricula) ? null : dto.Matricula;
-                aluno.Telefone = Regex.Replace(dto.Telefone, @"\D", "");
-                aluno.Email = dto.Email;
-                aluno.DataNasc = dto.DataNasc;
-                aluno.CursoId = dto.IdCurso;
-                aluno.TurmaId = dto.IdTurma;
+               
+
+                _alunoService.AtualizarCadastroAluno(aluno, dto);
 
 
                 var reserva = new TabelaReservaArmario

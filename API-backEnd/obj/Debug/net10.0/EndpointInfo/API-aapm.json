@@ -1092,6 +1092,48 @@
         }
       }
     },
+    "/api/Alunos/{id}": {
+      "put": {
+        "tags": [
+          "Alunos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditarAlunoRequest"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditarAlunoRequest"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditarAlunoRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Armarios/estado/{numeroArmario}": {
       "put": {
         "tags": [
@@ -1737,6 +1779,61 @@
         },
         "additionalProperties": false
       },
+      "EditarAlunoRequest": {
+        "required": [
+          "cpf",
+          "dataNasc",
+          "email",
+          "idCurso",
+          "nome",
+          "telefone"
+        ],
+        "type": "object",
+        "properties": {
+          "cpf": {
+            "maxLength": 11,
+            "minLength": 11,
+            "type": "string"
+          },
+          "nome": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "nomeSocial": {
+            "type": "string",
+            "nullable": true
+          },
+          "telefone": {
+            "minLength": 1,
+            "pattern": "^\\d{10,11}$",
+            "type": "string"
+          },
+          "email": {
+            "minLength": 1,
+            "type": "string",
+            "format": "email"
+          },
+          "matricula": {
+            "type": "string",
+            "nullable": true
+          },
+          "dataNasc": {
+            "type": "string",
+            "format": "date"
+          },
+          "idCurso": {
+            "maximum": 2147483647,
+            "minimum": 1,
+            "type": "integer",
+            "format": "int32"
+          },
+          "idTurma": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "EditarTurmaRequest": {
         "required": [
           "idCurso",
@@ -1901,11 +1998,6 @@
         ],
         "type": "object",
         "properties": {
-          "cpf": {
-            "maxLength": 11,
-            "minLength": 11,
-            "type": "string"
-          },
           "nome": {
             "minLength": 1,
             "type": "string"
@@ -1928,6 +2020,10 @@
             "type": "string",
             "nullable": true
           },
+          "dataNasc": {
+            "type": "string",
+            "format": "date"
+          },
           "idCurso": {
             "maximum": 2147483647,
             "minimum": 1,
@@ -1938,6 +2034,11 @@
             "type": "integer",
             "format": "int32"
           },
+          "cpf": {
+            "maxLength": 11,
+            "minLength": 11,
+            "type": "string"
+          },
           "metodoPagamento": {
             "minLength": 1,
             "type": "string"
@@ -1945,10 +2046,6 @@
           "idArmario": {
             "type": "integer",
             "format": "int32"
-          },
-          "dataNasc": {
-            "type": "string",
-            "format": "date"
           },
           "idTermoSite": {
             "type": "integer",

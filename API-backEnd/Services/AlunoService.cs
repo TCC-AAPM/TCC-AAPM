@@ -4,6 +4,7 @@ using API_backEnd.DTOs.Auth;
 using API_backEnd.DTOs.Reserva;
 using API_backEnd.Enums;
 using API_backEnd.Models;
+using System.Text.RegularExpressions;
 namespace API_backEnd.Services
 {
     public class AlunoService
@@ -17,9 +18,9 @@ namespace API_backEnd.Services
             _usuarioService = suarioService;
         }
 
-        public bool ExisteAlunoPorCpf(string Cpf)
+        public bool ExisteAlunoPorCpf(string cpf)
         {
-            return db.TabelaAlunos.Any(a => a.Cpf == Cpf && a.IsAtivo);
+            return db.TabelaAlunos.Any(a => a.Cpf == cpf && a.IsAtivo);
         }
 
         public ResultadoPadrao<AlunoLogadoResponse> DadosAlunoLogado()
@@ -129,8 +130,8 @@ namespace API_backEnd.Services
         }
 
         public ResultadoPadrao<RecadastroResponse> BuscarAlunoPeloCPF(BuscarAlunoPorCpfRequest dto)
-        {           
-            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Cpf == dto.CPF && a.IsAtivo);
+        {
+            var aluno = ObterAlunoPorCpf(dto.CPF); 
 
             if (aluno == null)
             {
@@ -147,6 +148,62 @@ namespace API_backEnd.Services
             };
 
             return ResultadoPadrao<RecadastroResponse>.Ok(dados);
+        }
+
+        public ResultadoPadrao<object> EditarAluno(int id, EditarAlunoRequest dto) 
+        {
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Id == id && a.IsAtivo);
+                        
+            if (aluno == null)
+                return ResultadoPadrao<object>.Falha("Nenhum aluno encontrado");
+
+            var validacao = ValidarAtualizacaoAluno(id, dto);
+
+            if (!validacao.Sucesso)
+                return validacao;
+
+            AtualizarCadastroAluno(aluno, dto);
+
+            db.SaveChanges();
+
+
+            return ResultadoPadrao<object>.Ok("Aluno atualizado com sucesso");
+        }
+
+        public void AtualizarCadastroAluno(TabelaAluno aluno, DadosAlunoRequest dto)
+        {
+            aluno.Cpf = dto.CPF;
+            aluno.Nome = dto.Nome;
+            aluno.NomeSocial = string.IsNullOrWhiteSpace(dto.NomeSocial) ? null : dto.NomeSocial;
+            aluno.Matricula = string.IsNullOrWhiteSpace(dto.Matricula) ? null : dto.Matricula;
+            aluno.Telefone = Regex.Replace(dto.Telefone, @"\D", "");
+            aluno.Email = dto.Email;
+            aluno.DataNasc = dto.DataNasc;
+            aluno.CursoId = dto.IdCurso;
+            aluno.TurmaId = dto.IdTurma;
+        }
+
+        public TabelaAluno? ObterAlunoPorCpf(string cpf)
+        {
+            return db.TabelaAlunos.FirstOrDefault(a => a.Cpf == cpf && a.IsAtivo);
+        }
+
+        public ResultadoPadrao<object> ValidarAtualizacaoAluno(int idAluno, DadosAlunoRequest dto)
+        {
+            if (db.TabelaAlunos.Any(a =>
+                a.Id != idAluno &&
+                a.Cpf == dto.CPF &&
+                a.IsAtivo))
+            {
+                return ResultadoPadrao<object>.Falha("CPF já cadastrado", 409);
+            }
+
+            if (db.TabelaAlunos.Any(a => a.Id != idAluno && a.Email == dto.Email && a.IsAtivo))
+            {
+                return ResultadoPadrao<object>.Falha("E-mail já cadastrado", 409);
+            }
+
+            return ResultadoPadrao<object>.Ok();
         }
     }
 }
