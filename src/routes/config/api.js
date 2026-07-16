@@ -30,7 +30,11 @@ export const API_ROUTES = {
   },
 
   turmas: {
+    listar: `${BASE_URL}/Turmas`,
     porCurso: (idCurso) => `${BASE_URL}/Turmas/por-curso/${idCurso}`,
+    criar: `${BASE_URL}/Turmas`,
+    editar: (id) => `${BASE_URL}/Turmas/${id}`,
+    deletar: (id) => `${BASE_URL}/Turmas/${id}`,
   },
 
   reservas: {

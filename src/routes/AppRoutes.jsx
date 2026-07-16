@@ -27,6 +27,7 @@ import CadastrarUsuario from "../pages/Admin/CadastrarUsuario/CadastrarUsuario.j
 import ModificarData from "../pages/Admin/ModificarData/ModificarData.jsx";
 import HistoricoAlunos from "../pages/Admin/HistoricoAlunos/HistoricoAlunos.jsx";
 import GerenciarCursos from "../pages/Admin/GerenciarCursos/GerenciarCursos.jsx";
+import GerenciarTurmas from "../pages/Admin/GerenciarTurmas/GerenciarTurmas.jsx"
 
 export default function AppRoutes() {
   return (
@@ -95,7 +96,7 @@ export default function AppRoutes() {
         }
       /> */}
 
-       <Route
+      <Route
         path="/admin/historico-reserva"
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
@@ -104,11 +105,20 @@ export default function AppRoutes() {
         }
       />
 
-        <Route
+      <Route
         path="/admin/gerenciar-cursos"
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
             <GerenciarCursos />
+          </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="/admin/gerenciar-turmas"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <GerenciarTurmas />
           </PrivateRoute>
         }
       />
