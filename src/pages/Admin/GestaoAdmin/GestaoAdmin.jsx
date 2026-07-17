@@ -88,12 +88,12 @@ export default function PainelAdmin() {
       return;
     }
 
-    if (card.title === "Gerenciar Cursos"){
+    if (card.title === "Gerenciar Cursos") {
       navigate("/admin/gerenciar-cursos");
       return;
     }
 
-    if (card.title === "Gerenciar Turmas"){
+    if (card.title === "Gerenciar Turmas") {
       navigate("/admin/gerenciar-turmas");
       return;
     }

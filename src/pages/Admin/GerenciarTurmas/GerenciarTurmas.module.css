@@ -89,7 +89,7 @@
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-  gap: 12px;
+  gap: 24px;
   padding: 1rem 1.5rem;
   border-radius: 12px;
   color: var(--text-white-high);

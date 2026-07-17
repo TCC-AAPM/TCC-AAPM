@@ -67,7 +67,8 @@ export default function GerenciarCursos() {
   function validarNome(valor) {
     const nome = valor.trim();
     if (nome.length < 3) return "Nome deve ter no mínimo 3 letras";
-    if (!REGEX_NOME_VALIDO.test(nome)) return "Nome não pode conter símbolos ou números";
+    if (!REGEX_NOME_VALIDO.test(nome))
+      return "Nome não pode conter símbolos ou números";
     return "";
   }
 
@@ -135,9 +136,7 @@ export default function GerenciarCursos() {
   }
 
   async function deletar(curso) {
-    const confirmado = await alertConfirmar(
-      `Deletar o curso "${curso.nome}"?`,
-    );
+    const confirmado = await alertConfirmar(`Deletar o curso "${curso.nome}"?`);
     if (!confirmado) return;
 
     try {
@@ -195,8 +194,6 @@ export default function GerenciarCursos() {
       </div>
 
       <div className={styles.containerLista}>
- 
-
         {carregando && <p className={styles.mensagem}>Carregando...</p>}
 
         {!carregando && listaFiltrada.length === 0 && (
@@ -212,7 +209,10 @@ export default function GerenciarCursos() {
               <span className="material-symbols-outlined">edit</span>
             </button>
             <span className={styles.nomeCurso}>{curso.nome}</span>
-            <button className={styles.btnDeletar} onClick={() => deletar(curso)}>
+            <button
+              className={styles.btnDeletar}
+              onClick={() => deletar(curso)}
+            >
               <Trash2 size={16} />
             </button>
           </div>
