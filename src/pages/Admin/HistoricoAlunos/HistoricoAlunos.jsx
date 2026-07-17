@@ -113,9 +113,16 @@ export default function HistoricoAlunos() {
           <div className={styles.linha} key={index}>
             <button
               className={styles.btnEditar}
-              onClick={() =>
-                navigate(`/admin/editar-usuario/${aluno.numeroArmario}`)
-              }
+              onClick={() => {
+                localStorage.setItem(
+                  "alunoEditando",
+                  JSON.stringify({
+                    cpf: aluno.cpf,
+                  }),
+                );
+
+                navigate("/admin/editar-aluno");
+              }}
             >
               <span className="material-symbols-outlined">edit</span>
             </button>
