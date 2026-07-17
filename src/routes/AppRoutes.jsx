@@ -23,7 +23,7 @@ import PainelAdmin from "../pages/Admin/GestaoAdmin/GestaoAdmin.jsx";
 // adm
 import Dashboard from "../pages/Admin/Dashboard/Dashboard.jsx";
 import CadastrarUsuario from "../pages/Admin/CadastrarUsuario/CadastrarUsuario.jsx";
-// import EditarUsuario from "../pages/Admin/EditarUsuario/EditarUsuario.jsx";
+import EditarUsuario from "../pages/Admin/EditarUsuario/EditarUsuario.jsx";
 import ModificarData from "../pages/Admin/ModificarData/ModificarData.jsx";
 import HistoricoAlunos from "../pages/Admin/HistoricoAlunos/HistoricoAlunos.jsx";
 import GerenciarCursos from "../pages/Admin/GerenciarCursos/GerenciarCursos.jsx";
@@ -87,14 +87,14 @@ export default function AppRoutes() {
         }
       />
 
-      {/* <Route
+      <Route
         path="/admin/editar-aluno"
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
             <EditarUsuario />
           </PrivateRoute>
         }
-      /> */}
+      />
 
       <Route
         path="/admin/historico-reserva"

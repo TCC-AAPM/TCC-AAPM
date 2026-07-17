@@ -6,6 +6,7 @@ export const API_ROUTES = {
     trocarSenha: `${BASE_URL}/Usuario/trocar-senha`,
     excluirConta: `${BASE_URL}/Alunos/excluir-conta`,
     buscarPorCPF: `${BASE_URL}/Alunos/buscar-por-cpf`,
+    editar: (id) => `${BASE_URL}/Alunos/${id}`,
   },
 
   admin: {},
