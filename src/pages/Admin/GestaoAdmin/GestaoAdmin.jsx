@@ -25,7 +25,7 @@ const cards = [
   },
   {
     icon: "description",
-    title: "Gerenciar Termos de Uso",
+    title: "Gerenciar Termos",
     desc: "Atualize e controle os termos de uso disponibilizados aos usuários.",
   },
   {
@@ -95,6 +95,11 @@ export default function PainelAdmin() {
 
     if (card.title === "Gerenciar Turmas") {
       navigate("/admin/gerenciar-turmas");
+      return;
+    }
+
+    if (card.title === "Gerenciar Termos") {
+      navigate("/admin/gerenciar-termos");
       return;
     }
 
