@@ -139,7 +139,10 @@ namespace API_backEnd.Services
             }
             var dados = new RecadastroResponse
             {
+                Id = aluno.Id,
                 Nome = aluno.Nome,
+                NomeSocial = aluno.NomeSocial,
+                DataNasc = aluno.DataNasc,
                 Telefone = aluno.Telefone,
                 Email = aluno.Email,
                 Matricula = aluno.Matricula,
