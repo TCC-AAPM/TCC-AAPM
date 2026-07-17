@@ -3,13 +3,18 @@ import { useNavigate } from "react-router-dom";
 import styles from "../CadastrarUsuario/CadastrarUsuario.module.css";
 import { validarCPF } from "../../../utils/validarCPF";
 import { API_ROUTES, authFetch } from "../../../utils/auth.js";
-import { alertErro, alertSucessoModal, alertAviso } from "../../../components/Alerts/Alerts.jsx";
+import {
+  alertErro,
+  alertSucessoModal,
+  alertAviso,
+} from "../../../components/Alerts/Alerts.jsx";
 
 function mascaraCPF(valor) {
   valor = valor.replace(/\D/g, "").slice(0, 11);
   if (valor.length <= 3) return valor;
   if (valor.length <= 6) return valor.replace(/(\d{3})(\d+)/, "$1.$2");
-  if (valor.length <= 9) return valor.replace(/(\d{3})(\d{3})(\d+)/, "$1.$2.$3");
+  if (valor.length <= 9)
+    return valor.replace(/(\d{3})(\d{3})(\d+)/, "$1.$2.$3");
   return valor.replace(/(\d{3})(\d{3})(\d{3})(\d{1,2})/, "$1.$2.$3-$4");
 }
 
@@ -17,30 +22,33 @@ function mascaraTelefone(valor) {
   valor = valor.replace(/\D/g, "").slice(0, 11);
   if (valor.length <= 2) return valor;
   if (valor.length <= 6) return valor.replace(/(\d{2})(\d+)/, "($1) $2");
-  if (valor.length <= 10) return valor.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
+  if (valor.length <= 10)
+    return valor.replace(/(\d{2})(\d{4})(\d+)/, "($1) $2-$3");
   return valor.replace(/(\d{2})(\d{5})(\d{4})/, "($1) $2-$3");
 }
-
 function obterIdCurso(c) {
-  return c.id ?? c.idCurso ?? c.Id ?? c.IdCurso;
+  return c.id;
 }
+
 function obterNomeCurso(c) {
-  return c.nome ?? c.Nome ?? c.nomeCurso ?? c.NomeCurso ?? "";
+  return c.nome;
 }
+
 function obterIdTurma(t) {
-  return t.id ?? t.idTurma ?? t.Id ?? t.IdTurma;
+  return t.idTurma;
 }
+
 function obterNomeTurma(t) {
-  return t.turma ?? t.nomeTurma ?? t.NomeTurma ?? t.nome ?? "";
+  return t.nomeTurma;
 }
+
 function obterIdAluno(u) {
-  // ajuste aqui se o console.log mostrar outra chave
-  return u?.idAluno ?? u?.IdAluno ?? u?.id ?? u?.Id ?? null;
+  return u.id;
 }
+
 function obterListaDados(data) {
   if (Array.isArray(data)) return data;
   if (Array.isArray(data?.dados)) return data.dados;
-  if (Array.isArray(data?.Dados)) return data.Dados;
   return [];
 }
 
@@ -86,6 +94,7 @@ export default function EditarAluno() {
         if (!res.ok) throw new Error();
 
         const json = await res.json();
+        console.log(json);
         const dados = json.dados ?? json;
 
         if (!ativo) return; // efeito antigo, ignora essa resposta
@@ -160,7 +169,14 @@ export default function EditarAluno() {
     const telefoneLimpo = telefone.replace(/\D/g, "");
     const cpfLimpo = cpf.replace(/\D/g, "");
 
-    if (!nome || !cpfLimpo || !telefoneLimpo || !email || !dataNasc || cursoId === "default") {
+    if (
+      !nome ||
+      !cpfLimpo ||
+      !telefoneLimpo ||
+      !email ||
+      !dataNasc ||
+      cursoId === "default"
+    ) {
       alertAviso("Preencha todos os campos obrigatórios");
       return;
     }
@@ -214,7 +230,9 @@ export default function EditarAluno() {
       <div className={styles.principalBox}>
         <form id="formsEditar" className={styles.form} onSubmit={handleSubmit}>
           <div className={styles.sectionDivider}>
-            <span className={`material-symbols-outlined ${styles.icon}`}>badge</span>
+            <span className={`material-symbols-outlined ${styles.icon}`}>
+              badge
+            </span>
             <span>Dados Pessoais</span>
           </div>
 
@@ -261,7 +279,9 @@ export default function EditarAluno() {
           </div>
 
           <div className={styles.sectionDivider}>
-            <span className={`material-symbols-outlined ${styles.icon}`}>contact_phone</span>
+            <span className={`material-symbols-outlined ${styles.icon}`}>
+              contact_phone
+            </span>
             <span>Contato</span>
           </div>
 
@@ -288,7 +308,9 @@ export default function EditarAluno() {
           </div>
 
           <div className={styles.sectionDivider}>
-            <span className={`material-symbols-outlined ${styles.icon}`}>school</span>
+            <span className={`material-symbols-outlined ${styles.icon}`}>
+              school
+            </span>
             <span>Dados Acadêmicos</span>
           </div>
 
@@ -310,10 +332,12 @@ export default function EditarAluno() {
               onChange={(e) => setCursoId(e.target.value)}
               required
             >
-              <option disabled value="default">Selecione o curso</option>
+              <option disabled value="default">
+                Selecione o curso
+              </option>
               {cursos.map((c) => (
-                <option key={obterIdCurso(c)} value={obterIdCurso(c)}>
-                  {obterNomeCurso(c)}
+                <option key={c.id} value={c.id}>
+                  {c.nome}
                 </option>
               ))}
             </select>
@@ -328,17 +352,23 @@ export default function EditarAluno() {
               disabled={cursoId === "default"}
               required
             >
-              <option disabled value="default">Selecione a turma</option>
+              <option disabled value="default">
+                Selecione a turma
+              </option>
               {turmas.map((t) => (
-                <option key={obterIdTurma(t)} value={obterIdTurma(t)}>
-                  {obterNomeTurma(t)}
+                <option key={t.idTurma} value={t.idTurma}>
+                  {t.nomeTurma}
                 </option>
               ))}
             </select>
           </div>
 
           <div className={styles.botaoCadastrar}>
-            <button type="submit" className={styles.btnPrimary} disabled={salvando}>
+            <button
+              type="submit"
+              className={styles.btnPrimary}
+              disabled={salvando}
+            >
               {salvando ? "Salvando..." : "Salvar Alterações"}
             </button>
           </div>
