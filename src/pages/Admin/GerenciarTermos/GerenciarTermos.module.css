@@ -136,7 +136,6 @@
   align-items: center;
   gap: 12px;
 }
-
 .btnEditar {
   background: transparent;
   border: none;
@@ -144,6 +143,8 @@
   color: var(--blue);
   display: flex;
   align-items: center;
+  justify-content: start;
+  padding-left: 0.5rem;
   transition:
     transform var(--transition),
     color var(--transition);
@@ -155,10 +156,8 @@
 }
 
 .btnEditar:disabled {
-  color: var(--text-white-soft);
   opacity: 0.4;
   cursor: not-allowed;
-  transform: none;
 }
 
 .formControl {

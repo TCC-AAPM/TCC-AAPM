@@ -13,8 +13,12 @@ export function getUsuarioLogado() {
       return null;
     }
 
-    const role = payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
-    const id = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"];
+    const role =
+      payload["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+    const id =
+      payload[
+        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+      ];
 
     return { perfil: role, id };
   } catch {
@@ -24,11 +28,12 @@ export function getUsuarioLogado() {
 
 export async function authFetch(url, options = {}) {
   const token = localStorage.getItem("token");
+  const isFormData = options.body instanceof FormData;
 
   const res = await fetch(url, {
     ...options,
     headers: {
-      "Content-Type": "application/json",
+      ...(isFormData ? {} : { "Content-Type": "application/json" }),
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },

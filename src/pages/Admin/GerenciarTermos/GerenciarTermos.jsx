@@ -29,7 +29,7 @@ export default function GerenciarTermos() {
   async function carregar() {
     setCarregando(true);
     try {
-      const res = await authFetch(API_ROUTES.termos.ativos);
+      const res = await authFetch(API_ROUTES.termos.termosAtivos);
       const resultado = await res.json();
       setTermosAtivos(resultado.dados ?? resultado ?? []);
     } catch {
@@ -47,12 +47,17 @@ export default function GerenciarTermos() {
     return termosAtivos.find((t) => t.referencia === referencia);
   }
 
+  const [modoEdicao, setModoEdicao] = useState(false);
+
   function abrirModal(referenciaPreSelecionada) {
     setReferenciaSelecionada(referenciaPreSelecionada ?? "");
+    setModoEdicao(!!referenciaPreSelecionada);
     setArquivo(null);
     setErroArquivo("");
     setModalAberto(true);
   }
+
+  const TAMANHO_MAX_MB = 5;
 
   function handleSelecionarArquivo(e) {
     const file = e.target.files?.[0];
@@ -64,12 +69,18 @@ export default function GerenciarTermos() {
       return;
     }
 
+    if (file.size > TAMANHO_MAX_MB * 1024 * 1024) {
+      setErroArquivo(`Arquivo excede o limite de ${TAMANHO_MAX_MB}MB`);
+      setArquivo(null);
+      return;
+    }
+
     setErroArquivo("");
     setArquivo(file);
   }
 
   function handleVisualizarPdf(referencia) {
-    const url = `${API_ROUTES.termos.obterPdf}?referencia=${referencia}`;
+    const url = API_ROUTES.termos.obterPdf(referencia);
     window.open(url, "_blank", "noopener,noreferrer");
   }
 
@@ -164,9 +175,8 @@ export default function GerenciarTermos() {
                 </span>
 
                 <span
-                  className={`${styles.status} ${
-                    termoAtivo ? styles.ativo : styles.inativo
-                  }`}
+                  className={`${styles.status} ${termoAtivo ? styles.ativo : styles.inativo
+                    }`}
                 >
                   {termoAtivo ? "Ativo" : "Sem termo"}
                 </span>
@@ -178,14 +188,14 @@ export default function GerenciarTermos() {
                     onClick={() => handleVisualizarPdf(tipo.valor)}
                     title="Visualizar PDF atual"
                   >
-                    <Eye size={16} />
+                    <span className="material-symbols-outlined">visibility</span>
                   </button>
                   <button
                     className={styles.btnEditar}
                     onClick={() => abrirModal(tipo.valor)}
                     title={termoAtivo ? "Substituir PDF" : "Cadastrar PDF"}
                   >
-                    <Pencil size={16} />
+                    <span className="material-symbols-outlined">edit</span>
                   </button>
                 </span>
               </div>
@@ -196,12 +206,13 @@ export default function GerenciarTermos() {
       {modalAberto && (
         <div className={styles.overlay} onClick={() => setModalAberto(false)}>
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
-            <h4>Novo Termo</h4>
+            <h4>{modoEdicao ? "Substituir Termo" : "Novo Termo"}</h4>
 
             <div>
               <select
                 className={styles.formControl}
                 value={referenciaSelecionada}
+                disabled={modoEdicao}
                 onChange={(e) => {
                   setReferenciaSelecionada(e.target.value);
                   setErroArquivo("");
