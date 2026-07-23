@@ -4,8 +4,42 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: var(--page-min-height);
   padding: 4rem 0;
+}
+
+.conteudoWrapper {
+  position: relative;
+  width: 100%;
+  min-height: var(--page-min-height);
+  display: flex;
+  flex-direction: column;
+}
+
+.voltar,
+.voltarDocked {
+  left: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all var(--transition);
+  z-index: 100;
+}
+
+.voltar {
+  position: fixed;
+  bottom: 24px;
+}
+
+.voltarDocked {
+  position: absolute;
+  bottom: 24px;
+}
+
+.voltar:hover {
+  background: var(--border-glass-mid);
 }
 
 .divHeader {
@@ -77,12 +111,17 @@
 
 .linha {
   display: grid;
-  grid-template-columns: 2fr 1.5fr 1fr;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
   align-items: center;
   padding: 1rem;
   border-radius: 12px;
   color: var(--text-white-high);
   background: var(--navy-input);
+}
+
+.dataModificacao {
+  font-size: 13px;
+  color: var(--text-white-muted);
 }
 
 :global(.dark-mode) .linha {

@@ -8,11 +8,13 @@ import {
   alertErro,
 } from "../../../components/Alerts/Alerts";
 import styles from "./GerenciarCursos.module.css";
+import { useDockButton } from "../../../utils/useDockButton";
 
 const ITENS_POR_PAGINA = 10;
 const REGEX_NOME_VALIDO = /^[A-Za-zÀ-ÿ\s]+$/;
 
 export default function GerenciarCursos() {
+  const docked = useDockButton();
   const [cursos, setCursos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [pesquisa, setPesquisa] = useState("");
@@ -158,7 +160,8 @@ export default function GerenciarCursos() {
   }
 
   return (
-    <div className={styles.principalBox}>
+    <div className={styles.conteudoWrapper}>
+      <div className={styles.principalBox}>
       <div className={styles.divHeader}>
         <span className={`material-symbols-outlined ${styles.icon}`}>
           school
@@ -268,6 +271,14 @@ export default function GerenciarCursos() {
           </div>
         </div>
       )}
+      </div>
+      <a
+        href="#"
+        onClick={() => history.back()}
+        className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+      >
+        ← Voltar
+      </a>
     </div>
   );
 }

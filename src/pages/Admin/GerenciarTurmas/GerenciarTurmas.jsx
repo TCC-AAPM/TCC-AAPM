@@ -8,6 +8,7 @@ import {
   alertErro,
 } from "../../../components/Alerts/Alerts";
 import styles from "./GerenciarTurmas.module.css";
+import { useDockButton } from "../../../utils/useDockButton";
 
 const ITENS_POR_PAGINA = 10;
 
@@ -24,6 +25,7 @@ const SEMESTRES = [
 ];
 
 export default function GerenciarTurmas() {
+  const docked = useDockButton();
   const [turmas, setTurmas] = useState([]);
   const [cursos, setCursos] = useState([]);
   const [carregando, setCarregando] = useState(true);
@@ -213,7 +215,8 @@ export default function GerenciarTurmas() {
   }
 
   return (
-    <div className={styles.principalBox}>
+    <div className={styles.conteudoWrapper}>
+      <div className={styles.principalBox}>
       <div className={styles.divHeader}>
         <span className={`material-symbols-outlined ${styles.icon}`}>
           groups
@@ -390,6 +393,14 @@ export default function GerenciarTurmas() {
           </div>
         </div>
       )}
+      </div>
+      <a
+        href="#"
+        onClick={() => history.back()}
+        className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+      >
+        ← Voltar
+      </a>
     </div>
   );
 }

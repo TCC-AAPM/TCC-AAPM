@@ -7,6 +7,7 @@ import {
   alertErro,
 } from "../../../components/Alerts/Alerts";
 import styles from "./GerenciarTermos.module.css";
+import { useDockButton } from "../../../utils/useDockButton";
 
 // Ajuste os valores conforme o enum ReferenciaTermos do back-end
 const TIPOS_TERMOS = [
@@ -15,7 +16,13 @@ const TIPOS_TERMOS = [
   { valor: "E", label: "Termo do Estacionamento" },
 ];
 
+function formatarData(data) {
+  if (!data) return "";
+  return new Date(data).toLocaleDateString("pt-BR");
+}
+
 export default function GerenciarTermos() {
+  const docked = useDockButton();
   const [termosAtivos, setTermosAtivos] = useState([]);
   const [carregando, setCarregando] = useState(true);
 
@@ -24,6 +31,7 @@ export default function GerenciarTermos() {
   const [arquivo, setArquivo] = useState(null);
   const [erroArquivo, setErroArquivo] = useState("");
   const [salvando, setSalvando] = useState(false);
+  const [modoEdicao, setModoEdicao] = useState(false);
   const inputFileRef = useRef(null);
 
   async function carregar() {
@@ -46,8 +54,6 @@ export default function GerenciarTermos() {
   function obterTermoAtivo(referencia) {
     return termosAtivos.find((t) => t.referencia === referencia);
   }
-
-  const [modoEdicao, setModoEdicao] = useState(false);
 
   function abrirModal(referenciaPreSelecionada) {
     setReferenciaSelecionada(referenciaPreSelecionada ?? "");
@@ -140,7 +146,8 @@ export default function GerenciarTermos() {
   }
 
   return (
-    <div className={styles.principalBox}>
+    <div className={styles.conteudoWrapper}>
+      <div className={styles.principalBox}>
       <div className={styles.divHeader}>
         <span className={`material-symbols-outlined ${styles.icon}`}>
           description
@@ -158,6 +165,7 @@ export default function GerenciarTermos() {
         <div className={`${styles.linha} ${styles.titulo}`}>
           <span>Tipo</span>
           <span>Status</span>
+          <span>Modificado em</span>
           <span>Ações</span>
         </div>
 
@@ -175,10 +183,19 @@ export default function GerenciarTermos() {
                 </span>
 
                 <span
-                  className={`${styles.status} ${termoAtivo ? styles.ativo : styles.inativo
-                    }`}
+                  className={`${styles.status} ${
+                    termoAtivo ? styles.ativo : styles.inativo
+                  }`}
                 >
                   {termoAtivo ? "Ativo" : "Sem termo"}
+                </span>
+
+                <span className={styles.dataModificacao}>
+                  {termoAtivo
+                    ? formatarData(
+                        termoAtivo.dataAlteracao ?? termoAtivo.dataCriacao,
+                      )
+                    : "—"}
                 </span>
 
                 <span className={styles.acoesLinha}>
@@ -264,6 +281,14 @@ export default function GerenciarTermos() {
           </div>
         </div>
       )}
+      </div>
+      <a
+        href="#"
+        onClick={() => history.back()}
+        className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+      >
+        ← Voltar
+      </a>
     </div>
   );
 }

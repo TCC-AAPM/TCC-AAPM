@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./GestaoAdmin.module.css";
+import { useDockButton } from "../../../utils/useDockButton";
 import { alertConfirmar } from "../../../components/Alerts/Alerts.jsx";
 
 const cards = [
@@ -67,6 +68,7 @@ const cards = [
 
 export default function PainelAdmin() {
   const navigate = useNavigate();
+  const docked = useDockButton();
 
   async function handleSair() {
     const confirmado = await alertConfirmar("Deseja realmente sair?");
@@ -111,7 +113,7 @@ export default function PainelAdmin() {
   }
 
   return (
-    <>
+    <div className={styles.conteudoWrapper}>
       <div className={styles.principalBox}>
         <div className={styles.divHeader}>
           <h1>Painel Administrativo</h1>
@@ -139,14 +141,11 @@ export default function PainelAdmin() {
 
       <a
         href="#"
-        onClick={(e) => {
-          e.preventDefault();
-          navigate(-1);
-        }}
-        className="voltar"
+        onClick={() => history.back()}
+        className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
       >
         ← Voltar
       </a>
-    </>
+    </div>
   );
 }

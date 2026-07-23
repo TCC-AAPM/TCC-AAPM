@@ -15,11 +15,13 @@ import { PopupModal } from "../../../components/PopupModal/PopupModal.jsx";
 
 import { API_ROUTES } from "../../../utils/auth.js";
 import styles from "./Armarios.module.css";
+import { useDockButton } from "../../../utils/useDockButton";
 
 const ITENS_POR_PAGINA = 30;
 
 export default function Armarios() {
   const navigate = useNavigate();
+  const docked = useDockButton();
 
   const [armarios, setArmarios] = useState([]);
   const [usuarios, setUsuarios] = useState([]);
@@ -303,7 +305,8 @@ export default function Armarios() {
   ]);
 
   return (
-    <div className={styles.principalBox}>
+    <div className={styles.conteudoWrapper}>
+      <div className={styles.principalBox}>
       <div className={styles.container}>
         <div className={styles.toolbar}>
           <div className={styles.toolbarHeader}>
@@ -486,6 +489,14 @@ export default function Armarios() {
           </span>
         </div>
       )}
+      </div>
+      <a
+        href="#"
+        onClick={() => history.back()}
+        className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+      >
+        ← Voltar
+      </a>
     </div>
   );
 }

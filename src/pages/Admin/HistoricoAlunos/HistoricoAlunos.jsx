@@ -4,6 +4,7 @@ import { Pagination } from "@mui/material";
 import { Search, X } from "lucide-react";
 import { authFetch, API_ROUTES } from "../../../utils/auth";
 import styles from "./HistoricoAlunos.module.css";
+import { useDockButton } from "../../../utils/useDockButton";
 
 const ITENS_POR_PAGINA = 10;
 
@@ -14,6 +15,7 @@ function aplicarMascaraCPF(cpf) {
 }
 
 export default function HistoricoAlunos() {
+  const docked = useDockButton();
   const [alunos, setAlunos] = useState([]);
   const [carregando, setCarregando] = useState(true);
   const [pesquisa, setPesquisa] = useState("");
@@ -65,7 +67,8 @@ export default function HistoricoAlunos() {
   }, [paginaAtual, totalPaginas]);
 
   return (
-    <div className={styles.principalBox}>
+    <div className={styles.conteudoWrapper}>
+      <div className={styles.principalBox}>
       <div className={styles.divHeader}>
         <span className={`material-symbols-outlined ${styles.icon}`}>
           history
@@ -152,6 +155,14 @@ export default function HistoricoAlunos() {
           />
         </div>
       )}
+      </div>
+      <a
+        href="#"
+        onClick={() => history.back()}
+        className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+      >
+        ← Voltar
+      </a>
     </div>
   );
 }

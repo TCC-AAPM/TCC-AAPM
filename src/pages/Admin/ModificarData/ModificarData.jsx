@@ -7,6 +7,7 @@ import {
 } from "../../../components/Alerts/Alerts";
 import { authFetch, API_ROUTES } from "../../../utils/auth"; 
 import styles from "./ModificarData.module.css";
+import { useDockButton } from "../../../utils/useDockButton";
 
 function formatarDataBR(dataISO) {
   if (!dataISO) return "Carregando...";
@@ -15,6 +16,7 @@ function formatarDataBR(dataISO) {
 }
 
 export default function ModificarData() {
+  const docked = useDockButton();
   const [dataAtual, setDataAtual] = useState(null);
   const [novaData, setNovaData] = useState("");
   const [carregando, setCarregando] = useState(false);
@@ -108,10 +110,14 @@ export default function ModificarData() {
             </button>
           </div>
         </form>
-        <a href="#" onClick={() => history.back()} className={styles.voltar}>
-          ← Voltar
-        </a>
       </div>
+      <a
+        href="#"
+        onClick={() => history.back()}
+        className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+      >
+        ← Voltar
+      </a>
     </div>
   );
 }

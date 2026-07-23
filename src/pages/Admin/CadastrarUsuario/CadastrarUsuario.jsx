@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./CadastrarUsuario.module.css";
+import { useDockButton } from "../../../utils/useDockButton";
 import { validarCPF } from "../../../utils/validarCPF";
 import { API_ROUTES, authFetch } from "../../../utils/auth.js";
 import {
@@ -66,6 +67,7 @@ function obterListaDados(data) {
 }
 
 export default function CadastrarUsuario() {
+  const docked = useDockButton();
   const navigate = useNavigate();
 
   const [cpf, setCpf] = useState("");
@@ -531,7 +533,11 @@ export default function CadastrarUsuario() {
             </div>
           </form>
         </div>
-        <a href="#" onClick={() => history.back()} className={styles.voltar}>
+        <a
+          href="#"
+          onClick={() => history.back()}
+          className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+        >
           ← Voltar
         </a>
       </div>
