@@ -3,6 +3,14 @@
   flex-direction: column;
 }
 
+.conteudoWrapper {
+  position: relative;
+  width: 100%;
+  min-height: var(--page-min-height);
+  display: flex;
+  flex-direction: column;
+}
+
 .header{
   display: flex;
   flex-direction: column;

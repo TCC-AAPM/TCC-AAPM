@@ -3,6 +3,7 @@ import styles from "./ModificarSenha.module.css";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 import { useNavigate } from "react-router-dom";
 import { API_ROUTES } from "../../../routes/config/api.js";
+import { useDockButton } from "../../../utils/useDockButton";
 
 function verificarSenha(senha) {
   const erros = [];
@@ -38,6 +39,7 @@ function PasswordInput({ id, label, value, onChange }) {
 
 export default function ModificarSenha() {
   const navigate = useNavigate();
+  const docked = useDockButton();
   const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
@@ -88,8 +90,8 @@ export default function ModificarSenha() {
   }
 
   return (
-    <div className={styles.containerGeral}>
-      <div className={styles.conteudoWrapper}>
+    <div className={styles.conteudoWrapper}>
+      <div className={styles.containerGeral}>
         <div className={styles.principalBox}>
           <div className={styles.entreAqui}>
             <h1 className="material-symbols-outlined">lock_reset</h1>
@@ -122,7 +124,11 @@ export default function ModificarSenha() {
         </div>
       </div>
 
-      <a onClick={() => navigate(-1)} className={styles.voltar}>
+      <a
+        href="#"
+        onClick={() => history.back()}
+        className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+      >
         ← Voltar
       </a>
     </div>

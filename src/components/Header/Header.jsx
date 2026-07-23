@@ -3,6 +3,7 @@ import logo from "../../assets/images/AAPM-Logo.png";
 import { useTheme } from "../../utils/darkMode";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import { getLogoDestino } from "../../utils/logoRedirect";
 import {
   Bell,
   Home,
@@ -32,6 +33,7 @@ export default function Header() {
       : "default";
   const isAdmin = location.pathname.startsWith("/admin");
   const isPainelAdmin = location.pathname === "/admin/gestao-admin";
+  const destinoLogo = getLogoDestino(location.pathname);
 
   useEffect(() => {
     if (headerType !== "user") return undefined;
@@ -90,7 +92,12 @@ export default function Header() {
         />
 
         <nav className={styles.nav}>
-          <img src={logo} alt="AAPM" className={styles.imgLogo} />
+          <img
+            src={logo}
+            alt="AAPM"
+            className={styles.imgLogo}
+            onClick={() => navigate(destinoLogo)}
+          />
 
           <div className={styles.navActions}>
             <button
@@ -167,7 +174,12 @@ export default function Header() {
 
   return (
     <nav className={styles.nav} data-theme={darkMode ? "dark" : "light"}>
-      <img src={logo} alt="AAPM" className={styles.imgLogo} />
+      <img
+        src={logo}
+        alt="AAPM"
+        className={styles.imgLogo}
+        onClick={() => navigate(destinoLogo)}
+      />
       <div className={styles.navActions}>
         {isAdmin && (
           <button

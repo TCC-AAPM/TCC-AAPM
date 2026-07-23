@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./VerInformacoes.module.css";
 import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
 import { getNomeExibicao } from "../../../utils/getNomeExibicao.js";
+import { useDockButton } from "../../../utils/useDockButton";
 
 const maskCPF = (v) =>
   v
@@ -19,6 +20,7 @@ const maskPhone = (v) =>
 
 export default function VerInformacoes() {
   const navigate = useNavigate();
+  const docked = useDockButton();
   const [aluno, setAluno] = useState(null);
 
   useEffect(() => {
@@ -67,9 +69,9 @@ export default function VerInformacoes() {
     : [];
 
   return (
-    <>
+    <div className={styles.conteudoWrapper}>
       <div className={styles.containerGeral}>
-        <div className={styles.conteudoWrapper}>
+        <div className={styles.conteudoInterno}>
           <div className={styles.principalBox}>
             <div className={styles.topBar}></div>
             <div className={styles.entreAqui}>
@@ -88,10 +90,14 @@ export default function VerInformacoes() {
           </div>
         </div>
 
-        <a className={styles.voltar} onClick={() => navigate(-1)}>
+        <a
+          href="#"
+          onClick={() => history.back()}
+          className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+        >
           ← Voltar
         </a>
       </div>
-    </>
+    </div>
   );
 }
