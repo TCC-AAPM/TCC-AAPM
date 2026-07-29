@@ -165,7 +165,7 @@ export default function Armarios() {
     }
 
     if (arm.estado === "D") {
-      localStorage.setItem("armarioSelecionado", arm.numeroArmario);
+      sessionStorage.setItem("armarioSelecionado", arm.numeroArmario);
       navigate("/admin/cadastrar-aluno");
     } else if (arm.estado === "O") {
       const usuario = usuarios.find(

@@ -96,7 +96,10 @@ export default function CadastrarUsuario() {
   const alunoEncontrado = useRef(null);
 
   //id do armário clicado no card
-  const idArmario = Number(localStorage.getItem("armarioSelecionado"));
+  const idArmario = Number(
+    sessionStorage.getItem("armarioSelecionado") ||
+      localStorage.getItem("armarioSelecionado"),
+  );
 
   useEffect(() => {
     async function carregarCursos() {
@@ -300,6 +303,7 @@ export default function CadastrarUsuario() {
       if (!res.ok) throw new Error();
 
       await alertSucessoModal("Sucesso!", "Usuário salvo com sucesso.");
+      sessionStorage.removeItem("armarioSelecionado");
       localStorage.removeItem("armarioSelecionado"); // limpa após sucesso
       resetFormulario();
       navigate("/admin/armarios");

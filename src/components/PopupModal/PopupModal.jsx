@@ -31,7 +31,7 @@ export function PopupModal({ popup, onClose, onReload }) {
   }
 
   function handleEditar() {
-    localStorage.setItem(
+    sessionStorage.setItem(
       "alunoEditando",
       JSON.stringify({
         cpf: usuario.cpf,

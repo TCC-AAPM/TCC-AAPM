@@ -22,6 +22,8 @@ export function getUsuarioLogado() {
 
     return { perfil: role, id };
   } catch {
+    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     return null;
   }
 }
@@ -34,6 +36,8 @@ export async function authFetch(url, options = {}) {
     ...options,
     headers: {
       ...(isFormData ? {} : { "Content-Type": "application/json" }),
+      "Cache-Control": "no-store",
+      Pragma: "no-cache",
       ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers,
     },

@@ -117,7 +117,7 @@ export default function HistoricoAlunos() {
             <button
               className={styles.btnEditar}
               onClick={() => {
-                localStorage.setItem(
+                sessionStorage.setItem(
                   "alunoEditando",
                   JSON.stringify({
                     cpf: aluno.cpf,

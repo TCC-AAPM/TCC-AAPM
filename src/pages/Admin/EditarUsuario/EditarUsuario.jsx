@@ -76,7 +76,9 @@ export default function EditarAluno() {
     let ativo = true; // evita que uma resposta atrasada sobrescreva dados de outro aluno
 
     const alunoEditando = JSON.parse(
-      localStorage.getItem("alunoEditando") || "null",
+      sessionStorage.getItem("alunoEditando") ||
+        localStorage.getItem("alunoEditando") ||
+        "null",
     );
 
     if (!alunoEditando?.cpf) {
@@ -218,6 +220,7 @@ export default function EditarAluno() {
       }
 
       await alertSucessoModal("Sucesso!", "Aluno atualizado com sucesso.");
+      sessionStorage.removeItem("alunoEditando");
       localStorage.removeItem("alunoEditando");
       navigate("/admin/armarios");
     } catch (erro) {
