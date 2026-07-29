@@ -54,6 +54,12 @@ export const API_ROUTES = {
     preCadastro: `${BASE_URL}/Cadastro/pre-cadastro`,
   },
 
+  senha: {
+    esqueciSenha: `${BASE_URL}/EsqueciSenha`,
+    verificarCodigo: `${BASE_URL}/EsqueciSenha/verificar-codigo`,
+    resetarSenha: `${BASE_URL}/EsqueciSenha/resetar-senha`,
+  },
+
   termos: {
     obterPdf: (referencia, versao = Date.now()) =>
       `${BASE_URL}/Termo/obter-pdf?referencia=${referencia}&v=${versao}`,

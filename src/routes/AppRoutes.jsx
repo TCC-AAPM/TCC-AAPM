@@ -1,5 +1,6 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Outlet } from "react-router-dom";
 import PrivateRoute from "./PrivateRoute";
+import { SenhaFlowProvider } from "../pages/Senha/SenhaFlowContext.jsx";
 
 import Home from "../pages/Home/Home.jsx";
 import Login from "../pages/Login/Index.jsx";
@@ -27,8 +28,17 @@ import EditarUsuario from "../pages/Admin/EditarUsuario/EditarUsuario.jsx";
 import ModificarData from "../pages/Admin/ModificarData/ModificarData.jsx";
 import HistoricoAlunos from "../pages/Admin/HistoricoAlunos/HistoricoAlunos.jsx";
 import GerenciarCursos from "../pages/Admin/GerenciarCursos/GerenciarCursos.jsx";
-import GerenciarTurmas from "../pages/Admin/GerenciarTurmas/GerenciarTurmas.jsx"
-import GerenciarTermos from "../pages/Admin/GerenciarTermos/GerenciarTermos.jsx"
+import GerenciarTurmas from "../pages/Admin/GerenciarTurmas/GerenciarTurmas.jsx";
+import GerenciarTermos from "../pages/Admin/GerenciarTermos/GerenciarTermos.jsx";
+
+// Layout que cria a caixinha UMA vez e compartilha com as rotas filhas
+function SenhaLayout() {
+  return (
+    <SenhaFlowProvider>
+      <Outlet />
+    </SenhaFlowProvider>
+  );
+}
 
 export default function AppRoutes() {
   return (
@@ -39,9 +49,13 @@ export default function AppRoutes() {
       <Route path="/sobre-nos-aapm" element={<SobreNosAAPM />} />
       <Route path="/cadastro-armario" element={<CadastroArmario />} />
       <Route path="/acesso-negado" element={<AcessoNegado />} />
-      <Route path="/senha/esqueci" element={<EsqueciSenha />} />
-      <Route path="/senha/codigo" element={<CodigoSenha />} />
-      <Route path="/senha/redefinir" element={<RedefinirSenha />} />
+
+      {/* Grupo de rotas de senha, todas compartilhando a mesma caixinha */}
+      <Route element={<SenhaLayout />}>
+        <Route path="/senha/esqueci" element={<EsqueciSenha />} />
+        <Route path="/senha/codigo" element={<CodigoSenha />} />
+        <Route path="/senha/redefinir" element={<RedefinirSenha />} />
+      </Route>
 
       <Route
         path="/admin/dashboard"
@@ -124,7 +138,7 @@ export default function AppRoutes() {
         }
       />
 
-       <Route
+      <Route
         path="/admin/gerenciar-termos"
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
@@ -132,10 +146,6 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
-
-
-
-
 
       <Route
         path="/usuario/tela-principal"

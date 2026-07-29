@@ -3,6 +3,7 @@ import Header from "./components/Header/Header";
 import Footer from "./components/Footer/Footer";
 import AppRoutes from "./routes/AppRoutes";
 import ScrollSubir from "./utils/scrollSubir";
+import { SenhaFlowProvider } from "./pages/Senha/SenhaFlowContext";
 
 function Layout() {
   const location = useLocation();
@@ -16,7 +17,9 @@ function Layout() {
       <ScrollSubir />
       <Header />
       <main className="app-content">
-        <AppRoutes />
+        <SenhaFlowProvider>
+          <AppRoutes />
+        </SenhaFlowProvider>
       </main>
       {!semFooter && <Footer />}
     </>

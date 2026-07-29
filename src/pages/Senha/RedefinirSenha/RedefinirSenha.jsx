@@ -1,60 +1,78 @@
-import { useState } from "react";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
+  alertConfirmar,
   alertErro,
-  alertSucesso,
-  alertAviso,
+  alertSucessoModal,
 } from "../../../components/Alerts/Alerts.jsx";
+import { authFetch, API_ROUTES } from "../../../utils/auth.js";
+import { useSenhaFlow } from "../SenhaFlowContext.jsx";
 import styles from "./RedefinirSenha.module.css";
+
+async function lerResultadoPadrao(resposta) {
+  const texto = await resposta.text();
+  return texto ? JSON.parse(texto) : {};
+}
 
 export default function RedefinirSenha() {
   const navigate = useNavigate();
-
-  // useSearchParams = substitui o URLSearchParams de antes
-  const [searchParams] = useSearchParams();
-  const email = searchParams.get("email");
-
+  const { emailValidado, codigoValidado, limparFluxo } = useSenhaFlow();
   const [senha, setSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
   const [mostrarSenha1, setMostrarSenha1] = useState(false);
   const [mostrarSenha2, setMostrarSenha2] = useState(false);
   const [carregando, setCarregando] = useState(false);
 
-  const API_REDEFINIR = `http://localhost:3000/verificacao/senha/${encodeURIComponent(email)}`;
+  useEffect(() => {
+    if (!emailValidado || !codigoValidado) {
+      alertErro("Valide o email e o código antes de redefinir a senha.");
+      navigate("/senha/esqueci", { replace: true });
+    }
+  }, [codigoValidado, emailValidado, navigate]);
 
   async function handleSubmit(e) {
     e.preventDefault();
 
     if (!senha || !confirmarSenha) {
-      alertAviso("Por favor, preencha todos os campos.");
+      alertErro("Por favor, preencha todos os campos.");
       return;
     }
 
     if (senha !== confirmarSenha) {
-      alertAviso("As senhas não coincidem.");
+      alertErro("As senhas não coincidem.");
       return;
     }
+
+    const confirmado = await alertConfirmar("Deseja redefinir sua senha?");
+    if (!confirmado) return;
 
     try {
       setCarregando(true);
 
-      const resposta = await fetch(API_REDEFINIR, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, senha }),
+      const resposta = await authFetch(API_ROUTES.senha.resetarSenha, {
+        method: "POST",
+        body: JSON.stringify({
+          email: emailValidado,
+          codigo: codigoValidado,
+          senhaNova: senha,
+          confirmarSenha,
+        }),
       });
 
-      const dados = await resposta.json();
+      const dados = await lerResultadoPadrao(resposta);
 
-      if (!resposta.ok) {
-        alertErro(dados.erro || "Erro ao redefinir senha.");
+      if (!resposta.ok || dados.sucesso === false) {
+        alertErro(dados.mensagem || "Erro ao redefinir senha.");
         return;
       }
 
-      alertSucesso(dados.mensagem);
-      navigate("/"); // vai pro login
+      await alertSucessoModal(
+        "Sucesso!",
+        dados.mensagem || "Senha redefinida com sucesso.",
+      );
+      navigate("/login", { replace: true });
     } catch (erro) {
-      alertErro(erro.message);
+      alertErro(erro.message || "Erro de conexão com o servidor.");
     } finally {
       setCarregando(false);
     }
@@ -109,7 +127,7 @@ export default function RedefinirSenha() {
       </form>
 
       <button className={styles.voltar} onClick={() => navigate(-1)}>
-        ← Voltar
+        Voltar
       </button>
     </main>
   );

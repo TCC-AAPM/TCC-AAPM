@@ -1,50 +1,59 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  alertErro,
-  alertSucesso,
-  alertAviso,
-} from "../../../components/Alerts/Alerts.jsx";
+import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
+import { authFetch, API_ROUTES } from "../../../utils/auth.js";
+import { useSenhaFlow } from "../SenhaFlowContext.jsx";
 import styles from "./EsqueciSenha.module.css";
 
-const API_CRIAR_CODIGO = "http://localhost:3000/verificacao";
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+async function lerResultadoPadrao(resposta) {
+  const texto = await resposta.text();
+  return texto ? JSON.parse(texto) : {};
+}
 
 export default function EsqueciSenha() {
   const navigate = useNavigate();
+  const { iniciarFluxo } = useSenhaFlow();
   const [email, setEmail] = useState("");
   const [carregando, setCarregando] = useState(false);
 
   async function enviarCodigo(e) {
     e.preventDefault();
+    const emailTratado = email.trim();
 
-    if (!email) {
-      alertAviso("Por favor, insira seu email.");
+    if (!emailTratado) {
+      alertErro("Por favor, insira seu email.");
+      return;
+    }
+
+    if (!emailRegex.test(emailTratado)) {
+      alertErro("Informe um email válido.");
       return;
     }
 
     try {
-      setCarregando(true); // desabilita o botão
+      setCarregando(true);
 
-      const resposta = await fetch(API_CRIAR_CODIGO, {
+      const resposta = await authFetch(API_ROUTES.senha.esqueciSenha, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ email: emailTratado }),
       });
 
-      const dados = await resposta.json();
+      const dados = await lerResultadoPadrao(resposta);
 
-      if (!resposta.ok) {
-        alertErro(dados.erro || "Erro ao enviar código de verificação.");
+      if (!resposta.ok || dados.sucesso === false) {
+        alertErro(dados.mensagem || "Erro ao enviar código de verificação.");
         return;
       }
 
-      alertSucesso("Código enviado para o email!");
-      localStorage.setItem("email_recuperacao", email);
+      iniciarFluxo(emailTratado);
+      alertSucesso(dados.mensagem || "Código enviado para o email!");
       navigate("/senha/codigo");
     } catch (erro) {
-      alertErro(`Erro: ${erro.message}`);
+      alertErro(erro.message || "Erro de conexão com o servidor.");
     } finally {
-      setCarregando(false); // reabilita o botão
+      setCarregando(false);
     }
   }
 
@@ -57,7 +66,7 @@ export default function EsqueciSenha() {
       <form className={styles.emailInput} onSubmit={enviarCodigo}>
         <div className={styles.inputBox}>
           <input
-            type="text"
+            type="email"
             className="form-control"
             id="email"
             required
@@ -77,15 +86,8 @@ export default function EsqueciSenha() {
       </form>
 
       <button className={styles.voltar} onClick={() => navigate(-1)}>
-        ← Voltar
+        Voltar
       </button>
     </main>
   );
 }
-
-// No react usa useState:
-// cria uma variável que o React "observa"
-// const [carregando, setCarregando] = useState(false);
-// carregando é o valor atual (true ou false)
-// setCarregando é a função que muda o valor
-// useState(false) começa como false

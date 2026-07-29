@@ -1,93 +1,106 @@
-import { useState, useEffect } from "react"; // ← adiciona useEffect
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  alertErro,
-  alertSucesso,
-  alertAviso,
-} from "../../../components/Alerts/Alerts.jsx";
+import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
+import { authFetch, API_ROUTES } from "../../../utils/auth.js";
+import { useSenhaFlow } from "../SenhaFlowContext.jsx";
 import styles from "./CodigoSenha.module.css";
 
-const API_VERIFICAR = "http://localhost:3000/verificacao/verificar";
+async function lerResultadoPadrao(resposta) {
+  const texto = await resposta.text();
+  return texto ? JSON.parse(texto) : {};
+}
 
 export default function CodigoSenha() {
   const navigate = useNavigate();
-  const email = localStorage.getItem("email_recuperacao");
-
-  const [d1, setD1] = useState("");
-  const [d2, setD2] = useState("");
-  const [d3, setD3] = useState("");
-  const [d4, setD4] = useState("");
-  const [d5, setD5] = useState("");
-  const [d6, setD6] = useState("");
+  const { emailValidado, validarCodigo } = useSenhaFlow();
+  const [digitos, setDigitos] = useState(["", "", "", "", "", ""]);
   const [carregando, setCarregando] = useState(false);
-  const [tempoRestante, setTempoRestante] = useState(600); // ← 10 minutos
+  const [tempoRestante, setTempoRestante] = useState(600);
 
   useEffect(() => {
+    if (!emailValidado) {
+      alertErro("Informe seu email antes de validar o código.");
+      navigate("/senha/esqueci", { replace: true });
+      return;
+    }
+
     const intervalo = setInterval(() => {
       setTempoRestante((prev) => {
         if (prev <= 1) {
           clearInterval(intervalo);
           return 0;
         }
-        return prev - 1; // diminui 1 segundo
+        return prev - 1;
       });
-    }, 1000); // executa a cada 1 segundo
+    }, 1000);
 
     return () => clearInterval(intervalo);
-  }, []); // [] = executa só uma vez quando a página carrega
+  }, [emailValidado, navigate]);
 
   function formatarTempo() {
     if (tempoRestante <= 0) return "Código expirado";
     const minutos = Math.floor(tempoRestante / 60);
     const segundos = tempoRestante % 60;
-    return `⏳ ${minutos}:${segundos.toString().padStart(2, "0")}`;
+    return `${minutos}:${segundos.toString().padStart(2, "0")}`;
   }
 
-  function handleDigito(valor, setter, proximoId) {
-    setter(valor);
-    if (valor && proximoId) {
-      document.getElementById(proximoId).focus();
+  function atualizarDigito(index, valor) {
+    const digito = valor.replace(/\D/g, "").slice(-1);
+    setDigitos((atual) =>
+      atual.map((item, itemIndex) => (itemIndex === index ? digito : item))
+    );
+
+    if (digito && index < 5) {
+      document.getElementById(`codigo-${index + 1}`)?.focus();
     }
   }
 
-  function handleBackspace(e, setter, anteriorId) {
-    if (e.key === "Backspace") {
-      setter("");
-      if (anteriorId) {
-        document.getElementById(anteriorId).focus();
-      }
+  function voltarNoBackspace(e, index) {
+    if (e.key !== "Backspace") return;
+
+    setDigitos((atual) =>
+      atual.map((item, itemIndex) => (itemIndex === index ? "" : item))
+    );
+
+    if (!digitos[index] && index > 0) {
+      document.getElementById(`codigo-${index - 1}`)?.focus();
     }
   }
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const codigoDigitado = digitos.join("");
 
-    const codigoDigitado = d1 + d2 + d3 + d4 + d5 + d6;
+    if (!codigoDigitado) {
+      alertErro("Por favor, insira o código.");
+      return;
+    }
 
     if (codigoDigitado.length < 6) {
-      alertAviso("Por favor, insira o código completo.");
+      alertErro("Por favor, insira o código completo.");
       return;
     }
 
     try {
       setCarregando(true);
-      const resposta = await fetch(API_VERIFICAR, {
+
+      const resposta = await authFetch(API_ROUTES.senha.verificarCodigo, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, codigo: codigoDigitado }),
+        body: JSON.stringify({ email: emailValidado, codigo: codigoDigitado }),
       });
 
-      const dados = await resposta.json();
+      const dados = await lerResultadoPadrao(resposta);
 
-      if (!resposta.ok) {
-        alertErro(dados.erro || "Erro ao verificar código.");
+      if (!resposta.ok || dados.sucesso === false) {
+        alertErro(dados.mensagem || "Erro ao verificar código.");
         return;
       }
 
-      alertSucesso(dados.mensagem);
-      navigate(`/senha/redefinir?email=${encodeURIComponent(email)}`);
+      validarCodigo(codigoDigitado);
+      alertSucesso(dados.mensagem || "Código validado com sucesso.");
+      navigate("/senha/redefinir");
     } catch (erro) {
-      alertErro(erro.message);
+      alertErro(erro.message || "Erro de conexão com o servidor.");
     } finally {
       setCarregando(false);
     }
@@ -98,7 +111,7 @@ export default function CodigoSenha() {
       <section className={styles.entreAqui}>
         <h2>Digite o código</h2>
         <p style={{ color: "white", marginTop: "1rem", textAlign: "center" }}>
-          Enviamos um código de 6 dígitos para <strong>{email}</strong>
+          Enviamos um código de 6 dígitos para <strong>{emailValidado}</strong>
         </p>
       </section>
 
@@ -109,60 +122,19 @@ export default function CodigoSenha() {
 
       <form className={styles.codigoInput} onSubmit={handleSubmit}>
         <div className={styles.inputBox}>
-          <input
-            id="d1"
-            type="text"
-            maxLength={1}
-            className="form-control"
-            value={d1}
-            onChange={(e) => handleDigito(e.target.value, setD1, "d2")}
-            onKeyDown={(e) => handleBackspace(e, setD1, null)}
-          />
-          <input
-            id="d2"
-            type="text"
-            maxLength={1}
-            className="form-control"
-            value={d2}
-            onChange={(e) => handleDigito(e.target.value, setD2, "d3")}
-            onKeyDown={(e) => handleBackspace(e, setD2, "d1")}
-          />
-          <input
-            id="d3"
-            type="text"
-            maxLength={1}
-            className="form-control"
-            value={d3}
-            onChange={(e) => handleDigito(e.target.value, setD3, "d4")}
-            onKeyDown={(e) => handleBackspace(e, setD3, "d2")}
-          />
-          <input
-            id="d4"
-            type="text"
-            maxLength={1}
-            className="form-control"
-            value={d4}
-            onChange={(e) => handleDigito(e.target.value, setD4, "d5")}
-            onKeyDown={(e) => handleBackspace(e, setD4, "d3")}
-          />
-          <input
-            id="d5"
-            type="text"
-            maxLength={1}
-            className="form-control"
-            value={d5}
-            onChange={(e) => handleDigito(e.target.value, setD5, "d6")}
-            onKeyDown={(e) => handleBackspace(e, setD5, "d4")}
-          />
-          <input
-            id="d6"
-            type="text"
-            maxLength={1}
-            className="form-control"
-            value={d6}
-            onChange={(e) => handleDigito(e.target.value, setD6, null)}
-            onKeyDown={(e) => handleBackspace(e, setD6, "d5")}
-          />
+          {digitos.map((digito, index) => (
+            <input
+              key={index}
+              id={`codigo-${index}`}
+              type="text"
+              inputMode="numeric"
+              maxLength={1}
+              className="form-control"
+              value={digito}
+              onChange={(e) => atualizarDigito(index, e.target.value)}
+              onKeyDown={(e) => voltarNoBackspace(e, index)}
+            />
+          ))}
         </div>
 
         <button
@@ -175,31 +147,8 @@ export default function CodigoSenha() {
       </form>
 
       <button className={styles.voltar} onClick={() => navigate(-1)}>
-        ← Voltar
+        Voltar
       </button>
     </main>
   );
 }
-
-/*
-  1. useState - cada digito (d1-d6) tem seu proprio estado
-     react guarda o valor sozinho, nao precisa mais de getElementById
-
-  2. handleDigito - avanco automatico entre inputs
-     quando digita algo, foca o proximo pelo ID
-     (no js antigo era querySelectorAll + index)
-
-  3. handleBackspace - volta ao apagar
-     escuta o "Backspace" no onKeyDown e foca o anterior
-     primeiro input tem anteriorId = null entao nao volta pra nada
-
-  4. useEffect - o timer
-     roda uma vez quando a pagina carrega (por causa do [])
-     o return limpa o intervalo quando sai da pagina
-     
-  5. formatarTempo - 600 → "10:00"
-     padStart(2, "0") garante 2 digitos nos segundos ("9:07" nao "9:7")
-
-  6. finally - garante que o botao sermpre volta ao normal
-     mesmo se der erro na requisicao
-*/
