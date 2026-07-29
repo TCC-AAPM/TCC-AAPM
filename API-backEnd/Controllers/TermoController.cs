@@ -32,6 +32,7 @@ namespace API_backEnd.Controllers
         /// Esta rota é pública e não requer autenticação.
         /// </remarks>
         /// <response code="200">Lista de termos retornado com sucesso.</response>
+        [AllowAnonymous]
         [HttpGet("termos-ativos")]
         public IActionResult TermosAtivos()
         {

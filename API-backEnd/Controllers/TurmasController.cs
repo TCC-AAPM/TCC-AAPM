@@ -42,6 +42,7 @@ namespace API_backEnd.Controllers
         /// <response code="200">Turmas retornadas com sucesso.</response>
         /// <response code="401">Usuário não autenticado.</response>
         /// <response code="404">Curso não encontrado.</response>
+        [AllowAnonymous]
         [HttpGet("por-curso/{idCurso}")]
         public IActionResult GetTurmaPorCurso(int idCurso)
         {

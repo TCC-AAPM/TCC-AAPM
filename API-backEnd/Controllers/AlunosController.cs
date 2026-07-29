@@ -52,7 +52,7 @@ namespace API_backEnd.Controllers
             return Resultado(_alunoService.BuscarAlunoPeloCPF(dto));
         }
 
-        //[Authorize(Roles = "admin")]
+        [Authorize(Roles = "admin")]
         [HttpPut("{id}")]
         public IActionResult EditarAluno(int id, EditarAlunoRequest dto)
         {

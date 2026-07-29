@@ -144,6 +144,24 @@ app.UseStaticFiles();
 
 // 🔹 Pipeline
 app.UseAuthentication(); // ⚠️ sempre antes
+
+app.Use(async (context, next) =>
+{
+    context.Response.OnStarting(() =>
+    {
+        if (context.User.Identity?.IsAuthenticated == true)
+        {
+            context.Response.Headers.CacheControl = "no-store, no-cache, must-revalidate";
+            context.Response.Headers.Pragma = "no-cache";
+            context.Response.Headers.Expires = "0";
+        }
+
+        return Task.CompletedTask;
+    });
+
+    await next();
+});
+
 app.UseAuthorization();
 
 app.MapControllers();
