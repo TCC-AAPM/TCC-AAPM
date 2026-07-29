@@ -22,9 +22,10 @@ namespace API_backEnd.Services
             var termosAtivo = db.TabelaTermos.Where(t => t.IsAtivo).Select(t => new TermosResponse
             {
                 Referencia = t.Referencia,
-                IdTermo = t.Id
+                IdTermo = t.Id,
+                DataCriacao = t.DataCriacao,
+                DataAlteracao = t.DataAlteracao
             }).ToList();
-
 
             return ResultadoPadrao<List<TermosResponse>>.Ok(termosAtivo);
         }

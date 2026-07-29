@@ -1,8 +1,9 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\",
+  "WorkspaceRootPath": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\",
   "Documents": [
     {
+<<<<<<< HEAD
       "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\dtos\\reserva\\recadastroresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\reserva\\recadastroresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -12,30 +13,53 @@
     },
     {
       "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\dtos\\reserva\\recadastrarreservarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+=======
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\services\\termoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\termoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\dtos\\termo\\termosresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\termo\\termosresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\controllers\\termocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\termocontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\services\\alunoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\alunoservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\dtos\\reserva\\recadastroresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\reserva\\recadastroresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\dtos\\reserva\\recadastrarreservarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+>>>>>>> 9835ddc92b7d811b849d37b86a570d1a95bc21b1
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\reserva\\recadastrarreservarequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\models\\tabelaaluno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\models\\tabelaaluno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\models\\tabelaaluno.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\controllers\\alunoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\controllers\\alunoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\controllers\\alunoscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\services\\reservaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\services\\reservaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\reservaservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\services\\idadeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\services\\idadeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\services\\idadeservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\dtos\\aluno\\dadosalunorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\dtos\\aluno\\dadosalunorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\aluno\\dadosalunorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\lopreti\\desktop\\projeto aapm\\api-aapm\\api-backend\\dtos\\aluno\\editaralunorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|c:\\users\\joaol\\onedrive\\documentos\\isabellaaa\\api-aapm\\api-backend\\dtos\\aluno\\editaralunorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40F5A6F6-25DB-2D5C-CAED-B73947994C1D}|API-backEnd\\API-aapm.csproj|solutionrelative:api-backend\\dtos\\aluno\\editaralunorequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -51,23 +75,58 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+<<<<<<< HEAD
               "Title": "RecadastroResponse.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Reserva\\RecadastroResponse.cs",
               "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Reserva\\RecadastroResponse.cs",
               "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Reserva\\RecadastroResponse.cs",
               "RelativeToolTip": "API-backEnd\\DTOs\\Reserva\\RecadastroResponse.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAsAAAAAAAAAA==",
+=======
+              "Title": "TermoService.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Services\\TermoService.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Services\\TermoService.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Services\\TermoService.cs*",
+              "RelativeToolTip": "API-backEnd\\Services\\TermoService.cs*",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAAwBsAAAAYAAAAAAAAAA==",
+>>>>>>> 9835ddc92b7d811b849d37b86a570d1a95bc21b1
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-07-17T00:55:52.859Z",
+              "WhenOpened": "2026-07-23T17:53:55.667Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 1,
+              "Title": "TermosResponse.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Termo\\TermosResponse.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Termo\\TermosResponse.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Termo\\TermosResponse.cs*",
+              "RelativeToolTip": "API-backEnd\\DTOs\\Termo\\TermosResponse.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAYAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-23T17:52:09.937Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "TermoController.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Controllers\\TermoController.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Controllers\\TermoController.cs",
+              "RelativeToolTip": "API-backEnd\\Controllers\\TermoController.cs",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAmwHoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-22T17:04:19.891Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
               "Title": "IdadeService.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\IdadeService.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Services\\IdadeService.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Services\\IdadeService.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\IdadeService.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Services\\IdadeService.cs",
               "RelativeToolTip": "API-backEnd\\Services\\IdadeService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -75,11 +134,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "DadosAlunoRequest.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Aluno\\DadosAlunoRequest.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Aluno\\DadosAlunoRequest.cs",
               "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Aluno\\DadosAlunoRequest.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Aluno\\DadosAlunoRequest.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Aluno\\DadosAlunoRequest.cs",
               "RelativeToolTip": "API-backEnd\\DTOs\\Aluno\\DadosAlunoRequest.cs",
               "ViewState": "AgIAAAYAAAAAAAAAAAAcwCEAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -87,11 +146,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 5,
               "Title": "RecadastrarReservaRequest.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Reserva\\RecadastrarReservaRequest.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Reserva\\RecadastrarReservaRequest.cs",
               "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Reserva\\RecadastrarReservaRequest.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Reserva\\RecadastrarReservaRequest.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Reserva\\RecadastrarReservaRequest.cs",
               "RelativeToolTip": "API-backEnd\\DTOs\\Reserva\\RecadastrarReservaRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -99,11 +158,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "EditarAlunoRequest.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Aluno\\EditarAlunoRequest.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Aluno\\EditarAlunoRequest.cs",
               "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Aluno\\EditarAlunoRequest.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\DTOs\\Aluno\\EditarAlunoRequest.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Aluno\\EditarAlunoRequest.cs",
               "RelativeToolTip": "API-backEnd\\DTOs\\Aluno\\EditarAlunoRequest.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -111,11 +170,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "TabelaAluno.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Models\\TabelaAluno.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Models\\TabelaAluno.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Models\\TabelaAluno.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Models\\TabelaAluno.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Models\\TabelaAluno.cs",
               "RelativeToolTip": "API-backEnd\\Models\\TabelaAluno.cs",
               "ViewState": "AgIAABYAAAAAAAAAAAAowC8AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -123,11 +182,35 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
+              "Title": "AlunoService.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Services\\AlunoService.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\Services\\AlunoService.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Services\\AlunoService.cs",
+              "RelativeToolTip": "API-backEnd\\Services\\AlunoService.cs",
+              "ViewState": "AgIAALMAAAAAAAAAAAASwMMAAAAoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-30T22:38:48.872Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "RecadastroResponse.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Reserva\\RecadastroResponse.cs",
+              "RelativeDocumentMoniker": "API-backEnd\\DTOs\\Reserva\\RecadastroResponse.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\DTOs\\Reserva\\RecadastroResponse.cs",
+              "RelativeToolTip": "API-backEnd\\DTOs\\Reserva\\RecadastroResponse.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-07-17T00:55:52.859Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
               "Title": "ReservaService.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\ReservaService.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Services\\ReservaService.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Services\\ReservaService.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\ReservaService.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Services\\ReservaService.cs",
               "RelativeToolTip": "API-backEnd\\Services\\ReservaService.cs",
               "ViewState": "AgIAAIcAAAAAAAAAAAAcwJgAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -135,6 +218,7 @@
             },
             {
               "$type": "Document",
+<<<<<<< HEAD
               "DocumentIndex": 1,
               "Title": "AlunoService.cs",
               "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Services\\AlunoService.cs",
@@ -148,10 +232,13 @@
             {
               "$type": "Document",
               "DocumentIndex": 4,
+=======
+              "DocumentIndex": 7,
+>>>>>>> 9835ddc92b7d811b849d37b86a570d1a95bc21b1
               "Title": "AlunosController.cs",
-              "DocumentMoniker": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\AlunosController.cs",
+              "DocumentMoniker": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Controllers\\AlunosController.cs",
               "RelativeDocumentMoniker": "API-backEnd\\Controllers\\AlunosController.cs",
-              "ToolTip": "C:\\Users\\Lopreti\\Desktop\\Projeto AAPM\\API-aapm\\API-backEnd\\Controllers\\AlunosController.cs",
+              "ToolTip": "C:\\Users\\Joaol\\OneDrive\\Documentos\\Isabellaaa\\API-aapm\\API-backEnd\\Controllers\\AlunosController.cs",
               "RelativeToolTip": "API-backEnd\\Controllers\\AlunosController.cs",
               "ViewState": "AgIAACcAAAAAAAAAAAA2wD0AAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
