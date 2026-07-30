@@ -196,30 +196,19 @@ export default function Armarios() {
     );
   }, [listaPaginada, selecionados]);
 
-  async function handleAcaoEmLote(novoEstado) {
+  async function confirmarAcaoLote(estado, observacao, numeros) {
     const headers = {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
       "Content-Type": "application/json",
     };
 
-    const numerosValidos = selecionados.filter((numero) => {
-      const arm = armarios.find((a) => a.numeroArmario === numero);
-      return arm && arm.estado !== novoEstado && arm.estado !== "O";
-    });
-
-    if (numerosValidos.length === 0) {
-      setModoSelecao(false);
-      setSelecionados([]);
-      return;
-    }
-
     try {
       await Promise.all(
-        numerosValidos.map((numero) =>
+        numeros.map((numero) =>
           fetch(API_ROUTES.armarios.atualizarEstado(numero), {
             method: "PUT",
             headers,
-            body: JSON.stringify({ estado: novoEstado }),
+            body: JSON.stringify({ estado, observacao: observacao || null }),
           }),
         ),
       );
@@ -233,11 +222,31 @@ export default function Armarios() {
   }
 
   function handleAcaoManutencao() {
-    handleAcaoEmLote("M");
+    const numeros = selecionados.filter((numero) => {
+      const arm = armarios.find((a) => a.numeroArmario === numero);
+      return arm && arm.estado !== "M" && arm.estado !== "O";
+    });
+    if (numeros.length === 0) return;
+
+    const armariosAfetados = numeros
+      .map((n) => armarios.find((a) => a.numeroArmario === n))
+      .filter(Boolean);
+
+    setPopup({ tipo: "lote", estadoDestino: "M", armarios: armariosAfetados });
   }
 
   function handleAcaoDisponivel() {
-    handleAcaoEmLote("D");
+    const numeros = selecionados.filter((numero) => {
+      const arm = armarios.find((a) => a.numeroArmario === numero);
+      return arm && arm.estado !== "D" && arm.estado !== "O";
+    });
+    if (numeros.length === 0) return;
+
+    const armariosAfetados = numeros
+      .map((n) => armarios.find((a) => a.numeroArmario === n))
+      .filter(Boolean);
+
+    setPopup({ tipo: "lote", estadoDestino: "D", armarios: armariosAfetados });
   }
 
   const filtros = [
@@ -307,7 +316,7 @@ export default function Armarios() {
   return (
     <div className={styles.conteudoWrapper}>
       <div className={styles.principalBox}>
-      <div className={styles.container}>
+      <div className={`${styles.container} ${selecionados.length > 0 ? styles.comBarraAcoes : ""}`}>
         <div className={styles.toolbar}>
           <div className={styles.toolbarHeader}>
             <div>
@@ -455,6 +464,7 @@ export default function Armarios() {
           todosArmarios={armarios}
           onClose={() => setPopup(null)}
           onReload={() => window.location.reload()}
+          onConfirmarLote={confirmarAcaoLote}
         />
       )}
 

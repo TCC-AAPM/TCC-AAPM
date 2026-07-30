@@ -46,7 +46,7 @@ const cards = [
   },
   {
     icon: "notifications",
-    title: "Gerenciar E-mails",
+    title: "Gerenciar Avisos e Comunicados",
     desc: "Envie comunicados e notificações para os alunos por e-mail.",
   },
   {

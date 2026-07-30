@@ -433,6 +433,10 @@
   cursor: pointer;
 }
 
+.comBarraAcoes {
+  padding-bottom: 4rem;
+}
+
 .dicaTeclado {
   font-size: 11px;
   color: var(--text-white-soft);
