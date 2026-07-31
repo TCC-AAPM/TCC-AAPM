@@ -426,7 +426,7 @@ function ContextMenuPopup({
             </label>
             <textarea
               className={styles.textarea}
-              placeholder="Descreva o problema do armário..."
+              placeholder="Descreva o problema do armário... (obrigatório)"
               value={observacao}
               onChange={(e) => setObservacao(e.target.value)}
             />
@@ -434,7 +434,7 @@ function ContextMenuPopup({
             <div className={styles["pop-buttons"]}>
               <button
                 className={styles["btn-editar"]}
-                disabled={!novoArmario}
+                disabled={!novoArmario || !observacao.trim()}
                 onClick={() => {
                   onClose();
                   onTransferirAluno(novoArmario, observacao);
