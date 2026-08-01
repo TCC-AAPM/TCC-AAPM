@@ -30,6 +30,7 @@ import HistoricoAlunos from "../pages/Admin/HistoricoAlunos/HistoricoAlunos.jsx"
 import GerenciarCursos from "../pages/Admin/GerenciarCursos/GerenciarCursos.jsx";
 import GerenciarTurmas from "../pages/Admin/GerenciarTurmas/GerenciarTurmas.jsx";
 import GerenciarTermos from "../pages/Admin/GerenciarTermos/GerenciarTermos.jsx";
+import GerenciarAvisos from "../pages/Admin/GerenciarAvisos/GerenciarAvisos.jsx";
 
 // Layout que cria a caixinha UMA vez e compartilha com as rotas filhas
 function SenhaLayout() {
@@ -143,6 +144,15 @@ export default function AppRoutes() {
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
             <GerenciarTermos />
+          </PrivateRoute>
+        }
+      />
+
+       <Route
+        path="/admin/gerenciar-avisos"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <GerenciarAvisos />
           </PrivateRoute>
         }
       />

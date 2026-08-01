@@ -105,6 +105,11 @@ export default function PainelAdmin() {
       return;
     }
 
+     if (card.title === "Gerenciar Avisos e Comunicados") {
+      navigate("/admin/gerenciar-avisos");
+      return;
+    }
+
     if (card.title === "Histórico de Alunos") {
       navigate("/admin/historico-reserva");
       return;
