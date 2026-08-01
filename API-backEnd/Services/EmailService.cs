@@ -88,6 +88,7 @@ namespace API_backEnd.Services
             }
 
             var codigo = db.TabelaVerificacaos.FirstOrDefault(v => v.Codigo == dto.Codigo && v.Email == dto.Email && v.Usado == false && v.Expiracao > DateTime.UtcNow);
+
             if (codigo == null)
             {
                 return ResultadoPadrao<object>.Falha("Código inválido ou expirado", 400);
@@ -112,6 +113,12 @@ namespace API_backEnd.Services
             {
                 return ResultadoPadrao<object>.Falha("Usuario não encontrado", 404);
             }
+
+            if (BCrypt.Net.BCrypt.Verify(dto.SenhaNova, usuario.Senha))
+            {
+                return ResultadoPadrao<object>.Falha("A nova senha deve ser diferente da antiga");
+            }
+
             usuario.Senha = BCrypt.Net.BCrypt.HashPassword(dto.SenhaNova);
             codigo.Usado = true;
             db.SaveChanges();
