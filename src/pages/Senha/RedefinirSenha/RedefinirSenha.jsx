@@ -31,9 +31,15 @@ function nivelForca(pontos) {
 
 const REQUISITOS = [
   { texto: "Mínimo de 8 caracteres", teste: (s) => s.length >= 8 },
-  { texto: "Uma letra maiúscula e uma minúscula", teste: (s) => /[A-Z]/.test(s) && /[a-z]/.test(s) },
+  {
+    texto: "Uma letra maiúscula e uma minúscula",
+    teste: (s) => /[A-Z]/.test(s) && /[a-z]/.test(s),
+  },
   { texto: "Pelo menos 1 número", teste: (s) => /\d/.test(s) },
-  { texto: "Pelo menos 1 caractere especial (ex: !@#$%)", teste: (s) => /[^A-Za-z0-9]/.test(s) },
+  {
+    texto: "Pelo menos 1 caractere especial (ex: !@#$%)",
+    teste: (s) => /[^A-Za-z0-9]/.test(s),
+  },
 ];
 
 export default function RedefinirSenha() {
@@ -113,7 +119,10 @@ export default function RedefinirSenha() {
       <div className={styles.card}>
         <section className={styles.entreAqui}>
           <h2>Crie sua nova senha</h2>
-          <p>Use pelo menos 8 caracteres, com maiúscula, minúscula, número e caractere especial.</p>
+          <p>
+            Use pelo menos 8 caracteres, com maiúscula, minúscula, número e
+            caractere especial.
+          </p>
         </section>
 
         <ul className={styles.requisitos}>
@@ -147,7 +156,11 @@ export default function RedefinirSenha() {
                 {[0, 1, 2, 3].map((i) => (
                   <span
                     key={i}
-                    className={i < pontosForca ? `${styles.barraAtiva} ${styles[classe]}` : ""}
+                    className={
+                      i < pontosForca
+                        ? `${styles.barraAtiva} ${styles[classe]}`
+                        : ""
+                    }
                   />
                 ))}
               </div>

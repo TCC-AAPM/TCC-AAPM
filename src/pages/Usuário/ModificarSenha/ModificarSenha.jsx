@@ -16,7 +16,29 @@ function verificarSenha(senha) {
   return erros;
 }
 
-function PasswordInput({ id, label, value, onChange }) {
+function calcularForca(senha) {
+  let pontos = 0;
+  if (senha.length >= 8) pontos++;
+  if (/[a-z]/.test(senha) && /[A-Z]/.test(senha)) pontos++;
+  if (/[0-9]/.test(senha)) pontos++;
+  if (/[^A-Za-z0-9]/.test(senha)) pontos++;
+  return pontos;
+}
+
+function nivelForca(pontos) {
+  if (pontos <= 1) return { classe: "fraca", label: "Senha fraca" };
+  if (pontos <= 3) return { classe: "media", label: "Senha média" };
+  return { classe: "forte", label: "Senha forte" };
+}
+
+const REQUISITOS = [
+  { texto: "Mínimo de 8 caracteres", teste: (s) => s.length >= 8 },
+  { texto: "Uma letra maiúscula e uma minúscula", teste: (s) => /[a-z]/.test(s) && /[A-Z]/.test(s) },
+  { texto: "Pelo menos 1 número", teste: (s) => /[0-9]/.test(s) },
+  { texto: "Pelo menos 1 caractere especial (ex: !@#$%)", teste: (s) => /[^A-Za-z0-9]/.test(s) },
+];
+
+function PasswordInput({ id, label, value, onChange, onFocus }) {
   const [visible, setVisible] = useState(false);
   return (
     <div className={`${styles.inputBox} ${styles.inputIcon}`}>
@@ -26,6 +48,7 @@ function PasswordInput({ id, label, value, onChange }) {
         id={id}
         value={value}
         onChange={(e) => onChange(e.target.value)}
+        onFocus={onFocus}
         required
       />
       <label htmlFor={id}>{label}</label>
@@ -43,6 +66,11 @@ export default function ModificarSenha() {
   const [senhaAtual, setSenhaAtual] = useState("");
   const [novaSenha, setNovaSenha] = useState("");
   const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [focoNovaSenha, setFocoNovaSenha] = useState(false);
+
+  const pontosForca = calcularForca(novaSenha);
+  const { classe, label } = nivelForca(pontosForca);
+  const mostrarMedidor = focoNovaSenha;
 
   async function atualizarSenha(e) {
     e.preventDefault();
@@ -54,7 +82,7 @@ export default function ModificarSenha() {
 
     const erros = verificarSenha(novaSenha);
     if (erros.length > 0) {
-      alertErro(erros.join(" "));
+      alertErro("Sua senha não atende aos requisitos mínimos.");
       return;
     }
 
@@ -80,13 +108,6 @@ export default function ModificarSenha() {
     }
     alertSucesso(data.mensagem ?? "Senha alterada com sucesso");
     navigate("/usuario/tela-principal");
-
-    if (!response.ok) {
-      alertErro(text);
-      return;
-    }
-    alertSucesso(text);
-    navigate("/usuario/tela-principal");
   }
 
   return (
@@ -96,6 +117,7 @@ export default function ModificarSenha() {
           <div className={styles.entreAqui}>
             <h1 className="material-symbols-outlined">lock_reset</h1>
             <h3>Modifique sua senha</h3>
+            <p>Use pelo menos 8 caracteres, com maiúscula, minúscula, número e caractere especial.</p>
           </div>
 
           <form onSubmit={atualizarSenha} className={styles.form}>
@@ -105,19 +127,44 @@ export default function ModificarSenha() {
               value={senhaAtual}
               onChange={setSenhaAtual}
             />
-            <PasswordInput
-              id="password2"
-              label="Nova Senha"
-              value={novaSenha}
-              onChange={setNovaSenha}
-            />
+            <div
+              onFocus={() => setFocoNovaSenha(true)}
+              onBlur={() => setFocoNovaSenha(false)}
+            >
+              <PasswordInput
+                id="password2"
+                label="Nova Senha"
+                value={novaSenha}
+                onChange={setNovaSenha}
+              />
+            </div>
+
+            {mostrarMedidor && novaSenha && (
+              <div className={styles.forcaSenha}>
+                <div className={styles.barrasForca}>
+                  {[0, 1, 2, 3].map((i) => (
+                    <span
+                      key={i}
+                      className={i < pontosForca ? `${styles.barraAtiva} ${styles[classe]}` : ""}
+                    />
+                  ))}
+                </div>
+                <span className={styles.textoForca}>{label}</span>
+              </div>
+            )}
+
             <PasswordInput
               id="password3"
               label="Confirmar Nova Senha"
               value={confirmarSenha}
               onChange={setConfirmarSenha}
+              onFocus={() => setFocoNovaSenha(false)}
             />
-            <button type="submit" className={styles.btnPrimary}>
+            <button
+              type="submit"
+              className={styles.btnPrimary}
+              disabled={!senhaAtual || !novaSenha || !confirmarSenha}
+            >
               Modificar
             </button>
           </form>

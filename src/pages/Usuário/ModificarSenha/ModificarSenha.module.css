@@ -30,10 +30,52 @@
   justify-content: center;
   color: var(--white);
   margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 .entreAqui :global(.material-symbols-outlined) {
   font-size: 60px;
+}
+
+.entreAqui p {
+  color: var(--text-white-high);
+  font-size: 14px;
+  margin-top: 6px;
+}
+
+.requisitos {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-white-soft);
+}
+
+.requisitos li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color var(--transition);
+}
+
+.requisitos li::before {
+  content: "○";
+  font-size: 10px;
+  color: var(--border-glass-strong);
+}
+
+.requisitos li.ok {
+  color: #22c55e;
+}
+
+.requisitos li.ok::before {
+  content: "●";
+  color: #22c55e;
 }
 
 .form {
@@ -59,7 +101,9 @@
   background: var(--border-glass);
   color: var(--white);
   outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
 }
 
 .inputBox input:focus {
@@ -104,21 +148,66 @@
   background-image: url("/src/assets/images/olho-fechado.png");
 }
 
+.forcaSenha {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: -12px;
+}
+
+.barrasForca {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.barrasForca span {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--border-glass-mid);
+  transition: background var(--transition);
+}
+
+.barraAtiva.fraca {
+  background: #ef4444;
+}
+
+.barraAtiva.media {
+  background: #f59e0b;
+}
+
+.barraAtiva.forte {
+  background: #22c55e;
+}
+
+.textoForca {
+  color: var(--text-white-high);
+  font-size: 12px;
+}
+
 .btnPrimary {
   background-color: var(--dark-blue);
   border: none;
   color: var(--white);
-  height: 46px;
+  height: 56px;
   border-radius: 12px;
   font-size: 15px;
   font-weight: 500;
   width: 100%;
-  transition: opacity var(--transition), transform var(--transition);
+  transition:
+    opacity var(--transition),
+    transform var(--transition);
 }
 
 .btnPrimary:hover {
   opacity: 0.9;
   transform: translateY(-1px);
+}
+
+.btnPrimary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
 }
 
 .voltar,
