@@ -31,6 +31,7 @@ import GerenciarCursos from "../pages/Admin/GerenciarCursos/GerenciarCursos.jsx"
 import GerenciarTurmas from "../pages/Admin/GerenciarTurmas/GerenciarTurmas.jsx";
 import GerenciarTermos from "../pages/Admin/GerenciarTermos/GerenciarTermos.jsx";
 import GerenciarAvisos from "../pages/Admin/GerenciarAvisos/GerenciarAvisos.jsx";
+import Financeiro from "../pages/Admin/Financeiro/Financeiro.jsx";
 
 // Layout que cria a caixinha UMA vez e compartilha com as rotas filhas
 function SenhaLayout() {
@@ -148,7 +149,7 @@ export default function AppRoutes() {
         }
       />
 
-       <Route
+      <Route
         path="/admin/gerenciar-avisos"
         element={
           <PrivateRoute perfisPermitidos={["admin"]}>
@@ -156,6 +157,16 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
+
+      <Route
+        path="/admin/financeiro"
+        element={
+          <PrivateRoute perfisPermitidos={["admin"]}>
+            <Financeiro />
+          </PrivateRoute>
+        }
+      />
+
 
       <Route
         path="/usuario/tela-principal"

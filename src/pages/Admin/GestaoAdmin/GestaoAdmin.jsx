@@ -105,8 +105,13 @@ export default function PainelAdmin() {
       return;
     }
 
-     if (card.title === "Gerenciar Avisos e Comunicados") {
+    if (card.title === "Gerenciar Avisos e Comunicados") {
       navigate("/admin/gerenciar-avisos");
+      return;
+    }
+
+    if (card.title === "Financeiro") {
+      navigate("/admin/financeiro");
       return;
     }
 

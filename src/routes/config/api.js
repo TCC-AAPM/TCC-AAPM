@@ -49,6 +49,12 @@ export const API_ROUTES = {
 
   produtos: {
     listar: `${BASE_URL}/Produtos`,
+    alterarPreco: (id) => `${BASE_URL}/Produtos/${id}`,
+  },
+
+  financeiro: {
+    resumoMensal: `${BASE_URL}/Financeiro/resumo-mensal`,
+    listarPagamentos: `${BASE_URL}/Financeiro/pagamentos`,
   },
 
   cadastro: {

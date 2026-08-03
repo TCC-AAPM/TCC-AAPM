@@ -14,11 +14,13 @@
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^9.0.1",
     "@mui/material": "^9.2.0",
+    "@tanstack/react-table": "^8.21.3",
     "axios": "^1.13.6",
     "lucide-react": "^1.16.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-router-dom": "^7.13.1",
+    "recharts": "^3.10.1",
     "sweetalert2": "^11.26.21"
   },
   "devDependencies": {
