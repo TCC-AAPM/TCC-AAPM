@@ -1,25 +1,50 @@
 .principalBox {
   flex: 1;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: var(--page-min-height);
-  padding: 2rem 0;
+  padding: 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  padding: 44px 40px;
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  background: var(--glass-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .entreAqui {
-  color: white;
+  color: var(--white);
   text-align: center;
-  padding-bottom: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.entreAqui h2 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.entreAqui p {
+  color: var(--text-white-high);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .emailInput {
-  width: 90%;
-  max-width: 600px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  gap: 1.2rem;
 }
 
 .inputBox {
@@ -29,42 +54,65 @@
 
 .inputBox label {
   position: absolute;
-  left: 20px;
-  top: 18px;
-  color: #dcdcdc;
-  font-size: 16px;
+  left: 14px;
+  top: 13px;
+  color: var(--text-white-soft);
+  font-size: 14px;
   pointer-events: none;
-  transition: 0.3s ease;
+  transition: 0.25s ease;
+}
+
+.inputBox input {
+  height: 46px;
+  padding: 0 14px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid var(--border-glass-strong);
+  color: var(--white);
+  font-size: 14px;
+}
+
+.inputBox input:focus {
+  border-color: var(--text-white-high);
+  box-shadow: 0 0 0 3px var(--border-glass);
 }
 
 .inputBox input:focus + label,
 .inputBox input:valid + label {
-  top: -22px;
-  left: 15px;
-  font-size: 16px;
+  top: -16px;
+  left: 12px;
+  font-size: 12px;
   padding: 0 6px;
   border-radius: 6px;
+  color: var(--text-white-high);
 }
 
 .btnPrimary {
-  height: 60px;
-  border-radius: 18px;
-  font-size: 20px;
+  height: 46px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
   width: 100%;
+  background-color: var(--dark-blue);
+  color: var(--white) !important;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 .voltar {
-  position: fixed;
-  bottom: 10%;
-  left: 20px;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
+  margin-top: 18px;
+  background: transparent;
+  color: var(--text-white-high);
+  padding: 8px 14px;
+  border-radius: 10px;
   font-size: 15px;
-  border: none;
+  border: 1px solid var(--border-glass-strong);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition);
 }
 
 .btnPrimary:disabled {
@@ -74,34 +122,29 @@
 }
 
 .voltar:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--border-glass);
+  color: var(--white);
 }
 
 @media (max-width: 768px) {
-  .emailInput {
-    width: 95%;
+  .card {
+    max-width: 440px;
+    padding: 36px 24px;
   }
 
   .btnPrimary {
-    font-size: 16px;
-    height: 50px;
+    font-size: 15px;
+    height: 46px;
   }
 
   .entreAqui h2 {
     font-size: 1.4rem;
   }
-
-  .voltar {
-    bottom: 5%;
-    left: 10px;
-    padding: 10px 16px;
-    font-size: 13px;
-  }
 }
 
 @media (max-width: 480px) {
   .principalBox {
-    padding: 1rem 0;
+    padding: 16px;
   }
 
   .emailInput {

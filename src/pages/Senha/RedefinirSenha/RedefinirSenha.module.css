@@ -1,25 +1,85 @@
 .principalBox {
   flex: 1;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   min-height: var(--page-min-height);
-  padding: 2rem 0;
-  gap: 2rem;
+  padding: 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  padding: 44px 40px;
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  background: var(--glass-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
 .entreAqui {
-  color: white;
+  color: var(--white);
   text-align: center;
+  padding-bottom: 1.5rem;
+}
+
+.entreAqui h2 {
+  font-size: 22px;
+  line-height: 1.25;
+  margin-bottom: 8px;
+}
+
+.entreAqui p {
+  color: var(--text-white-high);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.requisitos {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1.5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-white-soft);
+}
+
+.requisitos li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: color var(--transition);
+}
+
+.requisitos li::before {
+  content: "○";
+  font-size: 10px;
+  color: var(--border-glass-strong);
+}
+
+.requisitos li.ok {
+  color: #22c55e;
+}
+
+.requisitos li.ok::before {
+  content: "●";
+  color: #22c55e;
 }
 
 .formNovaSenha {
-  width: 90%;
-  max-width: 600px;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 1.2rem;
 }
 
 .inputBox {
@@ -31,56 +91,115 @@
   position: relative;
 }
 
+.inputBox input {
+  height: 46px;
+  padding: 0 44px 0 14px;
+  border-radius: 10px;
+  background: transparent;
+  border: 1px solid var(--border-glass-strong);
+  color: var(--white);
+  font-size: 14px;
+}
+
+.inputBox input:focus {
+  border-color: var(--text-white-high);
+  box-shadow: 0 0 0 3px var(--border-glass);
+}
+
 .inputBox label {
   position: absolute;
-  left: 20px;
-  top: 18px;
-  color: #dcdcdc;
-  font-size: 16px;
+  left: 14px;
+  top: 13px;
+  color: var(--text-white-soft);
+  font-size: 14px;
   pointer-events: none;
-  transition: 0.3s ease;
+  transition: 0.25s ease;
 }
 
 .inputBox input:focus + label,
 .inputBox input:valid + label {
-  top: -22px;
-  left: 15px;
-  font-size: 16px;
+  top: -16px;
+  left: 12px;
+  font-size: 12px;
   padding: 0 6px;
   border-radius: 6px;
+  color: var(--text-white-high);
 }
 
-.icon {
-  position: absolute;
-  top: 50%;
-  right: 15px;
-  transform: translateY(-50%);
-  width: 22px;
-  height: 22px;
-  cursor: pointer;
-  background-image: url("/src/assets/images/olho.png");
-  background-size: contain;
-  background-repeat: no-repeat;
-}
-
+.icon,
 .iconHide {
   position: absolute;
   top: 50%;
-  right: 15px;
+  right: 14px;
   transform: translateY(-50%);
-  width: 22px;
-  height: 22px;
+  width: 20px;
+  height: 20px;
   cursor: pointer;
-  background-image: url("/src/assets/images/olho-fechado.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
 
+.icon {
+  background-image: url("/src/assets/images/olho.png");
+}
+
+.iconHide {
+  background-image: url("/src/assets/images/olho-fechado.png");
+}
+
+.forcaSenha {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-bottom: 1.2rem;
+}
+
+.barrasForca {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+}
+
+.barrasForca span {
+  height: 5px;
+  border-radius: 999px;
+  background: var(--border-glass-mid);
+  transition: background var(--transition);
+}
+
+.barraAtiva.fraca {
+  background: #ef4444;
+}
+
+.barraAtiva.media {
+  background: #f59e0b;
+}
+
+.barraAtiva.forte {
+  background: #22c55e;
+}
+
+.textoForca {
+  color: var(--text-white-high);
+  font-size: 12px;
+}
+
 .btnPrimary {
-  height: 60px;
-  border-radius: 18px;
-  font-size: 20px;
+  height: 46px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
   width: 100%;
+  background-color: var(--dark-blue);
+  color: var(--white) !important;
+  transition:
+    opacity var(--transition),
+    transform var(--transition);
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 
 .btnPrimary:disabled {
@@ -90,30 +209,39 @@
 }
 
 .voltar {
-  position: fixed;
-  bottom: 10%;
-  left: 20px;
-  background: rgba(255, 255, 255, 0.15);
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
+  margin-top: 18px;
+  background: transparent;
+  color: var(--text-white-high);
+  padding: 8px 14px;
+  border-radius: 10px;
   font-size: 15px;
-  border: none;
+  border: 1px solid var(--border-glass-strong);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all var(--transition);
 }
 
 .voltar:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: var(--border-glass);
+  color: var(--white);
 }
 
 @media (max-width: 768px) {
-  .formNovaSenha {
-    width: 95%;
+  .card {
+    padding: 36px 24px;
   }
 
   .btnPrimary {
-    font-size: 16px;
-    height: 50px;
+    font-size: 15px;
+    height: 46px;
+  }
+}
+
+@media (max-width: 360px) {
+  .principalBox {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 32px 18px;
   }
 }

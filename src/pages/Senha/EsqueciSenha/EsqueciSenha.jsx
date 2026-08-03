@@ -59,35 +59,38 @@ export default function EsqueciSenha() {
 
   return (
     <main className={styles.principalBox}>
-      <section className={styles.entreAqui}>
-        <h2>Digite o seu email</h2>
-      </section>
+      <div className={styles.card}>
+        <section className={styles.entreAqui}>
+          <h2>Recuperar senha</h2>
+          <p>Digite seu email cadastrado para receber o código.</p>
+        </section>
 
-      <form className={styles.emailInput} onSubmit={enviarCodigo}>
-        <div className={styles.inputBox}>
-          <input
-            type="email"
-            className="form-control"
-            id="email"
-            required
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-          <label htmlFor="email">Email</label>
-        </div>
+        <form className={styles.emailInput} onSubmit={enviarCodigo}>
+          <div className={styles.inputBox}>
+            <input
+              type="email"
+              className="form-control"
+              id="email"
+              required
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <label htmlFor="email">Email</label>
+          </div>
 
-        <button
-          type="submit"
-          className={`btn btn-primary ${styles.btnPrimary}`}
-          disabled={carregando}
-        >
-          {carregando ? "Enviando..." : "Enviar"}
+          <button
+            type="submit"
+            className={`btn btn-primary ${styles.btnPrimary}`}
+            disabled={carregando}
+          >
+            {carregando ? "Enviando..." : "Enviar código"}
+          </button>
+        </form>
+
+        <button className={styles.voltar} onClick={() => navigate(-1)}>
+          ← Voltar
         </button>
-      </form>
-
-      <button className={styles.voltar} onClick={() => navigate(-1)}>
-        Voltar
-      </button>
+      </div>
     </main>
   );
 }

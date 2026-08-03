@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 import { authFetch, API_ROUTES } from "../../../utils/auth.js";
@@ -15,7 +15,9 @@ export default function CodigoSenha() {
   const { emailValidado, validarCodigo } = useSenhaFlow();
   const [digitos, setDigitos] = useState(["", "", "", "", "", ""]);
   const [carregando, setCarregando] = useState(false);
+  const [reenviando, setReenviando] = useState(false);
   const [tempoRestante, setTempoRestante] = useState(600);
+  const inputsRef = useRef([]);
 
   useEffect(() => {
     if (!emailValidado) {
@@ -38,20 +40,21 @@ export default function CodigoSenha() {
   }, [emailValidado, navigate]);
 
   function formatarTempo() {
-    if (tempoRestante <= 0) return "Código expirado";
     const minutos = Math.floor(tempoRestante / 60);
     const segundos = tempoRestante % 60;
-    return `${minutos}:${segundos.toString().padStart(2, "0")}`;
+    return `${minutos.toString().padStart(2, "0")}:${segundos
+      .toString()
+      .padStart(2, "0")}`;
   }
 
   function atualizarDigito(index, valor) {
     const digito = valor.replace(/\D/g, "").slice(-1);
     setDigitos((atual) =>
-      atual.map((item, itemIndex) => (itemIndex === index ? digito : item))
+      atual.map((item, itemIndex) => (itemIndex === index ? digito : item)),
     );
 
     if (digito && index < 5) {
-      document.getElementById(`codigo-${index + 1}`)?.focus();
+      inputsRef.current[index + 1]?.focus();
     }
   }
 
@@ -59,11 +62,56 @@ export default function CodigoSenha() {
     if (e.key !== "Backspace") return;
 
     setDigitos((atual) =>
-      atual.map((item, itemIndex) => (itemIndex === index ? "" : item))
+      atual.map((item, itemIndex) => (itemIndex === index ? "" : item)),
     );
 
     if (!digitos[index] && index > 0) {
-      document.getElementById(`codigo-${index - 1}`)?.focus();
+      inputsRef.current[index - 1]?.focus();
+    }
+  }
+
+  function colarCodigo(e) {
+    const codigoColado = e.clipboardData.getData("text").replace(/\D/g, "");
+    if (!codigoColado) return;
+
+    e.preventDefault();
+    const proximosDigitos = Array.from({ length: 6 }, (_, index) =>
+      codigoColado[index] ?? "",
+    );
+
+    setDigitos(proximosDigitos);
+    inputsRef.current[Math.min(codigoColado.length, 5)]?.focus();
+  }
+
+  async function reenviarCodigo() {
+    if (tempoRestante > 0 || reenviando) return;
+
+    try {
+      setReenviando(true);
+
+      const resposta = await authFetch(
+        API_ROUTES.senha.reenviarCodigo ?? API_ROUTES.senha.esqueciSenha,
+        {
+          method: "POST",
+          body: JSON.stringify({ email: emailValidado }),
+        },
+      );
+
+      const dados = await lerResultadoPadrao(resposta);
+
+      if (!resposta.ok || dados.sucesso === false) {
+        alertErro(dados.mensagem || "Erro ao reenviar código.");
+        return;
+      }
+
+      setDigitos(["", "", "", "", "", ""]);
+      setTempoRestante(600);
+      inputsRef.current[0]?.focus();
+      alertSucesso(dados.mensagem || "Código reenviado para o email.");
+    } catch (erro) {
+      alertErro(erro.message || "Erro de conexão com o servidor.");
+    } finally {
+      setReenviando(false);
     }
   }
 
@@ -108,47 +156,58 @@ export default function CodigoSenha() {
 
   return (
     <main className={styles.principalBox}>
-      <section className={styles.entreAqui}>
-        <h2>Digite o código</h2>
-        <p style={{ color: "white", marginTop: "1rem", textAlign: "center" }}>
-          Enviamos um código de 6 dígitos para <strong>{emailValidado}</strong>
-        </p>
-      </section>
+      <div className={styles.card}>
+        <section className={styles.entreAqui}>
+          <h2>Digite o código</h2>
+          <p>
+            Enviamos um código de 6 dígitos para <strong>{emailValidado}</strong>
+          </p>
+        </section>
 
-      <div className={styles.containerDateView}>
-        <span className={styles.labelDate}>Código expira em:</span>
-        <span className={styles.currentDate}>{formatarTempo()}</span>
-      </div>
+        <form className={styles.codigoInput} onSubmit={handleSubmit}>
+          <div className={styles.inputBox} onPaste={colarCodigo}>
+            {digitos.map((digito, index) => (
+              <input
+                key={index}
+                ref={(elemento) => {
+                  inputsRef.current[index] = elemento;
+                }}
+                id={`codigo-${index}`}
+                type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                maxLength={1}
+                aria-label={`Dígito ${index + 1} do código`}
+                value={digito}
+                onChange={(e) => atualizarDigito(index, e.target.value)}
+                onKeyDown={(e) => voltarNoBackspace(e, index)}
+              />
+            ))}
+          </div>
 
-      <form className={styles.codigoInput} onSubmit={handleSubmit}>
-        <div className={styles.inputBox}>
-          {digitos.map((digito, index) => (
-            <input
-              key={index}
-              id={`codigo-${index}`}
-              type="text"
-              inputMode="numeric"
-              maxLength={1}
-              className="form-control"
-              value={digito}
-              onChange={(e) => atualizarDigito(index, e.target.value)}
-              onKeyDown={(e) => voltarNoBackspace(e, index)}
-            />
-          ))}
+          <button
+            type="submit"
+            className={`btn btn-primary ${styles.btnPrimary}`}
+            disabled={carregando}
+          >
+            {carregando ? "Verificando..." : "Validar código"}
+          </button>
+        </form>
+
+        <div className={styles.reenvioBox}>
+          {tempoRestante > 0 ? (
+            <span>Reenviar código ({formatarTempo()})</span>
+          ) : (
+            <button type="button" onClick={reenviarCodigo} disabled={reenviando}>
+              {reenviando ? "Reenviando..." : "Reenviar código"}
+            </button>
+          )}
         </div>
 
-        <button
-          type="submit"
-          className={`btn btn-primary ${styles.btnPrimary}`}
-          disabled={carregando}
-        >
-          {carregando ? "Verificando..." : "Enviar"}
+        <button className={styles.voltar} onClick={() => navigate(-1)}>
+          ← Voltar
         </button>
-      </form>
-
-      <button className={styles.voltar} onClick={() => navigate(-1)}>
-        Voltar
-      </button>
+      </div>
     </main>
   );
 }
