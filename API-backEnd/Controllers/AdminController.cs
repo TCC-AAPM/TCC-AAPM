@@ -32,6 +32,12 @@ namespace API_backEnd.Controllers
             return Resultado(_adminService.ObterAdminLogado());
         }
 
+        [Authorize(Roles = "admin")]
+        [HttpGet("listar-admins")]
+        public IActionResult ListarAdmins()
+        {
+            return Resultado(_adminService.ListarAdmin());
+        }
         /// <summary>
         /// Cria um novo administrador.
         /// </summary>

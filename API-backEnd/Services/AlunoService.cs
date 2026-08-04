@@ -201,10 +201,6 @@ namespace API_backEnd.Services
                 return ResultadoPadrao<object>.Falha("CPF já cadastrado", 409);
             }
 
-            if (db.TabelaAlunos.Any(a => a.Id != idAluno && a.Email == dto.Email && a.IsAtivo))
-            {
-                return ResultadoPadrao<object>.Falha("E-mail já cadastrado", 409);
-            }
 
             return ResultadoPadrao<object>.Ok();
         }

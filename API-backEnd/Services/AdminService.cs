@@ -21,7 +21,7 @@ namespace API_backEnd.Services
         }
 
        
-        public ResultadoPadrao<AdminLogadoResponse> ObterAdminLogado()
+        public ResultadoPadrao<AdminResponse> ObterAdminLogado()
         {
             var id = _usuarioService.ObterIdUsuarioLogado();
 
@@ -29,10 +29,10 @@ namespace API_backEnd.Services
 
             if (admin == null)
             {
-                return ResultadoPadrao<AdminLogadoResponse>.Falha("Admin não encontrado", 404);
+                return ResultadoPadrao<AdminResponse>.Falha("Admin não encontrado", 404);
             }
 
-            var response = new AdminLogadoResponse
+            var response = new AdminResponse
             {
                 Nome = admin.Nome,
                 Email = admin.Email,
@@ -40,7 +40,7 @@ namespace API_backEnd.Services
                 CPF = admin.Cpf
             };
 
-            return ResultadoPadrao<AdminLogadoResponse>.Ok(response);
+            return ResultadoPadrao<AdminResponse>.Ok(response);
         }
 
         public ResultadoPadrao<object> CriarAdmin(CriarAdminRequest dto)
@@ -93,6 +93,24 @@ namespace API_backEnd.Services
                 transaction.Rollback();
                 return ResultadoPadrao<object>.Falha("Erro ao criar admin", 500);
             }
+        }
+
+        public ResultadoPadrao<List<AdminResponse>> ListarAdmin()
+        {
+            var adms = db.TabelaAdmins.Where(a => a.IsAtivo).Select(a => new AdminResponse
+            {
+                Nome = a.Nome,
+                NomeSocial = a.NomeSocial,
+                Email = a.Email,
+                Telefone = a.Telefone,
+                CPF = a.Cpf,
+                DataNasc = a.DataNasc
+            }).ToList();
+
+            if (adms.Count == 0)
+                return ResultadoPadrao<List<AdminResponse>>.Falha("Nenhum admin encontrado"); 
+
+            return ResultadoPadrao<List<AdminResponse>>.Ok(adms);
         }
 
         public ResultadoPadrao<object> DeletarAdmin(int id, ConfirmarSenhaRequest dto)

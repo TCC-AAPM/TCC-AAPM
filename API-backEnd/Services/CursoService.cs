@@ -51,6 +51,15 @@ namespace API_backEnd.Services
                 return ResultadoPadrao<object>.Falha("Curso não encontrado", 404);
             }
 
+            var turmaAtiva = db.TabelaTurmas.Any(t => t.CursoId == curso.Id && t.IsAtivo);
+
+            if (turmaAtiva)
+                return ResultadoPadrao<object>.Falha("Existe turmas ativas desse curso");
+
+            var alunoAtivo = db.TabelaAlunos.Any(c => c.CursoId == curso.Id && c.IsAtivo);
+            if (alunoAtivo)
+                return ResultadoPadrao<object>.Falha("Existe aluno vinculado a esse curso");
+
             curso.IsAtivo = false;
             db.SaveChanges();
             return ResultadoPadrao<object>.Ok(mensagem: "Curso deletado com sucesso");

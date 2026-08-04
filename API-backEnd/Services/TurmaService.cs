@@ -78,6 +78,11 @@ namespace API_backEnd.Services
                 return ResultadoPadrao<object>.Falha("Turma não encontrada", 404);
             }
 
+            var alunoAtivo = db.TabelaAlunos.Any(a => a.TurmaId == turma.Id && a.IsAtivo);
+
+            if (alunoAtivo)
+                return ResultadoPadrao<object>.Falha("Existe alunos nessa turma");
+
             turma.IsAtivo = false;
             db.SaveChanges();
 
