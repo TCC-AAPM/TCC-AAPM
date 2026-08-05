@@ -30,14 +30,28 @@ namespace API_backEnd.Services
 
         public ResultadoPadrao<object> AlterarPrecoProduto(int idProduto, ProdutoRequest dto)
         {
-            var produto = db.TabelaProdutos.FirstOrDefault(p => p.Id == idProduto);
+            var produtoAtual = db.TabelaProdutos.FirstOrDefault(p => p.Id == idProduto && p.IsAtivo);
 
-            if (produto == null)
+            if (produtoAtual == null)
             {
-                return ResultadoPadrao<object>.Falha("Produto não encontrado", 404);
+                return ResultadoPadrao<object>.Falha("Produto não encontrado.", 404);
             }
 
-            produto.Preco = dto.Preco;
+            if (dto.Preco <= 0)
+            {
+                return ResultadoPadrao<object>.Falha("O preço deve ser maior que zero.", 400);
+            }
+
+            produtoAtual.IsAtivo = false;
+
+            var novoPreco = new TabelaProduto
+            {
+                Produto = produtoAtual.Produto,
+                Preco = dto.Preco,
+                IsAtivo = true
+            };
+
+            db.TabelaProdutos.Add(novoPreco);
 
             db.SaveChanges();
             return ResultadoPadrao<object>.Ok(mensagem: "Preço alterado com sucesso");

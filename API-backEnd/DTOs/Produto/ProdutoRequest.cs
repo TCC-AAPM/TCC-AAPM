@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using API_backEnd.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace API_backEnd.DTOs.Produto
 {
@@ -6,5 +7,6 @@ namespace API_backEnd.DTOs.Produto
     {
         [Required]
         public decimal Preco { get; set; }
+        
     }
 }

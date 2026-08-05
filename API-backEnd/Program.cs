@@ -104,6 +104,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<CadastroService>();
 builder.Services.AddScoped<ConfigReservaService>();
 builder.Services.AddScoped<CursoService>();
+builder.Services.AddScoped<FinanceiroService>();
 builder.Services.AddScoped<IdadeService>();
 builder.Services.AddScoped<ProdutoService>();
 builder.Services.AddScoped<ReservaService>();
