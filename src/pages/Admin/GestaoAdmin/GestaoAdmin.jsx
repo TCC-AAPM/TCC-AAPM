@@ -7,7 +7,7 @@ const cards = [
   {
     icon: "inventory_2",
     title: "Gerenciar Armários",
-    desc: "Cadastre, edite e defina a disponibilidade dos armários do sistema.",
+    desc: "Cadastre e exclua armários do sistema.",
   },
   {
     icon: "school",
@@ -55,9 +55,9 @@ const cards = [
     desc: "Personalize preferências e opções da conta administrativa.",
   },
   {
-    icon: "question_mark",
-    title: "?",
-    desc: "?.",
+    icon: "accessibility_new",
+    title: "Acessibildade",
+    desc: "Acessibilidade e suporte para usuários com deficiência.",
   },
   {
     icon: "logout",
