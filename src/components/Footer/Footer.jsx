@@ -6,7 +6,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { API_ROUTES } from "../../routes/config/api.js";
 
 const TERMO_ARMARIO = "A";
-const TERMO_ESTACIONAMENTO = "E";
 
 export default function Footer() {
   const { darkMode } = useTheme();
@@ -107,16 +106,10 @@ export default function Footer() {
 
               <li>
                 <a
-                  href={API_ROUTES.termos.obterPdf(TERMO_ESTACIONAMENTO)}
+                  href="#"
                   target="_blank"
                   className={styles.link}
                 >
-                  Contrato de Estacionamento
-                </a>
-              </li>
-
-              <li>
-                <a href="#" className={styles.link}>
                   Termos de privacidade
                 </a>
               </li>
@@ -236,16 +229,10 @@ export default function Footer() {
 
               <li>
                 <a
-                  href={API_ROUTES.termos.obterPdf(TERMO_ESTACIONAMENTO)}
+                  href="#"
                   target="_blank"
                   className={styles.link}
                 >
-                  Contrato de Estacionamento
-                </a>
-              </li>
-
-              <li>
-                <a href="#" className={styles.link}>
                   Termos de privacidade
                 </a>
               </li>

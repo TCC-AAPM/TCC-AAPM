@@ -13,7 +13,6 @@ import { useDockButton } from "../../../utils/useDockButton";
 const TIPOS_TERMOS = [
   { valor: "S", label: "Termo do Site" },
   { valor: "A", label: "Termo do Armário" },
-  { valor: "E", label: "Termo do Estacionamento" },
 ];
 
 function formatarData(data) {

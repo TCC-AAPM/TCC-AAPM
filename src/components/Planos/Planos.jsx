@@ -56,8 +56,8 @@ function Card({ s, modoConsulta }) {
         <div className={styles.btnBg} />
         <span className={styles.btnLabel}>
           {modoConsulta
-            ? "Consulte a secretaria para renovação"
-            : "Contratar Serviço"}
+            ? "Consulte a secretaria para renovacao"
+            : "Contratar Servico"}
         </span>
         {!modoConsulta && (
           <span className={styles.btnArrow}>
@@ -97,39 +97,18 @@ export default function Planos({ mostrarTitulo = true, modoConsulta = false }) {
             badge: "Popular",
             badgeClass: styles.badgePopular,
             icon: <Icon name="inventory_2" />,
-            name: "Armário",
+            name: "Armario",
             route: "/cadastro-armario",
             title: "Seja um associado da AAPM",
             price: formatPrice(precos["A"]),
             period: "/ semestre",
-            desc: "Guarde seus pertences com total segurança durante o período escolar e além disso:",
+            desc: "Guarde seus pertences com total seguranca durante o periodo escolar e alem disso:",
             features: [
-              "Armário individual incluso",
-              "Desconto no Curso de Inglês",
-              "Ações em datas comemorativas",
-              "Localização próxima às salas de aula",
-              "Ambiente monitorado por câmeras",
-            ],
-          }}
-        />
-        <Card
-          modoConsulta={modoConsulta}
-          s={{
-            badge: "Novo",
-            badgeClass: styles.badgeNovo,
-            icon: <Icon name="two_wheeler" />,
-            name: "Estacionamento",
-            route: "/cadastro-estacionamento",
-            title: "Vaga de Estacionamento",
-            price: formatPrice(precos["E"]),
-            period: "/ mês",
-            desc: "Disponível nos três turnos, segurança reforçada no período noturno.",
-            features: [
-              "Vaga garantida",
-              "Empresa parceira de segurança",
-              "Monitoramento por câmeras",
-              "Turnos manhã, tarde e noite",
-              "Pagamento apenas presencialmente",
+              "Armario individual incluso",
+              "Desconto no Curso de Ingles",
+              "Acoes em datas comemorativas",
+              "Localizacao proxima as salas de aula",
+              "Ambiente monitorado por cameras",
             ],
           }}
         />

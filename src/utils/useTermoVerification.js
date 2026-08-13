@@ -27,7 +27,6 @@ export function useTermoVerification() {
         const referencias = [];
         if (dados.termosPendenteSite)           referencias.push("S");
         if (dados.termosPendenteArmario)        referencias.push("A");
-        if (dados.termosPendenteEstacionamento) referencias.push("E");
         console.log("3. referencias:", referencias);
 
         if (referencias.length === 0) return;

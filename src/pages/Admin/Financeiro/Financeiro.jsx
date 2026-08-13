@@ -6,7 +6,6 @@ import {
   X,
   DollarSign,
   Package,
-  Motorbike,
   TrendingUp,
 } from "lucide-react";
 import { authFetch, API_ROUTES } from "../../../utils/auth";
@@ -55,6 +54,12 @@ function lerPrecoProduto(produto) {
   return Number(produto.preco ?? produto.valor ?? produto.precoAtual ?? 0);
 }
 
+function ehProdutoArmario(produto) {
+  const id = String(lerIdProduto(produto) ?? "").toUpperCase();
+  const nome = String(lerNomeProduto(produto) ?? "").toLowerCase();
+  return id === "A" || nome.includes("arm");
+}
+
 function formatarMoeda(valor) {
   return Number(valor ?? 0).toLocaleString("pt-BR", {
     style: "currency",
@@ -72,9 +77,7 @@ function formatarData(valor) {
 function formatarNomeMensalidade(nome) {
   const nomes = {
     qtdArmarios: "Armário",
-    qtdEstacionamento: "Estacionamento",
     A: "Armário",
-    E: "Estacionamento",
   };
 
   return nomes[nome] ?? nome;
@@ -98,9 +101,10 @@ export default function Financeiro() {
       const res = await authFetch(API_ROUTES.produtos.listar);
       const resultado = await res.json();
       const lista = normalizarLista(resultado);
-      setProdutos(lista);
+      const produtosArmario = lista.filter(ehProdutoArmario);
+      setProdutos(produtosArmario);
       setPrecos(
-        lista.reduce((acc, produto) => {
+        produtosArmario.reduce((acc, produto) => {
           acc[lerIdProduto(produto)] = lerPrecoProduto(produto);
           return acc;
         }, {}),
@@ -183,9 +187,7 @@ export default function Financeiro() {
   function formatarNomeMensalidade(nome) {
     const nomes = {
       qtdArmarios: "Reservas Armários",
-      qtdEstacionamento: "Vagas Estacionamento",
       A: "Mensalidade Armários",
-      E: "Mensalidade Estacionamento",
     };
 
     return nomes[nome] ?? nome;
@@ -199,9 +201,10 @@ export default function Financeiro() {
 
   const pagamentosFiltrados = useMemo(() => {
     const termo = pesquisa.trim().toLowerCase();
-    if (!termo) return pagamentos;
+    const pagamentosArmario = pagamentos.filter(ehProdutoArmario);
+    if (!termo) return pagamentosArmario;
 
-    return pagamentos.filter((pagamento) =>
+    return pagamentosArmario.filter((pagamento) =>
       [
         pagamento.aluno,
         pagamento.nomeAluno,
@@ -352,14 +355,6 @@ export default function Financeiro() {
 
           <div className={styles.cartao}>
             <div className={styles.icone}>
-              <Motorbike size={22} />
-            </div>
-            <h3>Estacionamento (mês)</h3>
-            <p>{resumoAtual.qtdEstacionamento ?? 0}</p>
-          </div>
-
-          <div className={styles.cartao}>
-            <div className={styles.icone}>
               <TrendingUp size={22} />
             </div>
             <h3>Acumulado no período</h3>
@@ -410,11 +405,6 @@ export default function Financeiro() {
                     dataKey="qtdArmarios"
                     fill="var(--blue)"
                     name="Reservas Armários"
-                  />
-                  <Bar
-                    dataKey="qtdEstacionamento"
-                    fill="var(--text-footer-support)"
-                    name="Vagas Estacionamento"
                   />
                 </BarChart>
               </ResponsiveContainer>

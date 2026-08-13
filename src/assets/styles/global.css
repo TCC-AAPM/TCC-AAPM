@@ -18,8 +18,7 @@
      → Armarios.module.css: filtroDisponivel (parcial) */
 
   --back-blue: #1e40af;
-  /* → global.css: swal-btn-cancelar hover
-     → Dashboard.module.css: dark-mode card hover */
+  /* → global.css: swal-btn-cancelar hover */
 
   --dark-blue: #0a1e52;
   /* → global.css: btn-primary bg, dark-mode --bg-primary/--bg-card, swal dark bg

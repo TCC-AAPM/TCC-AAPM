@@ -47,7 +47,7 @@ export default function Login() {
       if (role === "aluno") {
         navigate("/usuario/tela-principal");
       } else {
-        navigate("/admin/dashboard");
+        navigate("/admin/armarios");
       }
     } catch (error) {
       console.log("Erro:", error);
@@ -61,7 +61,7 @@ export default function Login() {
         <div className={styles.principalBox}>
           <div className={styles.entreAqui}>
             <h1 className={styles.title}>
-              Já possui armário ou vaga de estacionamento?
+              Já possui armário ou deseja entrar como administrador?
             </h1>
 
             <p className={styles.subtitle}>
