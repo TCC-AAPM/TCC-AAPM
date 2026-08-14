@@ -11,7 +11,7 @@ public partial class TabelaTermosAceito
 
     public int IdUsuario { get; set; }
 
-    public bool responsavelAceito {  get; set; }
+    public bool ResponsavelAceito { get; set; }
 
     public DateTime DataAceito { get; set; }
 

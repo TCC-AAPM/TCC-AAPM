@@ -17,5 +17,7 @@ public partial class TabelaUsuario
 
     public virtual ICollection<TabelaAluno> TabelaAlunos { get; set; } = new List<TabelaAluno>();
 
+    public virtual ICollection<TabelaNotificacao> TabelaNotificacaos { get; set; } = new List<TabelaNotificacao>();
+
     public virtual ICollection<TabelaTermosAceito> TabelaTermosAceitos { get; set; } = new List<TabelaTermosAceito>();
 }

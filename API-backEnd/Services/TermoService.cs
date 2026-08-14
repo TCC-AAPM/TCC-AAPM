@@ -78,7 +78,7 @@ namespace API_backEnd.Services
             {
                 IdTermos = idTermo,
                 IdUsuario = idUsuario,
-                responsavelAceito = true,
+                ResponsavelAceito = true,
                 DataAceito = DateTime.UtcNow
             };
 
@@ -119,12 +119,6 @@ namespace API_backEnd.Services
                     termosArmario = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.A && t.IsAtivo);
                 }
 
-                var reservaEstacionamentoAtiva = db.TabelaReservaEstacionamentos.Any(r => r.IdAluno == aluno.Id && r.IsAtivo);
-
-                if (reservaEstacionamentoAtiva)
-                {
-                    termosEstacionamento = db.TabelaTermos.Any(t => !termosAceitoIds.Contains(t.Id) && t.Referencia == ReferenciaTermos.E && t.IsAtivo);
-                }
             }
             // true = precisa aceitar
             // false = já está com o mais atualizado

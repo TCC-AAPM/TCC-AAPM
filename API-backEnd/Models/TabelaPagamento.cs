@@ -13,6 +13,8 @@ public partial class TabelaPagamento
 
     public string Metodo { get; set; } = null!;
 
+    public decimal Preco { get; set; }
+
     public DateTime DataPagamento { get; set; }
 
     public virtual TabelaAluno IdAlunoNavigation { get; set; } = null!;

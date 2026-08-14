@@ -12,9 +12,9 @@ public partial class TabelaTurma
 
     public int CursoId { get; set; }
 
-    public string Periodo { get; set; }
+    public string Periodo { get; set; } = null!;
 
-    public Semestre SemestreInicio { get; set; }
+    public Semestre SemestreInicio { get; set; } 
 
     public short? AnoInicio { get; set; }
 

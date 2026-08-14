@@ -60,9 +60,6 @@ namespace API_backEnd.Services
                 ? db.TabelaReservaArmarios.Where(r => r.IdAluno == aluno.Id && r.IsAtivo).Select(a => (int?)a.IdArmario).FirstOrDefault() ?? null
                 : null;
 
-            dadosAluno.IdVaga = reservaValida
-                ? db.TabelaReservaEstacionamentos.Where(r => r.IdAluno == aluno.Id && r.IsAtivo).Select(e => (int?)e.IdVaga).FirstOrDefault() ?? null
-                : null;
 
             dadosAluno.Pagamento = db.TabelaPagamentos.Where(p => p.IdAluno == aluno.Id).Select(p => p.Metodo).FirstOrDefault() ?? "Pagamento não identificado";
             dadosAluno.DataExpiracao = config.DataExpiracaoGlobal;

@@ -11,9 +11,9 @@ public partial class TabelaAluno
 
     public string Nome { get; set; } = null!;
 
-    public string? NomeSocial { get; set; } = null;
+    public string? NomeSocial { get; set; }
 
-    public string? Matricula { get; set; } = null;
+    public string? Matricula { get; set; }
 
     public string Telefone { get; set; } = null!;
 
@@ -33,15 +33,11 @@ public partial class TabelaAluno
 
     public virtual TabelaCurso Curso { get; set; } = null!;
 
-    public virtual TabelaUsuario? IdUsuarioNavigation { get; set; }
-
-    public virtual ICollection<TabelaMoto> TabelaMotos { get; set; } = new List<TabelaMoto>();
+    public virtual TabelaUsuario IdUsuarioNavigation { get; set; } = null!;
 
     public virtual ICollection<TabelaPagamento> TabelaPagamentos { get; set; } = new List<TabelaPagamento>();
 
     public virtual ICollection<TabelaReservaArmario> TabelaReservaArmarios { get; set; } = new List<TabelaReservaArmario>();
 
-    public virtual ICollection<TabelaReservaEstacionamento> TabelaReservaEstacionamentos { get; set; } = new List<TabelaReservaEstacionamento>();
-
-    public virtual TabelaTurma Turma { get; set; } = null!;
+    public virtual TabelaTurma? Turma { get; set; }
 }

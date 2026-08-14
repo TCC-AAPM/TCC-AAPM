@@ -1,4 +1,5 @@
-﻿using API_backEnd.Models;
+﻿using API_backEnd.Common;
+using API_backEnd.Models;
 
 namespace API_backEnd.Services
 {
@@ -11,6 +12,7 @@ namespace API_backEnd.Services
             this.db = db;
         }
 
+        //public ResultadoPadrao<object> 
 
     }
 }
