@@ -16,6 +16,7 @@ import { PopupModal } from "../../../components/PopupModal/PopupModal.jsx";
 import { API_ROUTES } from "../../../utils/auth.js";
 import styles from "./Armarios.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
+import SEO from "../../../components/SEO/SEO.jsx";
 
 const ITENS_POR_PAGINA = 30;
 
@@ -315,6 +316,11 @@ export default function Armarios() {
 
   return (
     <div className={styles.conteudoWrapper}>
+      <SEO
+        title="Gestão de Armários - Sistema de Gestão e Controle da AAPM"
+        description="Controle a disponibilidade, ocupação e manutenção dos armários da AAPM SENAI Osasco."
+        path="/admin/armarios"
+      />
       <div className={styles.principalBox}>
       <div className={`${styles.container} ${selecionados.length > 0 ? styles.comBarraAcoes : ""}`}>
         <div className={styles.toolbar}>

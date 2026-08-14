@@ -225,7 +225,7 @@ export default function Header() {
 
   if (headerType === "user") {
     return (
-      <div data-theme={darkMode ? "dark" : "light"}>
+      <header data-theme={darkMode ? "dark" : "light"}>
         <div
           className={`${styles.overlay} ${menuAberto ? styles.visivel : ""}`}
           onClick={() => setMenuAberto(false)}
@@ -236,6 +236,7 @@ export default function Header() {
             src={logo}
             alt="AAPM"
             className={styles.imgLogo}
+            loading="eager"
             onClick={() => navigate(destinoLogo)}
           />
 
@@ -301,16 +302,18 @@ export default function Header() {
             Sair
           </button>
         </div>
-      </div>
+      </header>
     );
   }
 
   return (
-    <nav className={styles.nav} data-theme={darkMode ? "dark" : "light"}>
+    <header data-theme={darkMode ? "dark" : "light"}>
+    <nav className={styles.nav}>
       <img
         src={logo}
         alt="AAPM"
         className={styles.imgLogo}
+        loading="eager"
         onClick={() => navigate(destinoLogo)}
       />
       <div className={styles.navActions}>
@@ -342,5 +345,6 @@ export default function Header() {
         )}
       </div>
     </nav>
+    </header>
   );
 }

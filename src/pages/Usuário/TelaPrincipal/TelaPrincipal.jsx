@@ -6,6 +6,7 @@ import { getNomeExibicao } from "../../../utils/getNomeExibicao.js";
 import ModalNovoTermo from "../../../components/ModalNovoTermo/ModalNovoTermo.jsx";
 import Planos from "../../../components/Planos/Planos.jsx";
 import { useDockButton } from "../../../utils/useDockButton";
+import SEO from "../../../components/SEO/SEO.jsx";
 
 function FlipDigit({ value }) {
   const ref = useRef(null);
@@ -141,6 +142,11 @@ export default function TelaPrincipal() {
 
   return (
     <div className={styles.conteudoWrapper}>
+      <SEO
+        title="Área do Aluno - Sistema de Gestão e Controle de Armários da AAPM"
+        description="Consulte sua reserva, prazo de locação e informações do armário no sistema da AAPM SENAI Osasco."
+        path="/usuario/tela-principal"
+      />
       <div className={styles.containerGeral}>
         {showModal && (
           <ModalNovoTermo

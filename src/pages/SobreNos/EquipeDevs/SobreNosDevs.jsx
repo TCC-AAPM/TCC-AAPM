@@ -6,24 +6,30 @@ import EmailIcon from "@mui/icons-material/Email";
 import isabellaFoto from "../../../assets/images/isabella.jpeg";
 import gabrielFoto from "../../../assets/images/gabriel.jpg"
 import rhuanFoto from "../../../assets/images/rhuan.jpg"
+import SEO from "../../../components/SEO/SEO.jsx";
 
 export default function SobreNosDevs() {
   return (
-    <div className={styles.containerGeral}>
+    <section className={styles.containerGeral}>
+      <SEO
+        title="Desenvolvedores - Sistema de Gestão e Controle de Armários da AAPM"
+        description="Conheça a equipe de desenvolvimento do Sistema de Gestão e Controle de Armários da AAPM SENAI Osasco."
+        path="/sobre-nos-devs"
+      />
       <div className={styles.blob1} />
       <div className={styles.blob2} />
 
-      <div className={styles.hero}>
+      <header className={styles.hero}>
         <h1>
           Quem desenvolveu <em>tudo</em>
         </h1>
-      </div>
+      </header>
 
-      <div className={styles.cards}>
+      <section className={styles.cards}>
 
         <a className={styles.card} href="https://lopreti.github.io/meu-portfolio/" target="_blank" rel="noreferrer">
           <div className={styles.photo}>
-            <img src={isabellaFoto} alt="Isabella Lopreti" />
+            <img src={isabellaFoto} alt="Isabella Lopreti, desenvolvedora frontend do sistema da AAPM" loading="lazy" />
           </div>
           <div className={styles.info}>
             <span className={styles.role}>Frontend · UI/UX</span>
@@ -80,13 +86,13 @@ export default function SobreNosDevs() {
             </div>
           </div>
           <div className={styles.photo}>
-            <img src={gabrielFoto} alt="Gabriel Duarte" />
+            <img src={gabrielFoto} alt="Gabriel Duarte, desenvolvedor backend do sistema da AAPM" loading="lazy" />
           </div>
         </a>
 
         <a className={styles.card} href="https://rhuanvieira.github.io/portfolio/" target="_blank" rel="noreferrer">
           <div className={styles.photo}>
-            <img src={rhuanFoto} alt="Rhuan Vieira" />
+            <img src={rhuanFoto} alt="Rhuan Vieira, desenvolvedor mobile do sistema da AAPM" loading="lazy" />
           </div>
           <div className={styles.info}>
             <span className={styles.role}>Mobile · Full Stack</span>
@@ -114,7 +120,7 @@ export default function SobreNosDevs() {
           </div>
         </a>
 
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }

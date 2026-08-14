@@ -1,12 +1,18 @@
 import styles from "./Home.module.css";
 import Planos from "../../components/Planos/Planos.jsx";
+import SEO from "../../components/SEO/SEO.jsx";
 
 export default function Home() {
   return (
-    <div className={styles.containerGeral}>
+    <section className={styles.containerGeral}>
+      <SEO
+        title="Sistema de Gestão e Controle de Armários da AAPM"
+        description="Conheça os planos e serviços de reserva de armários da AAPM para alunos do SENAI Osasco."
+        path="/"
+      />
       <div className={styles.blob1} />
       <div className={styles.blob2} />
-      <div className={styles.hero}>
+      <header className={styles.hero}>
         <div className={styles.heroPill}>
           <span className={styles.pillDot} />
           Servicos por assinatura
@@ -20,11 +26,11 @@ export default function Home() {
           Assine nosso servico de armario com praticidade total. Sem burocracia,
           sem complicacao.
         </p>
-      </div>
+      </header>
 
-      <div className={styles.section}>
+      <section className={styles.section}>
         <Planos />
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }

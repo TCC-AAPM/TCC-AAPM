@@ -40,7 +40,7 @@ export default function Footer() {
         <div className={styles.userContainer}>
           {/* LOGO */}
           <div className={styles.brand}>
-            <img src={logo} alt="Logo AAPM" className={styles.logo} />
+            <img src={logo} alt="Logo AAPM" className={styles.logo} loading="lazy" />
 
             <div className={styles.socialRow}>
               <a
@@ -156,7 +156,7 @@ export default function Footer() {
         <div className={styles.grid}>
           {/* LOGO */}
           <div className={styles.brand}>
-            <img src={logo} alt="Logo AAPM" className={styles.logo} />
+            <img src={logo} alt="Logo AAPM" className={styles.logo} loading="lazy" />
 
             <p className={styles.brandDesc}>
               A AAPM (Associação de Alunos, Ex-Alunos, Pais e Mestres)

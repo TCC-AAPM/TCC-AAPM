@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { alertErro } from "../../components/Alerts/Alerts.jsx";
 import styles from "./Login.module.css";
+import SEO from "../../components/SEO/SEO.jsx";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -57,9 +58,14 @@ export default function Login() {
 
   return (
     <>
-      <div className={styles.containerGeral}>
+      <section className={styles.containerGeral}>
+        <SEO
+          title="Login - Sistema de Gestão e Controle de Armários da AAPM"
+          description="Acesse o Sistema de Gestão e Controle de Armários da AAPM para consultar reservas, armários e dados administrativos."
+          path="/login"
+        />
         <div className={styles.principalBox}>
-          <div className={styles.entreAqui}>
+          <header className={styles.entreAqui}>
             <h1 className={styles.title}>
               Já possui armário ou deseja entrar como administrador?
             </h1>
@@ -67,7 +73,7 @@ export default function Login() {
             <p className={styles.subtitle}>
               Entre com seu e-mail cadastrado e senha.
             </p>
-          </div>
+          </header>
 
           <form className={styles.formEntrada} onSubmit={handleSubmit}>
             <div className={styles.inputBox}>
@@ -132,7 +138,7 @@ export default function Login() {
             </div>
           </form>
         </div>
-      </div>
+      </section>
     </>
   );
 }

@@ -1,21 +1,27 @@
 import styles from "./SobreNosAAPM.module.css";
+import SEO from "../../../components/SEO/SEO.jsx";
 
 export default function SobreNosAAPM() {
   return (
-    <div className={styles.containerGeral}>
+    <section className={styles.containerGeral}>
+      <SEO
+        title="Sobre a AAPM - Sistema de Gestão e Controle de Armários"
+        description="Saiba mais sobre a AAPM do SENAI Osasco e sua atuação na gestão de armários e apoio aos alunos."
+        path="/sobre-nos-aapm"
+      />
       <div className={styles.blob1} />
       <div className={styles.blob2} />
 
-      <div className={styles.hero}>
+      <header className={styles.hero}>
         <h1>
           Sobre a <em>AAPM</em>
         </h1>
         <p className={styles.heroSub}>
           Associacao de Alunos, Ex-Alunos, Pais e Mestres do SENAI Osasco
         </p>
-      </div>
+      </header>
 
-      <div className={styles.cards}>
+      <section className={styles.cards}>
         <div className={styles.cardFoto}>
           <span>* Foto da AAPM em breve *</span>
         </div>
@@ -49,7 +55,7 @@ export default function SobreNosAAPM() {
             <span className={styles.stack}>Armarios</span>
           </div>
         </div>
-      </div>
-    </div>
+      </section>
+    </section>
   );
 }

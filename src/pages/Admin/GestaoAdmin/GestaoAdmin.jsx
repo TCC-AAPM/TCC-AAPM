@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./GestaoAdmin.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
 import { alertConfirmar } from "../../../components/Alerts/Alerts.jsx";
+import SEO from "../../../components/SEO/SEO.jsx";
 
 const cards = [
   {
@@ -124,6 +125,11 @@ export default function PainelAdmin() {
 
   return (
     <div className={styles.conteudoWrapper}>
+      <SEO
+        title="Painel Administrativo - Sistema de Gestão e Controle de Armários da AAPM"
+        description="Gerencie armários, alunos, termos, avisos e dados administrativos da AAPM SENAI Osasco."
+        path="/admin/gestao-admin"
+      />
       <div className={styles.principalBox}>
         <div className={styles.divHeader}>
           <h1>Painel Administrativo</h1>
