@@ -1,7 +1,23 @@
+import { useState, useEffect } from "react";
 import styles from "./SobreNosAAPM.module.css";
 import SEO from "../../../components/SEO/SEO.jsx";
 
+import foto1 from "../../../assets/images/foto-aapm1.png";
+import foto2 from "../../../assets/images/foto-aapm2.png";
+
+const fotos = [foto1, foto2];
+
 export default function SobreNosAAPM() {
+  const [indice, setIndice] = useState(0);
+
+  const anterior = () => setIndice((i) => (i === 0 ? fotos.length - 1 : i - 1));
+  const proxima = () => setIndice((i) => (i === fotos.length - 1 ? 0 : i + 1));
+
+  useEffect(() => {
+    const timer = setInterval(proxima, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <section className={styles.containerGeral}>
       <SEO
@@ -23,7 +39,31 @@ export default function SobreNosAAPM() {
 
       <section className={styles.cards}>
         <div className={styles.cardFoto}>
-          <span>* Foto da AAPM em breve *</span>
+          <img
+            key={indice}
+            src={fotos[indice]}
+            alt="Foto da AAPM"
+            className={styles.fotoCarrossel}
+          />
+          <div className={styles.overlay} />
+          {/* resto igual */}
+
+          <button onClick={anterior} className={styles.setaEsquerda}>
+            ‹
+          </button>
+          <button onClick={proxima} className={styles.setaDireita}>
+            ›
+          </button>
+
+          <div className={styles.pontos}>
+            {fotos.map((_, i) => (
+              <span
+                key={i}
+                className={i === indice ? styles.pontoAtivo : styles.ponto}
+                onClick={() => setIndice(i)}
+              />
+            ))}
+          </div>
         </div>
 
         <div className={styles.cardTexto}>
