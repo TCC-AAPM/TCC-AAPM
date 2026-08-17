@@ -124,5 +124,55 @@ namespace API_backEnd.Services
             db.SaveChanges();
             return ResultadoPadrao<object>.Ok("Senha redefinida com sucesso");
         }
+
+        public ResultadoPadrao<object> ReenviarCodigoRecuperacao(ConfirmarEmailRequest dto)
+        {
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == dto.Email && a.IsAtivo);
+
+            var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == dto.Email && a.IsAtivo);
+
+            if (aluno == null && admin == null)
+                return ResultadoPadrao<object>.Ok("Se o email existir, enviaremos um novo código.");
+
+            var codigoRecente = db.TabelaVerificacaos
+                .Where(v => v.Email == dto.Email && !v.Usado && v.Expiracao > DateTime.UtcNow)
+                .OrderByDescending(v => v.Expiracao)
+                .FirstOrDefault();
+
+            if (codigoRecente != null)
+            {
+                var criadoEm = codigoRecente.Expiracao.AddMinutes(-15);
+                var tempoDecorrido = DateTime.UtcNow - criadoEm;
+
+                if (tempoDecorrido.TotalMinutes < 5)
+                {
+                    return ResultadoPadrao<object>.Falha("Você precisa aguardar 5 minutos antes de solicitar um novo código.",429);
+                }
+            }
+
+            var codigosAnteriores = db.TabelaVerificacaos.Where(v => v.Email == dto.Email && !v.Usado).ToList();
+
+            foreach (var codigoAnterior in codigosAnteriores)
+            {
+                codigoAnterior.Usado = true;
+            }
+
+            var codigo = new Random().Next(100000, 999999).ToString();
+
+            var novoCodigo = new TabelaVerificacao
+            {
+                Email = dto.Email,
+                Codigo = codigo,
+                Expiracao = DateTime.UtcNow.AddMinutes(15),
+                Usado = false
+            };
+
+            db.TabelaVerificacaos.Add(novoCodigo);
+            db.SaveChanges();
+
+            EnviarCodigoRecuperacao(dto.Email, codigo);
+
+            return ResultadoPadrao<object>.Ok("Novo código enviado para seu e-mail.");
+        }
     }
 }

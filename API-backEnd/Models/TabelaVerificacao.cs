@@ -13,5 +13,5 @@ public partial class TabelaVerificacao
 
     public DateTime Expiracao { get; set; }
 
-    public bool? Usado { get; set; }
+    public bool Usado { get; set; }
 }

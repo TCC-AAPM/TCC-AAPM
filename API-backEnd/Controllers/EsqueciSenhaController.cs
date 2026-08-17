@@ -1,4 +1,5 @@
-﻿using API_backEnd.DTOs.Auth;
+﻿using API_backEnd.Common;
+using API_backEnd.DTOs.Auth;
 using API_backEnd.Models;
 using API_backEnd.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -74,6 +75,12 @@ namespace API_backEnd.Controllers
         public IActionResult ResetarSenha(ResetarSenhaRequest dto)
         {
             return Resultado(_emailService.ResetarSenha(dto));
+        }
+
+        [HttpPost("reenviar-codigo-recuperacao")]
+        public ResultadoPadrao<object> ReenviarCodigoRecuperacao(ConfirmarEmailRequest dto)
+        {
+            return _emailService.ReenviarCodigoRecuperacao(dto);
         }
     }
 }

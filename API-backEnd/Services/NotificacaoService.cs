@@ -49,5 +49,44 @@ namespace API_backEnd.Services
 
             return ResultadoPadrao<object>.Ok(notiNaoLidas);
         }
+
+        public ResultadoPadrao<object> LerNotificacao(int idNotificao)
+        {
+            var userId = _usuarioService.ObterIdUsuarioLogado();
+
+            var notificacao = db.TabelaNotificacaos.FirstOrDefault(n => n.IdUsuario == userId && n.Id == idNotificao);
+
+            if (notificacao == null)
+                return ResultadoPadrao<object>.Falha("Notificação não encontrada.",404);
+
+            if (notificacao.Lida)
+                return ResultadoPadrao<object>.Ok("A notificação já foi marcada como lida.");
+
+            notificacao.Lida = true;
+            db.SaveChanges();
+            return ResultadoPadrao<object>.Ok("Notificação marcada como lida.");
+        }
+
+        public ResultadoPadrao<object> LerTodasNotificacoes()
+        {
+            var userId = _usuarioService.ObterIdUsuarioLogado();
+
+            var notificacoes = db.TabelaNotificacaos.Where(n => n.IdUsuario == userId && !n.Lida).ToList();
+
+            if (notificacoes.Count == 0)
+                return ResultadoPadrao<object>.Ok("Não há notificações não lidas.");
+
+            notificacoes.ForEach(n =>
+            {
+                n.Lida = true;
+            });
+            db.SaveChanges();
+            return ResultadoPadrao<object>.Ok("Todas as notificações foram marcadas como lidas.");
+        }
+
+        //public ResultadoPadrao<object> CriarNotificacao(NotificacaoRequest dto)
+        //{
+
+        //}
     }
 }
