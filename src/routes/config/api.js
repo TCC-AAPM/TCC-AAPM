@@ -57,6 +57,13 @@ export const API_ROUTES = {
     listarPagamentos: `${BASE_URL}/Financeiro/pagamentos`,
   },
 
+  notificacoes: {
+    listarNotificacoes: `${BASE_URL}/Notificacao`,
+    notificacoesNaoLidas: `${BASE_URL}/Notificacao/nao-lidas`,
+    notificacoesLer: `${BASE_URL}/Notificacao/ler-notificacao`,
+    notificacoesLerTodas: `${BASE_URL}/Notificacao/ler-todas-notificacoes`,
+  },
+
   cadastro: {
     preCadastro: `${BASE_URL}/Cadastro/pre-cadastro`,
   },

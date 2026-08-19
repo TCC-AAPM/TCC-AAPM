@@ -266,6 +266,17 @@
   padding: 0 3px;
 }
 
+.notifMarcarTodas {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: var(--cor-primaria, #2563eb);
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
 .notifDropdown {
   position: absolute;
   top: calc(100% + 10px);
@@ -280,6 +291,9 @@
 }
 
 .notifHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 14px 16px 10px;
   font-size: 0.85rem;
   font-weight: 600;
@@ -301,7 +315,8 @@
   margin-top: 4px;
   font-size: 0.7rem;
   color: #bbb;
-}.notifTexto {
+}
+.notifTexto {
   margin: 0;
 }
 
@@ -310,7 +325,8 @@
   margin-top: 4px;
   font-size: 0.7rem;
   color: #bbb;
-}.notifItem {
+}
+.notifItem {
   padding: 12px 16px;
   cursor: pointer;
   border-top: 1px solid #f0f0f0;

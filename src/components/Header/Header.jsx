@@ -4,6 +4,8 @@ import { useTheme } from "../../utils/darkMode";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { getLogoDestino } from "../../utils/logoRedirect";
+import { authFetch } from "../../utils/auth";
+import { API_ROUTES } from "../../routes/config/api.js";
 import {
   Bell,
   Home,
@@ -15,56 +17,17 @@ import {
   Trash2,
   UserRound,
   X,
-  CheckCircle2,
-  Info,
-  AlertTriangle,
-  Bell as BellIcon,
+  CheckCheck,
 } from "lucide-react";
-import { alertConfirmar } from "../Alerts/Alerts.jsx";
+import { alertConfirmar, alertErro } from "../Alerts/Alerts.jsx";
 
 export default function Header() {
   const { darkMode, setDarkMode } = useTheme();
   const [menuAberto, setMenuAberto] = useState(false);
   const [notifAberto, setNotifAberto] = useState(false);
   const [notifExpandido, setNotifExpandido] = useState(false);
-  const [notificacoes, setNotificacoes] = useState([
-    
-    {
-      id: 1,
-      titulo: "Cadastro aprovado",
-      texto: "Seu cadastro foi aprovado e já está ativo no sistema.",
-      data: "12 de agosto",
-      lida: false,
-    },
-    {
-      id: 2,
-      titulo: "Novo aviso",
-      texto: "Um novo aviso foi publicado pela AAPM.",
-      data: "11 de agosto",
-      lida: false,
-    },
-    {
-      id: 3,
-      titulo: "Pendência próxima do prazo",
-      texto: "Sua pendência vence em 3 dias. Regularize o quanto antes.",
-      data: "10 de agosto",
-      lida: true,
-    },
-    {
-      id: 4,
-      titulo: "Solicitação aprovada",
-      texto: "Sua solicitação foi analisada e aprovada.",
-      data: "08 de agosto",
-      lida: true,
-    },
-    {
-      id: 5,
-      titulo: "Atualize seus dados",
-      texto: "Lembrete para manter seu cadastro sempre atualizado.",
-      data: "05 de agosto",
-      lida: false,
-    },
-  ]);
+  const [notificacoes, setNotificacoes] = useState([]);
+  const [carregandoNotif, setCarregandoNotif] = useState(false);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -73,7 +36,7 @@ export default function Header() {
   const notifRef = useRef();
   const sinoRef = useRef();
 
-  const naoLidas = notificacoes.filter((n) => !n.lida).length;
+  const naoLidas = (notificacoes ?? []).filter((n) => !n.lida).length;
 
   const headerType = location.pathname.startsWith("/usuario")
     ? "user"
@@ -83,6 +46,44 @@ export default function Header() {
   const isAdmin = location.pathname.startsWith("/admin");
   const isPainelAdmin = location.pathname === "/admin/gestao-admin";
   const destinoLogo = getLogoDestino(location.pathname);
+  const mostrarNotificacoes = headerType === "user" || isAdmin;
+
+  function formatarData(iso) {
+    if (!iso) return "";
+    return new Date(iso).toLocaleDateString("pt-BR", {
+      day: "2-digit",
+      month: "long",
+    });
+  }
+
+  useEffect(() => {
+    if (!mostrarNotificacoes) return;
+
+    async function carregarNotificacoes() {
+      setCarregandoNotif(true);
+      try {
+        const res = await authFetch(API_ROUTES.notificacoes.listarNotificacoes);
+        const data = await res.json();
+        const lista = (Array.isArray(data) ? data : (data?.dados ?? [])).map(
+          (n) => ({
+            id: n.id,
+            titulo: n.titulo,
+            texto: n.mensagem,
+            data: formatarData(n.dataCriacao),
+            lida: n.lida,
+          }),
+        );
+        setNotificacoes(lista);
+        setNotificacoes(lista);
+      } catch (err) {
+        console.error("Erro ao buscar notificações:", err);
+      } finally {
+        setCarregandoNotif(false);
+      }
+    }
+
+    carregarNotificacoes();
+  }, [mostrarNotificacoes]);
 
   useEffect(() => {
     if (headerType !== "user") return undefined;
@@ -129,10 +130,42 @@ export default function Header() {
     navigate(path);
   }
 
-  function marcarComoLida(id) {
+  async function marcarComoLida(id) {
+    const notif = notificacoes.find((n) => n.id === id);
+    if (notif?.lida) return;
+
     setNotificacoes((prev) =>
       prev.map((n) => (n.id === id ? { ...n, lida: true } : n)),
     );
+
+    try {
+      await authFetch(`${API_ROUTES.notificacoes.notificacoesLer}?id=${id}`, {
+        method: "PUT",
+      });
+    } catch (err) {
+      console.error("Erro ao marcar notificação como lida:", err);
+      setNotificacoes((prev) =>
+        prev.map((n) => (n.id === id ? { ...n, lida: false } : n)),
+      );
+      alertErro("Não foi possível marcar a notificação como lida.");
+    }
+  }
+
+  async function marcarTodasComoLidas() {
+    if (naoLidas === 0) return;
+
+    const anterior = notificacoes;
+    setNotificacoes((prev) => prev.map((n) => ({ ...n, lida: true })));
+
+    try {
+      await authFetch(API_ROUTES.notificacoes.notificacoesLerTodas, {
+        method: "PUT",
+      });
+    } catch (err) {
+      console.error("Erro ao marcar todas como lidas:", err);
+      setNotificacoes(anterior);
+      alertErro("Não foi possível marcar todas como lidas.");
+    }
   }
 
   async function sair() {
@@ -177,9 +210,27 @@ export default function Header() {
 
         {notifAberto && (
           <div ref={notifRef} className={styles.notifDropdown}>
-            <div className={styles.notifHeader}>Notificações</div>
+            <div className={styles.notifHeader}>
+              <span>Notificações</span>
+              {naoLidas > 0 && (
+                <button
+                  type="button"
+                  className={styles.notifMarcarTodas}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    marcarTodasComoLidas();
+                  }}
+                  title="Marcar todas como lidas"
+                >
+                  <CheckCheck size={14} />
+                  Marcar todas
+                </button>
+              )}
+            </div>
 
-            {notificacoes.length === 0 ? (
+            {carregandoNotif ? (
+              <p className={styles.notifVazio}>Carregando...</p>
+            ) : notificacoes.length === 0 ? (
               <p className={styles.notifVazio}>Nenhuma notificação por aqui.</p>
             ) : (
               <>
@@ -308,43 +359,43 @@ export default function Header() {
 
   return (
     <header data-theme={darkMode ? "dark" : "light"}>
-    <nav className={styles.nav}>
-      <img
-        src={logo}
-        alt="AAPM"
-        className={styles.imgLogo}
-        loading="eager"
-        onClick={() => navigate(destinoLogo)}
-      />
-      <div className={styles.navActions}>
-        {isAdmin && (
-          <button
-            className={styles.btnIconAction}
-            onClick={() =>
-              isPainelAdmin
-                ? navigate("/admin/armarios")
-                : navigate("/admin/gestao-admin")
-            }
-            aria-label={
-              isPainelAdmin ? "Ir para armários" : "Abrir gestão admin"
-            }
-            title={isPainelAdmin ? "Armários" : "Gestão admin"}
-          >
-            {isPainelAdmin ? <Home size={18} /> : <Menu size={18} />}
-          </button>
-        )}
-        {renderThemeButton()}
-        {isAdmin && renderNotificacoes()}
-        {headerType === "login" && (
-          <button
-            className={styles.btnGhost}
-            onClick={() => navigate("/login")}
-          >
-            Entrar
-          </button>
-        )}
-      </div>
-    </nav>
+      <nav className={styles.nav}>
+        <img
+          src={logo}
+          alt="AAPM"
+          className={styles.imgLogo}
+          loading="eager"
+          onClick={() => navigate(destinoLogo)}
+        />
+        <div className={styles.navActions}>
+          {isAdmin && (
+            <button
+              className={styles.btnIconAction}
+              onClick={() =>
+                isPainelAdmin
+                  ? navigate("/admin/armarios")
+                  : navigate("/admin/gestao-admin")
+              }
+              aria-label={
+                isPainelAdmin ? "Ir para armários" : "Abrir gestão admin"
+              }
+              title={isPainelAdmin ? "Armários" : "Gestão admin"}
+            >
+              {isPainelAdmin ? <Home size={18} /> : <Menu size={18} />}
+            </button>
+          )}
+          {renderThemeButton()}
+          {isAdmin && renderNotificacoes()}
+          {headerType === "login" && (
+            <button
+              className={styles.btnGhost}
+              onClick={() => navigate("/login")}
+            >
+              Entrar
+            </button>
+          )}
+        </div>
+      </nav>
     </header>
   );
 }
