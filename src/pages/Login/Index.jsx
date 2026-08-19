@@ -60,9 +60,10 @@ export default function Login() {
     <>
       <section className={styles.containerGeral}>
         <SEO
-          title="Login - Sistema de Gestão e Controle de Armários da AAPM"
-          description="Acesse o Sistema de Gestão e Controle de Armários da AAPM para consultar reservas, armários e dados administrativos."
+          title="Login"
+          description="Acesse o sistema da AAPM SENAI Osasco para gerenciar armários, reservas e informações de alunos."
           path="/login"
+          noIndex
         />
         <div className={styles.principalBox}>
           <header className={styles.entreAqui}>

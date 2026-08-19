@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
+import SEO from "../../../components/SEO/SEO.jsx";
 import { authFetch, API_ROUTES } from "../../../utils/auth.js";
 import { useSenhaFlow } from "../SenhaFlowContext.jsx";
 import styles from "./EsqueciSenha.module.css";
@@ -58,39 +59,48 @@ export default function EsqueciSenha() {
   }
 
   return (
-    <main className={styles.principalBox}>
-      <div className={styles.card}>
-        <section className={styles.entreAqui}>
-          <h2>Recuperar senha</h2>
-          <p>Digite seu email cadastrado para receber o código.</p>
-        </section>
+    <>
+      <SEO
+        title="Recuperar senha"
+        description="Recupere o acesso à sua conta no sistema de gestão de armários da AAPM SENAI Osasco."
+        path="/senha/esqueci"
+        noIndex
+      />
 
-        <form className={styles.emailInput} onSubmit={enviarCodigo}>
-          <div className={styles.inputBox}>
-            <input
-              type="email"
-              className="form-control"
-              id="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <label htmlFor="email">Email</label>
-          </div>
+      <main className={styles.principalBox}>
+        <div className={styles.card}>
+          <section className={styles.entreAqui}>
+            <h2>Recuperar senha</h2>
+            <p>Digite seu email cadastrado para receber o código.</p>
+          </section>
 
-          <button
-            type="submit"
-            className={`btn btn-primary ${styles.btnPrimary}`}
-            disabled={carregando}
-          >
-            {carregando ? "Enviando..." : "Enviar código"}
+          <form className={styles.emailInput} onSubmit={enviarCodigo}>
+            <div className={styles.inputBox}>
+              <input
+                type="email"
+                className="form-control"
+                id="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <label htmlFor="email">Email</label>
+            </div>
+
+            <button
+              type="submit"
+              className={`btn btn-primary ${styles.btnPrimary}`}
+              disabled={carregando}
+            >
+              {carregando ? "Enviando..." : "Enviar código"}
+            </button>
+          </form>
+
+          <button className={styles.voltar} onClick={() => navigate(-1)}>
+            ← Voltar
           </button>
-        </form>
-
-        <button className={styles.voltar} onClick={() => navigate(-1)}>
-          ← Voltar
-        </button>
-      </div>
-    </main>
+        </div>
+      </main>
+    </>
   );
 }

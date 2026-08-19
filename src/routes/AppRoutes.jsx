@@ -8,6 +8,7 @@ import SobreNosDevs from "../pages/SobreNos/EquipeDevs/SobreNosDevs.jsx";
 import SobreNosAAPM from "../pages/SobreNos/EquipeAAPM/SobreNosAAPM.jsx";
 import CadastroArmario from "../pages/PreCadastro/Armario/PreCadastroArmario.jsx";
 import AcessoNegado from "../pages/AcessoNegado/AcessoNegado.jsx";
+import NotFound from "../pages/NotFound/NotFound.jsx";
 
 import EsqueciSenha from "../pages/Senha/EsqueciSenha/EsqueciSenha.jsx";
 import CodigoSenha from "../pages/Senha/CodigoSenha/CodigoSenha.jsx";
@@ -196,6 +197,8 @@ export default function AppRoutes() {
           </PrivateRoute>
         }
       />
+
+      <Route path="*" element={<NotFound />} />
     </Routes>
   );
 }
