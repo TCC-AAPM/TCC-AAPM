@@ -55,32 +55,32 @@ const LIMITE_HISTORICO = 20;
 const HISTORICO_MOCK = [
   {
     tipo: "reserva_criada",
-    destinatario: "ana@email.com",
+    destinatario: "Ana Paula Rodrigues",
     dataEnvio: "2026-08-18T14:30:00",
   },
   {
     tipo: "reserva_criada",
-    destinatario: "bruno@email.com",
+    destinatario: "Bruno Silva",
     dataEnvio: "2026-08-17T10:00:00",
   },
   {
     tipo: "reserva_expirando",
-    destinatario: "diego@email.com",
+    destinatario: "Diego Santos",
     dataEnvio: "2026-08-16T09:00:00",
   },
   {
     tipo: "senha_alterada",
-    destinatario: "ana@email.com",
+    destinatario: "Ana Paula Rodrigues",
     dataEnvio: "2026-08-14T20:00:00",
   },
   {
     tipo: "manutencao",
-    destinatario: "bruno@email.com",
+    destinatario: "Bruno Silva",
     dataEnvio: "2026-08-10T09:00:00",
   },
   {
     tipo: "pendencia_financeira",
-    destinatario: "diego@email.com",
+    destinatario: "Diego Santos",
     dataEnvio: "2026-08-05T09:00:00",
   },
 ];

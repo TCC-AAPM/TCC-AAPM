@@ -1,13 +1,6 @@
-// TODO: ajustar endpoints financeiro.resumoMensal e financeiro.listarPagamentos quando o backend estiver pronto (rotas provisórias).
 import { useEffect, useState, useMemo } from "react";
 import { Pagination } from "@mui/material";
-import {
-  Search,
-  X,
-  DollarSign,
-  Package,
-  TrendingUp,
-} from "lucide-react";
+import { Search, X, DollarSign, Package, TrendingUp } from "lucide-react";
 import { authFetch, API_ROUTES } from "../../../utils/auth";
 import {
   alertConfirmar,
@@ -42,24 +35,6 @@ function normalizarLista(resultado) {
   return [];
 }
 
-function lerIdProduto(produto) {
-  return produto.id ?? produto.idProduto ?? produto.produtoId;
-}
-
-function lerNomeProduto(produto) {
-  return produto.nome ?? produto.produto ?? produto.descricao ?? "Produto";
-}
-
-function lerPrecoProduto(produto) {
-  return Number(produto.preco ?? produto.valor ?? produto.precoAtual ?? 0);
-}
-
-function ehProdutoArmario(produto) {
-  const id = String(lerIdProduto(produto) ?? "").toUpperCase();
-  const nome = String(lerNomeProduto(produto) ?? "").toLowerCase();
-  return id === "A" || nome.includes("arm");
-}
-
 function formatarMoeda(valor) {
   return Number(valor ?? 0).toLocaleString("pt-BR", {
     style: "currency",
@@ -70,172 +45,86 @@ function formatarMoeda(valor) {
 function formatarData(valor) {
   if (!valor) return "—";
   const data = new Date(valor);
-  if (Number.isNaN(data.getTime())) return "—";
-  return data.toLocaleDateString("pt-BR");
-}
-
-function formatarNomeMensalidade(nome) {
-  const nomes = {
-    qtdArmarios: "Armário",
-    A: "Armário",
-  };
-
-  return nomes[nome] ?? nome;
+  return Number.isNaN(data.getTime()) ? "—" : data.toLocaleDateString("pt-BR");
 }
 
 export default function Financeiro() {
   const docked = useDockButton();
-  const [produtos, setProdutos] = useState([]);
-  const [precos, setPrecos] = useState({});
-  const [salvandoPreco, setSalvandoPreco] = useState(null);
-  const [resumoMensal, setResumoMensal] = useState([]);
-  const [pagamentos, setPagamentos] = useState([]);
+  const [totalGeral, setTotalGeral] = useState(0);
+  const [totalMensal, setTotalMensal] = useState([]);
+  const [relatorio, setRelatorio] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
   const [paginaAtual, setPaginaAtual] = useState(1);
-  const [carregandoProdutos, setCarregandoProdutos] = useState(true);
-  const [carregandoPagamentos, setCarregandoPagamentos] = useState(true);
-
-  async function carregarProdutos() {
-    setCarregandoProdutos(true);
-    try {
-      const res = await authFetch(API_ROUTES.produtos.listar);
-      const resultado = await res.json();
-      const lista = normalizarLista(resultado);
-      const produtosArmario = lista.filter(ehProdutoArmario);
-      setProdutos(produtosArmario);
-      setPrecos(
-        produtosArmario.reduce((acc, produto) => {
-          acc[lerIdProduto(produto)] = lerPrecoProduto(produto);
-          return acc;
-        }, {}),
-      );
-    } catch {
-      setProdutos([]);
-    } finally {
-      setCarregandoProdutos(false);
-    }
-  }
-
-  async function carregarResumoMensal() {
-    try {
-      const res = await authFetch(API_ROUTES.financeiro.resumoMensal);
-      if (!res.ok) throw new Error("Resumo indisponível");
-      const resultado = await res.json();
-      setResumoMensal(normalizarLista(resultado));
-    } catch {
-      setResumoMensal([]);
-    }
-  }
-
-  async function carregarPagamentos() {
-    setCarregandoPagamentos(true);
-    try {
-      const res = await authFetch(API_ROUTES.financeiro.listarPagamentos);
-      if (!res.ok) throw new Error("Pagamentos indisponíveis");
-      const resultado = await res.json();
-      setPagamentos(normalizarLista(resultado));
-    } catch {
-      setPagamentos([]);
-    } finally {
-      setCarregandoPagamentos(false);
-    }
-  }
+  const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
-    carregarProdutos();
-    carregarResumoMensal();
-    carregarPagamentos();
+    async function carregarTudo() {
+      setCarregando(true);
+      try {
+        const [resTotal, resMensal, resRelatorio] = await Promise.all([
+          authFetch(API_ROUTES.financeiro.total),
+          authFetch(API_ROUTES.financeiro.totalMensal),
+          authFetch(API_ROUTES.financeiro.relatorio),
+        ]);
+
+        if (!resTotal.ok || !resMensal.ok || !resRelatorio.ok) {
+          throw new Error("Erro ao carregar dados financeiros");
+        }
+
+        const dadosTotal = await resTotal.json();
+        const dadosMensal = await resMensal.json();
+        const dadosRelatorio = await resRelatorio.json();
+
+        setTotalGeral(dadosTotal?.total ?? dadosTotal ?? 0);
+        setTotalMensal(normalizarLista(dadosMensal));
+        setRelatorio(normalizarLista(dadosRelatorio));
+      } catch {
+        setTotalGeral(0);
+        setTotalMensal([]);
+        setRelatorio([]);
+        alertErro(
+          "Não foi possível carregar os dados financeiros. Tente novamente mais tarde.",
+        );
+      } finally {
+        setCarregando(false);
+      }
+    }
+    carregarTudo();
   }, []);
 
-  async function salvarPreco(produto) {
-    const id = lerIdProduto(produto);
-    const nome = lerNomeProduto(produto);
-    const novoPreco = Number(precos[id]);
+  const resumoAtual = totalMensal[totalMensal.length - 1] ?? {};
 
-    if (!id || Number.isNaN(novoPreco) || novoPreco <= 0) {
-      alertErro("Informe um preço válido.");
-      return;
-    }
-
-    const confirmado = await alertConfirmar(
-      `Alterar preço de "${nome}" para ${formatarMoeda(novoPreco)}?`,
-    );
-    if (!confirmado) return;
-
-    setSalvandoPreco(id);
-    try {
-      const res = await authFetch(API_ROUTES.produtos.alterarPreco(id), {
-        method: "PUT",
-        body: JSON.stringify({ preco: novoPreco }),
-      });
-      const data = await res.json().catch(() => ({}));
-
-      if (!res.ok || data.sucesso === false) {
-        alertErro(data.mensagem ?? "Erro ao alterar preço.");
-        return;
-      }
-
-      alertSucesso(data.mensagem ?? "Preço atualizado com sucesso.");
-      carregarProdutos();
-    } catch {
-      alertErro("Erro ao alterar preço.");
-    } finally {
-      setSalvandoPreco(null);
-    }
-  }
-
-  function formatarNomeMensalidade(nome) {
-    const nomes = {
-      qtdArmarios: "Reservas Armários",
-      A: "Mensalidade Armários",
-    };
-
-    return nomes[nome] ?? nome;
-  }
-
-  const resumoAtual = resumoMensal[resumoMensal.length - 1] ?? {};
-  const totalPeriodo = resumoMensal.reduce(
-    (total, item) => total + Number(item.total ?? 0),
-    0,
-  );
-
-  const pagamentosFiltrados = useMemo(() => {
+  const relatorioFiltrado = useMemo(() => {
     const termo = pesquisa.trim().toLowerCase();
-    const pagamentosArmario = pagamentos.filter(ehProdutoArmario);
-    if (!termo) return pagamentosArmario;
-
-    return pagamentosArmario.filter((pagamento) =>
+    if (!termo) return relatorio;
+    return relatorio.filter((item) =>
       [
-        pagamento.aluno,
-        pagamento.nomeAluno,
-        pagamento.produto,
-        pagamento.nomeProduto,
-        pagamento.metodo,
-        pagamento.metodoPagamento,
+        item.aluno,
+        item.nomeAluno,
+        item.produto,
+        item.metodo,
+        item.metodoPagamento,
       ]
         .filter(Boolean)
         .some((valor) => String(valor).toLowerCase().includes(termo)),
     );
-  }, [pagamentos, pesquisa]);
+  }, [relatorio, pesquisa]);
 
   const totalPaginas = Math.max(
     1,
-    Math.ceil(pagamentosFiltrados.length / ITENS_POR_PAGINA),
+    Math.ceil(relatorioFiltrado.length / ITENS_POR_PAGINA),
   );
 
-  const pagamentosPagina = useMemo(
+  const relatorioPagina = useMemo(
     () =>
-      pagamentosFiltrados.slice(
+      relatorioFiltrado.slice(
         (paginaAtual - 1) * ITENS_POR_PAGINA,
         paginaAtual * ITENS_POR_PAGINA,
       ),
-    [pagamentosFiltrados, paginaAtual],
+    [relatorioFiltrado, paginaAtual],
   );
 
-  useEffect(() => {
-    setPaginaAtual(1);
-  }, [pesquisa]);
-
+  useEffect(() => setPaginaAtual(1), [pesquisa]);
   useEffect(() => {
     if (paginaAtual > totalPaginas) setPaginaAtual(totalPaginas);
   }, [paginaAtual, totalPaginas]);
@@ -243,28 +132,23 @@ export default function Financeiro() {
   const colunas = useMemo(
     () => [
       {
-        accessorFn: (row) => row.aluno ?? row.nomeAluno ?? "—",
+        accessorFn: (r) => r.aluno ?? r.nomeAluno ?? "—",
         id: "aluno",
         header: "Aluno",
       },
       {
-        accessorFn: (row) => row.produto ?? row.nomeProduto ?? "—",
-        id: "produto",
-        header: "Produto",
-      },
-      {
-        accessorFn: (row) => row.metodo ?? row.metodoPagamento ?? "—",
+        accessorFn: (r) => r.metodo ?? r.metodoPagamento ?? "—",
         id: "metodo",
         header: "Método",
       },
       {
-        accessorFn: (row) => row.data ?? row.dataPagamento ?? row.criadoEm,
+        accessorFn: (r) => r.data ?? r.dataPagamento ?? r.criadoEm,
         id: "data",
         header: "Data",
         cell: (info) => formatarData(info.getValue()),
       },
       {
-        accessorFn: (row) => row.valor ?? row.preco ?? row.total,
+        accessorFn: (r) => r.valor ?? r.preco ?? r.total,
         id: "valor",
         header: "Valor",
         cell: (info) => formatarMoeda(info.getValue()),
@@ -274,7 +158,7 @@ export default function Financeiro() {
   );
 
   const tabela = useReactTable({
-    data: pagamentosPagina,
+    data: relatorioPagina,
     columns: colunas,
     getCoreRowModel: getCoreRowModel(),
   });
@@ -289,53 +173,6 @@ export default function Financeiro() {
           <h3>Financeiro</h3>
         </div>
 
-        <div className={styles.containerLista}>
-          <h4>Editar preços</h4>
-          {carregandoProdutos && (
-            <p className={styles.mensagem}>Carregando...</p>
-          )}
-
-          {!carregandoProdutos && produtos.length === 0 && (
-            <p className={styles.mensagem}>Nenhum produto encontrado</p>
-          )}
-
-          <div className={styles.cardsPrecos}>
-            {produtos.map((produto) => {
-              const id = lerIdProduto(produto);
-              const nome = lerNomeProduto(produto);
-
-              return (
-                <div className={styles.cardPreco} key={id}>
-                  <div>
-                    <strong>{formatarNomeMensalidade(nome)}</strong>
-                    <span>
-                      Preço atual: {formatarMoeda(lerPrecoProduto(produto))}
-                    </span>
-                  </div>
-                  <input
-                    className={styles.formControl}
-                    type="number"
-                    min="0"
-                    step="0.01"
-                    value={precos[id] ?? ""}
-                    onChange={(e) =>
-                      setPrecos((atual) => ({ ...atual, [id]: e.target.value }))
-                    }
-                  />
-                  <button
-                    className={styles.btnSalvar}
-                    type="button"
-                    onClick={() => salvarPreco(produto)}
-                    disabled={salvandoPreco === id}
-                  >
-                    {salvandoPreco === id ? "Salvando..." : "Salvar"}
-                  </button>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
         <div className={styles.cards}>
           <div className={styles.cartao}>
             <div className={styles.icone}>
@@ -344,7 +181,6 @@ export default function Financeiro() {
             <h3>Total no mês</h3>
             <p>{formatarMoeda(resumoAtual.total)}</p>
           </div>
-
           <div className={styles.cartao}>
             <div className={styles.icone}>
               <Package size={22} />
@@ -352,28 +188,27 @@ export default function Financeiro() {
             <h3>Armários (mês)</h3>
             <p>{resumoAtual.qtdArmarios ?? 0}</p>
           </div>
-
           <div className={styles.cartao}>
             <div className={styles.icone}>
               <TrendingUp size={22} />
             </div>
-            <h3>Acumulado no período</h3>
-            <p>{formatarMoeda(totalPeriodo)}</p>
+            <h3>Total acumulado</h3>
+            <p>{formatarMoeda(totalGeral)}</p>
           </div>
         </div>
 
         <div className={styles.graficos}>
           <div className={styles.graficoBox}>
             <h4>Lucro por mês</h4>
-            {resumoMensal.length === 0 ? (
+            {totalMensal.length === 0 ? (
               <p className={styles.mensagem}>Nenhum dado disponível ainda</p>
             ) : (
               <ResponsiveContainer width="100%" height={280}>
-                <LineChart data={resumoMensal}>
+                <LineChart data={totalMensal}>
                   <CartesianGrid stroke="var(--border-glass)" />
                   <XAxis dataKey="mes" stroke="var(--text-white-soft)" />
                   <YAxis stroke="var(--text-white-soft)" />
-                  <Tooltip formatter={(valor) => formatarMoeda(valor)} />
+                  <Tooltip formatter={(v) => formatarMoeda(v)} />
                   <Line
                     type="monotone"
                     dataKey="total"
@@ -386,21 +221,16 @@ export default function Financeiro() {
           </div>
 
           <div className={styles.graficoBox}>
-            <h4>Mensalidades por tipo</h4>
-            {resumoMensal.length === 0 ? (
+            <h4>Reservas por mês</h4>
+            {totalMensal.length === 0 ? (
               <p className={styles.mensagem}>Nenhum dado disponível ainda</p>
             ) : (
               <ResponsiveContainer width="100%" height={280}>
-                <BarChart data={resumoMensal}>
+                <BarChart data={totalMensal}>
                   <CartesianGrid stroke="var(--border-glass)" />
                   <XAxis dataKey="mes" stroke="var(--text-white-soft)" />
                   <YAxis stroke="var(--text-white-soft)" />
-                  <Tooltip
-                    formatter={(valor, nome) => [
-                      valor,
-                      formatarNomeMensalidade(nome),
-                    ]}
-                  />
+                  <Tooltip />
                   <Bar
                     dataKey="qtdArmarios"
                     fill="var(--blue)"
@@ -445,15 +275,12 @@ export default function Financeiro() {
             ))}
           </div>
 
-          {carregandoPagamentos && (
-            <p className={styles.mensagem}>Carregando...</p>
-          )}
-
-          {!carregandoPagamentos && pagamentosFiltrados.length === 0 && (
+          {carregando && <p className={styles.mensagem}>Carregando...</p>}
+          {!carregando && relatorioFiltrado.length === 0 && (
             <p className={styles.mensagem}>Nenhum pagamento encontrado</p>
           )}
 
-          {!carregandoPagamentos &&
+          {!carregando &&
             tabela.getRowModel().rows.map((row) => (
               <div className={styles.linha} key={row.id}>
                 {row.getVisibleCells().map((cell) => (

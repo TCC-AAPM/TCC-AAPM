@@ -38,6 +38,12 @@ export const API_ROUTES = {
     deletar: (id) => `${BASE_URL}/Turmas/${id}`,
   },
 
+  financeiro: {
+    total: `${BASE_URL}/Financeiro/total`,
+    totalMensal: `${BASE_URL}/Financeiro/total-mensal`,
+    relatorio: `${BASE_URL}/Financeiro/relatorio`,
+  },
+
   reservas: {
     cadastrarArmario: `${BASE_URL}/Reservas/cadastro-armario`,
     recadastrarArmario: `${BASE_URL}/Reservas/recadastrar-armario`,
@@ -50,11 +56,6 @@ export const API_ROUTES = {
   produtos: {
     listar: `${BASE_URL}/Produtos`,
     alterarPreco: (id) => `${BASE_URL}/Produtos/${id}`,
-  },
-
-  financeiro: {
-    resumoMensal: `${BASE_URL}/Financeiro/resumo-mensal`,
-    listarPagamentos: `${BASE_URL}/Financeiro/pagamentos`,
   },
 
   notificacoes: {
