@@ -17,21 +17,21 @@ namespace API_backEnd.Controllers
             _financeiroService = financeiroService;
         }
 
-        [Authorize("admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet("relatorio")]
         public IActionResult RelatorioFinanceiro()
         {
             return Resultado(_financeiroService.RelatorioFinanceiro());
         }
 
-        [Authorize("admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet("total-mensal")]
         public IActionResult TotalMensal()
         {
             return Resultado(_financeiroService.TotalMensal());
         }
 
-        [Authorize("admin")]
+        [Authorize(Roles = "admin")]
         [HttpGet("total")]
         public IActionResult Total()
         {
