@@ -22,14 +22,14 @@ namespace API_backEnd.Services
 
             var dataLimite = DateTime.Now.AddDays(-30);
 
-            var notificacoes = db.TabelaNotificacaos.Where(n => n.IdUsuario == id && n.DataCriacao >= dataLimite).OrderByDescending(n => n.DataCriacao).Select(a => new NotificacaoResponse
+            var notificacoes = db.TabelaHistoricoNotificacaos.Where(n => n.IdUsuario == id && n.DataEnvio >= dataLimite).OrderByDescending(n => n.DataEnvio).Select(a => new NotificacaoResponse
             {
                 Id = a.Id,
-                Titulo = a.Titulo,
-                Mensagem = a.Mensagem,
-                Tipo = a.Tipo,
+                Titulo = a.IdNotificacaoNavigation.Titulo,
+                Mensagem = a.IdNotificacaoNavigation.Mensagem,
+                Tipo = a.IdNotificacaoNavigation.Evento,
                 Lida = a.Lida,
-                DataCriacao = a.DataCriacao
+                DataCriacao = a.DataEnvio
             }).ToList();
 
             if (notificacoes.Count == 0)
@@ -45,7 +45,7 @@ namespace API_backEnd.Services
 
             var dataLimite = DateTime.Now.AddDays(-30);
 
-            var notiNaoLidas = db.TabelaNotificacaos.Where(a => a.IdUsuario == id && a.DataCriacao >= dataLimite && a.Lida == false).Count();
+            var notiNaoLidas = db.TabelaHistoricoNotificacaos.Where(a => a.IdUsuario == id && a.DataEnvio >= dataLimite && a.Lida == false).Count();
 
             return ResultadoPadrao<object>.Ok(notiNaoLidas);
         }
@@ -54,7 +54,7 @@ namespace API_backEnd.Services
         {
             var userId = _usuarioService.ObterIdUsuarioLogado();
 
-            var notificacao = db.TabelaNotificacaos.FirstOrDefault(n => n.IdUsuario == userId && n.Id == idNotificao);
+            var notificacao = db.TabelaHistoricoNotificacaos.FirstOrDefault(n => n.IdUsuario == userId && n.Id == idNotificao);
 
             if (notificacao == null)
                 return ResultadoPadrao<object>.Falha("Notificação não encontrada.",404);
@@ -71,7 +71,7 @@ namespace API_backEnd.Services
         {
             var userId = _usuarioService.ObterIdUsuarioLogado();
 
-            var notificacoes = db.TabelaNotificacaos.Where(n => n.IdUsuario == userId && !n.Lida).ToList();
+            var notificacoes = db.TabelaHistoricoNotificacaos.Where(n => n.IdUsuario == userId && !n.Lida).ToList();
 
             if (notificacoes.Count == 0)
                 return ResultadoPadrao<object>.Ok("Não há notificações não lidas.");
@@ -84,9 +84,23 @@ namespace API_backEnd.Services
             return ResultadoPadrao<object>.Ok("Todas as notificações foram marcadas como lidas.");
         }
 
-        //public ResultadoPadrao<object> CriarNotificacao(NotificacaoRequest dto)
-        //{
+        public void CriarNotificacao(int idUsuario, string evento)
+        {
+            var notificacao = db.TabelaNotificacaos.FirstOrDefault(n => n.Evento == evento && n.IsAtivo);
 
-        //}
+            if (notificacao == null)
+                return;
+
+            var historico = new TabelaHistoricoNotificacao
+            {
+                IdUsuario = idUsuario,
+                IdNotificacao = notificacao.Id,
+                DataEnvio = DateTime.Now,
+                Lida = false
+            };
+
+            db.TabelaHistoricoNotificacaos.Add(historico);
+            db.SaveChanges();
+        }
     }
 }

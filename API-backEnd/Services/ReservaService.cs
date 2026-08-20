@@ -16,13 +16,15 @@ namespace API_backEnd.Services
         private readonly TermoService _termoService;
         private readonly AlunoService _alunoService;
         private readonly ArmarioService _armarioService;
-        public ReservaService(AapmContext context, IdadeService idadeService, TermoService termoService, AlunoService alunoService, ArmarioService armarioService)
+        private readonly NotificacaoService _notificacaoService;
+        public ReservaService(AapmContext context, IdadeService idadeService, TermoService termoService, AlunoService alunoService, ArmarioService armarioService, NotificacaoService notificacaoService)
         {
             db = context;
             _idadeService = idadeService;
             _termoService = termoService;
             _alunoService = alunoService;
             _armarioService = armarioService;
+            _notificacaoService = notificacaoService;
         }
 
         public ResultadoPadrao<object> CadastrarReservaArmario(CriarCadastroArmarioRequest dto)
@@ -103,6 +105,11 @@ namespace API_backEnd.Services
                 armario.Estado = EstadoArmario.O;
                 db.TabelaReservaArmarios.Add(reserva);
                 db.SaveChanges();
+
+                _notificacaoService.CriarNotificacao(aluno.IdUsuario, EventosNotificacao.CadastroRealizado);
+                _notificacaoService.CriarNotificacao(aluno.IdUsuario, EventosNotificacao.PagamentoFeito);
+                _notificacaoService.CriarNotificacao(aluno.IdUsuario, EventosNotificacao.ReservaCriada);
+
                 transaction.Commit();
                 return ResultadoPadrao<object>.Ok(mensagem: "Cadastro feito");
 
@@ -183,6 +190,11 @@ namespace API_backEnd.Services
                 db.TabelaPagamentos.Add(pagamento);
 
                 db.SaveChanges();
+
+
+                _notificacaoService.CriarNotificacao(aluno.IdUsuario, EventosNotificacao.ReservaCriada);
+                _notificacaoService.CriarNotificacao(aluno.IdUsuario, EventosNotificacao.PagamentoFeito);
+
                 transaction.Commit();
 
                 return ResultadoPadrao<object>.Ok(mensagem: "Recadastro feito");
@@ -294,9 +306,9 @@ namespace API_backEnd.Services
             armarioAtual.Estado = EstadoArmario.M;
             armarioAtual.Observacao = string.IsNullOrWhiteSpace(dto.Observacao) ? null : dto.Observacao;
 
-
-
             db.SaveChanges();
+
+            _notificacaoService.CriarNotificacao(armarioReservaAtual.IdAlunoNavigation.IdUsuario, EventosNotificacao.ArmarioTransferido);
 
             return ResultadoPadrao<object>.Ok(mensagem: "Aluno realocado de armário com sucesso");
         }
@@ -314,6 +326,8 @@ namespace API_backEnd.Services
             armario.Estado = EstadoArmario.D;
             reservaAtiva.IsAtivo = false;
             db.SaveChanges();
+
+            _notificacaoService.CriarNotificacao(reservaAtiva.IdAlunoNavigation.IdUsuario, EventosNotificacao.ReservaCancelada);
 
             return ResultadoPadrao<object>.Ok();
         }

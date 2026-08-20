@@ -26,6 +26,8 @@ public partial class AapmContext : DbContext
 
     public virtual DbSet<TabelaCurso> TabelaCursos { get; set; }
 
+    public virtual DbSet<TabelaHistoricoNotificacao> TabelaHistoricoNotificacaos { get; set; }
+
     public virtual DbSet<TabelaNotificacao> TabelaNotificacaos { get; set; }
 
     public virtual DbSet<TabelaPagamento> TabelaPagamentos { get; set; }
@@ -227,20 +229,25 @@ public partial class AapmContext : DbContext
                 .HasColumnName("nome");
         });
 
-        modelBuilder.Entity<TabelaNotificacao>(entity =>
+        modelBuilder.Entity<TabelaHistoricoNotificacao>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PRIMARY");
 
-            entity.ToTable("tabela_notificacao");
+            entity.ToTable("tabela_historico_notificacao");
 
-            entity.HasIndex(e => e.IdUsuario, "FK_tabela_notificacao_tabela_usuario");
+            entity.HasIndex(e => e.IdNotificacao, "FK_tabela_historico_notificacao_tabela_notificacao");
+
+            entity.HasIndex(e => e.IdUsuario, "FK_tabela_historico_notificacao_tabela_usuario");
 
             entity.Property(e => e.Id)
                 .HasColumnType("int(11)")
                 .HasColumnName("id");
-            entity.Property(e => e.DataCriacao)
+            entity.Property(e => e.DataEnvio)
                 .HasColumnType("datetime")
-                .HasColumnName("data_criacao");
+                .HasColumnName("data_envio");
+            entity.Property(e => e.IdNotificacao)
+                .HasColumnType("int(11)")
+                .HasColumnName("id_notificacao");
             entity.Property(e => e.IdUsuario)
                 .HasColumnType("int(11)")
                 .HasColumnName("id_usuario");
@@ -248,20 +255,40 @@ public partial class AapmContext : DbContext
                 .HasDefaultValueSql("b'0'")
                 .HasColumnType("bit(1)")
                 .HasColumnName("lida");
-            entity.Property(e => e.Mensagem)
-                .HasMaxLength(500)
-                .HasColumnName("mensagem");
-            entity.Property(e => e.Tipo)
-                .HasMaxLength(50)
-                .HasColumnName("tipo");
-            entity.Property(e => e.Titulo)
-                .HasMaxLength(150)
-                .HasColumnName("titulo");
 
-            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.TabelaNotificacaos)
+            entity.HasOne(d => d.IdNotificacaoNavigation).WithMany(p => p.TabelaHistoricoNotificacaos)
+                .HasForeignKey(d => d.IdNotificacao)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_tabela_historico_notificacao_tabela_notificacao");
+
+            entity.HasOne(d => d.IdUsuarioNavigation).WithMany(p => p.TabelaHistoricoNotificacaos)
                 .HasForeignKey(d => d.IdUsuario)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK_tabela_notificacao_tabela_usuario");
+                .HasConstraintName("FK_tabela_historico_notificacao_tabela_usuario");
+        });
+
+        modelBuilder.Entity<TabelaNotificacao>(entity =>
+        {
+            entity.HasKey(e => e.Id).HasName("PRIMARY");
+
+            entity.ToTable("tabela_notificacao");
+
+            entity.Property(e => e.Id)
+                .HasColumnType("int(11)")
+                .HasColumnName("id");
+            entity.Property(e => e.Evento)
+                .HasMaxLength(50)
+                .HasColumnName("evento");
+            entity.Property(e => e.IsAtivo)
+                .HasDefaultValueSql("b'1'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("is_ativo");
+            entity.Property(e => e.Mensagem)
+                .HasMaxLength(255)
+                .HasColumnName("mensagem");
+            entity.Property(e => e.Titulo)
+                .HasMaxLength(100)
+                .HasColumnName("titulo");
         });
 
         modelBuilder.Entity<TabelaPagamento>(entity =>

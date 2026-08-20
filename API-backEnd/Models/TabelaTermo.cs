@@ -10,7 +10,7 @@ public partial class TabelaTermo
 
     public string CaminhoPdf { get; set; } = null!;
 
-    public ReferenciaTermos Referencia { get; set; }
+    public ReferenciaTermos Referencia { get; set; } 
 
     public DateTime DataCriacao { get; set; }
 

@@ -14,7 +14,7 @@ public partial class TabelaTurma
 
     public string Periodo { get; set; } = null!;
 
-    public Semestre SemestreInicio { get; set; } 
+    public Semestre SemestreInicio { get; set; }
 
     public short? AnoInicio { get; set; }
 
