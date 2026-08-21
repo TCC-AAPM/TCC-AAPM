@@ -42,6 +42,7 @@ export const API_ROUTES = {
     total: `${BASE_URL}/Financeiro/total`,
     totalMensal: `${BASE_URL}/Financeiro/total-mensal`,
     relatorio: `${BASE_URL}/Financeiro/relatorio`,
+    lucroUltimos6Meses: `${BASE_URL}/Financeiro/lucro-ultimos-6-meses`,
   },
 
   reservas: {
@@ -51,6 +52,8 @@ export const API_ROUTES = {
     historico: `${BASE_URL}/Reservas/historico-reserva`,
     transferir: `${BASE_URL}/Reservas/transferir`,
     excluir: (numeroArmario) => `${BASE_URL}/Reservas/${numeroArmario}`,
+    reservasUltimos6Meses: `${BASE_URL}/Reservas/reservas-ultimos-6-meses`,
+    reservasMesAtual: `${BASE_URL}/Reservas/reservas-mes`,
   },
 
   produtos: {
