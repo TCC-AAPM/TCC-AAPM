@@ -29,7 +29,7 @@ namespace API_backEnd.Services
         }
 
 
-        public ResultadoPadrao<ValorResponse> TotalMensal()
+        public ResultadoPadrao<LucroMensalResponse> TotalMensal()
         {
             var hoje = DateTime.Now;
 
@@ -38,23 +38,48 @@ namespace API_backEnd.Services
 
             var total = db.TabelaPagamentos.Where(a => a.DataPagamento >= inicioMes && a.DataPagamento <= inicioProximoMes).Sum(a => a.Preco);
 
-            var response = new ValorResponse
+            var response = new LucroMensalResponse
             {
                 Valor = total
             };
-            return ResultadoPadrao<ValorResponse>.Ok(response);
+            return ResultadoPadrao<LucroMensalResponse>.Ok(response);
         }
 
-        public ResultadoPadrao<ValorResponse> Total()
+        public ResultadoPadrao<LucroMensalResponse> Total()
         {
             var total = db.TabelaPagamentos.Sum(a => a.Preco);
 
-            var response = new ValorResponse
+            var response = new LucroMensalResponse
             {
                 Valor = total
             };
 
-            return ResultadoPadrao<ValorResponse>.Ok(response);
+            return ResultadoPadrao<LucroMensalResponse>.Ok(response);
+        }
+
+        public ResultadoPadrao<List<LucroMensalResponse>> LucroUltimo6Meses()
+        {
+            var hoje = DateTime.Now;
+
+            var inicio = new DateTime(hoje.Year, hoje.Month, 1).AddMonths(-5);
+
+            var pagamentos = db.TabelaPagamentos.Where(p => p.DataPagamento >= inicio).ToList();
+
+            var resultado = Enumerable.Range(0, 6)
+                .Select(i =>
+                {
+                    var data = inicio.AddMonths(i);
+
+                    var valor = pagamentos.Where(p => p.DataPagamento.Year == data.Year && p.DataPagamento.Month == data.Month).Sum(p => p.Preco);
+
+                    return new LucroMensalResponse
+                    {
+                        Mes = data.ToString("MM/yyyy"),
+                        Valor = valor
+                    };
+                }).ToList();
+
+            return ResultadoPadrao<List<LucroMensalResponse>>.Ok(resultado);
         }
     }
 }

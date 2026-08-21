@@ -37,5 +37,12 @@ namespace API_backEnd.Controllers
         {
             return Resultado(_financeiroService.Total());
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("lucro-ultimos-6-meses")]
+        public IActionResult LucroUltimos6Meses()
+        {
+            return Ok(_financeiroService.LucroUltimo6Meses());
+        }
     }
 }

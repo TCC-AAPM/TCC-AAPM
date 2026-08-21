@@ -5,6 +5,7 @@ using API_backEnd.DTOs.Reserva;
 using API_backEnd.Enums;
 using API_backEnd.Models;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.EntityFrameworkCore;
 using System.Text.RegularExpressions;
 
 namespace API_backEnd.Services
@@ -327,9 +328,65 @@ namespace API_backEnd.Services
             reservaAtiva.IsAtivo = false;
             db.SaveChanges();
 
-            _notificacaoService.CriarNotificacao(reservaAtiva.IdAlunoNavigation.IdUsuario, EventosNotificacao.ReservaCancelada);
+            var idUsuario = db.TabelaReservaArmarios.Where(a => a.Id == reservaAtiva.Id).Select(a => a.IdAlunoNavigation.IdUsuario).FirstOrDefault();
+
+
+            _notificacaoService.CriarNotificacao(idUsuario, EventosNotificacao.ReservaCancelada);
 
             return ResultadoPadrao<object>.Ok();
+        }
+
+
+        public ResultadoPadrao<List<ReservaMensalResponse>> ReservasUltimos6Meses()
+        {
+            var hoje = DateTime.Now;
+
+            var inicio = new DateTime(hoje.Year, hoje.Month, 1).AddMonths(-5);
+
+            var reservas = db.TabelaReservaArmarios
+                .Where(r => r.CriadaEm >= inicio)
+                .ToList();
+
+            var resultado = Enumerable.Range(0, 6)
+                .Select(i =>
+                {
+                    var data = inicio.AddMonths(i);
+
+                    var quantidade = reservas
+                        .Count(r =>
+                            r.CriadaEm.Year == data.Year &&
+                            r.CriadaEm.Month == data.Month);
+
+                    return new ReservaMensalResponse
+                    {
+                        Mes = data.ToString("MM/yyyy"),
+                        Quantidade = quantidade
+                    };
+                })
+                .ToList();
+
+            return ResultadoPadrao<List<ReservaMensalResponse>>.Ok(resultado);
+        }
+
+        public ResultadoPadrao<int> TotalReservasMes()
+        {
+            var hoje = DateTime.Now;
+
+            var inicioMes = new DateTime(
+                hoje.Year,
+                hoje.Month,
+                1
+            );
+
+            var inicioProximoMes = inicioMes.AddMonths(1);
+
+            var total = db.TabelaReservaArmarios
+                .Count(r =>
+                    r.CriadaEm >= inicioMes &&
+                    r.CriadaEm < inicioProximoMes
+                );
+
+            return ResultadoPadrao<int>.Ok(total);
         }
 
         private ResultadoPadrao<object> ValidarIdadeETermos(DateOnly dataNasc, int idTermoSite,

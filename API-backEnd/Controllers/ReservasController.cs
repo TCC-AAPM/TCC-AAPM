@@ -130,5 +130,19 @@ namespace API_backEnd.Controllers
         {
             return Resultado(_reservaService.ExcluirReserva(numeroArmario));
         }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("reservas-ultimos-6-meses")]
+        public IActionResult ReservasUltimos6Meses()
+        {
+            return Ok(_reservaService.ReservasUltimos6Meses());
+        }
+
+        [Authorize(Roles = "admin")]
+        [HttpGet("reservas-mes")]
+        public IActionResult TotalReservasMes()
+        {
+            return Ok(_reservaService.TotalReservasMes());
+        }
     }
 }
