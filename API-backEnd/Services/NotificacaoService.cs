@@ -84,6 +84,43 @@ namespace API_backEnd.Services
             return ResultadoPadrao<object>.Ok("Todas as notificações foram marcadas como lidas.");
         }
 
+        public ResultadoPadrao<List<NotificacaoAutomaticaResponse>> ListaDeNotificacoes()
+        {
+            var notificacoes = db.TabelaNotificacaos.Select(a => new NotificacaoAutomaticaResponse
+            {
+                Titulo = a.Titulo,
+                Mensagem = a.Mensagem,
+                Evento = a.Evento,
+                Ativa = a.IsAtivo
+            }).ToList();
+
+            return ResultadoPadrao<List<NotificacaoAutomaticaResponse>>.Ok(notificacoes);
+        }
+
+        public ResultadoPadrao<object> AlterarStatusNotificacaoAutomatica(int idNotificao)
+        {
+            var notificacao = db.TabelaNotificacaos.FirstOrDefault(n => n.Id == idNotificao);
+
+            if (notificacao == null)
+                return ResultadoPadrao<object>.Falha("Notificação não encontrada");
+
+            if (notificacao.IsAtivo)
+            {
+                notificacao.IsAtivo = false;
+            } else
+            {
+                notificacao.IsAtivo = true;
+            }
+            
+            db.SaveChanges();
+
+            return ResultadoPadrao<object>.Ok(notificacao.IsAtivo
+           ? "Notificação automática ativada"
+           : "Notificação automática inativada"
+   );
+
+        }
+
         public void CriarNotificacao(int idUsuario, string evento)
         {
             var notificacao = db.TabelaNotificacaos.FirstOrDefault(n => n.Evento == evento && n.IsAtivo);

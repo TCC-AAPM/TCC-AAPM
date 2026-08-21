@@ -43,5 +43,11 @@ namespace API_backEnd.Controllers
         {
             return Resultado(_notificacaoService.LerTodasNotificacoes());
         }
+
+        [HttpGet("lista-notificacoes")]
+        public IActionResult ListaNotificacoes()
+        {
+            return Resultado(_notificacaoService.ListaDeNotificacoes());
+        }
     }
 }
