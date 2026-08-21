@@ -15,6 +15,12 @@
   flex-direction: column;
 }
 
+.paginacaoWrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 8px;
+}
+
 .voltar,
 .voltarDocked {
   left: 24px;
@@ -300,6 +306,7 @@
 }
 
 .linha.titulo {
+  position: relative;
   background: transparent;
   border-bottom: 2px solid var(--border-glass-mid);
   color: var(--text-white-high);
@@ -308,6 +315,71 @@
   text-transform: uppercase;
   border-radius: 0;
   padding-bottom: 0.8rem;
+}
+
+.filtroWrapper {
+  position: absolute;
+  right: 0;
+  top: -6px;
+}
+
+.botaoFiltro {
+  background: transparent;
+  border: none;
+  color: var(--text-white-soft);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 6px;
+  border-radius: 6px;
+  transition: all var(--transition);
+}
+
+.botaoFiltro:hover {
+  background: var(--border-glass);
+  color: var(--white);
+}
+
+.menuFiltro {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 6px;
+  background: var(--navy-input);
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  overflow: hidden;
+  z-index: 20;
+  min-width: 170px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+:global(.dark-mode) .menuFiltro {
+  background: var(--dark-blue);
+}
+
+.menuFiltro button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 14px;
+  background: transparent;
+  border: none;
+  color: var(--text-white-high);
+  font-size: 12px;
+  text-transform: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.menuFiltro button:hover {
+  background: var(--border-glass);
+}
+
+.menuFiltro button.ativo {
+  color: var(--blue);
+  font-weight: 700;
 }
 
 .mensagem {
@@ -356,24 +428,18 @@
   }
 
   .linha span:nth-child(2)::before {
-    content: "Produto:";
-    font-weight: 600;
-    opacity: 0.8;
-  }
-
-  .linha span:nth-child(3)::before {
     content: "Método:";
     font-weight: 600;
     opacity: 0.8;
   }
 
-  .linha span:nth-child(4)::before {
+  .linha span:nth-child(3)::before {
     content: "Data:";
     font-weight: 600;
     opacity: 0.8;
   }
 
-  .linha span:nth-child(5)::before {
+  .linha span:nth-child(4)::before {
     content: "Valor:";
     font-weight: 600;
     opacity: 0.8;

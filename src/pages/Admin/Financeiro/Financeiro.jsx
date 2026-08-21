@@ -1,12 +1,15 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useRef } from "react";
 import { Pagination } from "@mui/material";
-import { Search, X, DollarSign, Package, TrendingUp } from "lucide-react";
-import { authFetch, API_ROUTES } from "../../../utils/auth";
 import {
-  alertConfirmar,
-  alertSucesso,
-  alertErro,
-} from "../../../components/Alerts/Alerts";
+  Search,
+  X,
+  DollarSign,
+  Package,
+  TrendingUp,
+  ListFilter,
+} from "lucide-react";
+import { authFetch, API_ROUTES } from "../../../utils/auth";
+import { alertErro } from "../../../components/Alerts/Alerts";
 import styles from "./Financeiro.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
 import {
@@ -32,6 +35,9 @@ function normalizarLista(resultado) {
   if (Array.isArray(resultado)) return resultado;
   if (Array.isArray(resultado?.dados)) return resultado.dados;
   if (Array.isArray(resultado?.data)) return resultado.data;
+  if (resultado?.dados && typeof resultado.dados === "object")
+    return [resultado.dados];
+  if (resultado && typeof resultado === "object") return [resultado];
   return [];
 }
 
@@ -48,14 +54,51 @@ function formatarData(valor) {
   return Number.isNaN(data.getTime()) ? "—" : data.toLocaleDateString("pt-BR");
 }
 
+function formatarMetodo(sigla) {
+  const metodos = {
+    D: "Débito",
+    C: "Crédito",
+    P: "Pix",
+    A: "Dinheiro",
+  };
+  return metodos[sigla] ?? sigla ?? "—";
+}
+
+function useContadorAnimado(valorFinal, duracao = 900) {
+  const [valorAtual, setValorAtual] = useState(0);
+
+  useEffect(() => {
+    let inicio = null;
+    const diferenca = valorFinal - 0;
+
+    function animar(timestamp) {
+      if (!inicio) inicio = timestamp;
+      const progresso = Math.min((timestamp - inicio) / duracao, 1);
+      const facilitado = 1 - Math.pow(1 - progresso, 3);
+      setValorAtual(diferenca * facilitado);
+
+      if (progresso < 1) requestAnimationFrame(animar);
+      else setValorAtual(valorFinal);
+    }
+
+    const frame = requestAnimationFrame(animar);
+    return () => cancelAnimationFrame(frame);
+  }, [valorFinal, duracao]);
+
+  return valorAtual;
+}
+
 export default function Financeiro() {
   const docked = useDockButton();
   const [totalGeral, setTotalGeral] = useState(0);
   const [totalMensal, setTotalMensal] = useState([]);
   const [relatorio, setRelatorio] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
+  const [ordenacao, setOrdenacao] = useState("recente");
+  const [filtroAberto, setFiltroAberto] = useState(false);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [carregando, setCarregando] = useState(true);
+  const filtroRef = useRef(null);
 
   useEffect(() => {
     async function carregarTudo() {
@@ -75,7 +118,7 @@ export default function Financeiro() {
         const dadosMensal = await resMensal.json();
         const dadosRelatorio = await resRelatorio.json();
 
-        setTotalGeral(dadosTotal?.total ?? dadosTotal ?? 0);
+        setTotalGeral(dadosTotal?.dados?.valor ?? dadosTotal?.valor ?? 0);
         setTotalMensal(normalizarLista(dadosMensal));
         setRelatorio(normalizarLista(dadosRelatorio));
       } catch {
@@ -92,23 +135,46 @@ export default function Financeiro() {
     carregarTudo();
   }, []);
 
+  useEffect(() => {
+    function fecharAoClicarFora(e) {
+      if (filtroRef.current && !filtroRef.current.contains(e.target)) {
+        setFiltroAberto(false);
+      }
+    }
+    document.addEventListener("mousedown", fecharAoClicarFora);
+    return () => document.removeEventListener("mousedown", fecharAoClicarFora);
+  }, []);
+
   const resumoAtual = totalMensal[totalMensal.length - 1] ?? {};
+  const totalMesAnimado = useContadorAnimado(resumoAtual.valor ?? 0);
+  const totalGeralAnimado = useContadorAnimado(totalGeral);
 
   const relatorioFiltrado = useMemo(() => {
     const termo = pesquisa.trim().toLowerCase();
-    if (!termo) return relatorio;
-    return relatorio.filter((item) =>
-      [
-        item.aluno,
-        item.nomeAluno,
-        item.produto,
-        item.metodo,
-        item.metodoPagamento,
-      ]
-        .filter(Boolean)
-        .some((valor) => String(valor).toLowerCase().includes(termo)),
-    );
-  }, [relatorio, pesquisa]);
+    let lista = relatorio;
+
+    if (termo) {
+      lista = lista.filter((item) =>
+        [item.nome, item.metodo]
+          .filter(Boolean)
+          .some((valor) => String(valor).toLowerCase().includes(termo)),
+      );
+    }
+
+    const listaOrdenada = [...lista];
+
+    if (ordenacao === "recente") {
+      listaOrdenada.sort((a, b) => new Date(b.data) - new Date(a.data));
+    } else if (ordenacao === "antigo") {
+      listaOrdenada.sort((a, b) => new Date(a.data) - new Date(b.data));
+    } else if (ordenacao === "alfabetica") {
+      listaOrdenada.sort((a, b) =>
+        (a.nome ?? "").localeCompare(b.nome ?? "", "pt-BR"),
+      );
+    }
+
+    return listaOrdenada;
+  }, [relatorio, pesquisa, ordenacao]);
 
   const totalPaginas = Math.max(
     1,
@@ -124,7 +190,7 @@ export default function Financeiro() {
     [relatorioFiltrado, paginaAtual],
   );
 
-  useEffect(() => setPaginaAtual(1), [pesquisa]);
+  useEffect(() => setPaginaAtual(1), [pesquisa, ordenacao]);
   useEffect(() => {
     if (paginaAtual > totalPaginas) setPaginaAtual(totalPaginas);
   }, [paginaAtual, totalPaginas]);
@@ -132,23 +198,23 @@ export default function Financeiro() {
   const colunas = useMemo(
     () => [
       {
-        accessorFn: (r) => r.aluno ?? r.nomeAluno ?? "—",
+        accessorFn: (r) => r.nome ?? "—",
         id: "aluno",
         header: "Aluno",
       },
       {
-        accessorFn: (r) => r.metodo ?? r.metodoPagamento ?? "—",
+        accessorFn: (r) => formatarMetodo(r.metodo),
         id: "metodo",
         header: "Método",
       },
       {
-        accessorFn: (r) => r.data ?? r.dataPagamento ?? r.criadoEm,
+        accessorFn: (r) => r.data ?? "-",
         id: "data",
         header: "Data",
         cell: (info) => formatarData(info.getValue()),
       },
       {
-        accessorFn: (r) => r.valor ?? r.preco ?? r.total,
+        accessorFn: (r) => r.preco ?? "-",
         id: "valor",
         header: "Valor",
         cell: (info) => formatarMoeda(info.getValue()),
@@ -179,21 +245,21 @@ export default function Financeiro() {
               <DollarSign size={22} />
             </div>
             <h3>Total no mês</h3>
-            <p>{formatarMoeda(resumoAtual.total)}</p>
+            <p>{formatarMoeda(totalMesAnimado)}</p>
           </div>
           <div className={styles.cartao}>
             <div className={styles.icone}>
               <Package size={22} />
             </div>
             <h3>Armários (mês)</h3>
-            <p>{resumoAtual.qtdArmarios ?? 0}</p>
+            <p>+ {resumoAtual.qtdArmarios ?? 0}</p>
           </div>
           <div className={styles.cartao}>
             <div className={styles.icone}>
               <TrendingUp size={22} />
             </div>
             <h3>Total acumulado</h3>
-            <p>{formatarMoeda(totalGeral)}</p>
+            <p>{formatarMoeda(totalGeralAnimado)}</p>
           </div>
         </div>
 
@@ -273,6 +339,49 @@ export default function Financeiro() {
                 )}
               </span>
             ))}
+
+            <div className={styles.filtroWrapper} ref={filtroRef}>
+              <button
+                type="button"
+                className={styles.botaoFiltro}
+                onClick={() => setFiltroAberto((v) => !v)}
+                aria-label="Ordenar"
+              >
+                <ListFilter size={18} />
+              </button>
+
+              {filtroAberto && (
+                <div className={styles.menuFiltro}>
+                  <button
+                    className={ordenacao === "recente" ? styles.ativo : ""}
+                    onClick={() => {
+                      setOrdenacao("recente");
+                      setFiltroAberto(false);
+                    }}
+                  >
+                    Mais recente
+                  </button>
+                  <button
+                    className={ordenacao === "antigo" ? styles.ativo : ""}
+                    onClick={() => {
+                      setOrdenacao("antigo");
+                      setFiltroAberto(false);
+                    }}
+                  >
+                    Mais antigo
+                  </button>
+                  <button
+                    className={ordenacao === "alfabetica" ? styles.ativo : ""}
+                    onClick={() => {
+                      setOrdenacao("alfabetica");
+                      setFiltroAberto(false);
+                    }}
+                  >
+                    Ordem alfabética
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
 
           {carregando && <p className={styles.mensagem}>Carregando...</p>}
@@ -290,22 +399,22 @@ export default function Financeiro() {
                 ))}
               </div>
             ))}
-        </div>
 
-        {totalPaginas > 1 && (
-          <div className="paginacao">
-            <Pagination
-              count={totalPaginas}
-              page={paginaAtual}
-              onChange={(_, novaPagina) => setPaginaAtual(novaPagina)}
-              shape="rounded"
-              size="medium"
-              siblingCount={1}
-              boundaryCount={1}
-              classes={{ ul: "paginacaoLista" }}
-            />
-          </div>
-        )}
+          {totalPaginas > 1 && (
+            <div className={styles.paginacaoWrapper}>
+              <Pagination
+                count={totalPaginas}
+                page={paginaAtual}
+                onChange={(_, novaPagina) => setPaginaAtual(novaPagina)}
+                shape="rounded"
+                size="medium"
+                siblingCount={1}
+                boundaryCount={1}
+                classes={{ ul: "paginacaoLista" }}
+              />
+            </div>
+          )}
+        </div>
       </div>
 
       <a
