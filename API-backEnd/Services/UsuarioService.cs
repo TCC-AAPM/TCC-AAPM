@@ -12,10 +12,12 @@ namespace API_backEnd.Services
         private readonly IHttpContextAccessor _httpContextAccessor;
         private static readonly Regex SenhaRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$");
         private readonly AapmContext db;
-        public UsuarioService(IHttpContextAccessor httpContextAccessor, AapmContext db)
+        private readonly NotificacaoService _notificacaoService;
+        public UsuarioService(IHttpContextAccessor httpContextAccessor, AapmContext db, NotificacaoService notificacaoService)
         {
             _httpContextAccessor = httpContextAccessor;
             this.db = db;
+            _notificacaoService = notificacaoService;
         }
         public int ObterIdUsuarioLogado()
         {
@@ -64,6 +66,7 @@ namespace API_backEnd.Services
 
             usuario.Senha = BCrypt.Net.BCrypt.HashPassword(dto.SenhaNova);
             db.SaveChanges();
+            _notificacaoService.CriarNotificacao(usuario.Id, EventosNotificacao.SenhaAlterada);
 
             return ResultadoPadrao<object>.Ok(mensagem: "Senha atualizada com sucesso");
         }

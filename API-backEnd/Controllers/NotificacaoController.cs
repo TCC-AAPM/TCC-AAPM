@@ -44,10 +44,18 @@ namespace API_backEnd.Controllers
             return Resultado(_notificacaoService.LerTodasNotificacoes());
         }
 
+        [Authorize(Roles = "admin")]
         [HttpGet("lista-notificacoes")]
         public IActionResult ListaNotificacoes()
         {
             return Resultado(_notificacaoService.ListaDeNotificacoes());
         }
+
+        [HttpPut("alterar-status/{idNotificacao}")]
+        public IActionResult AlterarStatusNotificacao(int idNotificacao)
+        {
+            return Resultado(_notificacaoService.AlterarStatusNotificacaoAutomatica(idNotificacao));
+        }
+
     }
 }

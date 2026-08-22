@@ -1,24 +1,25 @@
 ﻿using API_backEnd.Common;
 using API_backEnd.DTOs.Notificacao;
 using API_backEnd.Models;
+using System.Security.Claims;
 
 namespace API_backEnd.Services
 {
     public class NotificacaoService
     {
         private readonly AapmContext db;
-        private readonly UsuarioService _usuarioService;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public NotificacaoService(AapmContext db, UsuarioService usuarioService)
+        public NotificacaoService(AapmContext db, IHttpContextAccessor httpContextAccessor)
         {
             this.db = db;
-            _usuarioService = usuarioService;
+           _httpContextAccessor = httpContextAccessor;
         }
 
 
         public ResultadoPadrao<object> MostrarNotificacoes()
         {
-            var id = _usuarioService.ObterIdUsuarioLogado();
+            var id = ObterIdUsuarioLogado();
 
             var dataLimite = DateTime.Now.AddDays(-30);
 
@@ -41,7 +42,7 @@ namespace API_backEnd.Services
         public ResultadoPadrao<object> NotificacoesNaoLidas()
         {
 
-            var id = _usuarioService.ObterIdUsuarioLogado();
+            var id = ObterIdUsuarioLogado();
 
             var dataLimite = DateTime.Now.AddDays(-30);
 
@@ -52,7 +53,7 @@ namespace API_backEnd.Services
 
         public ResultadoPadrao<object> LerNotificacao(int idNotificao)
         {
-            var userId = _usuarioService.ObterIdUsuarioLogado();
+            var userId = ObterIdUsuarioLogado();
 
             var notificacao = db.TabelaHistoricoNotificacaos.FirstOrDefault(n => n.IdUsuario == userId && n.Id == idNotificao);
 
@@ -69,7 +70,7 @@ namespace API_backEnd.Services
 
         public ResultadoPadrao<object> LerTodasNotificacoes()
         {
-            var userId = _usuarioService.ObterIdUsuarioLogado();
+            var userId = ObterIdUsuarioLogado();
 
             var notificacoes = db.TabelaHistoricoNotificacaos.Where(n => n.IdUsuario == userId && !n.Lida).ToList();
 
@@ -97,28 +98,18 @@ namespace API_backEnd.Services
             return ResultadoPadrao<List<NotificacaoAutomaticaResponse>>.Ok(notificacoes);
         }
 
-        public ResultadoPadrao<object> AlterarStatusNotificacaoAutomatica(int idNotificao)
+        public ResultadoPadrao<object> AlterarStatusNotificacaoAutomatica(int idNotificacao)
         {
-            var notificacao = db.TabelaNotificacaos.FirstOrDefault(n => n.Id == idNotificao);
+            var notificacao = db.TabelaNotificacaos.FirstOrDefault(n => n.Id == idNotificacao);
 
             if (notificacao == null)
                 return ResultadoPadrao<object>.Falha("Notificação não encontrada");
 
-            if (notificacao.IsAtivo)
-            {
-                notificacao.IsAtivo = false;
-            } else
-            {
-                notificacao.IsAtivo = true;
-            }
-            
+            notificacao.IsAtivo = !notificacao.IsAtivo;
+
             db.SaveChanges();
 
-            return ResultadoPadrao<object>.Ok(notificacao.IsAtivo
-           ? "Notificação automática ativada"
-           : "Notificação automática inativada"
-   );
-
+            return ResultadoPadrao<object>.Ok(notificacao.IsAtivo ? "Notificação automática ativada" : "Notificação automática inativada");
         }
 
         public void CriarNotificacao(int idUsuario, string evento)
@@ -138,6 +129,20 @@ namespace API_backEnd.Services
 
             db.TabelaHistoricoNotificacaos.Add(historico);
             db.SaveChanges();
+        }
+
+        public int ObterIdUsuarioLogado()
+        {
+
+            var user = _httpContextAccessor.HttpContext?.User;
+
+            var userId = user?.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+
+            if (!int.TryParse(userId, out int id))
+                throw new Exception("Usuário não autenticado ou ID inválido");
+
+            return id;
         }
     }
 }

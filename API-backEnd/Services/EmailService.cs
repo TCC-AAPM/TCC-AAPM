@@ -15,11 +15,13 @@ namespace API_backEnd.Services
         private readonly AapmContext db;
         private readonly EmailSettings _settings;
         private static readonly Regex SenhaRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$");
+        private readonly NotificacaoService _notificacaoService;
 
-        public EmailService(IOptions<EmailSettings> options, AapmContext db)
+        public EmailService(IOptions<EmailSettings> options, AapmContext db, NotificacaoService notificacaoService)
         {
             _settings = options.Value;
             this.db = db;
+            _notificacaoService = notificacaoService;
         }
 
         public void EnviarCodigoRecuperacao(string emailDestino, string codigo) 
@@ -122,6 +124,7 @@ namespace API_backEnd.Services
             usuario.Senha = BCrypt.Net.BCrypt.HashPassword(dto.SenhaNova);
             codigo.Usado = true;
             db.SaveChanges();
+            _notificacaoService.CriarNotificacao(usuario.Id, EventosNotificacao.SenhaAlterada); 
             return ResultadoPadrao<object>.Ok("Senha redefinida com sucesso");
         }
 

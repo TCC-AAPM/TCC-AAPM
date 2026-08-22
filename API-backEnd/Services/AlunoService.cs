@@ -11,11 +11,13 @@ namespace API_backEnd.Services
     {
         private readonly AapmContext db;
         private readonly UsuarioService _usuarioService;
+        private readonly NotificacaoService _notificacaoService;
         
-        public AlunoService(AapmContext db, UsuarioService suarioService)
+        public AlunoService(AapmContext db, UsuarioService suarioService, NotificacaoService notificacaoService)
         {
             this.db = db;
             _usuarioService = suarioService;
+            _notificacaoService = notificacaoService;
         }
 
         public bool ExisteAlunoPorCpf(string cpf)
@@ -166,6 +168,7 @@ namespace API_backEnd.Services
 
             db.SaveChanges();
 
+            _notificacaoService.CriarNotificacao(aluno.IdUsuario, EventosNotificacao.DadosAlterados);
 
             return ResultadoPadrao<object>.Ok("Aluno atualizado com sucesso");
         }

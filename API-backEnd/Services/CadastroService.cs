@@ -14,14 +14,17 @@ namespace API_backEnd.Services
         private readonly IdadeService _idadeService;
         private readonly TermoService _termoService;
         private readonly AlunoService _alunoService;
-        public CadastroService(AapmContext context, IdadeService idadeService, TermoService termoService, AlunoService alunoService)
+        private readonly NotificacaoService _notificacaoService;
+        public CadastroService(AapmContext context, IdadeService idadeService, TermoService termoService, AlunoService alunoService, NotificacaoService notificacaoService)
         {
             db = context;
             _idadeService = idadeService;
             _termoService = termoService;
             _alunoService = alunoService;
+            _notificacaoService = notificacaoService;
         }
 
+        // rever essa parte de pre cadastro, vai entrar a parte de pagamento com API 
         public ResultadoPadrao<object> PreCadastroAluno(PreCadastroRequest dto)
         {
             var validarIdadeETermos = ValidarIdadeETermos(dto.DataNasc, dto.IdTermoSite, dto.AceitouTermoSite, dto.IdTermoArmario, dto.AceitouTermoArmario, 18);
@@ -65,6 +68,9 @@ namespace API_backEnd.Services
 
                 db.TabelaAlunos.Add(aluno);
                 db.SaveChanges();
+
+                _notificacaoService.CriarNotificacao(aluno.IdUsuario, EventosNotificacao.CadastroRealizado);
+                
                 transaction.Commit();
                 return ResultadoPadrao<object>.Ok(mensagem: "Pré cadastro realizado com sucesso");
                 

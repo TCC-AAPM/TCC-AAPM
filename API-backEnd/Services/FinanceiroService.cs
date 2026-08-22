@@ -1,5 +1,6 @@
 ﻿using API_backEnd.Common;
 using API_backEnd.DTOs.Financeiro;
+using API_backEnd.DTOs.Produto;
 using API_backEnd.Models;
 
 namespace API_backEnd.Services
@@ -80,6 +81,35 @@ namespace API_backEnd.Services
                 }).ToList();
 
             return ResultadoPadrao<List<LucroMensalResponse>>.Ok(resultado);
+        }
+
+        public ResultadoPadrao<object> AlterarPreco(int idProduto, ProdutoRequest dto)
+        {
+            var produtoAtual = db.TabelaProdutos.FirstOrDefault(p => p.Id == idProduto && p.IsAtivo);
+
+            if (produtoAtual == null)
+            {
+                return ResultadoPadrao<object>.Falha("Produto não encontrado.", 404);
+            }
+
+            if (dto.Preco <= 0)
+            {
+                return ResultadoPadrao<object>.Falha("O preço deve ser maior que zero.", 400);
+            }
+
+            produtoAtual.IsAtivo = false;
+
+            var novoPreco = new TabelaProduto
+            {
+                Produto = produtoAtual.Produto,
+                Preco = dto.Preco,
+                IsAtivo = true
+            };
+
+            db.TabelaProdutos.Add(novoPreco);
+
+            db.SaveChanges();
+            return ResultadoPadrao<object>.Ok(mensagem: "Preço alterado com sucesso");
         }
     }
 }

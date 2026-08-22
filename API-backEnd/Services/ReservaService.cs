@@ -279,6 +279,7 @@ namespace API_backEnd.Services
             {
                 return ResultadoPadrao<object>.Falha("Reserva nao encontrada", 404);
             }
+            var idUsuario = db.TabelaAlunos.Where(a => a.Id == armarioReservaAtual.IdAluno).Select(a => a.IdUsuario).FirstOrDefault();
 
             var armarioAtual = db.TabelaArmarios.SingleOrDefault(a => a.NumeroArmario == armarioReservaAtual.IdArmario);
 
@@ -309,7 +310,7 @@ namespace API_backEnd.Services
 
             db.SaveChanges();
 
-            _notificacaoService.CriarNotificacao(armarioReservaAtual.IdAlunoNavigation.IdUsuario, EventosNotificacao.ArmarioTransferido);
+            _notificacaoService.CriarNotificacao(idUsuario, EventosNotificacao.ArmarioTransferido);
 
             return ResultadoPadrao<object>.Ok(mensagem: "Aluno realocado de armário com sucesso");
         }
