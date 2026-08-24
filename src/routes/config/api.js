@@ -43,6 +43,7 @@ export const API_ROUTES = {
     totalMensal: `${BASE_URL}/Financeiro/total-mensal`,
     relatorio: `${BASE_URL}/Financeiro/relatorio`,
     lucroUltimos6Meses: `${BASE_URL}/Financeiro/lucro-ultimos-6-meses`,
+    alterarPreco: (id) => `${BASE_URL}/Financeiro/${id}`,
   },
 
   reservas: {
@@ -58,7 +59,6 @@ export const API_ROUTES = {
 
   produtos: {
     listar: `${BASE_URL}/Produtos`,
-    alterarPreco: (id) => `${BASE_URL}/Produtos/${id}`,
   },
 
   notificacoes: {

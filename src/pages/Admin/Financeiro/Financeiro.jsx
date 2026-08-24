@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, useRef } from "react";
+﻿import { useEffect, useState, useMemo, useRef } from "react";
 import { Pagination } from "@mui/material";
 import {
   Search,
@@ -9,7 +9,7 @@ import {
   ListFilter,
 } from "lucide-react";
 import { authFetch, API_ROUTES } from "../../../utils/auth";
-import { alertErro } from "../../../components/Alerts/Alerts";
+import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts";
 import styles from "./Financeiro.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
 import {
@@ -51,17 +51,23 @@ function formatarMoeda(valor) {
 function formatarData(valor) {
   if (!valor) return "—";
   const data = new Date(valor);
-  return Number.isNaN(data.getTime()) ? "—" : data.toLocaleDateString("pt-BR");
+  if (Number.isNaN(data.getTime())) return "—";
+  return data.toLocaleDateString("pt-BR");
 }
 
 function formatarMetodo(sigla) {
-  const metodos = {
-    D: "Débito",
-    C: "Crédito",
-    P: "Pix",
-    A: "Dinheiro",
-  };
+  const metodos = { D: "Débito", C: "Crédito", P: "Pix", A: "Dinheiro" };
   return metodos[sigla] ?? sigla ?? "—";
+}
+
+function normalizarDadosGrafico(resultado, camposDeValor) {
+  return normalizarLista(resultado).map((item) => {
+    const campoDeValor = camposDeValor.find((campo) => item?.[campo] != null);
+    return {
+      mes: item?.mes ?? item?.nomeMes ?? item?.label ?? "-",
+      total: Number(item?.[campoDeValor] ?? 0),
+    };
+  });
 }
 
 function useContadorAnimado(valorFinal, duracao = 900) {
@@ -69,16 +75,17 @@ function useContadorAnimado(valorFinal, duracao = 900) {
 
   useEffect(() => {
     let inicio = null;
-    const diferenca = valorFinal - 0;
 
     function animar(timestamp) {
       if (!inicio) inicio = timestamp;
       const progresso = Math.min((timestamp - inicio) / duracao, 1);
       const facilitado = 1 - Math.pow(1 - progresso, 3);
-      setValorAtual(diferenca * facilitado);
-
-      if (progresso < 1) requestAnimationFrame(animar);
-      else setValorAtual(valorFinal);
+      setValorAtual(Number(valorFinal ?? 0) * facilitado);
+      if (progresso < 1) {
+        requestAnimationFrame(animar);
+      } else {
+        setValorAtual(Number(valorFinal ?? 0));
+      }
     }
 
     const frame = requestAnimationFrame(animar);
@@ -90,57 +97,165 @@ function useContadorAnimado(valorFinal, duracao = 900) {
 
 export default function Financeiro() {
   const docked = useDockButton();
+
   const [totalGeral, setTotalGeral] = useState(0);
   const [totalMensal, setTotalMensal] = useState([]);
+  const [lucroMensal, setLucroMensal] = useState([]);
+  const [reservasPorMes, setReservasPorMes] = useState([]);
   const [relatorio, setRelatorio] = useState([]);
+  const [produtos, setProdutos] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
   const [ordenacao, setOrdenacao] = useState("recente");
   const [filtroAberto, setFiltroAberto] = useState(false);
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [carregando, setCarregando] = useState(true);
+  const [valoresEdicao, setValoresEdicao] = useState({});
+  const [salvandoId, setSalvandoId] = useState(null);
   const filtroRef = useRef(null);
 
   useEffect(() => {
     async function carregarTudo() {
       setCarregando(true);
       try {
-        const [resTotal, resMensal, resRelatorio] = await Promise.all([
-          authFetch(API_ROUTES.financeiro.total),
-          authFetch(API_ROUTES.financeiro.totalMensal),
-          authFetch(API_ROUTES.financeiro.relatorio),
+        const buscar = (rota) => authFetch(rota).catch(() => null);
+
+        const [
+          resTotal,
+          resMensal,
+          resLucroMensal,
+          resReservasPorMes,
+          resRelatorio,
+          resProdutos,
+        ] = await Promise.all([
+          buscar(API_ROUTES.financeiro.total),
+          buscar(API_ROUTES.financeiro.totalMensal),
+          buscar(API_ROUTES.financeiro.lucroUltimos6Meses),
+          buscar(API_ROUTES.reservas.reservasUltimos6Meses),
+          buscar(API_ROUTES.financeiro.relatorio),
+          buscar(API_ROUTES.produtos.listar),
         ]);
 
-        if (!resTotal.ok || !resMensal.ok || !resRelatorio.ok) {
-          throw new Error("Erro ao carregar dados financeiros");
+        if (!resTotal?.ok || !resMensal?.ok || !resRelatorio?.ok) {
+          throw new Error("Erro ao carregar dados financeiros.");
         }
 
         const dadosTotal = await resTotal.json();
         const dadosMensal = await resMensal.json();
+        const dadosLucroMensal = resLucroMensal?.ok
+          ? await resLucroMensal.json()
+          : [];
+        const dadosReservasPorMes = resReservasPorMes?.ok
+          ? await resReservasPorMes.json()
+          : [];
         const dadosRelatorio = await resRelatorio.json();
+        const dadosProdutos = resProdutos?.ok ? await resProdutos.json() : [];
 
         setTotalGeral(dadosTotal?.dados?.valor ?? dadosTotal?.valor ?? 0);
         setTotalMensal(normalizarLista(dadosMensal));
+        setLucroMensal(
+          normalizarDadosGrafico(dadosLucroMensal, ["total", "valor", "lucro"]),
+        );
+        setReservasPorMes(
+          normalizarDadosGrafico(dadosReservasPorMes, [
+            "reservas",
+            "quantidade",
+            "total",
+          ]),
+        );
         setRelatorio(normalizarLista(dadosRelatorio));
-      } catch {
+
+        const listaProdutos = normalizarLista(dadosProdutos);
+        setProdutos(listaProdutos);
+
+        const valoresIniciais = Object.fromEntries(
+          listaProdutos.map((produto) => [
+            produto.id,
+            String(produto.preco ?? ""),
+          ]),
+        );
+        setValoresEdicao(valoresIniciais);
+      } catch (error) {
+        console.error("Erro ao carregar financeiro:", error);
         setTotalGeral(0);
         setTotalMensal([]);
+        setLucroMensal([]);
+        setReservasPorMes([]);
         setRelatorio([]);
-        alertErro(
-          "Não foi possível carregar os dados financeiros. Tente novamente mais tarde.",
-        );
+        setProdutos([]);
+        alertErro("Não foi possível carregar os dados financeiros.");
       } finally {
         setCarregando(false);
       }
     }
+
     carregarTudo();
   }, []);
 
+  const produtoArmario = produtos.find(
+    (produto) =>
+      String(produto.produto ?? "")
+        .trim()
+        .toUpperCase() === "A",
+  );
+
+  async function salvarPreco(idProduto) {
+    const valorDigitado = valoresEdicao[idProduto] ?? "";
+    const preco = Number(String(valorDigitado).replace(",", "."));
+
+    if (!Number.isFinite(preco) || preco <= 0) {
+      alertErro("Digite um preço maior que zero.");
+      return;
+    }
+
+    setSalvandoId(idProduto);
+
+    try {
+      const response = await authFetch(
+        API_ROUTES.financeiro.alterarPreco(idProduto),
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ preco }),
+        },
+      );
+
+      let resultado = null;
+      try {
+        resultado = await response.json();
+      } catch {
+        resultado = null;
+      }
+
+      if (!response.ok) {
+        throw new Error(
+          resultado?.mensagem || "Não foi possível atualizar o preço.",
+        );
+      }
+
+      setProdutos((prev) =>
+        prev.map((produto) =>
+          produto.id === idProduto ? { ...produto, preco } : produto,
+        ),
+      );
+
+      setValoresEdicao((prev) => ({ ...prev, [idProduto]: String(preco) }));
+
+      alertSucesso("Preço atualizado com sucesso.");
+    } catch (error) {
+      console.error("Erro ao salvar preço:", error);
+      alertErro(error.message || "Não foi possível atualizar o preço.");
+    } finally {
+      setSalvandoId(null);
+    }
+  }
+
   useEffect(() => {
-    function fecharAoClicarFora(e) {
-      if (filtroRef.current && !filtroRef.current.contains(e.target)) {
+    function fecharAoClicarFora(event) {
+      if (filtroRef.current && !filtroRef.current.contains(event.target)) {
         setFiltroAberto(false);
       }
     }
+
     document.addEventListener("mousedown", fecharAoClicarFora);
     return () => document.removeEventListener("mousedown", fecharAoClicarFora);
   }, []);
@@ -165,9 +280,11 @@ export default function Financeiro() {
 
     if (ordenacao === "recente") {
       listaOrdenada.sort((a, b) => new Date(b.data) - new Date(a.data));
-    } else if (ordenacao === "antigo") {
+    }
+    if (ordenacao === "antigo") {
       listaOrdenada.sort((a, b) => new Date(a.data) - new Date(b.data));
-    } else if (ordenacao === "alfabetica") {
+    }
+    if (ordenacao === "alfabetica") {
       listaOrdenada.sort((a, b) =>
         (a.nome ?? "").localeCompare(b.nome ?? "", "pt-BR"),
       );
@@ -181,16 +298,15 @@ export default function Financeiro() {
     Math.ceil(relatorioFiltrado.length / ITENS_POR_PAGINA),
   );
 
-  const relatorioPagina = useMemo(
-    () =>
-      relatorioFiltrado.slice(
-        (paginaAtual - 1) * ITENS_POR_PAGINA,
-        paginaAtual * ITENS_POR_PAGINA,
-      ),
-    [relatorioFiltrado, paginaAtual],
-  );
+  const relatorioPagina = useMemo(() => {
+    const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
+    return relatorioFiltrado.slice(inicio, inicio + ITENS_POR_PAGINA);
+  }, [relatorioFiltrado, paginaAtual]);
 
-  useEffect(() => setPaginaAtual(1), [pesquisa, ordenacao]);
+  useEffect(() => {
+    setPaginaAtual(1);
+  }, [pesquisa, ordenacao]);
+
   useEffect(() => {
     if (paginaAtual > totalPaginas) setPaginaAtual(totalPaginas);
   }, [paginaAtual, totalPaginas]);
@@ -239,6 +355,67 @@ export default function Financeiro() {
           <h3>Financeiro</h3>
         </div>
 
+        <div className={styles.cardEdicaoPrecos}>
+          <h3>Editar preços</h3>
+
+          <div className={styles.gridEdicaoPrecos}>
+            {carregando ? (
+              <p className={styles.mensagem}>Carregando preços...</p>
+            ) : !produtoArmario ? (
+              <p className={styles.mensagem}>
+                Produto de armários não encontrado.
+              </p>
+            ) : (
+              <div className={styles.itemEdicaoPreco}>
+                <div className={styles.infoProduto}>
+                  <strong>Armários</strong>
+                  <span>
+                    Preço atual: {formatarMoeda(produtoArmario.preco)}
+                  </span>
+                </div>
+
+                <div className={styles.campoValor}>
+                  <span className={styles.simboloMoeda} aria-hidden="true">
+                    R$
+                  </span>
+                  <input
+                    type="text"
+                    inputMode="decimal"
+                    className={styles.inputValor}
+                    value={valoresEdicao[produtoArmario.id] ?? ""}
+                    onChange={(event) =>
+                      setValoresEdicao((prev) => ({
+                        ...prev,
+                        [produtoArmario.id]: event.target.value,
+                      }))
+                    }
+                    aria-label="Novo preço dos armários"
+                  />
+                </div>
+
+                <button
+                  type="button"
+                  className={styles.botaoSalvarPreco}
+                  disabled={
+                    salvandoId === produtoArmario.id ||
+                    !(
+                      Number(
+                        String(valoresEdicao[produtoArmario.id] ?? "").replace(
+                          ",",
+                          ".",
+                        ),
+                      ) > 0
+                    )
+                  }
+                  onClick={() => salvarPreco(produtoArmario.id)}
+                >
+                  {salvandoId === produtoArmario.id ? "Salvando..." : "Salvar"}
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+
         <div className={styles.cards}>
           <div className={styles.cartao}>
             <div className={styles.icone}>
@@ -247,6 +424,7 @@ export default function Financeiro() {
             <h3>Total no mês</h3>
             <p>{formatarMoeda(totalMesAnimado)}</p>
           </div>
+
           <div className={styles.cartao}>
             <div className={styles.icone}>
               <Package size={22} />
@@ -254,6 +432,7 @@ export default function Financeiro() {
             <h3>Armários (mês)</h3>
             <p>+ {resumoAtual.qtdArmarios ?? 0}</p>
           </div>
+
           <div className={styles.cartao}>
             <div className={styles.icone}>
               <TrendingUp size={22} />
@@ -266,20 +445,38 @@ export default function Financeiro() {
         <div className={styles.graficos}>
           <div className={styles.graficoBox}>
             <h4>Lucro por mês</h4>
-            {totalMensal.length === 0 ? (
+            {lucroMensal.length === 0 ? (
               <p className={styles.mensagem}>Nenhum dado disponível ainda</p>
             ) : (
               <ResponsiveContainer width="100%" height={280}>
-                <LineChart data={totalMensal}>
-                  <CartesianGrid stroke="var(--border-glass)" />
-                  <XAxis dataKey="mes" stroke="var(--text-white-soft)" />
-                  <YAxis stroke="var(--text-white-soft)" />
-                  <Tooltip formatter={(v) => formatarMoeda(v)} />
+                <LineChart
+                  data={lucroMensal}
+                  margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+                >
+                  <CartesianGrid
+                    stroke="var(--border-glass)"
+                    vertical={false}
+                  />
+                  <XAxis
+                    dataKey="mes"
+                    stroke="var(--text-white-soft)"
+                    tick={{ fontSize: 11 }}
+                  />
+                  <YAxis
+                    stroke="var(--text-white-soft)"
+                    tick={{ fontSize: 11 }}
+                    tickFormatter={(valor) =>
+                      `R$ ${Number(valor).toLocaleString("pt-BR")}`
+                    }
+                  />
+                  <Tooltip formatter={(valor) => formatarMoeda(valor)} />
                   <Line
                     type="monotone"
                     dataKey="total"
                     stroke="var(--blue)"
                     strokeWidth={3}
+                    dot={{ r: 4, fill: "var(--blue)" }}
+                    activeDot={{ r: 6 }}
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -288,19 +485,37 @@ export default function Financeiro() {
 
           <div className={styles.graficoBox}>
             <h4>Reservas por mês</h4>
-            {totalMensal.length === 0 ? (
-              <p className={styles.mensagem}>Nenhum dado disponível ainda</p>
+            {reservasPorMes.length === 0 ? (
+              <p className={styles.mensagem}>
+                Nenhuma reserva disponível ainda
+              </p>
             ) : (
               <ResponsiveContainer width="100%" height={280}>
-                <BarChart data={totalMensal}>
-                  <CartesianGrid stroke="var(--border-glass)" />
-                  <XAxis dataKey="mes" stroke="var(--text-white-soft)" />
-                  <YAxis stroke="var(--text-white-soft)" />
-                  <Tooltip />
+                <BarChart
+                  data={reservasPorMes}
+                  margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+                >
+                  <CartesianGrid
+                    stroke="var(--border-glass)"
+                    vertical={false}
+                  />
+                  <XAxis
+                    dataKey="mes"
+                    stroke="var(--text-white-soft)"
+                    tick={{ fontSize: 11 }}
+                  />
+                  <YAxis
+                    stroke="var(--text-white-soft)"
+                    allowDecimals={false}
+                    tick={{ fontSize: 11 }}
+                  />
+                  <Tooltip cursor={{ fill: "rgba(255,255,255,0.05)" }} />
                   <Bar
-                    dataKey="qtdArmarios"
+                    dataKey="total"
+                    name="Reservas"
                     fill="var(--blue)"
-                    name="Reservas Armários"
+                    radius={[5, 5, 0, 0]}
+                    barSize={24}
                   />
                 </BarChart>
               </ResponsiveContainer>
@@ -319,8 +534,8 @@ export default function Financeiro() {
           />
           {pesquisa && (
             <button
-              className={styles.limparPesquisa}
               type="button"
+              className={styles.limparPesquisa}
               onClick={() => setPesquisa("")}
               aria-label="Limpar pesquisa"
             >
@@ -344,7 +559,7 @@ export default function Financeiro() {
               <button
                 type="button"
                 className={styles.botaoFiltro}
-                onClick={() => setFiltroAberto((v) => !v)}
+                onClick={() => setFiltroAberto((valor) => !valor)}
                 aria-label="Ordenar"
               >
                 <ListFilter size={18} />
@@ -353,6 +568,7 @@ export default function Financeiro() {
               {filtroAberto && (
                 <div className={styles.menuFiltro}>
                   <button
+                    type="button"
                     className={ordenacao === "recente" ? styles.ativo : ""}
                     onClick={() => {
                       setOrdenacao("recente");
@@ -361,7 +577,9 @@ export default function Financeiro() {
                   >
                     Mais recente
                   </button>
+
                   <button
+                    type="button"
                     className={ordenacao === "antigo" ? styles.ativo : ""}
                     onClick={() => {
                       setOrdenacao("antigo");
@@ -370,7 +588,9 @@ export default function Financeiro() {
                   >
                     Mais antigo
                   </button>
+
                   <button
+                    type="button"
                     className={ordenacao === "alfabetica" ? styles.ativo : ""}
                     onClick={() => {
                       setOrdenacao("alfabetica");
@@ -385,6 +605,7 @@ export default function Financeiro() {
           </div>
 
           {carregando && <p className={styles.mensagem}>Carregando...</p>}
+
           {!carregando && relatorioFiltrado.length === 0 && (
             <p className={styles.mensagem}>Nenhum pagamento encontrado</p>
           )}
@@ -403,6 +624,7 @@ export default function Financeiro() {
           {totalPaginas > 1 && (
             <div className={styles.paginacaoWrapper}>
               <Pagination
+                className="paginacaoLista"
                 count={totalPaginas}
                 page={paginaAtual}
                 onChange={(_, novaPagina) => setPaginaAtual(novaPagina)}
@@ -410,7 +632,6 @@ export default function Financeiro() {
                 size="medium"
                 siblingCount={1}
                 boundaryCount={1}
-                classes={{ ul: "paginacaoLista" }}
               />
             </div>
           )}
@@ -419,7 +640,10 @@ export default function Financeiro() {
 
       <a
         href="#"
-        onClick={() => history.back()}
+        onClick={(event) => {
+          event.preventDefault();
+          history.back();
+        }}
         className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
       >
         ← Voltar
