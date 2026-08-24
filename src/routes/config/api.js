@@ -64,8 +64,11 @@ export const API_ROUTES = {
   notificacoes: {
     listarNotificacoes: `${BASE_URL}/Notificacao`,
     notificacoesNaoLidas: `${BASE_URL}/Notificacao/nao-lidas`,
+    listarHistorico: `${BASE_URL}/Notificacao/lista-notificacoes`,
     notificacoesLer: `${BASE_URL}/Notificacao/ler-notificacao`,
     notificacoesLerTodas: `${BASE_URL}/Notificacao/ler-todas-notificacoes`,
+    alterarStatus: (idNotificacao) =>
+      `${BASE_URL}/Notificacao/alterar-status/${idNotificacao}`,
   },
 
   cadastro: {

@@ -1,140 +1,148 @@
-import { useState, useMemo } from "react";
-import { Search, X, History } from "lucide-react";
+import { useState, useEffect, useMemo } from "react";
+import { Search, X } from "lucide-react";
+
 import styles from "./GerenciarAvisos.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
+import { authFetch } from "../../../utils/auth";
+import { API_ROUTES } from "../../../routes/config/api";
 
 const CATEGORIAS = [
   {
     titulo: "Reserva de armário",
     tipos: [
-      "reserva_criada",
-      "reserva_expirando",
-      "reserva_expirada",
-      "reserva_cancelada",
+      "RESERVA_CRIADA",
+      "RESERVA_EXPIRANDO",
+      "RESERVA_EXPIRADA",
+      "RESERVA_CANCELADA",
+      "ARMARIO_TRANSFERIDO",
     ],
   },
   {
     titulo: "Conta do aluno",
     tipos: [
-      "cadastro_realizado",
-      "senha_alterada",
-      "dados_desatualizados",
-      "conta_suspensa",
-      "termo_atualizado",
+      "CADASTRO_REALIZADO",
+      "SENHA_ALTERADA",
+      "DADOS_ALTERADOS",
+      "CONTA_SUSPENSA",
+      "TERMO_ATUALIZADO",
     ],
   },
   {
     titulo: "Comunicados gerais",
-    tipos: ["aviso_geral", "manutencao", "novo_recurso"],
+    tipos: ["AVISO_GERAL", "MANUTENCAO", "NOVO_RECURSO"],
   },
   {
     titulo: "Alertas/pendências",
-    tipos: ["pendencia_financeira"],
+    tipos: ["PAGAMENTO_FEITO"],
   },
 ];
-
-const NOMES = {
-  reserva_criada: "Reserva criada com sucesso",
-  reserva_expirando: "Reserva expirando em breve",
-  reserva_expirada: "Reserva expirada automaticamente pelo sistema",
-  reserva_cancelada: "Reserva cancelada",
-  cadastro_realizado: "Cadastro realizado com sucesso",
-  senha_alterada: "Senha alterada",
-  dados_desatualizados: "Dados cadastrais desatualizados",
-  conta_suspensa: "Conta suspensa",
-  termo_atualizado: "Termo de uso atualizado",
-  aviso_geral: "Aviso geral da AAPM",
-  manutencao: "Manutenção programada dos armários",
-  novo_recurso: "Novo recurso lançado no sistema",
-  pendencia_financeira: "Pendência financeira",
-};
-
-const LIMITE_HISTORICO = 20;
-
-// MOCK - trocar por fetch real quando o endpoint existir
-const HISTORICO_MOCK = [
-  {
-    tipo: "reserva_criada",
-    destinatario: "Ana Paula Rodrigues",
-    dataEnvio: "2026-08-18T14:30:00",
-  },
-  {
-    tipo: "reserva_criada",
-    destinatario: "Bruno Silva",
-    dataEnvio: "2026-08-17T10:00:00",
-  },
-  {
-    tipo: "reserva_expirando",
-    destinatario: "Diego Santos",
-    dataEnvio: "2026-08-16T09:00:00",
-  },
-  {
-    tipo: "senha_alterada",
-    destinatario: "Ana Paula Rodrigues",
-    dataEnvio: "2026-08-14T20:00:00",
-  },
-  {
-    tipo: "manutencao",
-    destinatario: "Bruno Silva",
-    dataEnvio: "2026-08-10T09:00:00",
-  },
-  {
-    tipo: "pendencia_financeira",
-    destinatario: "Diego Santos",
-    dataEnvio: "2026-08-05T09:00:00",
-  },
-];
-
-function formatarData(valor) {
-  if (!valor) return "—";
-  const data = new Date(valor);
-  return Number.isNaN(data.getTime())
-    ? "—"
-    : data.toLocaleString("pt-BR", { dateStyle: "short", timeStyle: "short" });
-}
 
 export default function GerenciarAvisos() {
   const docked = useDockButton();
-  const [historico] = useState(HISTORICO_MOCK);
+
+  const [notificacoes, setNotificacoes] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
-  const [tipoAberto, setTipoAberto] = useState(null);
+  const [carregando, setCarregando] = useState(true);
+  const [erro, setErro] = useState("");
 
-  // useEffect(() => {
-  //   authFetch(API_ROUTES.email.listarHistorico)
-  //     .then((r) => r.json())
-  //     .then((d) => setHistorico(d.dados ?? d ?? []));
-  // }, []);
+  useEffect(() => {
+    async function carregarNotificacoes() {
+      try {
+        setCarregando(true);
+        setErro("");
 
-  const linhasPorTipo = useMemo(() => {
-    const mapa = {};
-    for (const item of historico) {
-      if (!mapa[item.tipo]) mapa[item.tipo] = [];
-      mapa[item.tipo].push(item);
+        const resposta = await authFetch(
+          API_ROUTES.notificacoes.listarHistorico,
+        );
+
+        if (!resposta.ok) {
+          throw new Error(`Erro HTTP ${resposta.status}`);
+        }
+
+        const resultado = await resposta.json();
+
+        console.log("Notificações recebidas do backend:", resultado);
+
+        if (!resultado?.sucesso) {
+          throw new Error(
+            resultado?.mensagem || "Erro ao carregar notificações.",
+          );
+        }
+
+        const dados = Array.isArray(resultado?.dados) ? resultado.dados : [];
+
+        setNotificacoes(dados);
+      } catch (error) {
+        console.error("Erro ao carregar notificações:", error);
+
+        setNotificacoes([]);
+
+        setErro("Não foi possível carregar as notificações.");
+      } finally {
+        setCarregando(false);
+      }
     }
-    return mapa;
-  }, [historico]);
+
+    carregarNotificacoes();
+  }, []);
 
   const termo = pesquisa.trim().toLowerCase();
 
-  const enviosDoModal = tipoAberto
-    ? (linhasPorTipo[tipoAberto] ?? [])
-        .slice()
-        .sort((a, b) => new Date(b.dataEnvio) - new Date(a.dataEnvio))
-        .slice(0, LIMITE_HISTORICO)
-    : [];
+  /*
+   * Filtra apenas as notificações que:
+   *
+   * 1. vieram do backend
+   * 2. pertencem aos tipos conhecidos
+   * 3. correspondem à pesquisa
+   */
+  const categoriasFiltradas = useMemo(() => {
+    return CATEGORIAS.map((categoria) => {
+      const notificacoesDaCategoria = categoria.tipos
+        .map((tipo) => {
+          return notificacoes.find(
+            (notificacao) => notificacao.evento === tipo,
+          );
+        })
+        .filter(Boolean)
+        .filter((notificacao) => {
+          if (!termo) return true;
+
+          const titulo = (notificacao.titulo || "").toLowerCase();
+
+          const mensagem = (notificacao.mensagem || "").toLowerCase();
+
+          const evento = (notificacao.evento || "").toLowerCase();
+
+          return (
+            titulo.includes(termo) ||
+            mensagem.includes(termo) ||
+            evento.includes(termo)
+          );
+        });
+
+      return {
+        ...categoria,
+        notificacoes: notificacoesDaCategoria,
+      };
+    }).filter((categoria) => categoria.notificacoes.length > 0);
+  }, [notificacoes, termo]);
 
   return (
     <div className={styles.conteudoWrapper}>
       <div className={styles.principalBox}>
+        {/* HEADER */}
         <div className={styles.divHeader}>
           <span className={`material-symbols-outlined ${styles.icon}`}>
             notifications
           </span>
+
           <h3>Histórico de Avisos Automáticos</h3>
         </div>
 
+        {/* PESQUISA */}
         <div className={styles.inputPesquisa}>
           <Search size={18} className={styles.searchIcon} />
+
           <input
             type="text"
             className={styles.formControl}
@@ -142,10 +150,11 @@ export default function GerenciarAvisos() {
             value={pesquisa}
             onChange={(e) => setPesquisa(e.target.value)}
           />
+
           {pesquisa && (
             <button
-              className={styles.limparPesquisa}
               type="button"
+              className={styles.limparPesquisa}
               onClick={() => setPesquisa("")}
               aria-label="Limpar pesquisa"
             >
@@ -154,86 +163,76 @@ export default function GerenciarAvisos() {
           )}
         </div>
 
-        {CATEGORIAS.map((categoria) => {
-          const tiposFiltrados = categoria.tipos.filter(
-            (tipo) => !termo || NOMES[tipo].toLowerCase().includes(termo),
-          );
-          if (tiposFiltrados.length === 0) return null;
+        {/* CARREGANDO */}
+        {carregando && (
+          <p className={styles.mensagemEstado}>Carregando notificações...</p>
+        )}
 
-          return (
+        {/* ERRO */}
+        {!carregando && erro && (
+          <p className={styles.mensagemEstadoErro}>{erro}</p>
+        )}
+
+        {/* NENHUM RESULTADO */}
+        {!carregando && !erro && categoriasFiltradas.length === 0 && (
+          <p className={styles.mensagemEstado}>
+            Nenhuma notificação encontrada.
+          </p>
+        )}
+
+        {/* CATEGORIAS */}
+        {!carregando &&
+          !erro &&
+          categoriasFiltradas.map((categoria) => (
             <div className={styles.containerLista} key={categoria.titulo}>
               <h4>{categoria.titulo}</h4>
 
-              {tiposFiltrados.map((tipo) => {
-                const envios = linhasPorTipo[tipo] ?? [];
-                const ultimo = envios.sort(
-                  (a, b) => new Date(b.dataEnvio) - new Date(a.dataEnvio),
-                )[0];
+              {categoria.notificacoes.map((notificacao) => {
+                const ativa = notificacao.ativa === true;
 
                 return (
-                  <div className={styles.linha} key={tipo}>
-                    <span>{NOMES[tipo]}</span>
-                    <span>
-                      {envios.length > 0
-                        ? `${envios.length} envio(s)`
-                        : "Nenhum envio ainda"}
-                    </span>
-                    <button
-                      className={styles.btnHistorico}
-                      onClick={() => setTipoAberto(tipo)}
-                      disabled={envios.length === 0}
+                  <div
+                    className={`${styles.linha} ${
+                      !ativa ? styles.linhaInativa : ""
+                    }`}
+                    key={notificacao.evento}
+                  >
+                    {/* TEXTO */}
+                    <div className={styles.textos}>
+                      <span className={styles.tituloAviso}>
+                        {notificacao.titulo}
+                      </span>
+
+                      <span
+                        className={styles.mensagemAviso}
+                        title={notificacao.mensagem}
+                      >
+                        {notificacao.mensagem}
+                      </span>
+                    </div>
+
+                    {/* STATUS */}
+                    <span
+                      className={`${styles.badge} ${
+                        ativa ? styles.badgeAtiva : styles.badgeInativa
+                      }`}
                     >
-                      <History size={14} /> Histórico
-                    </button>
+                      {ativa ? "Ativa" : "Inativa"}
+                    </span>
                   </div>
                 );
               })}
             </div>
-          );
-        })}
+          ))}
       </div>
 
-      {tipoAberto && (
-        <div className={styles.overlay} onClick={() => setTipoAberto(null)}>
-          <div
-            className={styles.modalPrevia}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <h4>{NOMES[tipoAberto]}</h4>
-            <p className={styles.mensagem}>
-              Últimos {enviosDoModal.length} disparo(s)
-            </p>
-
-            <div className={styles.tabelaHistorico}>
-              <div
-                className={`${styles.linhaTabela} ${styles.linhaTabelaTitulo}`}
-              >
-                <span>Destinatário</span>
-                <span>Data</span>
-              </div>
-              {enviosDoModal.map((envio, i) => (
-                <div className={styles.linhaTabela} key={i}>
-                  <span>{envio.destinatario}</span>
-                  <span>{formatarData(envio.dataEnvio)}</span>
-                </div>
-              ))}
-            </div>
-
-            <div className={styles.modalAcoes}>
-              <button
-                className={styles.btnCancelar}
-                onClick={() => setTipoAberto(null)}
-              >
-                Fechar
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
+      {/* VOLTAR */}
       <a
         href="#"
-        onClick={() => history.back()}
+        onClick={(e) => {
+          e.preventDefault();
+          history.back();
+        }}
         className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
       >
         ← Voltar

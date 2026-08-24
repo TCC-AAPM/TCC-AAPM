@@ -450,6 +450,7 @@ export default function Financeiro() {
             ) : (
               <ResponsiveContainer width="100%" height={280}>
                 <LineChart
+                  key={lucroMensal.length}
                   data={lucroMensal}
                   margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
                 >
@@ -477,6 +478,9 @@ export default function Financeiro() {
                     strokeWidth={3}
                     dot={{ r: 4, fill: "var(--blue)" }}
                     activeDot={{ r: 6 }}
+                    isAnimationActive={true}
+                    animationDuration={900}
+                    animationEasing="ease-out"
                   />
                 </LineChart>
               </ResponsiveContainer>
@@ -492,6 +496,7 @@ export default function Financeiro() {
             ) : (
               <ResponsiveContainer width="100%" height={280}>
                 <BarChart
+                  key={reservasPorMes.length}
                   data={reservasPorMes}
                   margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
                 >
@@ -516,6 +521,9 @@ export default function Financeiro() {
                     fill="var(--blue)"
                     radius={[5, 5, 0, 0]}
                     barSize={24}
+                    isAnimationActive={true}
+                    animationDuration={900}
+                    animationEasing="ease-out"
                   />
                 </BarChart>
               </ResponsiveContainer>

@@ -96,7 +96,7 @@
 
 .linha {
   display: grid;
-  grid-template-columns: 2.5fr 1fr auto;
+  grid-template-columns: 1fr auto;
   align-items: center;
   gap: 12px;
   padding: 1rem;
@@ -106,7 +106,8 @@
   border: 1px solid transparent;
   transition:
     background var(--transition),
-    border-color var(--transition);
+    border-color var(--transition),
+    opacity var(--transition);
 }
 
 .linha:hover {
@@ -122,10 +123,71 @@
   background: rgba(59, 130, 246, 0.3);
 }
 
-.mensagem {
+.linhaInativa {
+  opacity: 0.45;
+  filter: grayscale(0.6);
+}
+
+.linhaInativa:hover {
+  opacity: 0.6;
+}
+
+.textos {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.tituloAviso {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.mensagemAviso {
+  font-size: 13px;
   color: var(--text-white-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+  padding: 0 14px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.badgeAtiva {
+  background: rgba(34, 197, 94, 0.18);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.35);
+}
+
+.badgeInativa {
+  background: rgba(148, 163, 184, 0.15);
+  color: var(--text-white-soft);
+  border: 1px solid var(--border-glass);
+}
+
+.mensagemEstado {
+  color: var(--text-white-muted);
+  margin-top: 2rem;
   text-align: center;
-  padding: 1rem;
+}
+
+.mensagemEstadoErro {
+  color: #f87171;
+  margin-top: 2rem;
+  text-align: center;
 }
 
 .formControl {
@@ -178,135 +240,6 @@
   color: var(--white);
 }
 
-.btnHistorico {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  height: 36px;
-  padding: 0 14px;
-  border-radius: 8px;
-  border: 1px solid var(--border-glass);
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--text-white-high);
-  font-size: 13px;
-  font-weight: 500;
-  cursor: pointer;
-  white-space: nowrap;
-  transition: all var(--transition);
-}
-
-.btnHistorico:hover:not(:disabled) {
-  background: var(--blue);
-  border-color: var(--blue);
-  color: var(--white);
-}
-
-.btnHistorico:disabled {
-  opacity: 0.35;
-  cursor: not-allowed;
-}
-
-/* ===== Modal ===== */
-
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.75);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-  padding: 1rem;
-}
-
-.modalPrevia {
-  background: #0f1e3d;
-  border: 1px solid var(--border-glass-strong);
-  border-radius: 20px;
-  padding: 1.75rem;
-  width: 100%;
-  max-width: 480px;
-  max-height: 85vh;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  color: var(--white);
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-}
-
-:global(.dark-mode) .modalPrevia {
-  background: #0a1730;
-  border: 1px solid var(--border-glass);
-}
-
-.modalPrevia h4 {
-  font-size: 1.1rem;
-  font-weight: 600;
-  padding-bottom: 0.75rem;
-  border-bottom: 1px solid var(--border-glass-mid);
-}
-
-.modalPrevia .mensagem {
-  text-align: left;
-  padding: 0;
-  font-size: 13px;
-}
-
-.tabelaHistorico {
-  max-height: 340px;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  padding-right: 4px;
-}
-
-.linhaTabela {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  padding: 10px 12px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.06);
-  color: var(--text-white-high);
-  font-size: 13px;
-}
-
-.linhaTabelaTitulo {
-  background: transparent;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 11px;
-  letter-spacing: 0.5px;
-  color: var(--text-white-high);
-  border-bottom: 1px solid var(--border-glass-strong);
-  border-radius: 0;
-  padding: 0 12px 10px;
-}
-
-.modalAcoes {
-  display: flex;
-  justify-content: flex-end;
-  gap: 8px;
-  padding-top: 0.5rem;
-  border-top: 1px solid var(--border-glass-mid);
-}
-
-.btnCancelar {
-  height: 40px;
-  padding: 0 18px;
-  border-radius: 8px;
-  border: 1px solid var(--border-glass-strong);
-  background: rgba(255, 255, 255, 0.08);
-  color: var(--white);
-  font-weight: 500;
-  cursor: pointer;
-  transition: all var(--transition);
-}
-
-.btnCancelar:hover {
-  background: rgba(255, 255, 255, 0.16);
-}
-
 @media (max-width: 768px) {
   .principalBox {
     padding-top: 5rem;
@@ -317,5 +250,9 @@
     grid-template-columns: 1fr;
     gap: 0.5rem;
     text-align: left;
+  }
+
+  .badge {
+    width: fit-content;
   }
 }
