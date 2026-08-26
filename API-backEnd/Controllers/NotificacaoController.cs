@@ -57,5 +57,12 @@ namespace API_backEnd.Controllers
             return Resultado(_notificacaoService.AlterarStatusNotificacaoAutomatica(idNotificacao));
         }
 
+        //[Authorize(Roles = "admin")]
+        [HttpGet("{idNotificacao}/historico-notificacao")]
+        public async Task<IActionResult> HistoricoNotificacao(int idNotificacao)
+        {
+            return Resultado(await _notificacaoService.HistoricoNotificacao(idNotificacao));
+        }
+
     }
 }

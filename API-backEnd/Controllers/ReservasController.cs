@@ -83,7 +83,7 @@ namespace API_backEnd.Controllers
         /// <response code="400">Dados inválidos ou reserva inexistente.</response>
         /// <response code="401">Usuário não autenticado.</response>
         /// <response code="403">Usuário sem permissão para acessar esta rota.</response>
-        [Authorize(Roles = "admin")]
+        //[Authorize(Roles = "admin")]
         [HttpPost("recadastrar-armario")]
         public IActionResult RecadastroReserva(RecadastrarReservaRequest dto)
         {

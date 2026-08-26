@@ -128,12 +128,14 @@ namespace API_backEnd.Services
         public ResultadoPadrao<object> RecadastrarReserva(RecadastrarReservaRequest dto)
         {
             var aluno = _alunoService.ObterAlunoPorCpf(dto.CPF);
+
             if (aluno == null)
             {
                 return ResultadoPadrao<object>.Falha("Aluno não encontrado", 404);
             }
 
             var validarIdadeETermos = ValidarIdadeETermos(dto.DataNasc, dto.IdTermoSite, dto.AceitouTermoSite, dto.IdTermoArmario, dto.AceitouTermoArmario, 14);
+
             if (!validarIdadeETermos.Sucesso)
                 return validarIdadeETermos;
 
@@ -163,10 +165,15 @@ namespace API_backEnd.Services
 
             try
             {
-               
-
-                _alunoService.AtualizarCadastroAluno(aluno, dto);
-
+                aluno.Cpf = dto.CPF;
+                aluno.Nome = dto.Nome;
+                aluno.NomeSocial = string.IsNullOrWhiteSpace(dto.NomeSocial) ? null : dto.NomeSocial;
+                aluno.Matricula = string.IsNullOrWhiteSpace(dto.Matricula) ? null : dto.Matricula;
+                aluno.Telefone = Regex.Replace(dto.Telefone, @"\D", "");
+                aluno.Email = dto.Email;
+                aluno.DataNasc = dto.DataNasc;
+                aluno.CursoId = dto.IdCurso;
+                aluno.TurmaId = dto.IdTurma;
 
                 var reserva = new TabelaReservaArmario
                 {

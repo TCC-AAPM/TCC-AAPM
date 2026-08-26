@@ -1,6 +1,7 @@
 ﻿using API_backEnd.Common;
 using API_backEnd.DTOs.Notificacao;
 using API_backEnd.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace API_backEnd.Services
@@ -89,6 +90,7 @@ namespace API_backEnd.Services
         {
             var notificacoes = db.TabelaNotificacaos.Select(a => new NotificacaoAutomaticaResponse
             {
+                Id = a.Id,
                 Titulo = a.Titulo,
                 Mensagem = a.Mensagem,
                 Evento = a.Evento,
@@ -110,6 +112,28 @@ namespace API_backEnd.Services
             db.SaveChanges();
 
             return ResultadoPadrao<object>.Ok(notificacao.IsAtivo ? "Notificação automática ativada" : "Notificação automática inativada");
+        }
+
+        public async Task<ResultadoPadrao<List<HistoricoNotificacaoResponse>>> HistoricoNotificacao(int idNotificacao)
+        {
+            // destinario - data - somente ultimos 2 meses
+            var dataLimite = DateTime.Now.AddMonths(-2);
+
+            var historicoEnvio = await ( 
+                from historico in db.TabelaHistoricoNotificacaos
+                join aluno in db.TabelaAlunos
+                    on historico.IdUsuario equals aluno.IdUsuario
+                where historico.IdNotificacao == idNotificacao
+                    && historico.DataEnvio >= dataLimite
+                select new HistoricoNotificacaoResponse
+                {
+                    Destinario = aluno.Nome,
+                    DataEnvio = historico.DataEnvio
+                }
+            ).OrderByDescending(a => a.DataEnvio).ToListAsync();
+
+
+            return ResultadoPadrao<List<HistoricoNotificacaoResponse>>.Ok(historicoEnvio);
         }
 
         public void CriarNotificacao(int idUsuario, string evento)
