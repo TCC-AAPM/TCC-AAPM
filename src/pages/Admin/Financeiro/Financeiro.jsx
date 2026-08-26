@@ -1,5 +1,7 @@
 ﻿import { useEffect, useState, useMemo, useRef } from "react";
+
 import { Pagination } from "@mui/material";
+
 import {
   Search,
   X,
@@ -8,15 +10,19 @@ import {
   TrendingUp,
   ListFilter,
 } from "lucide-react";
+
 import { authFetch, API_ROUTES } from "../../../utils/auth";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts";
+
 import styles from "./Financeiro.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
+
 import {
   flexRender,
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+
 import {
   Bar,
   BarChart,
@@ -33,11 +39,19 @@ const ITENS_POR_PAGINA = 8;
 
 function normalizarLista(resultado) {
   if (Array.isArray(resultado)) return resultado;
+
   if (Array.isArray(resultado?.dados)) return resultado.dados;
+
   if (Array.isArray(resultado?.data)) return resultado.data;
-  if (resultado?.dados && typeof resultado.dados === "object")
+
+  if (resultado?.dados && typeof resultado.dados === "object") {
     return [resultado.dados];
-  if (resultado && typeof resultado === "object") return [resultado];
+  }
+
+  if (resultado && typeof resultado === "object") {
+    return [resultado];
+  }
+
   return [];
 }
 
@@ -50,19 +64,29 @@ function formatarMoeda(valor) {
 
 function formatarData(valor) {
   if (!valor) return "—";
+
   const data = new Date(valor);
+
   if (Number.isNaN(data.getTime())) return "—";
+
   return data.toLocaleDateString("pt-BR");
 }
 
 function formatarMetodo(sigla) {
-  const metodos = { D: "Débito", C: "Crédito", P: "Pix", A: "Dinheiro" };
+  const metodos = {
+    D: "Débito",
+    C: "Crédito",
+    P: "Pix",
+    A: "Dinheiro",
+  };
+
   return metodos[sigla] ?? sigla ?? "—";
 }
 
 function normalizarDadosGrafico(resultado, camposDeValor) {
   return normalizarLista(resultado).map((item) => {
     const campoDeValor = camposDeValor.find((campo) => item?.[campo] != null);
+
     return {
       mes: item?.mes ?? item?.nomeMes ?? item?.label ?? "-",
       total: Number(item?.[campoDeValor] ?? 0),
@@ -78,9 +102,13 @@ function useContadorAnimado(valorFinal, duracao = 900) {
 
     function animar(timestamp) {
       if (!inicio) inicio = timestamp;
+
       const progresso = Math.min((timestamp - inicio) / duracao, 1);
+
       const facilitado = 1 - Math.pow(1 - progresso, 3);
+
       setValorAtual(Number(valorFinal ?? 0) * facilitado);
+
       if (progresso < 1) {
         requestAnimationFrame(animar);
       } else {
@@ -89,6 +117,7 @@ function useContadorAnimado(valorFinal, duracao = 900) {
     }
 
     const frame = requestAnimationFrame(animar);
+
     return () => cancelAnimationFrame(frame);
   }, [valorFinal, duracao]);
 
@@ -102,6 +131,7 @@ export default function Financeiro() {
   const [totalMensal, setTotalMensal] = useState([]);
   const [lucroMensal, setLucroMensal] = useState([]);
   const [reservasPorMes, setReservasPorMes] = useState([]);
+  const [reservasMesAtual, setReservasMesAtual] = useState(0);
   const [relatorio, setRelatorio] = useState([]);
   const [produtos, setProdutos] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
@@ -111,11 +141,13 @@ export default function Financeiro() {
   const [carregando, setCarregando] = useState(true);
   const [valoresEdicao, setValoresEdicao] = useState({});
   const [salvandoId, setSalvandoId] = useState(null);
+
   const filtroRef = useRef(null);
 
   useEffect(() => {
     async function carregarTudo() {
       setCarregando(true);
+
       try {
         const buscar = (rota) => authFetch(rota).catch(() => null);
 
@@ -124,6 +156,7 @@ export default function Financeiro() {
           resMensal,
           resLucroMensal,
           resReservasPorMes,
+          resReservasMesAtual,
           resRelatorio,
           resProdutos,
         ] = await Promise.all([
@@ -131,6 +164,7 @@ export default function Financeiro() {
           buscar(API_ROUTES.financeiro.totalMensal),
           buscar(API_ROUTES.financeiro.lucroUltimos6Meses),
           buscar(API_ROUTES.reservas.reservasUltimos6Meses),
+          buscar(API_ROUTES.reservas.reservasMesAtual),
           buscar(API_ROUTES.financeiro.relatorio),
           buscar(API_ROUTES.produtos.listar),
         ]);
@@ -141,20 +175,31 @@ export default function Financeiro() {
 
         const dadosTotal = await resTotal.json();
         const dadosMensal = await resMensal.json();
+
         const dadosLucroMensal = resLucroMensal?.ok
           ? await resLucroMensal.json()
           : [];
+
         const dadosReservasPorMes = resReservasPorMes?.ok
           ? await resReservasPorMes.json()
           : [];
+
+        const dadosReservasMesAtual = resReservasMesAtual?.ok
+          ? await resReservasMesAtual.json()
+          : null;
+
         const dadosRelatorio = await resRelatorio.json();
+
         const dadosProdutos = resProdutos?.ok ? await resProdutos.json() : [];
 
         setTotalGeral(dadosTotal?.dados?.valor ?? dadosTotal?.valor ?? 0);
+
         setTotalMensal(normalizarLista(dadosMensal));
+
         setLucroMensal(
           normalizarDadosGrafico(dadosLucroMensal, ["total", "valor", "lucro"]),
         );
+
         setReservasPorMes(
           normalizarDadosGrafico(dadosReservasPorMes, [
             "reservas",
@@ -162,9 +207,24 @@ export default function Financeiro() {
             "total",
           ]),
         );
+
+        const quantidadeReservas = Number(
+          dadosReservasMesAtual?.dados?.quantidade ??
+            dadosReservasMesAtual?.dados?.total ??
+            dadosReservasMesAtual?.dados ??
+            dadosReservasMesAtual?.quantidade ??
+            dadosReservasMesAtual?.total ??
+            0,
+        );
+
+        setReservasMesAtual(
+          Number.isFinite(quantidadeReservas) ? quantidadeReservas : 0,
+        );
+
         setRelatorio(normalizarLista(dadosRelatorio));
 
         const listaProdutos = normalizarLista(dadosProdutos);
+
         setProdutos(listaProdutos);
 
         const valoresIniciais = Object.fromEntries(
@@ -173,15 +233,19 @@ export default function Financeiro() {
             String(produto.preco ?? ""),
           ]),
         );
+
         setValoresEdicao(valoresIniciais);
       } catch (error) {
         console.error("Erro ao carregar financeiro:", error);
+
         setTotalGeral(0);
         setTotalMensal([]);
         setLucroMensal([]);
         setReservasPorMes([]);
+        setReservasMesAtual(0);
         setRelatorio([]);
         setProdutos([]);
+
         alertErro("Não foi possível carregar os dados financeiros.");
       } finally {
         setCarregando(false);
@@ -200,6 +264,7 @@ export default function Financeiro() {
 
   async function salvarPreco(idProduto) {
     const valorDigitado = valoresEdicao[idProduto] ?? "";
+
     const preco = Number(String(valorDigitado).replace(",", "."));
 
     if (!Number.isFinite(preco) || preco <= 0) {
@@ -214,12 +279,15 @@ export default function Financeiro() {
         API_ROUTES.financeiro.alterarPreco(idProduto),
         {
           method: "PUT",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+          },
           body: JSON.stringify({ preco }),
         },
       );
 
       let resultado = null;
+
       try {
         resultado = await response.json();
       } catch {
@@ -238,11 +306,15 @@ export default function Financeiro() {
         ),
       );
 
-      setValoresEdicao((prev) => ({ ...prev, [idProduto]: String(preco) }));
+      setValoresEdicao((prev) => ({
+        ...prev,
+        [idProduto]: String(preco),
+      }));
 
       alertSucesso("Preço atualizado com sucesso.");
     } catch (error) {
       console.error("Erro ao salvar preço:", error);
+
       alertErro(error.message || "Não foi possível atualizar o preço.");
     } finally {
       setSalvandoId(null);
@@ -257,15 +329,21 @@ export default function Financeiro() {
     }
 
     document.addEventListener("mousedown", fecharAoClicarFora);
+
     return () => document.removeEventListener("mousedown", fecharAoClicarFora);
   }, []);
 
   const resumoAtual = totalMensal[totalMensal.length - 1] ?? {};
+
   const totalMesAnimado = useContadorAnimado(resumoAtual.valor ?? 0);
+
   const totalGeralAnimado = useContadorAnimado(totalGeral);
+
+  const reservasMesAnimado = useContadorAnimado(reservasMesAtual);
 
   const relatorioFiltrado = useMemo(() => {
     const termo = pesquisa.trim().toLowerCase();
+
     let lista = relatorio;
 
     if (termo) {
@@ -281,9 +359,11 @@ export default function Financeiro() {
     if (ordenacao === "recente") {
       listaOrdenada.sort((a, b) => new Date(b.data) - new Date(a.data));
     }
+
     if (ordenacao === "antigo") {
       listaOrdenada.sort((a, b) => new Date(a.data) - new Date(b.data));
     }
+
     if (ordenacao === "alfabetica") {
       listaOrdenada.sort((a, b) =>
         (a.nome ?? "").localeCompare(b.nome ?? "", "pt-BR"),
@@ -300,6 +380,7 @@ export default function Financeiro() {
 
   const relatorioPagina = useMemo(() => {
     const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
+
     return relatorioFiltrado.slice(inicio, inicio + ITENS_POR_PAGINA);
   }, [relatorioFiltrado, paginaAtual]);
 
@@ -308,7 +389,9 @@ export default function Financeiro() {
   }, [pesquisa, ordenacao]);
 
   useEffect(() => {
-    if (paginaAtual > totalPaginas) setPaginaAtual(totalPaginas);
+    if (paginaAtual > totalPaginas) {
+      setPaginaAtual(totalPaginas);
+    }
   }, [paginaAtual, totalPaginas]);
 
   const colunas = useMemo(
@@ -352,6 +435,7 @@ export default function Financeiro() {
           <span className={`material-symbols-outlined ${styles.icon}`}>
             payments
           </span>
+
           <h3>Financeiro</h3>
         </div>
 
@@ -369,6 +453,7 @@ export default function Financeiro() {
               <div className={styles.itemEdicaoPreco}>
                 <div className={styles.infoProduto}>
                   <strong>Armários</strong>
+
                   <span>
                     Preço atual: {formatarMoeda(produtoArmario.preco)}
                   </span>
@@ -378,6 +463,7 @@ export default function Financeiro() {
                   <span className={styles.simboloMoeda} aria-hidden="true">
                     R$
                   </span>
+
                   <input
                     type="text"
                     inputMode="decimal"
@@ -421,7 +507,9 @@ export default function Financeiro() {
             <div className={styles.icone}>
               <DollarSign size={22} />
             </div>
+
             <h3>Total no mês</h3>
+
             <p>{formatarMoeda(totalMesAnimado)}</p>
           </div>
 
@@ -429,15 +517,19 @@ export default function Financeiro() {
             <div className={styles.icone}>
               <Package size={22} />
             </div>
+
             <h3>Armários (mês)</h3>
-            <p>+ {resumoAtual.qtdArmarios ?? 0}</p>
+
+            <p>+ {Math.round(reservasMesAnimado)}</p>
           </div>
 
           <div className={styles.cartao}>
             <div className={styles.icone}>
               <TrendingUp size={22} />
             </div>
+
             <h3>Total acumulado</h3>
+
             <p>{formatarMoeda(totalGeralAnimado)}</p>
           </div>
         </div>
@@ -445,6 +537,7 @@ export default function Financeiro() {
         <div className={styles.graficos}>
           <div className={styles.graficoBox}>
             <h4>Lucro por mês</h4>
+
             {lucroMensal.length === 0 ? (
               <p className={styles.mensagem}>Nenhum dado disponível ainda</p>
             ) : (
@@ -452,17 +545,24 @@ export default function Financeiro() {
                 <LineChart
                   key={lucroMensal.length}
                   data={lucroMensal}
-                  margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+                  margin={{
+                    top: 5,
+                    right: 10,
+                    left: 0,
+                    bottom: 5,
+                  }}
                 >
                   <CartesianGrid
                     stroke="var(--border-glass)"
                     vertical={false}
                   />
+
                   <XAxis
                     dataKey="mes"
                     stroke="var(--text-white-soft)"
                     tick={{ fontSize: 11 }}
                   />
+
                   <YAxis
                     stroke="var(--text-white-soft)"
                     tick={{ fontSize: 11 }}
@@ -470,13 +570,18 @@ export default function Financeiro() {
                       `R$ ${Number(valor).toLocaleString("pt-BR")}`
                     }
                   />
+
                   <Tooltip formatter={(valor) => formatarMoeda(valor)} />
+
                   <Line
                     type="monotone"
                     dataKey="total"
                     stroke="var(--blue)"
                     strokeWidth={3}
-                    dot={{ r: 4, fill: "var(--blue)" }}
+                    dot={{
+                      r: 4,
+                      fill: "var(--blue)",
+                    }}
                     activeDot={{ r: 6 }}
                     isAnimationActive={true}
                     animationDuration={900}
@@ -489,6 +594,7 @@ export default function Financeiro() {
 
           <div className={styles.graficoBox}>
             <h4>Reservas por mês</h4>
+
             {reservasPorMes.length === 0 ? (
               <p className={styles.mensagem}>
                 Nenhuma reserva disponível ainda
@@ -498,23 +604,36 @@ export default function Financeiro() {
                 <BarChart
                   key={reservasPorMes.length}
                   data={reservasPorMes}
-                  margin={{ top: 5, right: 10, left: 0, bottom: 5 }}
+                  margin={{
+                    top: 5,
+                    right: 10,
+                    left: 0,
+                    bottom: 5,
+                  }}
                 >
                   <CartesianGrid
                     stroke="var(--border-glass)"
                     vertical={false}
                   />
+
                   <XAxis
                     dataKey="mes"
                     stroke="var(--text-white-soft)"
                     tick={{ fontSize: 11 }}
                   />
+
                   <YAxis
                     stroke="var(--text-white-soft)"
                     allowDecimals={false}
                     tick={{ fontSize: 11 }}
                   />
-                  <Tooltip cursor={{ fill: "rgba(255,255,255,0.05)" }} />
+
+                  <Tooltip
+                    cursor={{
+                      fill: "rgba(255,255,255,0.05)",
+                    }}
+                  />
+
                   <Bar
                     dataKey="total"
                     name="Reservas"
@@ -533,6 +652,7 @@ export default function Financeiro() {
 
         <div className={styles.inputPesquisa}>
           <Search size={18} className={styles.searchIcon} />
+
           <input
             type="text"
             className={styles.formControl}
@@ -540,6 +660,7 @@ export default function Financeiro() {
             value={pesquisa}
             onChange={(e) => setPesquisa(e.target.value)}
           />
+
           {pesquisa && (
             <button
               type="button"

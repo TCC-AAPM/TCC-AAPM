@@ -1,10 +1,14 @@
-import { useState, useEffect, useMemo } from "react";
-import { Search, X } from "lucide-react";
-
+import { useEffect, useMemo, useState } from "react";
+import { History, Search, X } from "lucide-react";
 import styles from "./GerenciarAvisos.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
 import { authFetch } from "../../../utils/auth";
 import { API_ROUTES } from "../../../routes/config/api";
+import {
+  alertConfirmar,
+  alertSucesso,
+  alertErro,
+} from "../../../components/Alerts/Alerts";
 
 const CATEGORIAS = [
   {
@@ -37,6 +41,21 @@ const CATEGORIAS = [
   },
 ];
 
+function formatarData(data) {
+  if (!data) return "—";
+
+  const dataFormatada = new Date(data);
+
+  if (Number.isNaN(dataFormatada.getTime())) {
+    return "—";
+  }
+
+  return dataFormatada.toLocaleString("pt-BR", {
+    dateStyle: "short",
+    timeStyle: "short",
+  });
+}
+
 export default function GerenciarAvisos() {
   const docked = useDockButton();
 
@@ -44,8 +63,15 @@ export default function GerenciarAvisos() {
   const [pesquisa, setPesquisa] = useState("");
   const [carregando, setCarregando] = useState(true);
   const [erro, setErro] = useState("");
+  const [tipoAberto, setTipoAberto] = useState(null);
+  const [alterandoStatus, setAlterandoStatus] = useState(null);
+
+  const [historico, setHistorico] = useState([]);
+  const [carregandoHistorico, setCarregandoHistorico] = useState(false);
 
   useEffect(() => {
+    let ativo = true;
+
     async function carregarNotificacoes() {
       try {
         setCarregando(true);
@@ -61,8 +87,6 @@ export default function GerenciarAvisos() {
 
         const resultado = await resposta.json();
 
-        console.log("Notificações recebidas do backend:", resultado);
-
         if (!resultado?.sucesso) {
           throw new Error(
             resultado?.mensagem || "Erro ao carregar notificações.",
@@ -71,66 +95,199 @@ export default function GerenciarAvisos() {
 
         const dados = Array.isArray(resultado?.dados) ? resultado.dados : [];
 
-        setNotificacoes(dados);
+        if (ativo) {
+          setNotificacoes(dados);
+        }
       } catch (error) {
         console.error("Erro ao carregar notificações:", error);
 
-        setNotificacoes([]);
-
-        setErro("Não foi possível carregar as notificações.");
+        if (ativo) {
+          setNotificacoes([]);
+          setErro("Não foi possível carregar as notificações.");
+        }
       } finally {
-        setCarregando(false);
+        if (ativo) {
+          setCarregando(false);
+        }
       }
     }
 
     carregarNotificacoes();
+
+    return () => {
+      ativo = false;
+    };
   }, []);
+
+  const abrirHistorico = async (tipo, referencia) => {
+    const idNotificacao = referencia?.idNotificacao ?? referencia?.id ?? null;
+
+    if (!idNotificacao) {
+      alertErro("Não foi possível identificar este aviso.");
+      return;
+    }
+
+    try {
+      setTipoAberto(tipo);
+      setHistorico([]);
+      setCarregandoHistorico(true);
+
+      const resposta = await authFetch(
+        API_ROUTES.notificacoes.historico(idNotificacao),
+      );
+
+      const resultado = await resposta.json();
+
+      if (!resposta.ok || !resultado?.sucesso) {
+        throw new Error(
+          resultado?.mensagem || "Não foi possível carregar o histórico.",
+        );
+      }
+
+      setHistorico(Array.isArray(resultado?.dados) ? resultado.dados : []);
+    } catch (error) {
+      console.error("Erro ao carregar histórico:", error);
+
+      alertErro("Não foi possível carregar o histórico.");
+
+      setTipoAberto(null);
+      setHistorico([]);
+    } finally {
+      setCarregandoHistorico(false);
+    }
+  };
 
   const termo = pesquisa.trim().toLowerCase();
 
-  /*
-   * Filtra apenas as notificações que:
-   *
-   * 1. vieram do backend
-   * 2. pertencem aos tipos conhecidos
-   * 3. correspondem à pesquisa
-   */
+  const registrosPorTipo = useMemo(() => {
+    const mapa = {};
+
+    notificacoes.forEach((notificacao) => {
+      const tipo = notificacao?.evento;
+
+      if (!tipo) return;
+
+      if (!mapa[tipo]) {
+        mapa[tipo] = [];
+      }
+
+      mapa[tipo].push(notificacao);
+    });
+
+    return mapa;
+  }, [notificacoes]);
+
   const categoriasFiltradas = useMemo(() => {
     return CATEGORIAS.map((categoria) => {
       const notificacoesDaCategoria = categoria.tipos
         .map((tipo) => {
-          return notificacoes.find(
-            (notificacao) => notificacao.evento === tipo,
-          );
+          const registros = registrosPorTipo[tipo];
+
+          if (!registros?.length) {
+            return null;
+          }
+
+          return {
+            tipo,
+            referencia: registros[0],
+          };
         })
         .filter(Boolean)
-        .filter((notificacao) => {
+        .filter(({ tipo, referencia }) => {
           if (!termo) return true;
 
-          const titulo = (notificacao.titulo || "").toLowerCase();
+          const titulo = String(referencia?.titulo ?? "").toLowerCase();
 
-          const mensagem = (notificacao.mensagem || "").toLowerCase();
+          const mensagem = String(referencia?.mensagem ?? "").toLowerCase();
 
-          const evento = (notificacao.evento || "").toLowerCase();
+          const evento = String(tipo ?? "").toLowerCase();
 
           return (
             titulo.includes(termo) ||
             mensagem.includes(termo) ||
             evento.includes(termo)
           );
-        });
+        })
+        .sort(
+          (a, b) =>
+            Number(b.referencia?.ativa === true) -
+            Number(a.referencia?.ativa === true),
+        );
 
       return {
         ...categoria,
         notificacoes: notificacoesDaCategoria,
       };
     }).filter((categoria) => categoria.notificacoes.length > 0);
-  }, [notificacoes, termo]);
+  }, [registrosPorTipo, termo]);
+
+  const alternarStatus = async (tipo, referencia) => {
+    const idNotificacao = referencia?.idNotificacao ?? referencia?.id ?? null;
+
+    if (!idNotificacao) {
+      alertErro("Não foi possível identificar este aviso.");
+      return;
+    }
+
+    const novaAtiva = referencia?.ativa !== true;
+
+    const confirmado = await alertConfirmar(
+      novaAtiva
+        ? "Deseja ativar este tipo de aviso?"
+        : "Deseja desativar este tipo de aviso?",
+    );
+
+    if (!confirmado) return;
+
+    try {
+      setAlterandoStatus(tipo);
+
+      const resposta = await authFetch(
+        API_ROUTES.notificacoes.alterarStatus(idNotificacao),
+        {
+          method: "PUT",
+        },
+      );
+
+      const resultado = await resposta.json();
+
+      if (!resposta.ok || !resultado?.sucesso) {
+        throw new Error(resultado?.mensagem || `Erro HTTP ${resposta.status}`);
+      }
+
+      setNotificacoes((prev) =>
+        prev.map((notificacao) =>
+          notificacao?.evento === tipo
+            ? {
+                ...notificacao,
+                ativa: novaAtiva,
+              }
+            : notificacao,
+        ),
+      );
+
+      alertSucesso(
+        novaAtiva
+          ? "Aviso ativado com sucesso!"
+          : "Aviso desativado com sucesso!",
+      );
+    } catch (error) {
+      console.error("Erro ao alterar status:", error);
+
+      alertErro("Não foi possível atualizar o status do aviso.");
+    } finally {
+      setAlterandoStatus(null);
+    }
+  };
+
+  const registrosDoModal = historico;
+
+  const tituloModal =
+    registrosPorTipo[tipoAberto]?.[0]?.titulo || tipoAberto || "Histórico";
 
   return (
     <div className={styles.conteudoWrapper}>
       <div className={styles.principalBox}>
-        {/* HEADER */}
         <div className={styles.divHeader}>
           <span className={`material-symbols-outlined ${styles.icon}`}>
             notifications
@@ -139,7 +296,6 @@ export default function GerenciarAvisos() {
           <h3>Histórico de Avisos Automáticos</h3>
         </div>
 
-        {/* PESQUISA */}
         <div className={styles.inputPesquisa}>
           <Search size={18} className={styles.searchIcon} />
 
@@ -148,7 +304,7 @@ export default function GerenciarAvisos() {
             className={styles.formControl}
             placeholder="Buscar por tipo de aviso"
             value={pesquisa}
-            onChange={(e) => setPesquisa(e.target.value)}
+            onChange={(event) => setPesquisa(event.target.value)}
           />
 
           {pesquisa && (
@@ -157,68 +313,78 @@ export default function GerenciarAvisos() {
               className={styles.limparPesquisa}
               onClick={() => setPesquisa("")}
               aria-label="Limpar pesquisa"
+              title="Limpar pesquisa"
             >
               <X size={16} />
             </button>
           )}
         </div>
 
-        {/* CARREGANDO */}
         {carregando && (
-          <p className={styles.mensagemEstado}>Carregando notificações...</p>
+          <p className={styles.mensagem}>Carregando notificações...</p>
         )}
 
-        {/* ERRO */}
-        {!carregando && erro && (
-          <p className={styles.mensagemEstadoErro}>{erro}</p>
-        )}
+        {!carregando && erro && <p className={styles.mensagem}>{erro}</p>}
 
-        {/* NENHUM RESULTADO */}
         {!carregando && !erro && categoriasFiltradas.length === 0 && (
-          <p className={styles.mensagemEstado}>
-            Nenhuma notificação encontrada.
-          </p>
+          <p className={styles.mensagem}>Nenhuma notificação encontrada.</p>
         )}
 
-        {/* CATEGORIAS */}
         {!carregando &&
           !erro &&
           categoriasFiltradas.map((categoria) => (
             <div className={styles.containerLista} key={categoria.titulo}>
               <h4>{categoria.titulo}</h4>
 
-              {categoria.notificacoes.map((notificacao) => {
-                const ativa = notificacao.ativa === true;
+              {categoria.notificacoes.map(({ tipo, referencia }) => {
+                const ativa = referencia?.ativa === true;
+
+                const salvando = alterandoStatus === tipo;
 
                 return (
                   <div
                     className={`${styles.linha} ${
                       !ativa ? styles.linhaInativa : ""
                     }`}
-                    key={notificacao.evento}
+                    key={tipo}
                   >
-                    {/* TEXTO */}
                     <div className={styles.textos}>
                       <span className={styles.tituloAviso}>
-                        {notificacao.titulo}
+                        {referencia?.titulo || "Aviso"}
                       </span>
 
                       <span
                         className={styles.mensagemAviso}
-                        title={notificacao.mensagem}
+                        title={referencia?.mensagem || ""}
                       >
-                        {notificacao.mensagem}
+                        {referencia?.mensagem || "Sem mensagem disponível."}
                       </span>
                     </div>
 
-                    {/* STATUS */}
-                    <span
-                      className={`${styles.badge} ${
-                        ativa ? styles.badgeAtiva : styles.badgeInativa
-                      }`}
-                    >
-                      {ativa ? "Ativa" : "Inativa"}
-                    </span>
+                    <div className={styles.acoes}>
+                      <button
+                        type="button"
+                        className={styles.btnHistoricoIcon}
+                        onClick={() => abrirHistorico(tipo, referencia)}
+                        disabled={salvando}
+                        title="Ver histórico"
+                      >
+                        <History size={16} />
+                      </button>
+
+                      <button
+                        type="button"
+                        className={styles.btnStatus}
+                        onClick={() => alternarStatus(tipo, referencia)}
+                        disabled={salvando}
+                      >
+                        {salvando
+                          ? "Salvando..."
+                          : ativa
+                            ? "Desativar"
+                            : "Ativar"}
+                      </button>
+                    </div>
                   </div>
                 );
               })}
@@ -226,11 +392,59 @@ export default function GerenciarAvisos() {
           ))}
       </div>
 
-      {/* VOLTAR */}
+      {tipoAberto && (
+        <div className={styles.overlay} onClick={() => setTipoAberto(null)}>
+          <div
+            className={styles.modalPrevia}
+            onClick={(event) => event.stopPropagation()}
+          >
+            <h4>{tituloModal}</h4>
+
+            <div className={styles.tabelaHistorico}>
+              <div
+                className={`${styles.linhaTabela} ${styles.linhaTabelaTitulo}`}
+              >
+                <span>Destinatário</span>
+                <span>Data</span>
+              </div>
+
+              {carregandoHistorico ? (
+                <p className={styles.mensagem}>Carregando histórico...</p>
+              ) : registrosDoModal.length > 0 ? (
+                registrosDoModal.map((registro, index) => (
+                  <div
+                    className={styles.linhaTabela}
+                    key={registro?.id ?? index}
+                  >
+                    <span>{registro?.destinario || "—"}</span>
+
+                    <span>{formatarData(registro?.dataEnvio)}</span>
+                  </div>
+                ))
+              ) : (
+                <p className={styles.mensagem}>
+                  Nenhum envio nos últimos 2 meses.
+                </p>
+              )}
+            </div>
+
+            <div className={styles.modalAcoes}>
+              <button
+                type="button"
+                className={styles.btnCancelar}
+                onClick={() => setTipoAberto(null)}
+              >
+                Fechar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <a
         href="#"
-        onClick={(e) => {
-          e.preventDefault();
+        onClick={(event) => {
+          event.preventDefault();
           history.back();
         }}
         className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
