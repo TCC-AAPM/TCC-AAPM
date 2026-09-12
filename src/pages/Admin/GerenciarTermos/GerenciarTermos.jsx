@@ -8,6 +8,7 @@ import {
 } from "../../../components/Alerts/Alerts";
 import styles from "./GerenciarTermos.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
+import { resetTermoVerificationSession } from "../../../utils/useTermoVerification";
 
 // Ajuste os valores conforme o enum ReferenciaTermos do back-end
 const TIPOS_TERMOS = [
@@ -135,6 +136,7 @@ export default function GerenciarTermos() {
       }
 
       alertSucesso(data.mensagem ?? "Termo salvo com sucesso");
+      resetTermoVerificationSession();
       setModalAberto(false);
       carregar();
     } catch {

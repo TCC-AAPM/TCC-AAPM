@@ -2,13 +2,50 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { API_ROUTES, authFetch } from "./auth.js";
 
+const TERMO_VERIFICATION_KEY_PREFIX = "termoVerification:";
+
+function getTermoVerificationKey() {
+  const token = localStorage.getItem("token");
+  return token ? `${TERMO_VERIFICATION_KEY_PREFIX}${token}` : null;
+}
+
+function readSessionVerification(key) {
+  try {
+    const value = sessionStorage.getItem(key);
+    return value ? JSON.parse(value) : null;
+  } catch {
+    sessionStorage.removeItem(key);
+    return null;
+  }
+}
+
+function writeSessionVerification(key, value) {
+  sessionStorage.setItem(key, JSON.stringify(value));
+}
+
+export function resetTermoVerificationSession() {
+  Object.keys(sessionStorage)
+    .filter((key) => key.startsWith(TERMO_VERIFICATION_KEY_PREFIX))
+    .forEach((key) => sessionStorage.removeItem(key));
+}
+
 export function useTermoVerification() {
   const [showModal, setShowModal] = useState(false);
   const [termosParaAceitar, setTermosParaAceitar] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (!localStorage.getItem("token")) return;
+    const storageKey = getTermoVerificationKey();
+    if (!storageKey) return;
+
+    const sessionVerification = readSessionVerification(storageKey);
+    if (sessionVerification?.status === "clear") return;
+
+    if (sessionVerification?.status === "pending") {
+      setTermosParaAceitar(sessionVerification.termos ?? []);
+      setShowModal(true);
+      return;
+    }
 
     async function verificar() {
       try {
@@ -21,7 +58,10 @@ export function useTermoVerification() {
         if (dados.termosPendenteSite) referencias.push("S");
         if (dados.termosPendenteArmario) referencias.push("A");
 
-        if (referencias.length === 0) return;
+        if (referencias.length === 0) {
+          writeSessionVerification(storageKey, { status: "clear" });
+          return;
+        }
 
         const resAtivos = await authFetch(API_ROUTES.termos.termosAtivos);
         const ativos = await resAtivos.json();
@@ -32,6 +72,10 @@ export function useTermoVerification() {
         );
 
         setTermosParaAceitar(pendentes);
+        writeSessionVerification(storageKey, {
+          status: "pending",
+          termos: pendentes,
+        });
         setShowModal(true);
       } catch (err) {
         console.error("Erro:", err);
@@ -49,12 +93,14 @@ export function useTermoVerification() {
         body: JSON.stringify({ idTermo: id }),
       });
     }
+    resetTermoVerificationSession();
     setShowModal(false);
   }
 
   function handleRecusar() {
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
+    resetTermoVerificationSession();
     navigate("/login");
   }
 
