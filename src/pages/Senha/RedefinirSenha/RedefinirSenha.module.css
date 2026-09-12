@@ -30,6 +30,7 @@
 }
 
 .entreAqui h2 {
+  color: var(--text-white-high);
   font-size: 22px;
   line-height: 1.25;
   margin-bottom: 8px;
@@ -67,12 +68,12 @@
 }
 
 .requisitos li.ok {
-  color: #22c55e;
+  color: var(--success);
 }
 
 .requisitos li.ok::before {
   content: "●";
-  color: #22c55e;
+  color: var(--success);
 }
 
 .formNovaSenha {
@@ -140,11 +141,11 @@
 }
 
 .icon {
-  background-image: url("/src/assets/images/olho.png");
+  background-image: url("../../../assets/images/olho.png");
 }
 
 .iconHide {
-  background-image: url("/src/assets/images/olho-fechado.png");
+  background-image: url("../../../assets/images/olho-fechado.png");
 }
 
 .forcaSenha {
@@ -168,15 +169,15 @@
 }
 
 .barraAtiva.fraca {
-  background: #ef4444;
+  background: var(--danger);
 }
 
 .barraAtiva.media {
-  background: #f59e0b;
+  background: var(--color-manutencao);
 }
 
 .barraAtiva.forte {
-  background: #22c55e;
+  background: var(--success);
 }
 
 .textoForca {

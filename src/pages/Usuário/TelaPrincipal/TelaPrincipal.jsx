@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./TelaPrincipal.module.css";
-import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
+import { API_ROUTES, authFetch, getUsuarioLogado } from "../../../utils/auth.js";
 import { useTermoVerification } from "../../../utils/useTermoVerification.js";
 import { getNomeExibicao } from "../../../utils/getNomeExibicao.js";
 import ModalNovoTermo from "../../../components/ModalNovoTermo/ModalNovoTermo.jsx";
@@ -101,10 +101,7 @@ export default function TelaPrincipal() {
     const usuario = getUsuarioLogado();
     if (!usuario) return;
 
-    const token = localStorage.getItem("token");
-    fetch(API_ROUTES.alunos.telaPrincipal, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    authFetch(API_ROUTES.alunos.telaPrincipal)
       .then((r) => r.json())
       .then((data) => {
         const aluno = data.dados;

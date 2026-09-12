@@ -65,6 +65,7 @@
 /* ── Countdown card ───────────────────────────────────────── */
 .countdownCard {
   background-color: var(--light-blue);
+  color: var(--text-white-high);
   width: 100%;
   border-radius: 20px;
   padding: clamp(18px, 4vw, 28px) clamp(16px, 5vw, 32px);
@@ -77,6 +78,7 @@
 }
 
 .countdownDesc {
+  color: var(--text-white-high);
   font-size: clamp(12px, 3vw, 14px);
   font-weight: 400;
   text-align: center;
@@ -133,13 +135,13 @@
 .clockUnitLabel {
   font-size: clamp(11px, 2.5vw, 14px);
   font-weight: 600;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--text-white-soft);
 }
 
 .clockSep {
   font-size: clamp(1rem, 3.5vw, 1.8rem);
   font-weight: 300;
-  color: rgba(255, 255, 255, 0.2);
+  color: var(--text-white-muted);
   margin-bottom: clamp(20px, 5vw, 28px);
   user-select: none;
   flex-shrink: 0;
@@ -293,7 +295,7 @@
 .alertaExpiracao {
   font-size: clamp(11px, 2.5vw, 13px);
   font-weight: 500;
-  color: #ffd166;
+  color: var(--warning);
   margin: 0;
 }
 

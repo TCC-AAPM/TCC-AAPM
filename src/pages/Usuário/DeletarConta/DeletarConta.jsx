@@ -5,7 +5,7 @@ import {
   alertErro,
   alertSucessoModal,
 } from "../../../components/Alerts/Alerts.jsx";
-import { API_ROUTES } from "../../../utils/auth";
+import { API_ROUTES, authFetch } from "../../../utils/auth";
 
 export default function DeletarConta() {
   const navigate = useNavigate();
@@ -26,16 +26,12 @@ export default function DeletarConta() {
   }, []);
 
   async function handleDeletar() {
-    console.log("rota:", API_ROUTES.alunos.excluirConta);
     setCarregando(true);
     try {
-      const token = localStorage.getItem("token");
-      console.log("token:", token);
-      const res = await fetch(API_ROUTES.alunos.excluirConta, {
+      const res = await authFetch(API_ROUTES.alunos.excluirConta, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ Senha: senha }),
       });
@@ -53,7 +49,7 @@ export default function DeletarConta() {
         alertErro("Erro ao deletar conta. Tente mais tarde.");
       }
     } catch (err) {
-      console.log("erro completo:", err);
+      console.error("Erro ao deletar conta:", err);
       alertErro("Erro de conexão. Tente mais tarde.");
     } finally {
       setCarregando(false);

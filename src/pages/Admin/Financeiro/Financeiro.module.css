@@ -177,7 +177,7 @@
   background: var(--blue);
   border: none;
   border-radius: 7px;
-  color: #fff;
+  color: var(--white);
   font-size: 0.75rem;
   font-weight: 600;
   cursor: pointer;

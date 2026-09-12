@@ -13,7 +13,7 @@ import {
 import { CardArmario } from "../../../components/CardArmario/CardArmario.jsx";
 import { PopupModal } from "../../../components/PopupModal/PopupModal.jsx";
 
-import { API_ROUTES } from "../../../utils/auth.js";
+import { API_ROUTES, authFetch } from "../../../utils/auth.js";
 import styles from "./Armarios.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
 import SEO from "../../../components/SEO/SEO.jsx";
@@ -35,20 +35,10 @@ export default function Armarios() {
   const [paginaAtual, setPaginaAtual] = useState(1);
 
   useEffect(() => {
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    };
-
     async function carregar() {
       try {
-        const respostaArmarios = await fetch(API_ROUTES.armarios.listar, {
-          headers,
-        });
-
-        const respostaUsuarios = await fetch(API_ROUTES.reservas.comReserva, {
-          headers,
-        });
+        const respostaArmarios = await authFetch(API_ROUTES.armarios.listar);
+        const respostaUsuarios = await authFetch(API_ROUTES.reservas.comReserva);
 
         const arm = await respostaArmarios.json();
         const usr = await respostaUsuarios.json();
@@ -198,17 +188,11 @@ export default function Armarios() {
   }, [listaPaginada, selecionados]);
 
   async function confirmarAcaoLote(estado, observacao, numeros) {
-    const headers = {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
-      "Content-Type": "application/json",
-    };
-
     try {
       await Promise.all(
         numeros.map((numero) =>
-          fetch(API_ROUTES.armarios.atualizarEstado(numero), {
+          authFetch(API_ROUTES.armarios.atualizarEstado(numero), {
             method: "PUT",
-            headers,
             body: JSON.stringify({ estado, observacao: observacao || null }),
           }),
         ),

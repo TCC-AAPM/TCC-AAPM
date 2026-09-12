@@ -98,7 +98,6 @@ export default function EditarAluno() {
         if (!res.ok) throw new Error();
 
         const json = await res.json();
-        console.log(json);
         const dados = json.dados ?? json;
 
         if (!ativo) return; // efeito antigo, ignora essa resposta
@@ -131,7 +130,7 @@ export default function EditarAluno() {
 
     async function carregarCursos() {
       try {
-        const res = await fetch(API_ROUTES.cursos.carregarCursos);
+        const res = await authFetch(API_ROUTES.cursos.carregarCursos);
         if (!res.ok) throw new Error();
         const lista = obterListaDados(await res.json());
         if (ativo) setCursos(lista);
@@ -152,7 +151,7 @@ export default function EditarAluno() {
 
     async function carregarTurmas() {
       try {
-        const res = await fetch(API_ROUTES.turmas.porCurso(cursoId));
+        const res = await authFetch(API_ROUTES.turmas.porCurso(cursoId));
         if (!res.ok) throw new Error();
         const lista = obterListaDados(await res.json());
         setTurmas(lista);

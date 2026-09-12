@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./VerInformacoes.module.css";
-import { API_ROUTES, getUsuarioLogado } from "../../../utils/auth.js";
+import { API_ROUTES, authFetch, getUsuarioLogado } from "../../../utils/auth.js";
 import { getNomeExibicao } from "../../../utils/getNomeExibicao.js";
 import { useDockButton } from "../../../utils/useDockButton";
 
@@ -27,10 +27,7 @@ export default function VerInformacoes() {
     const usuario = getUsuarioLogado();
     if (!usuario) return;
 
-    const token = localStorage.getItem("token");
-    fetch(API_ROUTES.alunos.telaPrincipal, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
+    authFetch(API_ROUTES.alunos.telaPrincipal)
       .then((r) => {
         if (r.status === 401) {
           navigate("/");

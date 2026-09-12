@@ -157,11 +157,11 @@
 }
 
 .btnDeletar {
-  color: #f44336;
+  color: var(--error);
 }
 
 .btnDeletar:hover {
-  color: #d32f2f;
+  color: var(--error-dark);
   transform: scale(1.1);
 }
 
@@ -343,7 +343,7 @@
 }
 
 .erroTexto {
-  color: #f44336;
+  color: var(--error);
   font-size: 12px;
   margin-top: 4px;
   padding-left: 4px;

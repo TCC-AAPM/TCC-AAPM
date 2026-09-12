@@ -22,7 +22,7 @@
   padding: 1.6rem;
   border-radius: 18px;
 
-  background: #0a1e52;
+  background: var(--dark-blue);
   color: white;
 
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
@@ -182,7 +182,7 @@
 }
 
 .select option {
-  background: #0a1e52;
+  background: var(--dark-blue);
   color: white;
 }
 
@@ -210,7 +210,7 @@
 
   cursor: pointer;
 
-  background: #1E3A8A;
+  background: var(--light-blue);
   color: white;
 
   transition: all 0.2s ease;
@@ -262,7 +262,7 @@
 
 .btn-excluir:hover {
     transform: scale(1.05);
-    background-color: #a4161b;
+    background-color: var(--color-ocupado-dark);
 }
 
 .btn-editar:hover {

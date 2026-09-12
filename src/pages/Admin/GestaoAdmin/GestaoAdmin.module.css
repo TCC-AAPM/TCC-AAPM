@@ -10,7 +10,7 @@
 }
 
 .divHeader {
-  color: white;
+  color: var(--text-white-high);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -20,6 +20,7 @@
 }
 
 .divHeader h1 {
+  color: var(--text-white-high);
   font-size: 1.9rem;
   margin-bottom: 0.5rem;
 }
@@ -31,7 +32,7 @@
 
 .divHeader :global(.material-symbols-outlined) {
   font-size: 60px;
-  color: white;
+  color: var(--white);
 }
 
 .cards {
@@ -43,7 +44,7 @@
 }
 
 .cartao {
-  color: white;
+  color: var(--text-white-high);
   background-color: var(--light-blue);
   padding: 1rem 1.1rem;
   border-radius: 12px;
@@ -57,7 +58,7 @@
 }
 
 :global(.dark-mode) .cartao {
-  background-color: #1e40af;
+  background-color: var(--back-blue);
 }
 :global(.dark-mode) .icone {
   background-color: var(--blue);
@@ -79,17 +80,17 @@
 
 .icone :global(.material-symbols-outlined) {
   font-size: 20px;
-  color: white;
+  color: var(--white);
 }
 
 .cartao h3 {
-  color: white;
+  color: var(--text-white-high);
   font-size: 1.05rem;
   margin-bottom: 8px;
 }
 
 .cartao p {
-  color: #c9dae7;
+  color: var(--text-card-soft);
   font-size: 0.875rem;
   line-height: 1.5;
 }

@@ -41,6 +41,7 @@
 }
 
 .conteudo h1 {
+  color: var(--text-white-high);
   margin-bottom: 8px;
   font-size: 22px;
   line-height: 1.25;

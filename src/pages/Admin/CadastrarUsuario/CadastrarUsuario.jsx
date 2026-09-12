@@ -104,7 +104,7 @@ export default function CadastrarUsuario() {
   useEffect(() => {
     async function carregarCursos() {
       try {
-        const res = await fetch(API_ROUTES.cursos.carregarCursos);
+        const res = await authFetch(API_ROUTES.cursos.carregarCursos);
         if (!res.ok) throw new Error();
         setCursos(obterListaDados(await res.json()));
       } catch {
@@ -119,7 +119,7 @@ export default function CadastrarUsuario() {
 
     async function carregarTurmas() {
       try {
-        const res = await fetch(API_ROUTES.turmas.porCurso(cursoId));
+        const res = await authFetch(API_ROUTES.turmas.porCurso(cursoId));
         if (!res.ok) throw new Error();
         setTurmas(obterListaDados(await res.json()));
         setTurmaId("default");

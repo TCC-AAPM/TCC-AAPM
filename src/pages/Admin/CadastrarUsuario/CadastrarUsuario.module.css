@@ -183,7 +183,7 @@
 }
 
 .avisoMenor .material-symbols-outlined {
-  color: #ffb300;
+  color: var(--warning);
   font-size: 22px;
   flex-shrink: 0;
 }
@@ -197,7 +197,7 @@
 }
 
 .avisoMenorTexto strong {
-  color: #ffb300;
+  color: var(--warning);
 }
 
 .avisoMenorTexto label {

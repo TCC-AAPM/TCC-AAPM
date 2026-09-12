@@ -2,7 +2,7 @@ import { useState } from "react";
 import styles from "./ModificarSenha.module.css";
 import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
 import { useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../../../routes/config/api.js";
+import { API_ROUTES, authFetch } from "../../../utils/auth.js";
 import { useDockButton } from "../../../utils/useDockButton";
 
 function verificarSenha(senha) {
@@ -86,13 +86,10 @@ export default function ModificarSenha() {
       return;
     }
 
-    const token = localStorage.getItem("token");
-
-    const response = await fetch(API_ROUTES.alunos.trocarSenha, {
+    const response = await authFetch(API_ROUTES.alunos.trocarSenha, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         senhaAtual,

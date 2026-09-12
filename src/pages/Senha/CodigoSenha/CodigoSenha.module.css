@@ -33,6 +33,7 @@
 }
 
 .entreAqui h2 {
+  color: var(--text-white-high);
   font-size: 22px;
   line-height: 1.25;
 }

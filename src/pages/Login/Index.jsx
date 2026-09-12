@@ -51,7 +51,7 @@ export default function Login() {
         navigate("/admin/armarios");
       }
     } catch (error) {
-      console.log("Erro:", error);
+      console.error("Erro ao fazer login:", error);
       alertErro("Erro de conexão com o servidor.");
     }
   }

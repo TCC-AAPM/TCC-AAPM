@@ -264,7 +264,7 @@
 }
 
 .filtroOcupado {
-  color: #ff9aa2;
+  color: var(--text-white-high);
 }
 
 .filtroOcupado.ativo {
@@ -276,7 +276,7 @@
 }
 
 .filtroDisponivel {
-  color: #62e6d7;
+  color: var(--text-white-high);
 }
 
 .filtroDisponivel.ativo {
@@ -288,7 +288,7 @@
 }
 
 .filtroManutencao {
-  color: #ffd37a;
+  color: var(--text-white-high);
 }
 
 .filtroManutencao.ativo {
@@ -300,7 +300,7 @@
 }
 
 .filtroPendente {
-  color: #b8b9ff;
+  color: var(--text-white-high);
 }
 
 .filtroPendente.ativo {
@@ -312,7 +312,7 @@
 }
 
 .filtroAtrasado {
-  color: #ffb07a;
+  color: var(--text-white-high);
 }
 
 .filtroAtrasado.ativo {
@@ -361,6 +361,7 @@
 }
 
 .estadoVazio h2 {
+  color: var(--text-white-high);
   margin: 0;
   font-size: 18px;
   font-weight: 650;

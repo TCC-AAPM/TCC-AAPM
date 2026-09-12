@@ -1,8 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { API_ROUTES } from "../routes/config/api.js";
-
-const BASE = import.meta.env.VITE_API_URL ?? "/api";
+import { API_ROUTES, authFetch } from "./auth.js";
 
 export function useTermoVerification() {
   const [showModal, setShowModal] = useState(false);
@@ -10,36 +8,28 @@ export function useTermoVerification() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) return;
+    if (!localStorage.getItem("token")) return;
 
     async function verificar() {
       try {
-        const resPendencia = await fetch(API_ROUTES.termos.verificarAceitos, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
+        const resPendencia = await authFetch(API_ROUTES.termos.verificarAceitos);
         const pendencia = await resPendencia.json();
-        console.log("1. pendencia:", pendencia);
 
         const dados = pendencia.dados ?? pendencia;
-        console.log("2. dados:", dados);
 
         const referencias = [];
-        if (dados.termosPendenteSite)           referencias.push("S");
-        if (dados.termosPendenteArmario)        referencias.push("A");
-        console.log("3. referencias:", referencias);
+        if (dados.termosPendenteSite) referencias.push("S");
+        if (dados.termosPendenteArmario) referencias.push("A");
 
         if (referencias.length === 0) return;
 
-        const resAtivos = await fetch(`${BASE}/Termo/termos-ativos`);
+        const resAtivos = await authFetch(API_ROUTES.termos.termosAtivos);
         const ativos = await resAtivos.json();
-        console.log("4. ativos:", ativos);
 
         const listaAtivos = ativos.dados ?? ativos;
         const pendentes = listaAtivos.filter((t) =>
-          referencias.includes(t.referencia ?? t.Referencia)
+          referencias.includes(t.referencia ?? t.Referencia),
         );
-        console.log("5. pendentes:", pendentes);
 
         setTermosParaAceitar(pendentes);
         setShowModal(true);
@@ -52,15 +42,10 @@ export function useTermoVerification() {
   }, []);
 
   async function handleAceitar() {
-    const token = localStorage.getItem("token");
     for (const t of termosParaAceitar) {
       const id = t.idTermo ?? t.IdTermo ?? t.id;
-      await fetch(API_ROUTES.termos.aceitarNovos, {
+      await authFetch(API_ROUTES.termos.aceitarNovos, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
         body: JSON.stringify({ idTermo: id }),
       });
     }

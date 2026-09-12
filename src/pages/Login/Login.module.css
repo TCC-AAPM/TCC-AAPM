@@ -112,13 +112,13 @@
   width: 20px;
   height: 20px;
   cursor: pointer;
-  background-image: url("/assets/images/olho.png");
+  background-image: url("../../assets/images/olho.png");
   background-size: contain;
   background-repeat: no-repeat;
 }
 
 .iconHide {
-  background-image: url("/assets/images/olho-fechado.png");
+  background-image: url("../../assets/images/olho-fechado.png");
 }
 
 .containerOpcoes {

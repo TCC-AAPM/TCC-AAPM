@@ -143,13 +143,13 @@
 }
 
 .status.ativo {
-  background: rgba(76, 175, 80, 0.15);
-  color: #4caf50;
+  background: var(--success-bg);
+  color: var(--success-alt);
 }
 
 .status.inativo {
   background: rgba(244, 67, 54, 0.15);
-  color: #f44336;
+  color: var(--error);
 }
 
 @media (max-width: 768px) {

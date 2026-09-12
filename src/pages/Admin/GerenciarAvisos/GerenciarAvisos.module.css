@@ -146,13 +146,13 @@
 }
 
 .linhaInativa {
-  background: #2b2f38 !important;
+  background: var(--inactive-row) !important;
   border-color: transparent !important;
   opacity: 0.65;
 }
 
 .linhaInativa:hover {
-  background: #333844 !important;
+  background: var(--inactive-row-hover) !important;
   opacity: 0.75;
 }
 
@@ -162,11 +162,11 @@
 }
 
 :global(.dark-mode) .linhaInativa {
-  background: #23262d !important;
+  background: var(--modal-dark-strong) !important;
 }
 
 :global(.dark-mode) .linhaInativa:hover {
-  background: #2a2e36 !important;
+  background: var(--inactive-row) !important;
 }
 
 .textos {
@@ -271,7 +271,7 @@
   flex-direction: column;
   gap: 1rem;
   padding: 1.75rem;
-  background: #0f1e3d;
+  background: var(--modal-dark);
   border: 1px solid var(--border-glass-strong);
   border-radius: 20px;
   color: var(--white);
@@ -279,7 +279,7 @@
 }
 
 :global(.dark-mode) .modalPrevia {
-  background: #0a1730;
+  background: var(--modal-dark-strong);
   border-color: var(--border-glass);
 }
 
