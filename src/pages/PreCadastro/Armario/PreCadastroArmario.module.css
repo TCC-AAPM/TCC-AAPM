@@ -41,7 +41,7 @@
 
 .esquerda h1 em {
   font-style: normal;
-  color: var(--blue);
+  color: var(--heading-accent);
 }
 
 .esquerda p {
