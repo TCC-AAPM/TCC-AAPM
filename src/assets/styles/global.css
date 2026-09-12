@@ -294,7 +294,7 @@ body.dark-mode {
 }
 
 a {
-  color: var(--blue);
+  color: var(--heading-accent);
   text-decoration: none;
   transition: color var(--transition);
 }

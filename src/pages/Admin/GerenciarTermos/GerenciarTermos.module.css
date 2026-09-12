@@ -179,7 +179,7 @@
   background: transparent;
   border: none;
   cursor: pointer;
-  color: var(--blue);
+  color: var(--heading-accent);
   display: flex;
   align-items: center;
   justify-content: start;

@@ -462,7 +462,7 @@
 }
 
 .menuFiltro button.ativo {
-  color: var(--blue);
+  color: var(--heading-accent);
   font-weight: 700;
 }
 

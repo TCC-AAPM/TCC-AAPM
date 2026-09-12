@@ -83,7 +83,7 @@
 }
 
 .passo-num.ativo {
-  background: var(--blue);
+  background: var(--light-blue);
 }
 
 .passo-num.pendente {
@@ -99,7 +99,7 @@
 
 .passo-info span {
   font-size: 12px;
-  color: var(--text-white-muted);
+  color: var(--text-white-high);
 }
 
 /* Card */
@@ -116,7 +116,7 @@
 }
 
 .separador {
-  color: var(--text-white-muted);
+  color: var(--text-white-high);
   font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.07em;
@@ -166,7 +166,7 @@
   position: absolute;
   left: 14px;
   top: 13px;
-  color: var(--text-white-soft);
+  color: var(--text-white-high);
   font-size: 14px;
   pointer-events: none;
   transition: 0.25s ease;
@@ -180,7 +180,7 @@
   top: -16px;
   left: 12px;
   font-size: 12px;
-  color: var(--text-white-high);
+  color: var(--white);
   padding: 0 5px;
   border-radius: 6px;
 }
@@ -194,7 +194,7 @@
   top: -16px;
   left: 12px;
   font-size: 12px;
-  color: var(--text-white-high);
+  color: var(--white);
   padding: 0 5px;
 }
 
@@ -209,7 +209,7 @@
   align-items: flex-start;
   gap: 10px;
   cursor: pointer;
-  color: var(--text-white-soft);
+  color: var(--text-white-high);
   font-size: 13px;
   line-height: 1.5;
   margin-bottom: 1rem;
@@ -225,7 +225,7 @@
 }
 
 .check-termo a {
-  color: var(--blue);
+  color: var(--heading-accent);
   text-decoration: underline;
 }
 
