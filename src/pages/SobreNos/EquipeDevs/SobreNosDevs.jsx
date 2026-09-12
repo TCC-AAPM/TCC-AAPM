@@ -65,7 +65,7 @@ export default function SobreNosDevs() {
             <p className={styles.bio}>
               Arquitetou toda a camada de servidor — banco de dados, regras de
               negócio e a API REST que sustenta assinaturas, autenticação e
-              gestao de armarios.
+              gestão de armários.
             </p>
             <div className={styles.stacks}>
               <span className={styles.stack}>C#</span>

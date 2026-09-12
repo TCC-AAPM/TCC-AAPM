@@ -3,7 +3,7 @@ import { API_ROUTES } from "../../routes/config/api.js";
 
 const LABELS = {
   S: "Termos de Uso do Site e LGPD",
-  A: "Termo de Uso do Armario",
+  A: "Termo de Uso do Armário",
 };
 
 export default function ModalNovoTermo({ termos, onAceitar, onRecusar }) {
@@ -17,7 +17,7 @@ export default function ModalNovoTermo({ termos, onAceitar, onRecusar }) {
         <div className={styles.divider} />
 
         <p className={styles.descricao}>
-          Os documentos abaixo foram atualizados desde seu ultimo acesso. Leia e
+          Os documentos abaixo foram atualizados desde seu último acesso. Leia e
           aceite para continuar.
         </p>
 

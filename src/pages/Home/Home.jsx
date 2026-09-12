@@ -15,16 +15,16 @@ export default function Home() {
       <header className={styles.hero}>
         <div className={styles.heroPill}>
           <span className={styles.pillDot} />
-          Servicos por assinatura
+          Serviços por assinatura
         </div>
         <h1>
-          Servicos <em>AAPM</em>
+          Serviços <em>AAPM</em>
           <br />
           Senai Osasco
         </h1>
         <p>
-          Assine nosso servico de armario com praticidade total. Sem burocracia,
-          sem complicacao.
+          Assine nosso serviço de armário com praticidade total. Sem burocracia,
+          sem complicação.
         </p>
       </header>
 

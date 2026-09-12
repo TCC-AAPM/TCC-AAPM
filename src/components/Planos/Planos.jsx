@@ -56,8 +56,8 @@ function Card({ s, modoConsulta }) {
         <div className={styles.btnBg} />
         <span className={styles.btnLabel}>
           {modoConsulta
-            ? "Consulte a secretaria para renovacao"
-            : "Contratar Servico"}
+            ? "Consulte a secretaria para renovação"
+            : "Contratar Serviço"}
         </span>
         {!modoConsulta && (
           <span className={styles.btnArrow}>
@@ -97,18 +97,18 @@ export default function Planos({ mostrarTitulo = true, modoConsulta = false }) {
             badge: "Popular",
             badgeClass: styles.badgePopular,
             icon: <Icon name="inventory_2" />,
-            name: "Armario",
+            name: "Armário",
             route: "/cadastro-armario",
             title: "Seja um associado da AAPM",
             price: formatPrice(precos["A"]),
             period: "/ semestre",
-            desc: "Guarde seus pertences com total seguranca durante o periodo escolar e alem disso:",
+            desc: "Guarde seus pertences com total segurança durante o período escolar e além disso:",
             features: [
-              "Armario individual incluso",
-              "Desconto no Curso de Ingles",
-              "Acoes em datas comemorativas",
-              "Localizacao proxima as salas de aula",
-              "Ambiente monitorado por cameras",
+              "Armário individual incluso",
+              "Desconto no Curso de Inglês",
+              "Ações em datas comemorativas",
+              "Localização próxima às salas de aula",
+              "Ambiente monitorado por câmeras",
             ],
           }}
         />
