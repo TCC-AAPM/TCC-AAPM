@@ -1,7 +1,10 @@
 import { useNavigate } from "react-router-dom";
 import styles from "./GestaoAdmin.module.css";
 import { useDockButton } from "../../../utils/useDockButton";
-import { alertConfirmar } from "../../../components/Alerts/Alerts.jsx";
+import {
+  alertConfirmar,
+  alertAviso,
+} from "../../../components/Alerts/Alerts.jsx";
 import SEO from "../../../components/SEO/SEO.jsx";
 
 const cards = [
@@ -83,6 +86,26 @@ export default function PainelAdmin() {
   function handleCardClick(card) {
     if (card.title === "Sair") {
       handleSair();
+      return;
+    }
+
+    if (card.title === "Gerenciar Armários") {
+      alertAviso("Esta função ainda não está disponível nesta versão.");
+      return;
+    }
+    
+    if (card.title === "Gerenciar Administradores") {
+      alertAviso("Esta função ainda não está disponível nesta versão.");
+      return;
+    }
+    
+    if (card.title === "Configurações da Conta") {
+      alertAviso("Esta função ainda não está disponível nesta versão.");
+      return;
+    }
+    
+    if (card.title === "Acessibildade") {
+      alertAviso("Esta função ainda não está disponível nesta versão.");
       return;
     }
 
