@@ -4,9 +4,9 @@
   <img src="https://img.shields.io/badge/.NET-10.0-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" />
   <img src="https://img.shields.io/badge/C%23-10-239120?style=for-the-badge&logo=csharp&logoColor=white" />
   <img src="https://img.shields.io/badge/ASP.NET%20Core-Web%20API-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" />
-  <img src="https://img.shields.io/badge/PostgreSQL-Database-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/MariaDB-Database-003545?style=for-the-badge&logo=mariadb&logoColor=white" />
   <img src="https://img.shields.io/badge/Entity%20Framework-Core-68217A?style=for-the-badge&logo=.net&logoColor=white" />
-  <img src="https://img.shields.io/badge/Docker-Container-2496ED?style=for-the-badge&logo=docker&logoColor=white" />
+  <img src="https://img.shields.io/badge/Swagger-OpenAPI-85EA2D?style=for-the-badge&logo=swagger&logoColor=black" />
 </p>
 
 <p align="center">
@@ -22,7 +22,7 @@ O **Gerenciamento da AAPM** é um sistema desenvolvido como parte de um **Trabal
 
 Esta API representa a camada de **Back-end** da aplicação, sendo responsável por disponibilizar os recursos necessários para o funcionamento do sistema.
 
-A API foi desenvolvida utilizando **ASP.NET Core Web API**, seguindo uma estrutura organizada em Controllers, Services, Models e DTOs.
+A API foi desenvolvida utilizando **ASP.NET Core Web API**, com uma estrutura organizada em Controllers, Services, Models e DTOs.
 
 Entre suas principais responsabilidades estão:
 
@@ -31,10 +31,10 @@ Entre suas principais responsabilidades estão:
 - Gerenciamento de armários;
 - Controle de reservas;
 - Gerenciamento de termos;
-- Gerenciamento de turmas e cursos;
+- Gerenciamento de cursos e turmas;
 - Recuperação de senha por e-mail;
 - Comunicação com o banco de dados;
-- Validação das regras de negócio.
+- Aplicação das regras de negócio.
 
 ---
 
@@ -46,11 +46,10 @@ Entre suas principais responsabilidades estão:
 | **.NET 10** | Framework da aplicação |
 | **ASP.NET Core** | Desenvolvimento da API REST |
 | **Entity Framework Core** | ORM e acesso ao banco |
-| **PostgreSQL** | Banco de dados |
-| **Supabase** | Hospedagem do banco de dados |
+| **MariaDB** | Banco de dados |
+| **Pomelo.EntityFrameworkCore.MySql** | Provedor do Entity Framework para MariaDB/MySQL |
 | **JWT** | Autenticação e autorização |
 | **Swagger / OpenAPI** | Documentação e testes da API |
-| **Docker** | Containerização |
 | **Git / GitHub** | Versionamento |
 
 ---
@@ -82,8 +81,7 @@ A API utiliza uma arquitetura baseada na separação de responsabilidades:
                │
                ▼
 ┌─────────────────────────────┐
-│         PostgreSQL          │
-│           Supabase          │
+│           MariaDB           │
 └─────────────────────────────┘
 ```
 
@@ -136,7 +134,6 @@ API/
 │
 ├── Program.cs
 ├── appsettings.json
-├── Dockerfile
 └── API.csproj
 ```
 
@@ -144,7 +141,7 @@ API/
 
 # 🚀 Funcionalidades
 
-### 👤 Usuários
+## 👤 Usuários
 
 - Cadastro de usuários;
 - Login;
@@ -155,7 +152,7 @@ API/
 - Recuperação de senha;
 - Validação de dados.
 
-### 🎓 Alunos
+## 🎓 Alunos
 
 - Cadastro de alunos;
 - Consulta de alunos;
@@ -163,7 +160,7 @@ API/
 - Exclusão de registros;
 - Associação com turmas.
 
-### 🔐 Autenticação
+## 🔐 Autenticação
 
 A API utiliza **JWT (JSON Web Token)** para proteger os endpoints que necessitam de autenticação.
 
@@ -175,7 +172,7 @@ O token deve ser enviado nas requisições protegidas através do cabeçalho:
 Authorization: Bearer SEU_TOKEN
 ```
 
-### 🔒 Armários
+## 🔒 Armários
 
 O sistema permite o gerenciamento dos armários disponibilizados pela AAPM.
 
@@ -187,7 +184,7 @@ Principais operações:
 - Reservas;
 - Validação de utilização.
 
-### 📅 Reservas
+## 📅 Reservas
 
 O módulo de reservas é responsável pelo controle das reservas realizadas pelos usuários.
 
@@ -199,7 +196,7 @@ Funcionalidades:
 - Controlar período de utilização;
 - Cancelar reservas quando aplicável.
 
-### 📄 Termos
+## 📄 Termos
 
 A API realiza o gerenciamento dos termos de utilização do sistema.
 
@@ -211,9 +208,9 @@ São contemplados termos relacionados a:
 
 Também existe o controle de aceite dos termos pelos usuários.
 
-### 📚 Cursos e turmas
+## 📚 Cursos e turmas
 
-A API também possui recursos relacionados ao gerenciamento acadêmico, permitindo o controle de:
+A API possui recursos relacionados ao gerenciamento acadêmico, permitindo o controle de:
 
 - Cursos;
 - Turmas;
@@ -249,10 +246,9 @@ O Swagger permite:
 
 Antes de executar o projeto, certifique-se de possuir instalado:
 
-- .NET 10 SDK;
-- PostgreSQL ou acesso ao Supabase;
-- Git;
-- Docker, caso queira utilizar containers.
+- [.NET 10 SDK](https://dotnet.microsoft.com/download/dotnet/10.0);
+- MariaDB;
+- Git.
 
 ---
 
@@ -278,42 +274,27 @@ dotnet restore
 
 ---
 
-## 4. Configure as informações sensíveis
+## 4. Configure o banco de dados
 
-As informações sensíveis não devem ser armazenadas diretamente no código.
+A aplicação utiliza **MariaDB**.
 
-Configure através de **User Secrets** ou variáveis de ambiente.
+A connection string deve ser configurada de forma segura, utilizando **User Secrets** ou variáveis de ambiente.
 
 Exemplo:
-
-```text
-ConnectionStrings__DefaultConnection
-Jwt__Key
-EmailSettings__Email
-EmailSettings__Password
-```
-
----
-
-## 5. Configure o banco de dados
-
-A aplicação utiliza **PostgreSQL**.
-
-Exemplo de configuração:
 
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "SUA_CONNECTION_STRING"
+    "DefaultConnection": "Server=localhost;Port=3306;Database=nome_do_banco;User=root;Password=SUA_SENHA;"
   }
 }
 ```
 
-> ⚠️ Nunca publique uma connection string real no GitHub.
+> ⚠️ Não publique credenciais reais no GitHub.
 
 ---
 
-## 6. Configure o JWT
+## 5. Configure o JWT
 
 Exemplo:
 
@@ -329,9 +310,24 @@ A chave real deve permanecer protegida através de User Secrets ou variáveis de
 
 ---
 
+## 6. Configure o serviço de e-mail
+
+O sistema utiliza um serviço de e-mail para funcionalidades como recuperação de senha.
+
+As credenciais devem ser configuradas através de variáveis de ambiente ou User Secrets.
+
+Exemplo:
+
+```text
+EmailSettings__Email
+EmailSettings__Password
+```
+
+---
+
 ## 7. Aplicar as migrations
 
-Para atualizar o banco de dados:
+Para atualizar a estrutura do banco de dados:
 
 ```bash
 dotnet ef database update
@@ -349,30 +345,6 @@ Depois, acesse o Swagger:
 
 ```text
 http://localhost:XXXX/swagger
-```
-
----
-
-# 🐳 Docker
-
-O projeto possui suporte para execução através do Docker.
-
-### Criar a imagem
-
-```bash
-docker build -t api-aapm .
-```
-
-### Executar o container
-
-```bash
-docker run -p 8080:8080 api-aapm
-```
-
-A API ficará disponível em:
-
-```text
-http://localhost:8080
 ```
 
 ---
@@ -407,16 +379,17 @@ Entre eles:
 
 # 🗄️ Banco de dados
 
-O projeto utiliza:
+O projeto utiliza **MariaDB** como banco de dados.
 
 ```text
-PostgreSQL
-     │
-     ▼
-  Supabase
+ASP.NET Core
+      │
+      │ Entity Framework Core
+      ▼
+   MariaDB
 ```
 
-O acesso ao banco é realizado utilizando **Entity Framework Core**.
+O acesso ao banco é realizado utilizando **Entity Framework Core** e o provedor compatível com MariaDB/MySQL.
 
 As migrations são utilizadas para controlar a evolução da estrutura do banco de dados.
 
@@ -442,8 +415,7 @@ A API foi desenvolvida para ser consumida pelo front-end do sistema.
         │ Entity Framework Core
         ▼
 ┌───────────────┐
-│  PostgreSQL   │
-│   Supabase    │
+│    MariaDB    │
 └───────────────┘
 ```
 
@@ -477,14 +449,6 @@ Exemplo de resposta padrão:
 ```
 
 > Os endpoints podem sofrer alterações conforme a evolução do projeto.
-
----
-
-# 🌐 Deploy
-
-A API foi preparada para execução em ambientes de produção utilizando **Docker** e variáveis de ambiente.
-
-A aplicação pode ser hospedada em plataformas compatíveis com aplicações **.NET** e **Docker**.
 
 ---
 
