@@ -1,0 +1,181 @@
+﻿using API_backEnd.Common;
+using API_backEnd.DTOs.Auth;
+using API_backEnd.Models;
+using API_backEnd.Settings;
+using Microsoft.Extensions.Options;
+using System.Net;
+using System.Net.Mail;
+using System.Text.RegularExpressions;
+using API_backEnd.EmailTemplates;
+
+namespace API_backEnd.Services
+{
+    public class EmailService
+    {
+        private readonly AapmContext db;
+        private readonly EmailSettings _settings;
+        private static readonly Regex SenhaRegex = new Regex(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$");
+        private readonly NotificacaoService _notificacaoService;
+
+        public EmailService(IOptions<EmailSettings> options, AapmContext db, NotificacaoService notificacaoService)
+        {
+            _settings = options.Value;
+            this.db = db;
+            _notificacaoService = notificacaoService;
+        }
+
+        public void EnviarCodigoRecuperacao(string emailDestino, string codigo) 
+        {
+            var html = EmailTemplates.EmailTemplates.RedefinirSenha(codigo);
+
+            var mensagem = new MailMessage();
+            mensagem.From = new MailAddress(_settings.Email);
+            mensagem.To.Add(emailDestino);
+            mensagem.Subject = "Recuperação de senha";
+            // trocar pro html da lopreti
+            mensagem.Body = html;
+            mensagem.IsBodyHtml = true;
+
+            var smtp = new SmtpClient(_settings.Host, _settings.Porta);
+            smtp.Credentials = new NetworkCredential(_settings.Email, _settings.Senha);
+            smtp.EnableSsl = true;
+
+            smtp.Send(mensagem);
+        }
+
+        public ResultadoPadrao<object> VerificarEmail(ConfirmarEmailRequest dto)
+        {
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == dto.Email && a.IsAtivo);
+            var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == dto.Email && a.IsAtivo);
+
+            if (aluno != null || admin != null)
+            {
+                var codigo = new Random().Next(100000, 999999).ToString();
+
+                var dados = new TabelaVerificacao
+                {
+                    Email = dto.Email,
+                    Codigo = codigo,
+                    Expiracao = DateTime.UtcNow.AddMinutes(15)
+                };
+
+                db.TabelaVerificacaos.Add(dados);
+                EnviarCodigoRecuperacao(dto.Email, codigo);
+                db.SaveChanges();
+            }
+            return ResultadoPadrao<object>.Ok("Se o email existir, enviaremos instruções...");
+
+        }
+
+        public ResultadoPadrao<object> VerificarCodigo(VerificarCodigoRequest dto)
+        {
+            var codigo = db.TabelaVerificacaos.FirstOrDefault(v => v.Email == dto.Email && v.Codigo == dto.Codigo && v.Expiracao > DateTime.UtcNow && v.Usado == false);
+            if (codigo == null)
+            {
+                return ResultadoPadrao<object>.Falha("Código invalido", 400);
+            }
+            return ResultadoPadrao<object>.Ok("Código validado com sucesso");
+        }
+
+        public ResultadoPadrao<object> ResetarSenha(ResetarSenhaRequest dto)
+        {
+            if (dto.SenhaNova != dto.ConfirmarSenha)
+            {
+                return ResultadoPadrao<object>.Falha("As senhas não coincidem", 400);
+            }
+
+            if (!SenhaRegex.IsMatch(dto.SenhaNova))
+            {
+                return ResultadoPadrao<object>.Falha("A senha deve ter no mínimo 8 caracteres, com letra maiúscula, minúscula e número", 400);
+            }
+
+            var codigo = db.TabelaVerificacaos.FirstOrDefault(v => v.Codigo == dto.Codigo && v.Email == dto.Email && v.Usado == false && v.Expiracao > DateTime.UtcNow);
+
+            if (codigo == null)
+            {
+                return ResultadoPadrao<object>.Falha("Código inválido ou expirado", 400);
+            }
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == codigo.Email);
+            var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == codigo.Email);
+            int idUsuario;
+            if (aluno != null)
+            {
+                idUsuario = aluno.IdUsuario;
+            }
+            else if (admin != null)
+            {
+                idUsuario = admin.IdUsuario;
+            }
+            else
+            {
+                return ResultadoPadrao<object>.Falha("Usuário não encontrado", 404);
+            }
+            var usuario = db.TabelaUsuarios.FirstOrDefault(u => u.Id == idUsuario);
+            if (usuario == null)
+            {
+                return ResultadoPadrao<object>.Falha("Usuario não encontrado", 404);
+            }
+
+            if (BCrypt.Net.BCrypt.Verify(dto.SenhaNova, usuario.Senha))
+            {
+                return ResultadoPadrao<object>.Falha("A nova senha deve ser diferente da antiga");
+            }
+
+            usuario.Senha = BCrypt.Net.BCrypt.HashPassword(dto.SenhaNova);
+            codigo.Usado = true;
+            db.SaveChanges();
+            _notificacaoService.CriarNotificacao(usuario.Id, EventosNotificacao.SenhaAlterada); 
+            return ResultadoPadrao<object>.Ok("Senha redefinida com sucesso");
+        }
+
+        public ResultadoPadrao<object> ReenviarCodigoRecuperacao(ConfirmarEmailRequest dto)
+        {
+            var aluno = db.TabelaAlunos.FirstOrDefault(a => a.Email == dto.Email && a.IsAtivo);
+
+            var admin = db.TabelaAdmins.FirstOrDefault(a => a.Email == dto.Email && a.IsAtivo);
+
+            if (aluno == null && admin == null)
+                return ResultadoPadrao<object>.Ok("Se o email existir, enviaremos um novo código.");
+
+            var codigoRecente = db.TabelaVerificacaos
+                .Where(v => v.Email == dto.Email && !v.Usado && v.Expiracao > DateTime.UtcNow)
+                .OrderByDescending(v => v.Expiracao)
+                .FirstOrDefault();
+
+            if (codigoRecente != null)
+            {
+                var criadoEm = codigoRecente.Expiracao.AddMinutes(-15);
+                var tempoDecorrido = DateTime.UtcNow - criadoEm;
+
+                if (tempoDecorrido.TotalMinutes < 5)
+                {
+                    return ResultadoPadrao<object>.Falha("Você precisa aguardar 5 minutos antes de solicitar um novo código.",429);
+                }
+            }
+
+            var codigosAnteriores = db.TabelaVerificacaos.Where(v => v.Email == dto.Email && !v.Usado).ToList();
+
+            foreach (var codigoAnterior in codigosAnteriores)
+            {
+                codigoAnterior.Usado = true;
+            }
+
+            var codigo = new Random().Next(100000, 999999).ToString();
+
+            var novoCodigo = new TabelaVerificacao
+            {
+                Email = dto.Email,
+                Codigo = codigo,
+                Expiracao = DateTime.UtcNow.AddMinutes(15),
+                Usado = false
+            };
+
+            db.TabelaVerificacaos.Add(novoCodigo);
+            db.SaveChanges();
+
+            EnviarCodigoRecuperacao(dto.Email, codigo);
+
+            return ResultadoPadrao<object>.Ok("Novo código enviado para seu e-mail.");
+        }
+    }
+}
