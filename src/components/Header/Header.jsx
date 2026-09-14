@@ -4,7 +4,7 @@ import { useTheme } from "../../utils/darkMode";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { getLogoDestino } from "../../utils/logoRedirect";
-import { authFetch } from "../../utils/auth";
+import { authFetch, getUsuarioLogado } from "../../utils/auth";
 import { API_ROUTES } from "../../routes/config/api.js";
 import {
   Bell,
@@ -21,6 +21,12 @@ import {
 } from "lucide-react";
 import { alertConfirmar, alertErro } from "../Alerts/Alerts.jsx";
 
+function rotaInicialPorPerfil(usuario) {
+  return usuario?.perfil === "aluno"
+    ? "/usuario/tela-principal"
+    : "/admin/armarios";
+}
+
 export default function Header() {
   const { darkMode, setDarkMode } = useTheme();
   const [menuAberto, setMenuAberto] = useState(false);
@@ -28,6 +34,7 @@ export default function Header() {
   const [notifExpandido, setNotifExpandido] = useState(false);
   const [notificacoes, setNotificacoes] = useState([]);
   const [carregandoNotif, setCarregandoNotif] = useState(false);
+  const [usuario, setUsuario] = useState(() => getUsuarioLogado());
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -56,6 +63,25 @@ export default function Header() {
     });
   }
 
+  // Revalida o usuário logado ao trocar de rota, focar a aba ou voltar do bfcache
+  useEffect(() => {
+    const verificar = () => setUsuario(getUsuarioLogado());
+    verificar();
+    window.addEventListener("pageshow", verificar);
+    window.addEventListener("focus", verificar);
+    return () => {
+      window.removeEventListener("pageshow", verificar);
+      window.removeEventListener("focus", verificar);
+    };
+  }, [location.pathname]);
+
+  // Se já está logado e caiu na home, manda direto pra tela certa do perfil
+  useEffect(() => {
+    if (location.pathname === "/" && usuario) {
+      navigate(rotaInicialPorPerfil(usuario), { replace: true });
+    }
+  }, [location.pathname, usuario, navigate]);
+
   useEffect(() => {
     if (!mostrarNotificacoes) return;
 
@@ -73,7 +99,6 @@ export default function Header() {
             lida: n.lida,
           }),
         );
-        setNotificacoes(lista);
         setNotificacoes(lista);
       } catch (err) {
         console.error("Erro ao buscar notificações:", err);
@@ -173,6 +198,7 @@ export default function Header() {
     if (!confirmar) return;
     localStorage.removeItem("token");
     sessionStorage.removeItem("token");
+    setUsuario(null);
     navigate("/", { replace: true });
   }
 
@@ -386,7 +412,7 @@ export default function Header() {
           )}
           {renderThemeButton()}
           {isAdmin && renderNotificacoes()}
-          {headerType === "login" && (
+          {headerType === "login" && !usuario && (
             <button
               className={styles.btnGhost}
               onClick={() => navigate("/login")}
