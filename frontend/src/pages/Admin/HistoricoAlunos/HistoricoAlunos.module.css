@@ -1,0 +1,240 @@
+.principalBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 0;
+}
+
+.conteudoWrapper {
+  position: relative;
+  width: 100%;
+  min-height: var(--page-min-height);
+  display: flex;
+  flex-direction: column;
+}
+
+.voltar,
+.voltarDocked {
+  left: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all var(--transition);
+  z-index: 100;
+}
+
+.voltar {
+  position: fixed;
+  bottom: 24px;
+}
+
+.voltarDocked {
+  position: absolute;
+  bottom: 24px;
+}
+
+.voltar:hover {
+  background: var(--border-glass-mid);
+}
+
+.divHeader {
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.divHeader .icon {
+  font-size: 60px;
+}
+
+.inputPesquisa {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  width: 95%;
+  max-width: 800px; 
+}
+
+.containerLista {
+  margin-top: 2rem;
+  width: 95%;
+  max-width: 1000px;
+  min-height: 60px; 
+  background: var(--glass-card);
+  border: 1px solid var(--border-glass-strong);
+  border-radius: 20px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+:global(.dark-mode) .containerLista {
+  background: var(--glass-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--border-glass);
+}
+
+.linha {
+  display: grid;
+  grid-template-columns: 0.7fr 2fr 1.5fr 1.5fr 1fr;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 12px;
+  color: var(--text-white-high);
+  background: var(--navy-input);
+}
+
+:global(.dark-mode) .linha {
+  background: var(--dark-blue);
+}
+
+.linha.titulo {
+  background: transparent;
+  border-bottom: 2px solid var(--border-glass-mid);
+  color: var(--text-white-high);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  border-radius: 0;
+  padding-bottom: 0.8rem;
+}
+
+.mensagem {
+  color: var(--text-white-muted);
+  text-align: center;
+  padding: 1rem;
+}
+
+.btnEditar {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--heading-accent);
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  padding-left: 0.5rem;
+  transition: transform var(--transition), color var(--transition);
+}
+
+.btnEditar:hover {
+  color: var(--dark-blue);
+  transform: scale(1.1);
+}
+
+.status {
+  padding: 6px 12px;
+  border-radius: 20px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 13px;
+}
+
+.status.ativo {
+  background: var(--success-bg);
+  color: var(--success-alt);
+}
+
+.status.inativo {
+  background: rgba(244, 67, 54, 0.15);
+  color: var(--error);
+}
+
+@media (max-width: 768px) {
+  .principalBox {
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+  }
+
+  .linha {
+    grid-template-columns: 1fr;
+    gap: 0.5rem;
+    text-align: left;
+  }
+
+  .linha.titulo {
+    display: none;
+  }
+
+  .btnEditar {
+    justify-content: flex-start;
+    padding: 0;
+  }
+
+  .linha span {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .linha span:nth-child(2)::before { content: "Nome:"; font-weight: 600; opacity: 0.8; }
+  .linha span:nth-child(3)::before { content: "CPF:"; font-weight: 600; opacity: 0.8; }
+  .linha span:nth-child(4)::before { content: "Armário:"; font-weight: 600; opacity: 0.8; }
+  .linha span:nth-child(5)::before { content: "Status:"; font-weight: 600; opacity: 0.8; }
+
+  .status {
+    width: fit-content;
+  }
+}
+
+.formControl {
+  width: 100%;
+  height: 44px;
+  border-radius: 8px;
+  padding: 0 42px;
+  background: rgba(30, 58, 138, 0.46);
+  border: 1px solid var(--border-glass);
+  color: var(--white);
+  font-size: 14px;
+  transition: all var(--transition);
+}
+
+.formControl::placeholder {
+  color: var(--text-white-soft);
+}
+
+.formControl:focus {
+  outline: none;
+  background: rgba(30, 58, 138, 0.66);
+  border-color: var(--border-glass-strong);
+  box-shadow: 0 0 0 3px var(--border-glass);
+}
+
+.searchIcon {
+  position: absolute;
+  left: 14px;
+  color: var(--text-white-soft);
+  pointer-events: none;
+}
+
+.limparPesquisa {
+  position: absolute;
+  right: 8px;
+  width: 30px;
+  height: 30px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-white-soft);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: all var(--transition);
+}
+
+.limparPesquisa:hover {
+  background: var(--border-glass);
+  color: var(--white);
+}

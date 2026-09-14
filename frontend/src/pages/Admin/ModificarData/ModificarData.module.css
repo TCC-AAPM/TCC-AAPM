@@ -1,0 +1,130 @@
+.principalBox {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3rem;
+}
+
+.conteudoWrapper {
+  position: relative;
+  width: 100%;
+  min-height: var(--page-min-height);
+  display: flex;
+  flex-direction: column;
+}
+
+.voltar,
+.voltarDocked {
+  left: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all var(--transition);
+  z-index: 100;
+}
+
+.voltar {
+  position: fixed;
+  bottom: 24px;
+}
+
+.voltarDocked {
+  position: absolute;
+  bottom: 24px;
+}
+
+.voltar:hover {
+  background: var(--border-glass-mid);
+}
+
+.divHeader {
+  color: var(--texto-cor);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
+  width: 100%;
+  padding-bottom: 1rem;
+}
+
+.divHeader .materialSymbols {
+  font-size: 60px;
+}
+
+.formsDate {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  width: 90%;
+  max-width: 600px;
+  gap: 1rem;
+}
+
+.containerDateView {
+  width: 100%;
+  max-width: 600px;
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 16px;
+  padding: 1rem 1.4rem;
+  margin-bottom: 1.5rem;
+  color: var(--texto-cor);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+}
+
+.labelDate {
+  opacity: 0.8;
+}
+
+.currentDate {
+  font-weight: 700;
+  font-size: 1.2rem;
+}
+
+.containerDateInput {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.formLabel {
+  color: var(--texto-cor);
+}
+
+.btnEditar {
+  background-color: var(--dark-blue);
+  height: 60px;
+  border-radius: 18px;
+  font-size: 20px;
+  width: 100%;
+}
+
+.btnSubmit {
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: inherit;
+  border-radius: inherit;
+}
+
+@media (max-width: 900px) {
+  .divHeader {
+    text-align: center;
+    padding: 1rem;
+  }
+}

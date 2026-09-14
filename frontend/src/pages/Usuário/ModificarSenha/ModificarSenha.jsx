@@ -1,0 +1,180 @@
+import { useState } from "react";
+import styles from "./ModificarSenha.module.css";
+import { alertErro, alertSucesso } from "../../../components/Alerts/Alerts.jsx";
+import { useNavigate } from "react-router-dom";
+import { API_ROUTES, authFetch } from "../../../utils/auth.js";
+import { useDockButton } from "../../../utils/useDockButton";
+
+function verificarSenha(senha) {
+  const erros = [];
+  if (senha.length < 8) erros.push("Mínimo de 8 caracteres;");
+  if (!/[a-z]/.test(senha)) erros.push("Pelo menos uma letra minúscula;");
+  if (!/[A-Z]/.test(senha)) erros.push("Pelo menos uma letra maiúscula;");
+  if (!/[0-9]/.test(senha)) erros.push("Pelo menos um número;");
+  if (!/[^A-Za-z0-9]/.test(senha))
+    erros.push("Pelo menos um símbolo especial;");
+  return erros;
+}
+
+function calcularForca(senha) {
+  let pontos = 0;
+  if (senha.length >= 8) pontos++;
+  if (/[a-z]/.test(senha) && /[A-Z]/.test(senha)) pontos++;
+  if (/[0-9]/.test(senha)) pontos++;
+  if (/[^A-Za-z0-9]/.test(senha)) pontos++;
+  return pontos;
+}
+
+function nivelForca(pontos) {
+  if (pontos <= 1) return { classe: "fraca", label: "Senha fraca" };
+  if (pontos <= 3) return { classe: "media", label: "Senha média" };
+  return { classe: "forte", label: "Senha forte" };
+}
+
+const REQUISITOS = [
+  { texto: "Mínimo de 8 caracteres", teste: (s) => s.length >= 8 },
+  { texto: "Uma letra maiúscula e uma minúscula", teste: (s) => /[a-z]/.test(s) && /[A-Z]/.test(s) },
+  { texto: "Pelo menos 1 número", teste: (s) => /[0-9]/.test(s) },
+  { texto: "Pelo menos 1 caractere especial (ex: !@#$%)", teste: (s) => /[^A-Za-z0-9]/.test(s) },
+];
+
+function PasswordInput({ id, label, value, onChange, onFocus }) {
+  const [visible, setVisible] = useState(false);
+  return (
+    <div className={`${styles.inputBox} ${styles.inputIcon}`}>
+      <input
+        type={visible ? "text" : "password"}
+        className={styles.formControl}
+        id={id}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        onFocus={onFocus}
+        required
+      />
+      <label htmlFor={id}>{label}</label>
+      <span
+        className={`${styles.icon} ${visible ? styles.iconHide : ""}`}
+        onClick={() => setVisible((v) => !v)}
+      />
+    </div>
+  );
+}
+
+export default function ModificarSenha() {
+  const navigate = useNavigate();
+  const docked = useDockButton();
+  const [senhaAtual, setSenhaAtual] = useState("");
+  const [novaSenha, setNovaSenha] = useState("");
+  const [confirmarSenha, setConfirmarSenha] = useState("");
+  const [focoNovaSenha, setFocoNovaSenha] = useState(false);
+
+  const pontosForca = calcularForca(novaSenha);
+  const { classe, label } = nivelForca(pontosForca);
+  const mostrarMedidor = focoNovaSenha;
+
+  async function atualizarSenha(e) {
+    e.preventDefault();
+
+    if (novaSenha !== confirmarSenha) {
+      alertErro("As senhas não coincidem");
+      return;
+    }
+
+    const erros = verificarSenha(novaSenha);
+    if (erros.length > 0) {
+      alertErro("Sua senha não atende aos requisitos mínimos.");
+      return;
+    }
+
+    const response = await authFetch(API_ROUTES.alunos.trocarSenha, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        senhaAtual,
+        senhaNova: novaSenha,
+        confirmarSenha,
+      }),
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      alertErro(data.mensagem ?? "Erro ao trocar senha");
+      return;
+    }
+    alertSucesso(data.mensagem ?? "Senha alterada com sucesso");
+    navigate("/usuario/tela-principal");
+  }
+
+  return (
+    <div className={styles.conteudoWrapper}>
+      <div className={styles.containerGeral}>
+        <div className={styles.principalBox}>
+          <div className={styles.entreAqui}>
+            <h1 className="material-symbols-outlined">lock_reset</h1>
+            <h3>Modifique sua senha</h3>
+            <p>Use pelo menos 8 caracteres, com maiúscula, minúscula, número e caractere especial.</p>
+          </div>
+
+          <form onSubmit={atualizarSenha} className={styles.form}>
+            <PasswordInput
+              id="password1"
+              label="Senha Atual"
+              value={senhaAtual}
+              onChange={setSenhaAtual}
+            />
+            <div
+              onFocus={() => setFocoNovaSenha(true)}
+              onBlur={() => setFocoNovaSenha(false)}
+            >
+              <PasswordInput
+                id="password2"
+                label="Nova Senha"
+                value={novaSenha}
+                onChange={setNovaSenha}
+              />
+            </div>
+
+            {mostrarMedidor && novaSenha && (
+              <div className={styles.forcaSenha}>
+                <div className={styles.barrasForca}>
+                  {[0, 1, 2, 3].map((i) => (
+                    <span
+                      key={i}
+                      className={i < pontosForca ? `${styles.barraAtiva} ${styles[classe]}` : ""}
+                    />
+                  ))}
+                </div>
+                <span className={styles.textoForca}>{label}</span>
+              </div>
+            )}
+
+            <PasswordInput
+              id="password3"
+              label="Confirmar Nova Senha"
+              value={confirmarSenha}
+              onChange={setConfirmarSenha}
+              onFocus={() => setFocoNovaSenha(false)}
+            />
+            <button
+              type="submit"
+              className={styles.btnPrimary}
+              disabled={!senhaAtual || !novaSenha || !confirmarSenha}
+            >
+              Modificar
+            </button>
+          </form>
+        </div>
+      </div>
+
+      <a
+        href="#"
+        onClick={() => history.back()}
+        className={`${styles.voltar} ${docked ? styles.voltarDocked : ""}`}
+      >
+        ← Voltar
+      </a>
+    </div>
+  );
+}
