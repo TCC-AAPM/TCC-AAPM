@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { alertErro } from "../../components/Alerts/Alerts.jsx";
 import styles from "./Login.module.css";
 import SEO from "../../components/SEO/SEO.jsx";
+import { API_ROUTES } from "../../routes/config/api.js";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -10,8 +11,6 @@ export default function Login() {
   const [senha, setSenha] = useState("");
   const [lembrar, setLembrar] = useState(false);
   const [mostrarSenha, setMostrarSenha] = useState(false);
-
-  const API_LOGIN = "/api/Login";
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,7 +21,7 @@ export default function Login() {
     }
 
     try {
-      const response = await fetch(API_LOGIN, {
+      const response = await fetch(API_ROUTES.login, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, senha }),
