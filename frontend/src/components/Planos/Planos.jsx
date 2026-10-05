@@ -30,6 +30,13 @@ function Card({ s, modoConsulta }) {
         <span className={styles.per}>&nbsp;{s.period}</span>
       </div>
       <div className={styles.cardDesc}>{s.desc}</div>
+      <p className={styles.cardLocal}>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z" />
+          <circle cx="12" cy="10" r="2.5" />
+        </svg>
+        {s.local}
+      </p>
       <div className={styles.cardHr} />
       <div className={styles.cardFeatures}>
         {s.features.map((f) => (
@@ -57,7 +64,7 @@ function Card({ s, modoConsulta }) {
         <span className={styles.btnLabel}>
           {modoConsulta
             ? "Consulte a secretaria para renovação"
-            : "Contratar Serviço"}
+            : "Reservar armário"}
         </span>
         {!modoConsulta && (
           <span className={styles.btnArrow}>
@@ -99,14 +106,13 @@ export default function Planos({ mostrarTitulo = true, modoConsulta = false }) {
             icon: <Icon name="inventory_2" />,
             name: "Armário",
             route: "/cadastro-armario",
-            title: "Seja um associado da AAPM",
+            title: "Alugue seu armário AAPM",
             price: formatPrice(precos["A"]),
             period: "/ semestre",
-            desc: "Guarde seus pertences com total segurança durante o período escolar e além disso:",
+            desc: "Guarde seus pertences com total segurança durante o período escolar.",
+            local: "Bloco B, 2° andar",
             features: [
               "Armário individual incluso",
-              "Desconto no Curso de Inglês",
-              "Ações em datas comemorativas",
               "Localização próxima às salas de aula",
               "Ambiente monitorado por câmeras",
             ],
