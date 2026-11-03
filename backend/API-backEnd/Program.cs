@@ -204,11 +204,26 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+
 // ==========================================
 // BUILD APPLICATION
 // ==========================================
-var app = builder.Build();
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("FrontEndPolicy", policy =>
+    {
+        policy
+            .WithOrigins(
+                "https://sitesin.com.br",
+                "https://www.sitesin.com.br"
+            )
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
+});
 
+var app = builder.Build();
+app.UseCors("FrontEndPolicy");
 // ==========================================
 // SWAGGER
 // ==========================================
