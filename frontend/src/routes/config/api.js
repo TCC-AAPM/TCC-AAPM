@@ -1,4 +1,4 @@
-const BASE_URL = import.meta.env.VITE_API_URL ?? `/api`;
+const BASE_URL = "https://tcc-aapm.onrender.com/api";
 
 export const API_ROUTES = {
   login: `${BASE_URL}/Login`,
