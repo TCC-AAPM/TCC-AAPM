@@ -10,24 +10,36 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ==========================================
+// PORTA DO RENDER
+// ==========================================
 var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
 
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
+// ==========================================
+// EMAIL SETTINGS
+// ==========================================
 builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection("EmailSettings")
 );
 
 builder.Services.AddScoped<EmailService>();
-// 🔹 Controllers
+
+// ==========================================
+// CONTROLLERS
+// ==========================================
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.Converters.Add(
-            new System.Text.Json.Serialization.JsonStringEnumConverter());
+            new System.Text.Json.Serialization.JsonStringEnumConverter()
+        );
     });
 
-// 🔹 Swagger + JWT
+// ==========================================
+// SWAGGER + JWT
+// ==========================================
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddSwaggerGen(options =>
@@ -45,23 +57,22 @@ builder.Services.AddSwaggerGen(options =>
 
         return methodOrder;
     });
+
     options.SwaggerDoc("v1", new OpenApiInfo
     {
         Title = "AAPM API",
         Version = "v1.0",
         Description = """
-        
-        API para gerenciamento de armários, estacionamentos e alunos
-        
+            API para gerenciamento de armários, estacionamentos e alunos
 
-        Desenvolvido por Gabriel Duarte
-        
-        """,
+            Desenvolvido por Gabriel Duarte
+            """,
         Contact = new OpenApiContact
         {
             Name = "Gabriel Duarte"
         }
     });
+
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Name = "Authorization",
@@ -71,10 +82,14 @@ builder.Services.AddSwaggerGen(options =>
         In = ParameterLocation.Header,
         Description = "Digite o token JWT sem 'Bearer'"
     });
+
     var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
     var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
 
-    options.IncludeXmlComments(xmlPath);
+    if (File.Exists(xmlPath))
+    {
+        options.IncludeXmlComments(xmlPath);
+    }
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
     {
@@ -87,20 +102,45 @@ builder.Services.AddSwaggerGen(options =>
                     Id = "Bearer"
                 }
             },
-            new string[] {}
+            Array.Empty<string>()
         }
     });
 });
-// 🔹 DbContext
+
+// ==========================================
+// BANCO DE DADOS - MARIADB / HOSTINGER
+// ==========================================
+var connectionString = builder.Configuration
+    .GetConnectionString("DefaultConnection");
+
+if (string.IsNullOrWhiteSpace(connectionString))
+{
+    throw new InvalidOperationException(
+        "A ConnectionString 'DefaultConnection' não foi configurada."
+    );
+}
+
 builder.Services.AddDbContext<AapmContext>(options =>
     options.UseMySql(
-        builder.Configuration.GetConnectionString("DefaultConnection"),
-        ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+        connectionString,
+
+        // Evita AutoDetect, que tenta conectar ao banco durante a inicialização.
+        new MariaDbServerVersion(new Version(10, 6, 0)),
+
+        mysqlOptions =>
+        {
+            mysqlOptions.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorNumbersToAdd: null
+            );
+        }
     )
 );
 
-// services
-
+// ==========================================
+// SERVICES
+// ==========================================
 builder.Services.AddScoped<AdminService>();
 builder.Services.AddScoped<AlunoService>();
 builder.Services.AddScoped<ArmarioService>();
@@ -116,48 +156,79 @@ builder.Services.AddScoped<ReservaService>();
 builder.Services.AddScoped<TermoService>();
 builder.Services.AddScoped<TurmaService>();
 builder.Services.AddScoped<UsuarioService>();
+
 builder.Services.AddHttpContextAccessor();
 
-// 🔹 JWT Authentication
-var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
+// ==========================================
+// JWT AUTHENTICATION
+// ==========================================
+var jwtKey = builder.Configuration["Jwt:Key"];
+
+if (string.IsNullOrWhiteSpace(jwtKey))
+{
+    throw new InvalidOperationException(
+        "A chave JWT não foi configurada. Configure Jwt__Key no Render."
+    );
+}
+
+var key = Encoding.UTF8.GetBytes(jwtKey);
 
 builder.Services.AddAuthentication(options =>
 {
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultAuthenticateScheme =
+        JwtBearerDefaults.AuthenticationScheme;
+
+    options.DefaultChallengeScheme =
+        JwtBearerDefaults.AuthenticationScheme;
 })
 .AddJwtBearer(options =>
 {
     options.RequireHttpsMetadata = false;
     options.SaveToken = true;
+
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key),
+
         ValidateIssuer = false,
         ValidateAudience = false
     };
 });
 
+// ==========================================
+// BUILD APPLICATION
+// ==========================================
 var app = builder.Build();
 
-// 🔹 Swagger
+// ==========================================
+// SWAGGER
+// ==========================================
 app.UseSwagger();
 app.UseSwaggerUI();
 
-// arquivo
+// ==========================================
+// STATIC FILES
+// ==========================================
 app.UseStaticFiles();
 
-// 🔹 Pipeline
-app.UseAuthentication(); // ⚠️ sempre antes
+// ==========================================
+// AUTHENTICATION
+// ==========================================
+app.UseAuthentication();
 
+// ==========================================
+// CACHE HEADERS PARA USUÁRIOS AUTENTICADOS
+// ==========================================
 app.Use(async (context, next) =>
 {
     context.Response.OnStarting(() =>
     {
         if (context.User.Identity?.IsAuthenticated == true)
         {
-            context.Response.Headers.CacheControl = "no-store, no-cache, must-revalidate";
+            context.Response.Headers.CacheControl =
+                "no-store, no-cache, must-revalidate";
+
             context.Response.Headers.Pragma = "no-cache";
             context.Response.Headers.Expires = "0";
         }
@@ -168,8 +239,17 @@ app.Use(async (context, next) =>
     await next();
 });
 
+// ==========================================
+// AUTHORIZATION
+// ==========================================
 app.UseAuthorization();
 
+// ==========================================
+// ROUTES
+// ==========================================
 app.MapControllers();
 
+// ==========================================
+// RUN
+// ==========================================
 app.Run();
