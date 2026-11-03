@@ -1,0 +1,43 @@
+# AAPM - Frontend
+
+Sistema de gerenciamento de armários desenvolvido como Trabalho de Conclusão de Curso (TCC) do curso de Desenvolvimento de Sistemas do SENAI "Nadir Dias de Figueiredo" (Osasco/SP).
+
+Frontend em React + Vite que consome a API ASP.NET Core do projeto, oferecendo telas administrativas e de aluno para gestão de reservas, usuários, cursos, turmas e termos de uso.
+
+## Tecnologias
+
+- **React** + **Vite**
+- **MUI (Material UI)** — componentes de tabela, paginação e modais
+- **SweetAlert2** — alertas e confirmações (via componente compartilhado `Alerts`)
+- **CSS Modules** — estilização isolada por componente
+- **JWT** — autenticação via token
+
+## Funcionalidades
+
+### Área Administrativa
+- Gerenciamento de cursos, turmas, usuários e termos de uso
+- Histórico de alunos com busca e paginação
+- Gerenciamento de armários e reservas
+- Configuração de datas de reserva (`ModificarData`)
+- Controle de acesso por perfil (admin)
+
+### Área do Aluno
+- Cadastro com validação de CPF e aceite de termos (LGPD, com cláusula para menores)
+- Consulta de planos e status de reserva (`ATIVA` / `EXPIRADA` / `SEM_RESERVA`)
+- Contador regressivo de expiração da reserva
+- Alteração de senha e nome social
+
+## Arquitetura e Padrões
+
+- **`authFetch`**: utilitário central para requisições autenticadas, com tratamento de `FormData` e headers anti-cache
+- **`API_ROUTES`**: configuração centralizada de endpoints
+- **`PrivateRoute`**: proteção de rotas por autenticação e perfil, com revalidação de token ao voltar do cache do navegador (`pageshow`) e ao focar a aba
+- **Alerts compartilhado**: `alertConfirmar`, `alertSucesso`, `alertErro` (nunca importar `Swal` diretamente)
+- **Tema**: sistema de variáveis CSS (glassmorphism, dark mode) com `ThemeContext`
+- **Layout**: header condicional por rota, navegação lateral (side nav), scroll to top automático
+- **Persistência de seleção**: uso de `sessionStorage` para manter contexto (ex: aluno/armário selecionado) entre navegações
+
+## Time
+
+- Isabella Gonçalves Lopreti ([@lopreti](https://github.com/lopreti))
+- Gabriel Duarte ([@devGabrielDuarte07](https://github.com/devGabrielDuarte07))
