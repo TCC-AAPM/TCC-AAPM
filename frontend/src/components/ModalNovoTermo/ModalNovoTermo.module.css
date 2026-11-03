@@ -1,0 +1,157 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 1rem;
+}
+
+.modal {
+  background: var(--navy-mid);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 2rem;
+  max-width: 460px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+}
+
+.iconeBadge {
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
+  background: rgba(37, 99, 235, 0.2);
+  border: 1px solid rgba(37, 99, 235, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-footer-title);
+}
+
+.iconeBadge span {
+  font-size: 1.6rem;
+}
+
+.header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: var(--white);
+  font-weight: 600;
+}
+
+.descricao {
+  margin: 0;
+  font-size: 0.875rem;
+  color: var(--text-white-high);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.termoItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px solid var(--border-glass);
+  border-radius: 10px;
+  padding: 0.8rem 1rem;
+}
+
+.termoItem span.material-symbols-outlined {
+  font-size: 1.1rem;
+  color: var(--text-footer-support);
+  flex-shrink: 0;
+}
+
+.termoLabel {
+  flex: 1;
+  font-size: 0.875rem;
+  color: var(--text-white-high);
+}
+
+.btnPdf {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  background: rgba(37, 99, 235, 0.15);
+  border: 1px solid rgba(37, 99, 235, 0.3);
+  color: var(--text-footer-support);
+  font-size: 0.775rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+  flex-shrink: 0;
+}
+
+.btnPdf span {
+  font-size: 0.9rem;
+}
+
+.btnPdf:hover {
+  background: rgba(37, 99, 235, 0.28);
+}
+
+.divider {
+  height: 1px;
+  background: var(--border-glass);
+  margin: 0;
+}
+
+.acoes {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.btnRecusar {
+  flex: 1;
+  background: transparent;
+  border: 1px solid var(--danger);
+  color: var(--danger);
+  padding: 0.65rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: background 0.2s;
+}
+
+.btnRecusar:hover {
+  background: var(--danger-bg);
+}
+
+.btnAceitar {
+  flex: 1;
+  background: var(--navy-action);
+  border: none;
+  color: var(--white);
+  padding: 0.65rem;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+}
+
+.btnAceitar:hover {
+  opacity: 0.88;
+}

@@ -1,0 +1,179 @@
+.principalBox {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--page-min-height);
+  padding: 24px;
+}
+
+.card {
+  width: 100%;
+  max-width: 440px;
+  padding: 44px 40px;
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  background: var(--glass-surface);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.entreAqui {
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+  padding-bottom: 1.5rem;
+}
+
+.entreAqui h2 {
+  color: var(--text-white-high);
+  font-size: 22px;
+  line-height: 1.25;
+}
+
+.entreAqui p {
+  color: var(--text-white-high);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.entreAqui strong {
+  color: var(--white);
+  font-weight: 600;
+}
+
+.codigoInput {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  width: 100%;
+}
+
+.inputBox {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 10px;
+  width: 100%;
+}
+
+.inputBox input {
+  width: 100%;
+  aspect-ratio: 1;
+  min-width: 0;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 600;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--white);
+  border: 1px solid var(--border-glass-strong);
+  padding: 0;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.inputBox input:focus {
+  border-color: var(--text-white-high);
+  box-shadow: 0 0 0 3px var(--border-glass);
+}
+
+.btnPrimary {
+  height: 46px;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 500;
+  width: 100%;
+  background-color: var(--dark-blue);
+  color: var(--white) !important;
+  transition: opacity var(--transition), transform var(--transition);
+}
+
+.btnPrimary:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.btnPrimary:disabled {
+  background-color: var(--dark-blue) !important;
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.reenvioBox {
+  min-height: 34px;
+  margin-top: 12px;
+  color: var(--text-white-high);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reenvioBox button {
+  border: none;
+  background: transparent;
+  color: var(--white);
+  cursor: pointer;
+  font: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: opacity var(--transition);
+}
+
+.reenvioBox button:hover {
+  opacity: 0.85;
+}
+
+.reenvioBox button:disabled {
+  color: var(--text-white-soft);
+  cursor: not-allowed;
+}
+
+.voltar {
+  margin-top: 18px;
+  background: transparent;
+  color: var(--text-white-high);
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 15px;
+  border: 1px solid var(--border-glass-strong);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.voltar:hover {
+  background: var(--border-glass);
+  color: var(--white);
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 36px 24px;
+  }
+
+  .inputBox {
+    gap: 8px;
+  }
+
+  .inputBox input {
+    font-size: 20px;
+    border-radius: 10px;
+  }
+}
+
+@media (max-width: 360px) {
+  .principalBox {
+    padding: 16px;
+  }
+
+  .card {
+    padding: 32px 18px;
+  }
+}

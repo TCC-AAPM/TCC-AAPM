@@ -1,0 +1,295 @@
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(8px);
+
+  z-index: 1050;
+}
+
+.pop {
+  width: 95%;
+  max-width: 420px;
+
+  padding: 1.6rem;
+  border-radius: 18px;
+
+  background: var(--dark-blue);
+  color: white;
+
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+
+  animation: aparecer 0.25s ease;
+}
+
+.section-divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  margin-bottom: 1.2rem;
+  padding-bottom: 8px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.pop-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.pop-info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pop-info-group p {
+    display: grid; 
+    align-items: center;
+    grid-template-columns: auto 1fr auto;
+    gap: 6px;
+    font-weight: 400;
+}
+
+/* label (CPF, Curso...) */
+.pop-info-group span:first-child {
+  font-weight: 600;
+}
+
+/* valor */
+.pop-info-group span:nth-child(2) {
+  font-weight: 400;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.btn-copy {
+  background: none;
+  border: none;
+  cursor: pointer;
+
+  color: white;
+  opacity: 0.5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.2s ease;
+}
+
+.btn-copy:hover {
+  opacity: 1;
+  transform: scale(1.15);
+}
+
+.curso,
+.turma,
+.periodo,
+.pagamento {
+  max-width: 100%;
+}
+
+.badge-estado {
+  display: inline-flex;
+  align-items: center;
+  min-height: 34px;
+  padding: 7px 10px;
+  margin-bottom: 12px;
+
+  border-radius: 8px;
+  border: 1px solid var(--border-glass-strong);
+
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--white);
+
+  box-shadow: 0 8px 22px rgba(10, 30, 80, 0.28);
+}
+
+.badge-D {
+  background: linear-gradient(
+    135deg,
+    var(--color-disponivel) 0%,
+    var(--color-disponivel-dark) 100%
+  );
+}
+
+.badge-M {
+  background: linear-gradient(
+    135deg,
+    var(--color-manutencao) 0%,
+    var(--color-manutencao-dark) 100%
+  );
+}
+
+.badge-O {
+  background: linear-gradient(
+    135deg,
+    var(--color-ocupado) 0%,
+    var(--color-ocupado-dark) 100%
+  );
+}
+
+.badge-P {
+  background: linear-gradient(
+    135deg,
+    var(--color-pendente) 0%,
+    var(--color-pendente-dark) 100%
+  );
+}
+
+.label {
+  display: block;
+  margin-top: 14px;
+  margin-bottom: -4px;
+  font-size: 13px;
+  font-weight: 600;
+  opacity: 0.8;
+}
+
+.select,
+.textarea {
+  width: 100%;
+  padding: 10px 12px;
+  margin-top: 10px;
+
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  background: rgba(255, 255, 255, 0.06);
+  color: white;
+
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.select:focus,
+.textarea:focus {
+  outline: none;
+  border-color: var(--blue, #1e3a8a);
+}
+
+.select option {
+  background: var(--dark-blue);
+  color: white;
+}
+
+.textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.pop-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 1.5rem;
+}
+
+.pop-buttons button {
+  width: 100%;
+  padding: 12px;
+
+  border-radius: 12px;
+  border: none;
+
+  font-size: 14px;
+  font-weight: 500;
+
+  cursor: pointer;
+
+  background: var(--light-blue);
+  color: white;
+
+  transition: all 0.2s ease;
+}
+
+.btn-editar {
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: var(--dark-blue);
+    color: var(--white);
+    border: none;
+}
+
+.btn-editar:hover {
+    transform: scale(1.05);
+}
+
+.btn-editar:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.btn-editar,
+.btn-excluir {
+    background-color: var(--dark-blue);
+    margin-top: 10px;
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+    border: none;
+}
+
+.dark-mode .btn-excluir,
+.dark-mode .btn-editar {
+    background-color: var(--light-blue);
+}
+
+.btn-excluir:hover {
+    transform: scale(1.05);
+    background-color: var(--color-ocupado-dark);
+}
+
+.btn-editar:hover {
+    transform: scale(1.05);
+    background-color: var(--blue);
+}
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@media (max-width: 480px) {
+  .pop {
+    padding: 1.4rem;
+  }
+
+  .pop-title {
+    font-size: 18px;
+  }
+
+  .pop-info-group p {
+    grid-template-columns: 80px 1fr auto;
+  }
+}

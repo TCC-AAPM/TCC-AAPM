@@ -1,0 +1,151 @@
+.principalBox {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  box-sizing: border-box;
+}
+
+.divHeader {
+  color: var(--text-white-high);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 1.75rem;
+  max-width: 700px;
+}
+
+.divHeader h1 {
+  color: var(--text-white-high);
+  font-size: 1.9rem;
+  margin-bottom: 0.5rem;
+}
+
+.divHeader p {
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.divHeader :global(.material-symbols-outlined) {
+  font-size: 60px;
+  color: var(--white);
+}
+
+.cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 0.85rem;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.cartao {
+  color: var(--text-white-high);
+  background-color: var(--light-blue);
+  padding: 1rem 1.1rem;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+
+.cartao:hover {
+  transform: translateY(-5px);
+  background: var(--dark-blue);
+}
+
+:global(.dark-mode) .cartao {
+  background-color: var(--back-blue);
+}
+:global(.dark-mode) .icone {
+  background-color: var(--blue);
+}
+:global(.dark-mode) .cartao:hover {
+  background-color: var(--blue);
+}
+
+.icone {
+  width: 40px;
+  height: 40px;
+  background: var(--dark-blue);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.icone :global(.material-symbols-outlined) {
+  font-size: 20px;
+  color: var(--white);
+}
+
+.cartao h3 {
+  color: var(--text-white-high);
+  font-size: 1.05rem;
+  margin-bottom: 8px;
+}
+
+.cartao p {
+  color: var(--text-card-soft);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+  .principalBox {
+    justify-content: flex-start;
+    padding-top: 5rem;
+    padding-bottom: 2rem;
+  }
+
+  .divHeader {
+    margin-bottom: 1.25rem;
+  }
+
+  .divHeader h1 {
+    font-size: 1.6rem;
+  }
+
+  .cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.conteudoWrapper {
+  position: relative;
+  width: 100%;
+  min-height: var(--page-min-height);
+  display: flex;
+  flex-direction: column;
+}
+
+.voltar,
+.voltarDocked {
+  left: 24px;
+  background: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 15px;
+  transition: all var(--transition);
+  z-index: 100;
+}
+
+.voltar {
+  position: fixed;
+  bottom: 24px;
+}
+
+.voltarDocked {
+  position: absolute;
+  bottom: 24px;
+}
+
+.voltar:hover {
+  background: var(--border-glass-mid);
+}
