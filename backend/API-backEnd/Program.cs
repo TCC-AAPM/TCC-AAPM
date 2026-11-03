@@ -113,6 +113,14 @@ builder.Services.AddSwaggerGen(options =>
 var connectionString = builder.Configuration
     .GetConnectionString("DefaultConnection");
 
+var dbInfo = new MySqlConnector.MySqlConnectionStringBuilder(connectionString);
+
+Console.WriteLine(
+    $"[DB CONFIG] Server={dbInfo.Server}; " +
+    $"Database={dbInfo.Database}; " +
+    $"User={dbInfo.UserID}"
+);
+
 if (string.IsNullOrWhiteSpace(connectionString))
 {
     throw new InvalidOperationException(
