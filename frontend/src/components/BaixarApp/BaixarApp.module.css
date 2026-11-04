@@ -1,0 +1,165 @@
+.banner {
+  position: relative;
+  width: min(calc(100% - 32px), 900px);
+  min-height: 280px;
+  margin: 8px auto 72px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  overflow: visible;
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.banner.visivel {
+  animation: entrada 0.65s ease both;
+}
+
+.conteudo {
+  position: relative;
+  z-index: 1;
+  padding: 12px 0;
+}
+
+.conteudo h2 {
+  max-width: 440px;
+  color: var(--text-white-high);
+  font-size: clamp(25px, 7vw, 38px);
+  font-weight: 700;
+  line-height: 1.13;
+}
+
+.descricao {
+  margin-top: 12px;
+  color: var(--text-white-high);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.acoes {
+  margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 14px;
+}
+
+.botao {
+  min-height: 46px;
+  padding: 11px 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: 1px solid var(--border-glass-strong);
+  border-radius: 12px;
+  background: var(--navy-action);
+  color: var(--white);
+  font-size: 14px;
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.botao:hover {
+  background: var(--blue);
+  color: var(--white);
+  transform: translateY(-2px);
+}
+
+.disponibilidade {
+  color: var(--text-white-soft);
+  font-size: 11px;
+}
+
+.mockupArea {
+  min-width: 0;
+  height: 245px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+}
+
+.mockupCelular {
+  position: relative;
+  z-index: 0;
+  width: 188px;
+  height: 300px;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 28px var(--shadow-strong));
+  transform: rotate(-6deg) translateX(12px);
+  transition: transform var(--transition);
+}
+
+.banner.visivel .mockupCelular {
+  transform: rotate(-6deg) translate(20px, -3px);
+}
+
+.linkCompacto {
+  min-height: 40px;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--border-glass-mid);
+  border-radius: 10px;
+  background: var(--border-glass);
+  color: var(--text-white-high);
+  font-family: inherit;
+  font-size: 14px;
+  transition: all var(--transition);
+}
+
+.linkCompacto:hover {
+  background: var(--border-glass-mid);
+  color: var(--white);
+  transform: translateX(-2px);
+}
+
+@keyframes entrada {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (min-width: 620px) {
+  .banner {
+    min-height: 330px;
+    grid-template-columns: minmax(0, 1fr) minmax(230px, 0.9fr);
+  }
+
+  .mockupArea {
+    height: 350px;
+    justify-content: flex-end;
+  }
+
+  .mockupCelular {
+    width: 220px;
+    height: 350px;
+    transform: rotate(-6deg) translateX(34px);
+  }
+
+  .banner.visivel .mockupCelular {
+    transform: rotate(-6deg) translate(44px, -3px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .banner,
+  .banner.visivel {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+
+  .mockupCelular,
+  .banner.visivel .mockupCelular {
+    transform: rotate(-6deg);
+  }
+}

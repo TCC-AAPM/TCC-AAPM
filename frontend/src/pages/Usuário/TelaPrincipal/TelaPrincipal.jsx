@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./TelaPrincipal.module.css";
 import { API_ROUTES, authFetch, getUsuarioLogado } from "../../../utils/auth.js";
 import { useTermoVerification } from "../../../utils/useTermoVerification.js";
@@ -82,6 +83,7 @@ function AvisoStatus({ texto, botaoTexto, aoClicarBotao }) {
 }
 
 export default function TelaPrincipal() {
+  const navigate = useNavigate();
   const docked = useDockButton();
   const { showModal, termosParaAceitar, handleAceitar, handleRecusar } =
     useTermoVerification();
@@ -193,6 +195,13 @@ export default function TelaPrincipal() {
                 Sua assinatura expirou. Conheça nossos planos e assine novamente!
               </p>
               <Planos mostrarTitulo={false} modoConsulta />
+              <button
+                className={styles.renovar}
+                type="button"
+                onClick={() => navigate("/pagamento")}
+              >
+                Renovar armário
+              </button>
             </div>
           )}
 

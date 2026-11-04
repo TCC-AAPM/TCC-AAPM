@@ -223,6 +223,25 @@
   text-align: center;
 }
 
+.renovar {
+  align-self: center;
+  border: 1px solid var(--border-glass-strong);
+  border-radius: 10px;
+  background: var(--navy-action);
+  color: var(--white);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 12px 24px;
+  transition: all var(--transition);
+}
+
+.renovar:hover {
+  background: var(--blue);
+  transform: translateY(-2px);
+}
+
 .avisoStatus {
   background-color: var(--light-blue);
   color: var(--white);

@@ -1,6 +1,7 @@
 import styles from "./Home.module.css";
 import Planos from "../../components/Planos/Planos.jsx";
 import SEO from "../../components/SEO/SEO.jsx";
+import BaixarApp from "../../components/BaixarApp/BaixarApp.jsx";
 
 const LOCAL = "Bloco B, 2° andar, corredor de salas de informática.";
 
@@ -51,10 +52,6 @@ export default function Home() {
       <div className={styles.blob1} />
       <div className={styles.blob2} />
       <header className={styles.hero}>
-        <div className={styles.heroPill}>
-          <span className={styles.pillDot} />
-          Aluguel de armários
-        </div>
         <h1>
           Armários <em>AAPM</em>
           <br />
@@ -69,6 +66,8 @@ export default function Home() {
       <section className={styles.section}>
         <Planos />
       </section>
+
+      <BaixarApp />
 
       <section className={styles.section}>
         <div className={styles.infos}>
