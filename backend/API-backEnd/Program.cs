@@ -214,8 +214,8 @@ builder.Services.AddCors(options =>
     {
         policy
             .WithOrigins(
-                "https://sitesin.com.br",
-                "https://www.sitesin.com.br"
+                "https://aapm.dev",
+                "https://www.aapm.dev"
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
