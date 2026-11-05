@@ -20,6 +20,7 @@ import {
   CheckCheck,
 } from "lucide-react";
 import { alertConfirmar, alertErro } from "../Alerts/Alerts.jsx";
+import BaixarApp from "../BaixarApp/BaixarApp.jsx";
 
 function rotaInicialPorPerfil(usuario) {
   return usuario?.perfil === "aluno"
@@ -360,6 +361,7 @@ export default function Header() {
           </button>
 
           <div className={styles.menu}>
+            <BaixarApp compacto />
             <button onClick={() => navegarMenu("/usuario/ver-informacoes")}>
               <UserRound size={18} />
               Veja seus dados

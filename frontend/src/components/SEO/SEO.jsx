@@ -1,7 +1,7 @@
 import { Helmet } from "react-helmet-async";
 
 const SITE_NAME = "AAPM SENAI Osasco";
-const BASE_URL = "https://SEUDOMINIO.com.br";
+const BASE_URL = "https://sitesin.com.br";
 const DEFAULT_IMAGE = `${BASE_URL}/src/assets/images/AAPM-Logo.png`;
 
 export default function SEO({ title, description, path = "/", noIndex = false }) {

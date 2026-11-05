@@ -17,7 +17,7 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: npm run build
+      - name: Build\n        run: npm run build\n        env:\n          VITE_API_URL: https://tcc-aapm.onrender.com/api
 
       - uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
