@@ -101,7 +101,7 @@ export default function Planos({ mostrarTitulo = true, modoConsulta = false }) {
         <Card
           modoConsulta={modoConsulta}
           s={{
-            badge: "Popular",
+            badge: "100% online",
             badgeClass: styles.badgePopular,
             icon: <Icon name="inventory_2" />,
             name: "Armário",
