@@ -73,5 +73,52 @@ namespace API_backEnd.Services
 
             return tokenString;
         }
+
+        public ResultadoPadrao<LoginGoogleResponse> LoginGoogle(ClaimsPrincipal user)
+        {
+            var auth0Id = user.FindFirst("sub")?.Value;
+
+            var email = user.FindFirst("https://aapm.dev/claims/email")?.Value;
+            var emailVerificado = user.FindFirst("https://aapm.dev/claims/email_verified")?.Value;
+
+            if (string.IsNullOrWhiteSpace(auth0Id))
+                return ResultadoPadrao<LoginGoogleResponse>.Falha("Identificador Auth0 não encontrado.", 401);
+
+            if (string.IsNullOrWhiteSpace(email))
+                return ResultadoPadrao<LoginGoogleResponse>.Falha("E-mail não encontrado.", 401);
+
+            if (!bool.TryParse(emailVerificado, out var verificado) || !verificado)
+                return ResultadoPadrao<LoginGoogleResponse>.Falha("É necessário utilizar uma conta Google com e-mail verificado", 403);
+
+
+            var usuario = db.TabelaUsuarios.FirstOrDefault(u => u.Auth0Id == auth0Id);
+
+            if(usuario != null)
+            {
+                if (!usuario.IsAtivo)
+                    return ResultadoPadrao<LoginGoogleResponse>.Falha("Usuário inativo.", 403);
+
+                var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == usuario.Id && a.IsAtivo);
+
+                if(aluno == null)
+                    return ResultadoPadrao<LoginGoogleResponse>.Falha("Acesso permitido somente para alunos.", 403);
+
+                var token = GerarToken(usuario.Id, "aluno");
+
+                return ResultadoPadrao<LoginGoogleResponse>.Ok(new LoginGoogleResponse
+                {
+                    CadastroCompleto = true,
+                    Token = token,
+                    Mensagem = "Login realizado com sucesso."
+                });                
+            }
+
+            return ResultadoPadrao<LoginGoogleResponse>.Ok(new LoginGoogleResponse 
+            {
+                CadastroCompleto = false,
+                Token = null,
+                Mensagem = "É necessário completar o cadastro."
+            });
+        }
     }
 }

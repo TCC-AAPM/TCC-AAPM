@@ -13,11 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 // ==========================================
 // PORTA DO RENDER
 // ==========================================
-var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+if (builder.Environment.IsProduction())
+{
+    var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+    builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+}
 
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
-
-// ==========================================
+// ==========================================SSs
 // EMAIL SETTINGS
 // ==========================================
 builder.Services.Configure<EmailSettings>(

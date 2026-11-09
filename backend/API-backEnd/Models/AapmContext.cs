@@ -524,6 +524,13 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.Senha)
                 .HasMaxLength(255)
                 .HasColumnName("senha");
+            entity.HasIndex(e => e.Auth0Id)
+                .IsUnique()
+                .HasDatabaseName("IX_tabela_usuario_auth0_id");
+
+            entity.Property(e => e.Auth0Id)
+                .HasMaxLength(255)
+                .HasColumnName("auth0_id");
         });
 
         modelBuilder.Entity<TabelaVerificacao>(entity =>

@@ -39,5 +39,17 @@ namespace API_backEnd.Controllers
 
             return Ok(new { token = resultado.Dados });
         }
+
+        [Authorize(AuthenticationSchemes = "Auth0")]
+        [HttpPost("google")]
+        public IActionResult LoginGoogle()
+        {
+            var resultado = _authService.LoginGoogle(User);
+
+            if (!resultado.Sucesso)
+                return StatusCode(resultado.StatusCode, resultado.Mensagem);
+
+            return Ok(new { token = resultado.Dados });
+        }
     }
 }
