@@ -45,6 +45,7 @@ public partial class AapmContext : DbContext
     public virtual DbSet<TabelaUsuario> TabelaUsuarios { get; set; }
 
     public virtual DbSet<TabelaVerificacao> TabelaVerificacaos { get; set; }
+    public virtual DbSet<TabelaAuth0Codigo> TabelaAuth0Codigos { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -557,6 +558,57 @@ public partial class AapmContext : DbContext
                 .HasDefaultValueSql("'0'")
                 .HasColumnName("usado");
         });
+
+
+        modelBuilder.Entity<TabelaAuth0Codigo>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+
+            entity.ToTable("tabela_auth0_codigo");
+
+            entity.HasIndex(e => e.CodigoHash)
+                .IsUnique()
+                .HasDatabaseName("IX_tabela_auth0_codigo_hash");
+
+            entity.HasIndex(e => e.Auth0Id)
+                .HasDatabaseName("IX_tabela_auth0_codigo_auth0_id");
+
+            entity.HasIndex(e => e.Expiracao)
+                .HasDatabaseName("IX_tabela_auth0_codigo_expiracao");
+
+            entity.Property(e => e.Id)
+                .HasColumnName("id");
+
+            entity.Property(e => e.CodigoHash)
+                .HasMaxLength(255)
+                .IsRequired()
+                .HasColumnName("codigo_hash");
+
+            entity.Property(e => e.Auth0Id)
+                .HasMaxLength(255)
+                .IsRequired()
+                .HasColumnName("auth0_id");
+
+            entity.Property(e => e.Email)
+                .HasMaxLength(100)
+                .IsRequired()
+                .HasColumnName("email");
+
+            entity.Property(e => e.Expiracao)
+                .HasColumnType("datetime")
+                .HasColumnName("expiracao");
+
+            entity.Property(e => e.Usado)
+                .HasDefaultValueSql("b'0'")
+                .HasColumnType("bit(1)")
+                .HasColumnName("usado");
+
+            entity.Property(e => e.CriadoEm)
+                .HasDefaultValueSql("current_timestamp()")
+                .HasColumnType("datetime")
+                .HasColumnName("criado_em");
+        });
+
 
         OnModelCreatingPartial(modelBuilder);
     }

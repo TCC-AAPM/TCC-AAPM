@@ -7,6 +7,8 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
 using System.Text;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -115,20 +117,14 @@ builder.Services.AddSwaggerGen(options =>
 var connectionString = builder.Configuration
     .GetConnectionString("DefaultConnection");
 
-var dbInfo = new MySqlConnector.MySqlConnectionStringBuilder(connectionString);
-
-Console.WriteLine(
-    $"[DB CONFIG] Server={dbInfo.Server}; " +
-    $"Database={dbInfo.Database}; " +
-    $"User={dbInfo.UserID}"
-);
-
 if (string.IsNullOrWhiteSpace(connectionString))
 {
     throw new InvalidOperationException(
         "A ConnectionString 'DefaultConnection' não foi configurada."
     );
 }
+
+var dbInfo = new MySqlConnector.MySqlConnectionStringBuilder(connectionString);
 
 builder.Services.AddDbContext<AapmContext>(options =>
     options.UseMySql(
@@ -154,6 +150,7 @@ builder.Services.AddDbContext<AapmContext>(options =>
 builder.Services.AddScoped<AdminService>();
 builder.Services.AddScoped<AlunoService>();
 builder.Services.AddScoped<ArmarioService>();
+builder.Services.AddScoped<Auth0CodigoService>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<CadastroService>();
 builder.Services.AddScoped<ConfigReservaService>();
@@ -170,8 +167,10 @@ builder.Services.AddScoped<UsuarioService>();
 builder.Services.AddHttpContextAccessor();
 
 // ==========================================
-// JWT AUTHENTICATION
+// AUTHENTICATION - JWT + AUTH0
 // ==========================================
+
+// JWT atual da AAPM
 var jwtKey = builder.Configuration["Jwt:Key"];
 
 if (string.IsNullOrWhiteSpace(jwtKey))
@@ -183,17 +182,33 @@ if (string.IsNullOrWhiteSpace(jwtKey))
 
 var key = Encoding.UTF8.GetBytes(jwtKey);
 
+// Configurações Auth0
+var auth0Domain = builder.Configuration["Auth0:Domain"];
+var auth0ClientId = builder.Configuration["Auth0:ClientId"];
+var auth0ClientSecret = builder.Configuration["Auth0:ClientSecret"];
+var auth0Audience = builder.Configuration["Auth0:Audience"];
+
+if (string.IsNullOrWhiteSpace(auth0Domain) ||
+    string.IsNullOrWhiteSpace(auth0ClientId) ||
+    string.IsNullOrWhiteSpace(auth0ClientSecret) ||
+    string.IsNullOrWhiteSpace(auth0Audience))
+{
+    throw new InvalidOperationException(
+        "As configurações do Auth0 estão incompletas."
+    );
+}
+
 builder.Services.AddAuthentication(options =>
 {
+    // JWT continua sendo o padrão da API
     options.DefaultAuthenticateScheme =
         JwtBearerDefaults.AuthenticationScheme;
 
-    options.DefaultChallengeScheme =
-        JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = "Auth0";
 })
 .AddJwtBearer(options =>
 {
-    options.RequireHttpsMetadata = false;
+    options.RequireHttpsMetadata = true;
     options.SaveToken = true;
 
     options.TokenValidationParameters = new TokenValidationParameters
@@ -204,8 +219,56 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuer = false,
         ValidateAudience = false
     };
-});
+})
+.AddCookie("Auth0Cookie", options =>
+{
+    options.Cookie.Name = "AAPM.Auth0";
+    options.Cookie.HttpOnly = true;
+    options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+    options.Cookie.SameSite = SameSiteMode.Lax;
 
+    options.ExpireTimeSpan = TimeSpan.FromMinutes(10);
+})
+.AddOpenIdConnect("Auth0", options =>
+{
+    options.Authority = $"https://{auth0Domain}/";
+
+    options.ClientId = auth0ClientId;
+    options.ClientSecret = auth0ClientSecret;
+
+    options.ResponseType = "code";
+    options.ResponseMode = "query";
+
+    options.SignInScheme = "Auth0Cookie";
+    options.CallbackPath = "/signin-auth0";
+
+    options.SaveTokens = true;
+    options.GetClaimsFromUserInfoEndpoint = true;
+    options.MapInboundClaims = false;
+
+    options.Scope.Clear();
+    options.Scope.Add("openid");
+    options.Scope.Add("profile");
+    options.Scope.Add("email");
+
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        NameClaimType = "name"
+    };
+
+    options.Events = new OpenIdConnectEvents
+    {
+        OnRedirectToIdentityProvider = context =>
+        {
+            context.ProtocolMessage.SetParameter(
+                "audience",
+                auth0Audience
+            );
+
+            return Task.CompletedTask;
+        }
+    };
+});
 
 // ==========================================
 // BUILD APPLICATION

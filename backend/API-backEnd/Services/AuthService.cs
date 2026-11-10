@@ -12,11 +12,14 @@ namespace API_backEnd.Services
     {
         private readonly AapmContext db;
         private readonly IConfiguration _config;
-
-        public AuthService(AapmContext context, IConfiguration config)
+        private readonly CadastroService _cadastroService;
+        private readonly Auth0CodigoService _auth0CodigoService;
+        public AuthService(AapmContext context, IConfiguration config, CadastroService cadastroService, Auth0CodigoService auth0CodigoService)
         {
             db = context;
             _config = config;
+            _cadastroService = cadastroService;
+            _auth0CodigoService = auth0CodigoService;
         }
 
         public ResultadoPadrao<string> Login(LoginRequest login)
@@ -77,48 +80,122 @@ namespace API_backEnd.Services
         public ResultadoPadrao<LoginGoogleResponse> LoginGoogle(ClaimsPrincipal user)
         {
             var auth0Id = user.FindFirst("sub")?.Value;
-
-            var email = user.FindFirst("https://aapm.dev/claims/email")?.Value;
-            var emailVerificado = user.FindFirst("https://aapm.dev/claims/email_verified")?.Value;
+            var email = user.FindFirst("email")?.Value;
+            var emailVerificado = user.FindFirst("email_verified")?.Value;
 
             if (string.IsNullOrWhiteSpace(auth0Id))
-                return ResultadoPadrao<LoginGoogleResponse>.Falha("Identificador Auth0 não encontrado.", 401);
+                return ResultadoPadrao<LoginGoogleResponse>.Falha(
+                    "Identificador Auth0 não encontrado.", 401);
 
             if (string.IsNullOrWhiteSpace(email))
-                return ResultadoPadrao<LoginGoogleResponse>.Falha("E-mail não encontrado.", 401);
+                return ResultadoPadrao<LoginGoogleResponse>.Falha(
+                    "E-mail não encontrado.", 401);
 
             if (!bool.TryParse(emailVerificado, out var verificado) || !verificado)
-                return ResultadoPadrao<LoginGoogleResponse>.Falha("É necessário utilizar uma conta Google com e-mail verificado", 403);
+                return ResultadoPadrao<LoginGoogleResponse>.Falha(
+                    "É necessário utilizar uma conta Google com e-mail verificado.", 403);
 
+            var usuario = db.TabelaUsuarios
+                .FirstOrDefault(u => u.Auth0Id == auth0Id);
 
-            var usuario = db.TabelaUsuarios.FirstOrDefault(u => u.Auth0Id == auth0Id);
-
-            if(usuario != null)
+            if (usuario == null)
             {
-                if (!usuario.IsAtivo)
-                    return ResultadoPadrao<LoginGoogleResponse>.Falha("Usuário inativo.", 403);
-
-                var aluno = db.TabelaAlunos.FirstOrDefault(a => a.IdUsuario == usuario.Id && a.IsAtivo);
-
-                if(aluno == null)
-                    return ResultadoPadrao<LoginGoogleResponse>.Falha("Acesso permitido somente para alunos.", 403);
-
-                var token = GerarToken(usuario.Id, "aluno");
-
-                return ResultadoPadrao<LoginGoogleResponse>.Ok(new LoginGoogleResponse
-                {
-                    CadastroCompleto = true,
-                    Token = token,
-                    Mensagem = "Login realizado com sucesso."
-                });                
+                return ResultadoPadrao<LoginGoogleResponse>.Ok(
+                    new LoginGoogleResponse
+                    {
+                        CadastroCompleto = false,
+                        Token = null,
+                        Mensagem = "É necessário completar o cadastro."
+                    });
             }
 
-            return ResultadoPadrao<LoginGoogleResponse>.Ok(new LoginGoogleResponse 
-            {
-                CadastroCompleto = false,
-                Token = null,
-                Mensagem = "É necessário completar o cadastro."
-            });
+            if (!usuario.IsAtivo)
+                return ResultadoPadrao<LoginGoogleResponse>.Falha(
+                    "Usuário inativo.", 403);
+
+            var aluno = db.TabelaAlunos
+                .FirstOrDefault(a => a.IdUsuario == usuario.Id && a.IsAtivo);
+
+            if (aluno == null)
+                return ResultadoPadrao<LoginGoogleResponse>.Falha(
+                    "Acesso permitido somente para alunos ativos.", 403);
+
+            return ResultadoPadrao<LoginGoogleResponse>.Ok(
+                new LoginGoogleResponse
+                {
+                    CadastroCompleto = true,
+                    Token = null,
+                    Mensagem = "Login validado com sucesso."
+                });
         }
+
+
+        public ResultadoPadrao<string> GerarTokenGoogle(string auth0Id)
+        {
+            if (string.IsNullOrWhiteSpace(auth0Id))
+                return ResultadoPadrao<string>.Falha(
+                    "Identificador Auth0 inválido.", 401);
+
+            var usuario = db.TabelaUsuarios
+                .FirstOrDefault(u => u.Auth0Id == auth0Id);
+
+            if (usuario == null || !usuario.IsAtivo)
+                return ResultadoPadrao<string>.Falha(
+                    "Usuário não encontrado ou inativo.", 403);
+
+            var aluno = db.TabelaAlunos
+                .FirstOrDefault(a => a.IdUsuario == usuario.Id && a.IsAtivo);
+
+            if (aluno == null)
+                return ResultadoPadrao<string>.Falha(
+                    "Acesso permitido somente para alunos ativos.", 403);
+
+            var token = GerarToken(usuario.Id, "aluno");
+
+            return ResultadoPadrao<string>.Ok(token);
+        }
+
+
+
+        public async Task<ResultadoPadrao<string>> CompletarCadastroGoogle(
+            CompletarCadastroGoogleRequest request)
+        {
+            // Validar código temporário
+            var registro = await _auth0CodigoService.ValidarCodigoAsync(
+                request.Codigo
+            );
+
+            if (registro == null)
+                return ResultadoPadrao<string>.Falha(
+                    "Código inválido ou expirado.", 401);
+
+            // Consumir código
+            var consumido = await _auth0CodigoService.MarcarComoUsadoAsync(
+                registro
+            );
+
+            if (!consumido)
+                return ResultadoPadrao<string>.Falha(
+                    "Código já utilizado ou expirado.", 401);
+
+            // Realizar cadastro
+            var cadastro = _cadastroService.CadastroAlunoGoogle(
+                request.Cadastro,
+                registro.Auth0Id,
+                registro.Email
+            );
+
+            if (!cadastro.Sucesso)
+                return ResultadoPadrao<string>.Falha(
+                    cadastro.Mensagem,
+                    cadastro.StatusCode
+                );
+
+            // Gerar JWT
+            return GerarTokenGoogle(registro.Auth0Id);
+        }
+    
+
+
     }
 }
