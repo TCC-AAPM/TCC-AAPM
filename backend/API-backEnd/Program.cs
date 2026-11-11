@@ -9,12 +9,23 @@ using System.Reflection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // ==========================================
 // PORTA DO RENDER
 // ==========================================
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders =
+        ForwardedHeaders.XForwardedFor |
+        ForwardedHeaders.XForwardedProto;
+
+    options.KnownNetworks.Clear();
+    options.KnownProxies.Clear();
+});
+
 if (builder.Environment.IsProduction())
 {
     var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
@@ -274,6 +285,7 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+app.UseForwardedHeaders();
 app.UseCors("FrontEndPolicy");
 // ==========================================
 // SWAGGER
