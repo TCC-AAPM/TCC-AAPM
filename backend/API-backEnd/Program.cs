@@ -186,12 +186,10 @@ var key = Encoding.UTF8.GetBytes(jwtKey);
 var auth0Domain = builder.Configuration["Auth0:Domain"];
 var auth0ClientId = builder.Configuration["Auth0:ClientId"];
 var auth0ClientSecret = builder.Configuration["Auth0:ClientSecret"];
-var auth0Audience = builder.Configuration["Auth0:Audience"];
 
 if (string.IsNullOrWhiteSpace(auth0Domain) ||
     string.IsNullOrWhiteSpace(auth0ClientId) ||
-    string.IsNullOrWhiteSpace(auth0ClientSecret) ||
-    string.IsNullOrWhiteSpace(auth0Audience))
+    string.IsNullOrWhiteSpace(auth0ClientSecret))
 {
     throw new InvalidOperationException(
         "As configurações do Auth0 estão incompletas."
@@ -256,18 +254,6 @@ builder.Services.AddAuthentication(options =>
         NameClaimType = "name"
     };
 
-    options.Events = new OpenIdConnectEvents
-    {
-        OnRedirectToIdentityProvider = context =>
-        {
-            context.ProtocolMessage.SetParameter(
-                "audience",
-                auth0Audience
-            );
-
-            return Task.CompletedTask;
-        }
-    };
 });
 
 // ==========================================

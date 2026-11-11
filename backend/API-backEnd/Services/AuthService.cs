@@ -77,6 +77,7 @@ namespace API_backEnd.Services
             return tokenString;
         }
 
+
         public ResultadoPadrao<LoginGoogleResponse> LoginGoogle(ClaimsPrincipal user)
         {
             var auth0Id = user.FindFirst("sub")?.Value;
@@ -95,8 +96,23 @@ namespace API_backEnd.Services
                 return ResultadoPadrao<LoginGoogleResponse>.Falha(
                     "É necessário utilizar uma conta Google com e-mail verificado.", 403);
 
+            // Primeiro procura pelo Auth0Id
             var usuario = db.TabelaUsuarios
                 .FirstOrDefault(u => u.Auth0Id == auth0Id);
+
+
+            // Se não encontrar, procura pelo e-mail
+            if (usuario == null)
+            {
+                var alunoEncontrado = db.TabelaAlunos
+                    .FirstOrDefault(a => a.Email == email);
+
+                if (alunoEncontrado != null)
+                {
+                    usuario = db.TabelaUsuarios
+                        .FirstOrDefault(u => u.Id == alunoEncontrado.IdUsuario);
+                }
+            }
 
             if (usuario == null)
             {
@@ -120,6 +136,23 @@ namespace API_backEnd.Services
                 return ResultadoPadrao<LoginGoogleResponse>.Falha(
                     "Acesso permitido somente para alunos ativos.", 403);
 
+            Console.WriteLine($"Auth0 ID: {auth0Id}");
+            Console.WriteLine($"Email Google: {email}");
+            Console.WriteLine($"Usuário encontrado: {usuario != null}");
+            Console.WriteLine($"Aluno encontrado: {aluno != null}");
+
+            // Vincula o Auth0Id se ainda não existir
+            if (string.IsNullOrWhiteSpace(usuario.Auth0Id))
+            {
+                usuario.Auth0Id = auth0Id;
+                db.SaveChanges();
+            }
+            else if (usuario.Auth0Id != auth0Id)
+            {
+                return ResultadoPadrao<LoginGoogleResponse>.Falha(
+                    "Esta conta já está vinculada a outro login Google.", 409);
+            }
+
             return ResultadoPadrao<LoginGoogleResponse>.Ok(
                 new LoginGoogleResponse
                 {
@@ -128,6 +161,7 @@ namespace API_backEnd.Services
                     Mensagem = "Login validado com sucesso."
                 });
         }
+
 
 
         public ResultadoPadrao<string> GerarTokenGoogle(string auth0Id)
@@ -179,7 +213,7 @@ namespace API_backEnd.Services
                     "Código já utilizado ou expirado.", 401);
 
             // Realizar cadastro
-            var cadastro = _cadastroService.CadastroAlunoGoogle(
+            var cadastro = await _cadastroService.CadastroAlunoGoogle(
                 request.Cadastro,
                 registro.Auth0Id,
                 registro.Email

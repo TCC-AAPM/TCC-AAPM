@@ -3,6 +3,7 @@ using API_backEnd.DTOs.Auth;
 using API_backEnd.DTOs.Reserva;
 using API_backEnd.Enums;
 using API_backEnd.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
@@ -83,26 +84,34 @@ namespace API_backEnd.Services
                
             }
         }
-        
-        public ResultadoPadrao<int> CadastroAlunoGoogle(CadastroGoogleRequest dto, string auth0Id, string email)
-        {
 
+
+        public async Task<ResultadoPadrao<int>> CadastroAlunoGoogle(
+            CadastroGoogleRequest dto,
+            string auth0Id,
+            string email)
+        {
             if (string.IsNullOrWhiteSpace(auth0Id))
-                return ResultadoPadrao<int>.Falha("Identificador Google inválido.", 401);
+                return ResultadoPadrao<int>.Falha(
+                    "Identificador Google inválido.", 401);
 
             if (string.IsNullOrWhiteSpace(email))
-                return ResultadoPadrao<int>.Falha("E-mail não informado", 400);
+                return ResultadoPadrao<int>.Falha(
+                    "E-mail não informado.", 400);
 
             if (db.TabelaUsuarios.Any(u => u.Auth0Id == auth0Id))
-                return ResultadoPadrao<int>.Falha("Esta conta já possui um cadastro. ", 409);
+                return ResultadoPadrao<int>.Falha(
+                    "Esta conta já possui um cadastro.", 409);
 
             if (db.TabelaAlunos.Any(a => a.Email == email))
-                return ResultadoPadrao<int>.Falha("Este e-mail já possui cadastro. Entre em contato com a administração.", 409);
+                return ResultadoPadrao<int>.Falha(
+                    "Este e-mail já possui cadastro. Entre em contato com a administração.", 409);
 
             dto.CPF = Regex.Replace(dto.CPF ?? "", @"\D", "");
 
             if (_alunoService.ExisteAlunoPorCpf(dto.CPF))
-                return ResultadoPadrao<int>.Falha("CPF já cadastrado.", 409);
+                return ResultadoPadrao<int>.Falha(
+                    "CPF já cadastrado.", 409);
 
             var validacao = ValidarIdadeETermos(
                 dto.DataNasc,
@@ -114,60 +123,79 @@ namespace API_backEnd.Services
             );
 
             if (!validacao.Sucesso)
-            {
-                return ResultadoPadrao<int>.Falha(validacao.Mensagem, validacao.StatusCode);
-            }
+                return ResultadoPadrao<int>.Falha(
+                    validacao.Mensagem,
+                    validacao.StatusCode);
 
-            using var transaction = db.Database.BeginTransaction();
+            var strategy = db.Database.CreateExecutionStrategy();
 
-            try
+            return await strategy.ExecuteAsync(async () =>
             {
-                var usuario = new TabelaUsuario
+                await using var transaction =
+                    await db.Database.BeginTransactionAsync();
+
+                try
                 {
-                    Senha = null,
-                    Auth0Id = auth0Id,
-                    Perfil = "aluno",
-                    IsAtivo = true
-                };
+                    var usuario = new TabelaUsuario
+                    {
+                        Senha = null,
+                        Auth0Id = auth0Id,
+                        Perfil = "aluno",
+                        IsAtivo = true
+                    };
 
-                db.TabelaUsuarios.Add(usuario);
-                db.SaveChanges();
+                    db.TabelaUsuarios.Add(usuario);
+                    await db.SaveChangesAsync();
 
-                AceitarTermos(usuario.Id, dto.IdTermoSite, dto.IdTermoArmario);
+                    AceitarTermos(
+                        usuario.Id,
+                        dto.IdTermoSite,
+                        dto.IdTermoArmario
+                    );
 
-                var aluno = new TabelaAluno
+                    var aluno = new TabelaAluno
+                    {
+                        Cpf = dto.CPF,
+                        Nome = dto.Nome,
+                        NomeSocial = string.IsNullOrWhiteSpace(dto.NomeSocial)
+                            ? null
+                            : dto.NomeSocial,
+                        Matricula = string.IsNullOrWhiteSpace(dto.Matricula)
+                            ? null
+                            : dto.Matricula,
+                        Telefone = Regex.Replace(dto.Telefone ?? "", @"\D", ""),
+                        Email = email,
+                        DataNasc = dto.DataNasc,
+                        CursoId = dto.IdCurso,
+                        TurmaId = dto.IdTurma,
+                        IdUsuario = usuario.Id
+                    };
+
+                    db.TabelaAlunos.Add(aluno);
+                    await db.SaveChangesAsync();
+
+                    _notificacaoService.CriarNotificacao(
+                        usuario.Id,
+                        EventosNotificacao.CadastroRealizado
+                    );
+
+                    await transaction.CommitAsync();
+
+                    return ResultadoPadrao<int>.Ok(
+                        usuario.Id,
+                        "Cadastro realizado com sucesso."
+                    );
+                }
+                catch (Exception ex)
                 {
-                    Cpf = dto.CPF,
-                    Nome = dto.Nome,
-                    NomeSocial = string.IsNullOrWhiteSpace(dto.NomeSocial) ? null : dto.NomeSocial,
-                    Matricula = string.IsNullOrWhiteSpace(dto.Matricula) ? null : dto.Matricula,
-                    Telefone = Regex.Replace(dto.Telefone ?? "", @"\D", ""),
-                    Email = email,
-                    DataNasc = dto.DataNasc,
-                    CursoId = dto.IdCurso,
-                    TurmaId = dto.IdTurma,
-                    IdUsuario = usuario.Id
-                };
+                    await transaction.RollbackAsync();
 
-                db.TabelaAlunos.Add(aluno);
-                db.SaveChanges();
+                    Console.WriteLine($"[ERRO CADASTRO GOOGLE] {ex}");
 
-                _notificacaoService.CriarNotificacao(usuario.Id, EventosNotificacao.CadastroRealizado);
-
-                transaction.Commit();
-
-                return ResultadoPadrao<int>.Ok(usuario.Id, "Cadastro realizado com sucesso.");
-            }
-            catch (Exception ex)
-            {
-                transaction.Rollback();
-
-                Console.WriteLine($"[ERRO CADASTRO GOOGLE] {ex}");
-
-                return ResultadoPadrao<int>.Falha("Não foi possível concluir o cadastro do Google.");
-            }
-
-            }
+                    throw;
+                }
+            });
+        }
 
         // ta errado
         private ResultadoPadrao<object> ValidarIdadeETermos(DateOnly dataNasc, int idTermoSite, 

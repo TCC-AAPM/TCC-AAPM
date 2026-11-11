@@ -531,7 +531,7 @@ public partial class AapmContext : DbContext
 
             entity.Property(e => e.Auth0Id)
                 .HasMaxLength(255)
-                .HasColumnName("auth0_id");
+                .HasColumnName("Auth0Id");
         });
 
         modelBuilder.Entity<TabelaVerificacao>(entity =>
