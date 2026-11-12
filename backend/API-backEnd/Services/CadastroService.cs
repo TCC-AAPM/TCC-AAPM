@@ -37,52 +37,60 @@ namespace API_backEnd.Services
             var validarCpf = _alunoService.ExisteAlunoPorCpf(dto.CPF);
             if (validarCpf)
                 return ResultadoPadrao<object>.Falha("CPF já cadastrado", 409);
-            
-            using var transaction = db.Database.BeginTransaction();
+
+
 
             try
             {
-                var usuario = new TabelaUsuario
+
+                var strategy = db.Database.CreateExecutionStrategy();
+
+                return strategy.Execute(() =>
                 {
-                    Senha = BCrypt.Net.BCrypt.HashPassword(dto.CPF)
-                };
+                    using var transaction = db.Database.BeginTransaction();
 
-                db.TabelaUsuarios.Add(usuario);
-                db.SaveChanges();
+                    var usuario = new TabelaUsuario
+                    {
+                        Senha = BCrypt.Net.BCrypt.HashPassword(dto.CPF)
+                    };
 
-                int idUsuario = usuario.Id;
+                    db.TabelaUsuarios.Add(usuario);
+                    db.SaveChanges();
 
-                AceitarTermos(idUsuario, dto.IdTermoSite, dto.IdTermoArmario);
+                    int idUsuario = usuario.Id;
 
-                var aluno = new TabelaAluno
-                {
-                    Cpf = dto.CPF,
-                    Nome = dto.Nome,
-                    NomeSocial = string.IsNullOrWhiteSpace(dto.NomeSocial) ? null : dto.NomeSocial,
-                    Matricula = string.IsNullOrWhiteSpace(dto.Matricula) ? null : dto.Matricula,
-                    Telefone = Regex.Replace(dto.Telefone, @"\D", ""),
-                    Email = dto.Email,
-                    DataNasc = dto.DataNasc,
-                    CursoId = dto.IdCurso,
-                    TurmaId = dto.IdTurma,
-                    IdUsuario = idUsuario
-                };
+                    AceitarTermos(idUsuario, dto.IdTermoSite, dto.IdTermoArmario);
 
-                db.TabelaAlunos.Add(aluno);
-                db.SaveChanges();
+                    var aluno = new TabelaAluno
+                    {
+                        Cpf = dto.CPF,
+                        Nome = dto.Nome,
+                        NomeSocial = string.IsNullOrWhiteSpace(dto.NomeSocial) ? null : dto.NomeSocial,
+                        Matricula = string.IsNullOrWhiteSpace(dto.Matricula) ? null : dto.Matricula,
+                        Telefone = Regex.Replace(dto.Telefone, @"\D", ""),
+                        Email = dto.Email,
+                        DataNasc = dto.DataNasc,
+                        CursoId = dto.IdCurso,
+                        TurmaId = dto.IdTurma,
+                        IdUsuario = idUsuario
+                    };
 
-                _notificacaoService.CriarNotificacao(aluno.IdUsuario, EventosNotificacao.CadastroRealizado);
-                
-                transaction.Commit();
-                return ResultadoPadrao<object>.Ok(mensagem: "Pré cadastro realizado com sucesso");
+                    db.TabelaAlunos.Add(aluno);
+                    db.SaveChanges();
+
+                    _notificacaoService.CriarNotificacao(aluno.IdUsuario, EventosNotificacao.CadastroRealizado);
+
+                    transaction.Commit();
+                    return ResultadoPadrao<object>.Ok(mensagem: "Pré cadastro realizado com sucesso");
+                });
                 
             }
             catch (Exception ex) 
             {
-                transaction.Rollback();
                 return ResultadoPadrao<object>.Falha(ex.Message);
                
             }
+
         }
 
 
