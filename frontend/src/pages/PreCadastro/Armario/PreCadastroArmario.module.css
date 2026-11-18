@@ -83,7 +83,7 @@
 }
 
 .passo-num.ativo {
-  background: var(--light-blue);
+  background: var(--blue);
 }
 
 .passo-num.pendente {
