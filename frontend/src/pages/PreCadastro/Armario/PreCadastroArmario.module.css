@@ -145,7 +145,9 @@
   border: 1px solid var(--border-glass-strong);
   color: var(--white);
   outline: none;
-  transition: border-color var(--transition), box-shadow var(--transition);
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
   appearance: none;
   -webkit-appearance: none;
   box-sizing: border-box;
