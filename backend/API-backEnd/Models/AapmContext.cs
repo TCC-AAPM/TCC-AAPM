@@ -169,6 +169,9 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.TurmaId)
                 .HasColumnType("int(11)")
                 .HasColumnName("turma_id");
+            entity.Property(e => e.IdClienteAsaas)
+                .HasMaxLength(100)
+                .HasColumnName("id_cliente_asaas");
 
             entity.HasOne(d => d.Curso).WithMany(p => p.TabelaAlunos)
                 .HasForeignKey(d => d.CursoId)
@@ -318,6 +321,26 @@ public partial class AapmContext : DbContext
             entity.Property(e => e.Preco)
                 .HasPrecision(20, 6)
                 .HasColumnName("preco");
+            entity.Property(e => e.IdCobrancaAsaas)
+                .HasMaxLength(100)
+                .HasColumnName("id_cobranca_asaas");
+
+            entity.Property(e => e.Status)
+                .HasMaxLength(30)
+                .HasDefaultValue("Pendente")
+                .HasColumnName("status");
+
+            entity.Property(e => e.PixCopiaECola)
+                .HasColumnType("text")
+                .HasColumnName("pix_copia_e_cola");
+
+            entity.Property(e => e.QrCodeBase64)
+                .HasColumnType("longtext")
+                .HasColumnName("qr_code_base64");
+
+            entity.Property(e => e.DataConfirmacao)
+                .HasColumnType("datetime")
+                .HasColumnName("data_confirmacao");
 
             entity.HasOne(d => d.IdAlunoNavigation).WithMany(p => p.TabelaPagamentos)
                 .HasForeignKey(d => d.IdAluno)

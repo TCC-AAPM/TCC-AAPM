@@ -16,6 +16,15 @@ public partial class TabelaPagamento
     public decimal Preco { get; set; }
 
     public DateTime DataPagamento { get; set; }
+    public string? IdCobrancaAsaas { get; set; }
+
+    public string Status { get; set; } = "Pendente";
+
+    public string? PixCopiaECola { get; set; }
+
+    public string? QrCodeBase64 { get; set; }
+
+    public DateTime? DataConfirmacao { get; set; }
 
     public virtual TabelaAluno IdAlunoNavigation { get; set; } = null!;
 

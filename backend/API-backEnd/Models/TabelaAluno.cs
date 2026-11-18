@@ -32,6 +32,7 @@ public partial class TabelaAluno
     public bool IsAtivo { get; set; }
 
     public virtual TabelaCurso Curso { get; set; } = null!;
+    public string? IdClienteAsaas { get; set; }
 
     public virtual TabelaUsuario IdUsuarioNavigation { get; set; } = null!;
 

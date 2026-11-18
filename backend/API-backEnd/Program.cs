@@ -169,6 +169,13 @@ builder.Services.AddScoped<CursoService>();
 builder.Services.AddScoped<FinanceiroService>();
 builder.Services.AddScoped<IdadeService>();
 builder.Services.AddScoped<NotificacaoService>();
+// pagamento PIX - assas
+builder.Services.AddHttpClient<PagamentoService>(client =>
+{
+    client.BaseAddress = new Uri(
+        builder.Configuration["Asaas:BaseUrl"]!
+    );
+});
 builder.Services.AddScoped<ProdutoService>();
 builder.Services.AddScoped<ReservaService>();
 builder.Services.AddScoped<TermoService>();
