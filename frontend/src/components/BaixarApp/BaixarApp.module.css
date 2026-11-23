@@ -73,7 +73,8 @@
 
 .mockupArea {
   min-width: 0;
-  height: 245px;
+  height: auto;
+  padding: 24px 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -83,10 +84,14 @@
 .mockupCelular {
   position: relative;
   z-index: 0;
-  width: 188px;
-  height: 300px;
+  display: block;
+  width: 180px;
+  height: auto;
   object-fit: contain;
-  filter: drop-shadow(0 20px 28px var(--shadow-strong));
+  border: 6px solid #1a1a1a;
+  border-radius: 34px;
+  background: #1a1a1a;
+  box-shadow: 0 20px 40px var(--shadow-strong);
   transform: rotate(-6deg) translateX(12px);
   transition: transform var(--transition);
 }
@@ -135,13 +140,13 @@
   }
 
   .mockupArea {
-    height: 350px;
+    height: auto;
     justify-content: flex-end;
   }
 
   .mockupCelular {
-    width: 220px;
-    height: 350px;
+    width: 210px;
+    height: auto;
     transform: rotate(-6deg) translateX(34px);
   }
 

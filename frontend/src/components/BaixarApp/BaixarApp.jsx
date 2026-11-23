@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Download } from "lucide-react";
 import styles from "./BaixarApp.module.css";
+import telaApp from "../../assets/images/celularAPP.png";
 
 const APK_URL = import.meta.env.VITE_APK_URL || "/app/aapm.apk";
 
@@ -61,10 +62,8 @@ export default function BaixarApp({ compacto = false }) {
       <div className={styles.mockupArea}>
         <img
           className={styles.mockupCelular}
-          src="/app-aapm-preview.svg"
+          src={telaApp}
           alt="Prévia do aplicativo da AAPM com os status dos armários"
-          width="220"
-          height="350"
         />
       </div>
     </section>
