@@ -24,7 +24,6 @@ import Armarios from "../pages/Admin/Armarios/Armarios.jsx";
 import PainelAdmin from "../pages/Admin/GestaoAdmin/GestaoAdmin.jsx";
 
 // adm
-// Dashboard component removed — admin will use /admin/armarios directly
 import CadastrarUsuario from "../pages/Admin/CadastrarUsuario/CadastrarUsuario.jsx";
 import EditarUsuario from "../pages/Admin/EditarUsuario/EditarUsuario.jsx";
 import ModificarData from "../pages/Admin/ModificarData/ModificarData.jsx";
@@ -85,9 +84,7 @@ export default function AppRoutes() {
         <Route path="/senha/codigo" element={<CodigoSenha />} />
         <Route path="/senha/redefinir" element={<RedefinirSenha />} />
       </Route>
-
-      {/* removed: /admin/dashboard route */}
-
+      
       <Route
         path="/admin/armarios"
         element={
