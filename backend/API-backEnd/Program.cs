@@ -302,6 +302,7 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 app.UseForwardedHeaders();
+app.UseRouting();
 app.UseCors("FrontEndPolicy");
 // ==========================================
 // SWAGGER
