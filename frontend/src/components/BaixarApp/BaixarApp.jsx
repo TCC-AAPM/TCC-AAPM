@@ -3,7 +3,7 @@ import { Download } from "lucide-react";
 import styles from "./BaixarApp.module.css";
 import telaApp from "../../assets/images/celularAPP.png";
 
-const APK_URL = import.meta.env.VITE_APK_URL || "/app/aapm.apk";
+const APK_URL = "https://github.com/TCC-AAPM/aapm_app/releases/download/1.3.0/AAPM.apk";
 
 export default function BaixarApp({ compacto = false }) {
   const bannerRef = useRef(null);
