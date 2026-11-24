@@ -52,7 +52,8 @@ namespace API_backEnd.Controllers
             {
                 RedirectUri = redirectUri
             };
-            propriedades.Parameters["connection"] = "google-oauth2";
+
+            propriedades.Items["auth0_connection"] = "google-oauth2";
 
             return Challenge(propriedades, "Auth0");
         }

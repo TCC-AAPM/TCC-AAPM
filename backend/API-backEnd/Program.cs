@@ -265,6 +265,21 @@ builder.Services.AddAuthentication(options =>
         NameClaimType = "name"
     };
 
+    options.Events = new OpenIdConnectEvents
+    {
+        OnRedirectToIdentityProvider = context =>
+        {
+            if (context.Properties.Items.TryGetValue(
+                "auth0_connection", out var connection))
+            {
+                context.ProtocolMessage.SetParameter(
+                    "connection", connection);
+            }
+
+            return Task.CompletedTask;
+        }
+    };
+
 });
 
 // ==========================================
