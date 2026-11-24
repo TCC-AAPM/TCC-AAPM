@@ -277,7 +277,8 @@ builder.Services.AddCors(options =>
         policy
             .WithOrigins(
                 "https://aapm.dev",
-                "https://www.aapm.dev"
+                "https://www.aapm.dev",
+                "http://localhost:5173"
             )
             .AllowAnyHeader()
             .AllowAnyMethod();
