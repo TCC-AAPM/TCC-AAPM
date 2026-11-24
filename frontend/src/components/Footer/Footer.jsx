@@ -1,18 +1,66 @@
 import styles from "./Footer.module.css";
+import { useEffect, useState } from "react";
 import logo from "../../assets/images/AAPM-Logo.png";
 import { Email, Computer, LocationOn, Map } from "@mui/icons-material";
 import { useTheme } from "../../utils/darkMode";
 import { useNavigate, useLocation } from "react-router-dom";
 import { API_ROUTES } from "../../routes/config/api.js";
 
-const TERMO_ARMARIO = "A";
+function obterListaTermosAtivos(resposta) {
+  const termos = resposta?.dados ?? resposta?.Dados;
+  return Array.isArray(termos) ? termos : [];
+}
+
+function obterReferencia(termo) {
+  return termo?.referencia ?? termo?.Referencia;
+}
+
+function encontrarTermoAtivo(termos, referencia, valorEnum) {
+  return termos.find((termo) => {
+    const valor = String(obterReferencia(termo)).toUpperCase();
+    return valor === referencia || valor === String(valorEnum);
+  });
+}
 
 export default function Footer() {
   const { darkMode } = useTheme();
-
   const navigate = useNavigate();
-
   const location = useLocation();
+  const [referenciasTermos, setReferenciasTermos] = useState({
+    site: null,
+    armario: null,
+  });
+
+  useEffect(() => {
+    async function carregarTermosAtivos() {
+      try {
+        const resposta = await fetch(API_ROUTES.termos.termosAtivos);
+        if (!resposta.ok) throw new Error("Erro ao buscar termos ativos.");
+
+        const dados = await resposta.json();
+        const termos = obterListaTermosAtivos(dados);
+        const site = encontrarTermoAtivo(termos, "S", 2);
+        const armario = encontrarTermoAtivo(termos, "A", 0);
+
+        setReferenciasTermos({
+          site: site ? obterReferencia(site) : null,
+          armario: armario ? obterReferencia(armario) : null,
+        });
+      } catch (error) {
+        console.error("Erro ao carregar termos ativos do footer:", error);
+      }
+    }
+
+    carregarTermosAtivos();
+  }, []);
+
+  const termoSiteUrl = referenciasTermos.site
+    ? API_ROUTES.termos.obterPdf(referenciasTermos.site)
+    : API_ROUTES.termos.obterPdf("S");
+  const termoArmarioUrl = referenciasTermos.armario
+    ? API_ROUTES.termos.obterPdf(referenciasTermos.armario)
+    : API_ROUTES.termos.obterPdf("A");
+  const termoPrivacidadeUrl = "/documentos/politica-de-privacidade.pdf";
 
   const footerType = location.pathname.startsWith("/admin")
     ? "admin"
@@ -96,8 +144,9 @@ export default function Footer() {
             <ul className={styles.linkList}>
               <li>
                 <a
-                  href={API_ROUTES.termos.obterPdf(TERMO_ARMARIO)}
+                  href={termoArmarioUrl}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className={styles.link}
                 >
                   Contrato de Armários
@@ -106,17 +155,23 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="#"
+                  href={termoPrivacidadeUrl}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className={styles.link}
                 >
-                  Termos de privacidade
+                  Política de Privacidade e LGPD
                 </a>
               </li>
 
               <li>
-                <a href="#" className={styles.link}>
-                  Termos de uso do site
+                <a
+                  href={termoSiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.link}
+                >
+                  Termos de Uso do Site
                 </a>
               </li>
             </ul>
@@ -219,8 +274,9 @@ export default function Footer() {
             <ul className={styles.linkList}>
               <li>
                 <a
-                  href={API_ROUTES.termos.obterPdf(TERMO_ARMARIO)}
+                  href={termoArmarioUrl}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className={styles.link}
                 >
                   Contrato de Armários
@@ -229,17 +285,23 @@ export default function Footer() {
 
               <li>
                 <a
-                  href="#"
+                  href={termoPrivacidadeUrl}
                   target="_blank"
+                  rel="noopener noreferrer"
                   className={styles.link}
                 >
-                  Termos de privacidade
+                  Política de Privacidade e LGPD
                 </a>
               </li>
 
               <li>
-                <a href="#" className={styles.link}>
-                  Termos de uso do site
+                <a
+                  href={termoSiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.link}
+                >
+                  Termos de Uso do Site
                 </a>
               </li>
             </ul>

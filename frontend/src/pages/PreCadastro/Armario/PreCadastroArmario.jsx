@@ -164,6 +164,10 @@ export default function CadastroArmario() {
   const [loading, setLoading] = useState(false);
   const [carregandoTermos, setCarregandoTermos] = useState(true);
   const [erroTermos, setErroTermos] = useState(false);
+  const [referenciasTermos, setReferenciasTermos] = useState({
+    site: null,
+    armario: null,
+  });
 
   const [form, setForm] = useState({
     nome: "",
@@ -181,8 +185,13 @@ export default function CadastroArmario() {
     aceitouTermoArmario: false,
   });
 
-  const termoArmarioUrl = API_ROUTES.termos.obterPdf(TERMO_ARMARIO);
-  const termoSiteUrl = API_ROUTES.termos.obterPdf(TERMO_SITE);
+  const termoArmarioUrl = referenciasTermos.armario
+    ? API_ROUTES.termos.obterPdf(referenciasTermos.armario)
+    : API_ROUTES.termos.obterPdf(TERMO_ARMARIO);
+  const termoSiteUrl = referenciasTermos.site
+    ? API_ROUTES.termos.obterPdf(referenciasTermos.site)
+    : API_ROUTES.termos.obterPdf(TERMO_SITE);
+  const termoPrivacidadeUrl = "/documentos/politica-de-privacidade.pdf";
 
   // Carregar termos ativos
   useEffect(() => {
@@ -213,8 +222,10 @@ export default function CadastroArmario() {
 
         const idSite = site?.idTermo ?? site?.IdTermo;
         const idArmario = armario?.idTermo ?? armario?.IdTermo;
+        const referenciaSite = site?.referencia ?? site?.Referencia;
+        const referenciaArmario = armario?.referencia ?? armario?.Referencia;
 
-        if (!idSite || !idArmario) {
+        if (!idSite || !idArmario || !referenciaSite || !referenciaArmario) {
           throw new Error(
             "Não foram encontrados os termos ativos do site e do armário.",
           );
@@ -225,6 +236,10 @@ export default function CadastroArmario() {
           idTermoSite: Number(idSite),
           idTermoArmario: Number(idArmario),
         }));
+        setReferenciasTermos({
+          site: referenciaSite,
+          armario: referenciaArmario,
+        });
       } catch (error) {
         console.error("Erro ao carregar termos:", error);
         setErroTermos(true);
@@ -461,6 +476,7 @@ export default function CadastroArmario() {
         erroTermos={erroTermos}
         termoArmarioUrl={termoArmarioUrl}
         termoSiteUrl={termoSiteUrl}
+        termoPrivacidadeUrl={termoPrivacidadeUrl}
         setForm={setForm}
         handleSubmit={handleSubmit}
         loading={loading}

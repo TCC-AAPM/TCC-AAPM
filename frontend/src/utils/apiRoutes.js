@@ -2,6 +2,8 @@ export const BASE_URL = import.meta.env.VITE_API_URL;
 
 export const API_ROUTES = {
   login: `${BASE_URL}/Login`,
+  loginGoogle: `${BASE_URL}/Login/google`,
+  trocarCodigoGoogle: `${BASE_URL}/Login/trocar-codigo-google`,
 
   alunos: {
     telaPrincipal: `${BASE_URL}/Alunos/me`,

@@ -49,6 +49,24 @@ export default function EtapaPagamento({ precos, navigate, formatarPreco }) {
             realizar o <em>pagamento?</em>
           </h1>
           <p>Escolha uma forma de pagamento para o aluguel do armário.</p>
+
+          <div className={styles.passos}>
+            <div className={styles.passo}>
+              <div className={`${styles["passo-num"]} ${styles.ativo}`}>✓</div>
+              <div className={styles["passo-info"]}>
+                <strong>Dados pessoais</strong>
+                <span>Concluído</span>
+              </div>
+            </div>
+
+            <div className={styles.passo}>
+              <div className={`${styles["passo-num"]} ${styles.ativo}`}>2</div>
+              <div className={styles["passo-info"]}>
+                <strong>Pagamento</strong>
+                <span>Você está aqui</span>
+              </div>
+            </div>
+          </div>
         </aside>
 
         <div className={`${styles.card} ${styles["card-pagamento"]}`}>
@@ -95,19 +113,34 @@ export default function EtapaPagamento({ precos, navigate, formatarPreco }) {
           </div>
 
           {opcaoSelecionada === "pix" && (
-            <p className={styles["aviso-em-breve"]} role="status">
-              O pagamento via PIX estará disponível em breve.
-            </p>
+            <div className={styles["aviso-pagamento"]} role="status">
+              <strong>Pagamento via Pix em breve</strong>
+              <span>
+                Essa forma de pagamento ainda não está disponível. Por enquanto,
+                o pagamento deve ser feito presencialmente na secretaria da AAPM.
+              </span>
+            </div>
           )}
 
-          <button
-            type="button"
-            className={styles["btn-principal"]}
-            disabled={opcaoSelecionada !== "dinheiro"}
-            onClick={() => navigate("/pagamento/presencial")}
-          >
-            Continuar para pagamento presencial
-          </button>
+          {opcaoSelecionada === "dinheiro" && (
+            <div className={styles["aviso-pagamento"]}>
+              <strong>Pagamento somente na secretaria da AAPM</strong>
+              <span>
+                Faça o pagamento pessoalmente na secretaria da AAPM, próxima à
+                biblioteca do SENAI.
+              </span>
+              <span>
+                Você já pode acessar o site antes de pagar. Entre com o e-mail
+                cadastrado e use seu CPF como senha inicial; depois, altere a
+                senha dentro do site.
+              </span>
+              <span>
+                Após o pagamento presencial, a secretaria registrará a baixa no
+                sistema. Quando ela for processada, você poderá visualizar o
+                armário alocado e as informações relacionadas na sua conta.
+              </span>
+            </div>
+          )}
 
           <div className={styles["rodape-card"]}>
             <button

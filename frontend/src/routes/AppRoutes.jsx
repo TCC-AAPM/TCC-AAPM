@@ -3,8 +3,8 @@ import PrivateRoute from "./PrivateRoute";
 import { SenhaFlowProvider } from "../pages/Senha/SenhaFlowContext.jsx";
 
 import Home from "../pages/Home/Home.jsx";
-import Pagamento from "../pages/Pagamento/Pagamento.jsx";
 import Login from "../pages/Login/Index.jsx";
+import LoginGoogleSucesso from "../pages/Login/LoginGoogleSucesso.jsx";
 import SobreNosDevs from "../pages/SobreNos/EquipeDevs/SobreNosDevs.jsx";
 import SobreNosAAPM from "../pages/SobreNos/EquipeAAPM/SobreNosAAPM.jsx";
 import CadastroArmario from "../pages/PreCadastro/Armario/PreCadastroArmario.jsx";
@@ -48,35 +48,11 @@ export default function AppRoutes() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/login-google-sucesso" element={<LoginGoogleSucesso />} />
       <Route path="/sobre-nos-devs" element={<SobreNosDevs />} />
       <Route path="/sobre-nos-aapm" element={<SobreNosAAPM />} />
       <Route path="/cadastro-armario" element={<CadastroArmario />} />
       <Route path="/acesso-negado" element={<AcessoNegado />} />
-
-      <Route
-        path="/pagamento"
-        element={
-          <PrivateRoute perfisPermitidos={["aluno"]}>
-            <Pagamento />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/pagamento/pix"
-        element={
-          <PrivateRoute perfisPermitidos={["aluno"]}>
-            <Pagamento />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/pagamento/presencial"
-        element={
-          <PrivateRoute perfisPermitidos={["aluno"]}>
-            <Pagamento />
-          </PrivateRoute>
-        }
-      />
 
       {/* Grupo de rotas de senha, todas compartilhando a mesma caixinha */}
       <Route element={<SenhaLayout />}>

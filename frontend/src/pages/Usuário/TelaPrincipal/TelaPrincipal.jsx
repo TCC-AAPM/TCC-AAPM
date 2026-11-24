@@ -198,7 +198,7 @@ export default function TelaPrincipal() {
               <button
                 className={styles.renovar}
                 type="button"
-                onClick={() => navigate("/pagamento")}
+                onClick={() => navigate("/cadastro-armario")}
               >
                 Renovar armário
               </button>

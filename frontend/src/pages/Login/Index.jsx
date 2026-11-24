@@ -127,6 +127,39 @@ export default function Login() {
             >
               Entrar
             </button>
+            <div className={styles.divisor}>
+              <span>ou</span>
+            </div>
+            <button
+              type="button"
+              className={styles.btnGoogle}
+              onClick={() => (window.location.href = API_ROUTES.loginGoogle)}
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 48 48"
+                aria-hidden="true"
+              >
+                <path
+                  fill="#4285F4"
+                  d="M43.611 20.083H42V20H24v8h11.303C33.653 32.656 29.223 36 24 36c-6.627 0-12-5.373-12-12s5.373-12 12-12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.049 6.053 29.268 4 24 4 12.955 4 4 12.955 4 24s8.955 20 20 20 20-8.955 20-20c0-1.341-.138-2.65-.389-3.917Z"
+                />
+                <path
+                  fill="#34A853"
+                  d="M24 44c5.166 0 9.86-1.977 13.409-5.197l-6.19-5.238A11.91 11.91 0 0 1 24 36c-5.202 0-9.619-3.317-11.283-7.946l-6.522 5.025C9.505 39.556 16.227 44 24 44Z"
+                />
+                <path
+                  fill="#FBBC05"
+                  d="M12.717 28.054A11.91 11.91 0 0 1 12 24c0-1.383.236-2.711.668-3.946l-6.522-5.025A20 20 0 0 0 4 24c0 3.23.774 6.28 2.141 8.975l6.576-4.921Z"
+                />
+                <path
+                  fill="#EA4335"
+                  d="M12.717 19.946C14.381 15.317 18.798 12 24 12c3.059 0 5.842 1.154 7.961 3.039l5.657-5.657C34.049 6.053 29.268 4 24 4 16.227 4 9.505 8.444 6.141 15.025l6.576 4.921Z"
+                />
+              </svg>
+              Entrar com Google
+            </button>
             <div className={styles.registerBox}>
               <span>Ainda não possui cadastro?</span>
               <button

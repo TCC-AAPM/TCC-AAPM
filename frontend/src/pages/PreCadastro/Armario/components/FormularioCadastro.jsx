@@ -14,6 +14,7 @@ export default function FormularioCadastro({
   erroTermos,
   termoArmarioUrl,
   termoSiteUrl,
+  termoPrivacidadeUrl,
   setForm,
   handleSubmit,
   loading,
@@ -232,7 +233,7 @@ export default function FormularioCadastro({
                 <span>
                   Li e autorizo o uso dos meus dados conforme a{" "}
                   <a
-                    href={termoSiteUrl}
+                    href={termoPrivacidadeUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
